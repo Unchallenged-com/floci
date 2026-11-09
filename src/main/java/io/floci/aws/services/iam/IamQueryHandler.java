@@ -2427,17 +2427,19 @@ public class IamQueryHandler {
      * {@code PolicySourceArn} held to the 20 to 2048 characters {@code arnType} declares, before
      * the entity it names is resolved. IAM answers that minimum on a sibling ARN member with a
      * {@code ValidationError} naming the length, so a value too short to be any ARN is refused on
-     * its shape rather than resolved to whatever follows its last slash.
+     * its shape rather than resolved to whatever follows its last slash. A blank is such a value:
+     * the request carried it, so it is held to the same minimum, which is the answer
+     * {@code GetContextKeysForPrincipalPolicy} gives for the same member through the walk.
      *
      * <p>A value that clears 20 characters and still parses as no ARN is left to the resolver
      * below, which refuses it as {@code InvalidInput} on a capture of its own: the member publishes
-     * a length and no pattern, so there is no shape to hold it to here. An absent or blank value
-     * is left there too, that resolver reporting it.
+     * a length and no pattern, so there is no shape to hold it to here. An absent member is left
+     * there too, that resolver answering it in the operation's own sentence.
      */
     private String validatedPolicySourceArn(MultivaluedMap<String, String> params) {
         String arn = getParam(params, "PolicySourceArn");
-        if (arn == null || arn.isBlank()) {
-            return arn;
+        if (arn == null) {
+            return null;
         }
         return arnOfDeclaredLength(arn, "policySourceArn");
     }
@@ -3617,14 +3619,15 @@ public class IamQueryHandler {
      * malformed request read as a valid empty answer, so anything the model marks required is read
      * through here instead.
      *
-     * <p>A blank value is a value the request carries, and the constraints read ahead of this
-     * answer it against the minimum length its shape declares. What is left here is a member the
-     * model gives no minimum and an operation the vendored file does not carry, where a blank is
-     * still read as a member that never arrived rather than passed to the operation.
+     * <p>Only an absent member is reported as absent. A blank value is a value the request
+     * carries on this protocol, so what it breaks is the shape declared for it: the constraints
+     * read ahead of this answer every member declaring a minimum, a pattern or a value set, and
+     * {@code serviceName} on {@code CreateServiceSpecificCredential}, which declares none of the
+     * three, reaches the operation, where a service name nothing supports is answered.
      */
     private String requireParam(MultivaluedMap<String, String> params, String name) {
         String value = params.getFirst(name);
-        if (value == null || value.isBlank()) {
+        if (value == null) {
             throw IamValidationErrors.notNull(memberPath(name));
         }
         return value;

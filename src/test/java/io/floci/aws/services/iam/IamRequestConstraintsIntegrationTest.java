@@ -17,6 +17,10 @@ import static org.hamcrest.Matchers.not;
  * layer runs ahead of the operation and answers {@code ValidationError}, which is the ordering
  * #6402 settled for this package.
  *
+ * <p>A member the request carries empty is a value, not a member it left out: what a blank breaks
+ * is the shape declared for it, and only an absent member is reported as absent. That holds for the
+ * two members this package still reads by hand as well as for the ones the walk reads.
+ *
  * <p>{@code AttachRolePolicy}'s {@code RoleName} is the parity case rather than a change:
  * {@code IamService.validateRoleName} answers it from the same bounds and the same pattern, and
  * both write the message IAM writes, which names the member with no value beside it: that is
@@ -382,5 +386,71 @@ class IamRequestConstraintsIntegrationTest {
             .body(MESSAGE, equalTo("1 validation error detected: Value at"
                     + " 'permissions.parameters.1.member.name' failed to satisfy constraint:"
                     + " Member must have length greater than or equal to 5"));
+    }
+
+    /**
+     * {@code PolicySourceArn} is read by hand on the simulators and through the walk on
+     * {@code GetContextKeysForPrincipalPolicy}. A blank is a value on either, so both hold it to
+     * the 20 characters {@code arnType} declares and answer in the same words.
+     */
+    @Test
+    void aBlankArnReadByHandBreaksItsLengthRatherThanReadingAsAbsent() {
+        String refusal = "1 validation error detected: Value at 'policySourceArn' failed to satisfy"
+                + " constraint: Member must have length greater than or equal to 20";
+
+        iam("SimulatePrincipalPolicy")
+            .formParam("PolicySourceArn", "")
+            .formParam("ActionNames.member.1", "s3:GetObject")
+        .when().post("/").then().statusCode(400)
+            .body(CODE, equalTo("ValidationError"))
+            .body(MESSAGE, equalTo(refusal));
+
+        iam("GetContextKeysForPrincipalPolicy")
+            .formParam("PolicySourceArn", "")
+        .when().post("/").then().statusCode(400)
+            .body(CODE, equalTo("ValidationError"))
+            .body(MESSAGE, equalTo(refusal));
+    }
+
+    /**
+     * The member left out keeps the sentence the operation answers it with, which is the answer
+     * those two actions already carried and which no capture moves.
+     */
+    @Test
+    void thatArnLeftOutKeepsTheOperationsOwnSentence() {
+        iam("SimulatePrincipalPolicy")
+            .formParam("ActionNames.member.1", "s3:GetObject")
+        .when().post("/").then().statusCode(400)
+            .body(CODE, equalTo("ValidationError"))
+            .body(MESSAGE, equalTo("PolicySourceArn is required."));
+    }
+
+    /**
+     * {@code serviceName} declares no length, no pattern and no value set, so nothing ahead of the
+     * operation holds a blank and the operation answers it: a service name nothing supports is
+     * {@code NoSuchEntity}, which is what LocalStack's AWS-validated snapshots record for a
+     * malformed name as well as for an unsupported one. The name is echoed as the caller sent it,
+     * which is why nothing stands between the two spaces.
+     */
+    @Test
+    void aBlankValueTheModelConstrainsInNoWayReachesTheOperation() {
+        iam("CreateServiceSpecificCredential")
+            .formParam("UserName", "constraints-blank-service")
+            .formParam("ServiceName", "")
+        .when().post("/").then().statusCode(404)
+            .body(CODE, equalTo("NoSuchEntity"))
+            .body(MESSAGE, equalTo("No such service  is supported for Service Specific"
+                    + " Credentials"));
+    }
+
+    /** The same member left out is still a member the request never carried. */
+    @Test
+    void thatValueLeftOutIsStillReportedAsAbsent() {
+        iam("CreateServiceSpecificCredential")
+            .formParam("UserName", "constraints-absent-service")
+        .when().post("/").then().statusCode(400)
+            .body(CODE, equalTo("ValidationError"))
+            .body(MESSAGE, equalTo("1 validation error detected: Value at 'serviceName' failed to"
+                    + " satisfy constraint: Member must not be null"));
     }
 }
