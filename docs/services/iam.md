@@ -1959,11 +1959,17 @@ Functions routes, each checked as the action of its own name except `InvokeWithR
 (checked as `lambda:InvokeFunction`) and `GetLayerVersionByArn` (`lambda:GetLayerVersion`). AWS also
 checks `lambda:AddPermission`, `lambda:GetPolicy` or `lambda:RemovePermission` for the resource
 policy operations, which Floci does not serve; their routes are checked as their own action alone.
-API Gateway's management API, v1 and v2, is checked as `apigateway:` and the HTTP
-method, `apigateway:GET`, `apigateway:POST` and so on, except `RejectDomainNameAccessAssociation`
-(`apigateway:RejectAccessAssociation`) and `PutRoutingRule` (`apigateway:UpdateRoutingRule`); the
-v2 routing rule, portal and portal product operations, which AWS checks as actions of their own
-names, are not served. A management call is checked against the path it names, in the request's
+API Gateway's management API, v1 and v2, is checked by the routes of botocore's two models, each
+operation as the Service Reference gives it: as `apigateway:` and the HTTP method, `apigateway:GET`,
+`apigateway:POST` and so on, `TagResource` a `PUT` in v1 and a `POST` in v2, except
+`RejectDomainNameAccessAssociation` (`apigateway:RejectAccessAssociation`), `PutRoutingRule`
+(`apigateway:UpdateRoutingRule`) and the v2 routing rule, portal and portal product operations,
+which AWS checks as actions of their own names and Floci does not serve. A v1 resource's tags are
+also set on the shared bare `/tags` path, a `POST` naming the ARN in its body, checked as `apigateway:POST`.
+AWS also checks `apigateway:UpdateRestApiPolicy` for a request carrying a resource policy,
+`apigateway:AddCertificateToDomain` and `apigateway:RemoveCertificateFromDomain` for a domain's
+mutual TLS certificate, `apigateway:PATCH` on a resource whose tags change, and `iam:PassRole` for
+a role; Floci checks the method's action alone. A management call is checked against the path it names, in the request's
 Region and partition and with no account, as the
 [API Gateway ARN reference](https://docs.aws.amazon.com/apigateway/latest/developerguide/arn-format-reference.html)
 gives it: `GET /restapis/<id>/stages` against `arn:aws:apigateway:<region>::/restapis/<id>/stages`.
@@ -2058,12 +2064,14 @@ Analyzer's analyzer operations, Security Hub's hub operations and GuardDuty's de
 table of request resources reading the resource they name. Every route Floci serves of AWS Lake
 Formation and Amazon Inspector is one AWS authorizes on no resource type, as is every one of Amazon Macie's but
 `CreateMember`, so those are checked by their routes alone. `CreateMember`, on `POST /members`, is checked on the
-member its `account.accountId` names, and needs `macie2:TagResource` when it carries tags. A route whose action AWS checks on a
+member its `account.accountId` names, and needs `macie2:TagResource` when it carries tags. API Gateway's
+routes are checked by their routes alone too, on the path Floci builds the ARN from, and the authorized
+actions list the operations AWS checks as the action their HTTP method names (above). A route whose action AWS checks on a
 resource Floci neither builds nor reads would not be checked, since checked on `*` a grant scoped to
 the resource would be refused; no vendored route is one now. The routes of
 Lambda, EKS, EventBridge Scheduler, EventBridge Pipes and Aurora DSQL are all mapped by their rules,
-so none is checked differently. S3 and API Gateway are routed by their rules alone: S3 tells apart the
-operations of one route by their query and headers, and API Gateway is checked by HTTP method. A route
+so none is checked differently. S3 is routed by its rules alone, since it tells apart the
+operations of one route by their query and headers. A route
 matching nothing is not checked, as an unsigned REST request is not; the other REST services' routes
 are not vendored yet.
 

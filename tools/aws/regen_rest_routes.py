@@ -13,8 +13,8 @@ The credential scopes in `HAND_ROUTED` are authorized by the registry's rules al
 reason, and their routes are vendored for the coverage test only. Within any other scope, two
 operations on one route would leave a request matching it no single operation, so the generation
 fails on them. Supported shared-controller alternatives are generated beside the modeled URI, with
-member-location overrides for the bare route. These alternatives describe existing Floci compatibility
-paths, not additional botocore operations.
+member-location overrides for the bare route, and its own method where that is not the operation's. These
+alternatives describe existing Floci compatibility paths, not additional botocore operations.
 
 The models are botocore's `<model>/<apiVersion>/service-2.json` (Apache-2.0,
 https://github.com/boto/botocore), the latest API version of each, located as
@@ -41,10 +41,7 @@ OUTPUT = REPO_ROOT / "src/main/resources/aws/rest-routes.json"
 
 # Credential scopes the registry's rules authorize alone, and why.
 HAND_ROUTED: dict[str, str] = {
-    "apigateway": "API Gateway's management API is authorized by HTTP method, apigateway:GET, apigateway:POST "
-                  "and so on, on the resource path a route names, not by its operations' names, and the "
-                  "registry's rules give every route its method's action",
-    "s3": "S3 tells apart the operations it serves on one route by their query parameters and headers, which the "
+    "s3":"S3 tells apart the operations it serves on one route by their query parameters and headers, which the "
           "registry's S3 rules and sub-resource overrides read, and an S3 Control route Floci does not serve "
           "runs as the S3 data plane, checked as the bucket or object operation that runs",
 }
@@ -98,10 +95,20 @@ INTERNAL_ROUTES: dict[str, tuple[str, bool]] = {
 # Operations a model does not serve itself, so their path is not rewritten onto its internal prefix.
 # The shared tags controller serves /tags/{resourceArn} for every service that is a TagHandler, and
 # the service's route filter leaves that path alone; prefixing it here would advertise a route no
-# request ever arrives on, and the IAM check would find no rule for it.
+# request ever arrives on, and the IAM check would find no rule for it. API Gateway's v1 tag routes
+# are the shared controller's too.
 SHARED_ROUTES: dict[str, frozenset[str]] = {
+    "apigateway": frozenset({"TagResource", "UntagResource", "GetTags"}),
     "controltower": frozenset({"TagResource", "UntagResource", "ListTagsForResource"}),
     "signer": frozenset({"TagResource", "UntagResource", "ListTagsForResource"}),
+}
+
+# Operations whose ARN label a model gives one segment, where the controller serving them lets it span
+# the slashes the ARN holds: a request may send the ARN unencoded and still reach the operation, so its
+# route has to take that request too or it would go unchecked. API Gateway v2's tag routes are
+# `/v2/tags/{resourceArn: .+}` in its controller.
+ARN_SPANNING_ROUTES: dict[str, frozenset[str]] = {
+    "apigatewayv2": frozenset({"TagResource", "UntagResource", "GetTags"}),
 }
 
 
@@ -132,26 +139,22 @@ def build(models: dict[str, dict], provenance: str) -> dict:
             raise SystemExit(f"error: {name} is not a REST model")
         prefix, arn_labels = INTERNAL_ROUTES.get(name, ("", False))
         shared = SHARED_ROUTES.get(name, frozenset())
+        spanning = ARN_SPANNING_ROUTES.get(name, frozenset())
         operations = {}
         for operation in sorted(model["operations"]):
             http = model["operations"][operation]["http"]
-            if operation in shared:
-                request_uri = http["requestUri"]
-                # A shared tags route names its resource as an ARN, which holds slashes: the label
-                # has to span them or the route matches no tag request at all.
+            request_uri = http["requestUri"] if operation in shared else prefix + http["requestUri"]
+            if operation in shared or operation in spanning:
+                # A tags route names its resource as an ARN, which holds slashes: the label has to
+                # span them or the route matches no tag request at all.
                 request_uri = re.sub(r"\{([^}]*[Aa]rn[^}]*)}", r"{\1+}", request_uri)
-            else:
-                request_uri = prefix + http["requestUri"]
             if arn_labels:
                 # A label holding an ARN spans the slashes the ARN holds, which the rewritten path
                 # holds as they are.
                 request_uri = re.sub(r"\{([^}]+)\}", r"{\1+}", request_uri)
             route = {"method": http["method"], "requestUri": request_uri}
             if operation in shared:
-                # SharedTagsController also serves the bare path, reading POST's body and
-                # GET/DELETE's query. Keep that compatibility route and its member source together.
-                route["alternatives"] = [{"requestUri": "/tags", "located": {
-                    "resourceArn": "body" if http["method"] == "POST" else "?resourceArn"}}]
+                route["alternatives"] = [bare_tags_route(http["method"])]
             operations[operation] = route
         routes[name] = {
             "credentialScope": MODELS[name],
@@ -180,6 +183,15 @@ def build(models: dict[str, dict], provenance: str) -> dict:
     }
 
 
+def bare_tags_route(method: str) -> dict:
+    """The bare `/tags` route SharedTagsController also serves for a shared tags route of the method, with where it
+    reads the ARN: a tagging request is a POST whose body names it, whether the service tags with POST or with
+    PUT, and a GET or DELETE names it in its query. A route of another method than the operation's says so."""
+    bare = "POST" if method in ("POST", "PUT") else method
+    route = {"requestUri": "/tags", "located": {"resourceArn": "body" if bare == "POST" else "?resourceArn"}}
+    return route if bare == method else {"method": bare, **route}
+
+
 def route_key(method: str, request_uri: str) -> tuple:
     """A route as a request matches it: its method, its path's segments with every label alike, and its query."""
     path, _, query = request_uri.partition("?")
@@ -196,7 +208,8 @@ def shared_routes(routes: dict[str, dict]) -> list[str]:
             continue
         for operation, route in model["operations"].items():
             for variant in [route, *route.get("alternatives", [])]:
-                key = (model["credentialScope"],) + route_key(route["method"], variant["requestUri"])
+                key = (model["credentialScope"],) + route_key(variant.get("method", route["method"]),
+                                                              variant["requestUri"])
                 named.setdefault(key, set()).add(operation)
     return [f"{key[0]} {key[1]} {'/'.join(key[2])}: {', '.join(sorted(operations))}"
             for key, operations in sorted(named.items()) if len(operations) > 1]
