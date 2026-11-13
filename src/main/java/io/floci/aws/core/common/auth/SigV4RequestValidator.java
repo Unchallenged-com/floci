@@ -44,7 +44,9 @@ public final class SigV4RequestValidator {
      * Well-known local-dev credential pair used pervasively by default AWS SDK clients
      * (AwsBasicCredentials.create("test", "test")) against this emulator, mirrored from the
      * identical fallback in S3Service/PreSignedUrlFilter. Deliberately not a fallback for any
-     * other unregistered access key, only this exact, already-public pair is honored.
+     * other unregistered access key, only this exact, already-public pair is honored, and only
+     * while {@code floci.auth.test-credential-enabled} is on: {@link IamService#isTestCredential}
+     * decides.
      */
     public static final String LEGACY_ACCESS_KEY_ID = "test";
     public static final String LEGACY_SECRET_KEY = "test";
@@ -149,7 +151,7 @@ public final class SigV4RequestValidator {
             String credentialScope = date + "/" + region + "/" + service + "/aws4_request";
 
             String secretKey;
-            if (LEGACY_ACCESS_KEY_ID.equals(accessKeyId)) {
+            if (iamService.isTestCredential(accessKeyId)) {
                 secretKey = LEGACY_SECRET_KEY;
             } else {
                 Optional<String> registeredSecretKey = registeredSecretKey(

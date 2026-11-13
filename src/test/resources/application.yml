@@ -100,6 +100,7 @@ floci:
 
   auth:
     validate-signatures: false
+    test-credential-enabled: true
     presign-secret: test-secret
 
   security:

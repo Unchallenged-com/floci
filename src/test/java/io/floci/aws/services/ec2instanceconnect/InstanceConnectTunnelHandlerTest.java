@@ -32,6 +32,7 @@ import static org.mockito.ArgumentMatchers.nullable;
 import static org.mockito.Mockito.clearInvocations;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -189,6 +190,19 @@ class InstanceConnectTunnelHandlerTest {
 
         when(iam.isKnownAccessKey("AKIAFLOCITUNNELTEST1")).thenReturn(false);
         assertEquals(403, refusal(CLI_QUERY), "an unknown key is refused under enforcement");
+    }
+
+    @Test
+    void underIamEnforcementTheTestCredentialSkipsAuthorizationOnlyWhileItIsEnabled() {
+        when(config.services().iam().enforcementEnabled()).thenReturn(true);
+        String signedAsTest = CLI_QUERY.replace("AKIAFLOCITUNNELTEST1%2F", "test%2F");
+
+        when(iam.isTestCredential("test")).thenReturn(true);
+        assertEquals(22, resolve(signedAsTest).port());
+        verify(enforcement, never()).authorizeRequestParameters(anyString(), anyString(), anyString(), any());
+
+        when(iam.isTestCredential("test")).thenReturn(false);
+        assertEquals(403, refusal(signedAsTest), "turned off, test is a key Floci does not know");
     }
 
     private InstanceConnectTunnelHandler.Target resolve(String query) {

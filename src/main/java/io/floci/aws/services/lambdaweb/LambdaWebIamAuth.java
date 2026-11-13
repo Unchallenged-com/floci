@@ -44,7 +44,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 
-import static io.floci.aws.core.common.auth.SigV4RequestValidator.LEGACY_ACCESS_KEY_ID;
+import static io.floci.aws.core.common.auth.SigV4RequestValidator.LEGACY_SECRET_KEY;
 
 /**
  * The checks an {@code IamAuth} endpoint makes before a request reaches the function: a SigV4
@@ -275,8 +275,8 @@ public class LambdaWebIamAuth {
      * signs with {@code test}.
      */
     private String secretKey(String accessKeyId, String sessionToken) {
-        if (LEGACY_ACCESS_KEY_ID.equals(accessKeyId)) {
-            return LEGACY_ACCESS_KEY_ID;
+        if (iamService.isTestCredential(accessKeyId)) {
+            return LEGACY_SECRET_KEY;
         }
         if (SessionTokenCheck.of(iamService, accessKeyId, sessionToken) != SessionTokenCheck.VALID) {
             return null;
@@ -287,7 +287,7 @@ public class LambdaWebIamAuth {
     }
 
     private boolean authorize(String accessKeyId, WebFunctionTarget target) {
-        if (!config.services().iam().enforcementEnabled() || LEGACY_ACCESS_KEY_ID.equals(accessKeyId)) {
+        if (!config.services().iam().enforcementEnabled() || iamService.isTestCredential(accessKeyId)) {
             return true;
         }
         Optional<String> callerAccount = iamService.resolveAccountId(accessKeyId);

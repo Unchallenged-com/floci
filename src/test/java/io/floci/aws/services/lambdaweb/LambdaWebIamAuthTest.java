@@ -71,6 +71,7 @@ class LambdaWebIamAuthTest {
                 .thenReturn(Optional.of(new OwnedSecretKey(USER_SECRET, ACCOUNT)));
         when(iamService.findSecretKeyInAnyAccount(SESSION_KEY, "token"))
                 .thenReturn(Optional.of(new OwnedSecretKey("session-secret", null)));
+        when(iamService.isTestCredential("test")).thenReturn(true);
     }
 
     @Test
@@ -204,6 +205,17 @@ class LambdaWebIamAuthTest {
         assertFalse(allows(signed.withPathAndQuery("/x?a=1")));
         assertFalse(allows(signed.withPathAndQuery("/y?b=1")));
         assertFalse(allows(signer().credentials("test", "other", null).sign("GET", HOST, "/")));
+    }
+
+    @Test
+    void theTestCredentialSignsOnlyWhileItIsEnabled() {
+        LambdaWebRequestSigner.Signed signed = signer().credentials("test", "test", null).sign("GET", HOST, "/");
+
+        when(iamService.isTestCredential("test")).thenReturn(true);
+        assertTrue(allows(signed));
+
+        when(iamService.isTestCredential("test")).thenReturn(false);
+        assertFalse(allows(signed), "turned off, test is a key Floci does not know");
     }
 
     @Test

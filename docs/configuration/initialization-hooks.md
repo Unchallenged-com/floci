@@ -91,7 +91,7 @@ The following environment variables are pre-set in the compat image:
 | `AWS_ENDPOINT_URL` | `http://localhost:4566` |
 | `AWS_CONFIG_FILE` | `/etc/floci/aws/config` |
 
-Override any of them via `docker run -e` or the compose `environment` block.
+Override any of them via `docker run -e` or the compose `environment` block. With `FLOCI_AUTH_TEST_CREDENTIAL_ENABLED=false`, the `test` keys are refused: give the hooks credentials Floci knows, such as the [seeded deployer's](../services/iam.md#optional-local-deployer-principal).
 
 Python scripts can use boto3 the same way — the config file is read automatically:
 

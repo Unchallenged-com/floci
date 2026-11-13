@@ -751,6 +751,13 @@ public interface EmulatorConfig {
         @WithDefault("false")
         boolean validateSignatures();
 
+        /**
+         * Whether the local {@code test} / {@code test} credential is accepted. When false it is a key
+         * Floci does not know, refused as any other.
+         */
+        @WithDefault("true")
+        boolean testCredentialEnabled();
+
         @WithDefault("local-emulator-secret")
         String presignSecret();
     }

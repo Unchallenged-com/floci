@@ -21,7 +21,6 @@ import org.jboss.logging.Logger;
 import java.net.URI;
 import java.time.Instant;
 
-import static io.floci.aws.core.common.auth.SigV4RequestValidator.LEGACY_ACCESS_KEY_ID;
 import static io.floci.aws.core.common.auth.SigV4RequestValidator.LEGACY_SECRET_KEY;
 
 /**
@@ -231,7 +230,7 @@ public class ExecuteApiSigV4Authorizer {
      * {@link #checkSessionToken}.
      */
     private String resolveSecretKey(String accessKeyId) {
-        if (LEGACY_ACCESS_KEY_ID.equals(accessKeyId)) {
+        if (iamService.isTestCredential(accessKeyId)) {
             return LEGACY_SECRET_KEY;
         }
         String callerAccount = iamService.resolveAccountId(accessKeyId).orElse(null);
@@ -252,7 +251,7 @@ public class ExecuteApiSigV4Authorizer {
      * presigned query, and ignores it in the other place.
      */
     private Result checkSessionToken(String accessKeyId, String presented) {
-        if (LEGACY_ACCESS_KEY_ID.equals(accessKeyId)) {
+        if (iamService.isTestCredential(accessKeyId)) {
             return null;
         }
         return switch (SessionTokenCheck.of(iamService, accessKeyId, presented)) {
