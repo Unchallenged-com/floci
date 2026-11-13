@@ -384,7 +384,7 @@ public class IamEnforcementFilter implements ContainerRequestFilter {
         }
 
         String akid = accountResolver.extractAccessKeyId(auth);
-        if (iamService.isTestCredential(akid)) {
+        if (akid != null && iamService.isTestCredential(akid)) {
             return; // root bypass
         }
 

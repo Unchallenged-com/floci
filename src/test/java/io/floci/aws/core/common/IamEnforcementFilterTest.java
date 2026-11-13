@@ -62,6 +62,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 /**
@@ -881,7 +882,10 @@ class IamEnforcementFilterTest {
         assertEquals(400, response.getValue().getStatus());
         assertTrue(entityString(response.getValue()).contains("\"__type\":\"IncompleteSignatureException\""),
                 entityString(response.getValue()));
-        verifyNoInteractions(iamService, evaluator);
+        // Only whether the key is the test credential is asked; no key is looked up.
+        verify(iamService).isTestCredential("AKIADOESNOTEXIST0000");
+        verifyNoMoreInteractions(iamService);
+        verifyNoInteractions(evaluator);
     }
 
     @Test
