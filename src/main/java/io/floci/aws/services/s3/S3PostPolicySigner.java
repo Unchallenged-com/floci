@@ -11,7 +11,6 @@ import java.time.format.ResolverStyle;
 import java.util.HexFormat;
 import java.util.Optional;
 
-import static io.floci.aws.core.common.auth.SigV4RequestValidator.LEGACY_ACCESS_KEY_ID;
 import static io.floci.aws.core.common.auth.SigV4RequestValidator.LEGACY_SECRET_KEY;
 
 /**
@@ -29,13 +28,13 @@ final class S3PostPolicySigner {
     }
 
     static Optional<String> resolveSecretKey(IamService iamService, String accessKeyId, String sessionToken) {
-        if (LEGACY_ACCESS_KEY_ID.equals(accessKeyId)) {
+        if (iamService == null) {
+            return Optional.empty();
+        }
+        if (iamService.isTestCredential(accessKeyId)) {
             return Optional.of(LEGACY_SECRET_KEY);
         }
-        if (iamService != null) {
-            return iamService.findSecretKey(accessKeyId, sessionToken);
-        }
-        return Optional.empty();
+        return iamService.findSecretKey(accessKeyId, sessionToken);
     }
 
     /**

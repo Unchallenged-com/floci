@@ -92,6 +92,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static io.floci.aws.core.common.auth.SigV4RequestValidator.LEGACY_ACCESS_KEY_ID;
+
 /**
  * Core IAM business logic — users, groups, roles, policies, access keys, instance profiles.
  * IAM is a global service: resources are not region-scoped and storage keys have no region prefix.
@@ -422,6 +424,8 @@ public class IamService implements SessionAccountLookup, ResourceProvider {
     private final RegionResolver regionResolver;
     private final Clock clock;
     private final boolean seedDeployerPrincipal;
+    /** {@code floci.auth.test-credential-enabled}; on for an instance built by hand, as it is by default. */
+    private boolean testCredentialEnabled = true;
     private final String seededAccountAlias;
     /** Guards case-insensitive IAM name uniqueness checks and their corresponding writes. */
     private final Object resourceNameLock = new Object();
@@ -494,6 +498,7 @@ public class IamService implements SessionAccountLookup, ResourceProvider {
             config.services().iam().accountAlias().orElse(null),
             clock
         );
+        this.testCredentialEnabled = config.auth().testCredentialEnabled();
     }
 
     IamService(StorageBackend<String, IamUser> users,
@@ -4597,6 +4602,15 @@ public class IamService implements SessionAccountLookup, ResourceProvider {
      */
     public Optional<Instant> findSessionExpiration(String accessKeyId) {
         return currentSession(accessKeyId).map(SessionCredential::getExpiration);
+    }
+
+    /**
+     * Whether an access key ID is the local {@code test} credential, accepted with the secret
+     * {@code test} and without a policy lookup. With {@code floci.auth.test-credential-enabled} off
+     * it never is: {@code test} is then a key IAM does not hold, refused as any other.
+     */
+    public boolean isTestCredential(String accessKeyId) {
+        return testCredentialEnabled && LEGACY_ACCESS_KEY_ID.equals(accessKeyId);
     }
 
     /** Whether an access key ID identifies Floci's documented public deployer credential. */

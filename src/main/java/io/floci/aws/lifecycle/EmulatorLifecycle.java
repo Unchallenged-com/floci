@@ -211,6 +211,21 @@ public class EmulatorLifecycle {
         this.redshiftZeroEtlConsumer = redshiftZeroEtlConsumer;
     }
 
+    private static void logTestCredential(EmulatorConfig.AuthConfig auth) {
+        if (auth.testCredentialEnabled()) {
+            LOG.info("Test key:  test/test accepted as the account root"
+                    + " (set FLOCI_AUTH_TEST_CREDENTIAL_ENABLED=false to refuse it)");
+            return;
+        }
+        LOG.info("Test key:  refused");
+        if (!auth.validateSignatures()) {
+            // Without signatures, refusing one well-known key authenticates nobody else.
+            LOG.warn("The test credential is refused, but signatures are not validated: a caller can still"
+                    + " sign with any access key ID Floci knows, without its secret, or with a bare 12-digit"
+                    + " account ID as that account's root. Set FLOCI_AUTH_VALIDATE_SIGNATURES=true to verify them.");
+        }
+    }
+
     void onStart(@Observes StartupEvent ignored) {
         LOG.infof("=== AWS Local Emulator %s Starting ===", appVersion.orElse(""));
         LOG.infof("Endpoint:  http://0.0.0.0:%d", config.port());
@@ -222,6 +237,7 @@ public class EmulatorLifecycle {
         LOG.infov("IAM:       {0}", config.services().iam().enforcementEnabled()
                 ? "policy enforcement enabled"
                 : "policy enforcement disabled (set FLOCI_SERVICES_IAM_ENFORCEMENT_ENABLED=true to enforce)");
+        logTestCredential(config.auth());
 
         // BOOT hooks run before service initialization — scripts cannot use AWS APIs yet.
         try {

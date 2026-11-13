@@ -106,8 +106,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static io.floci.aws.core.common.auth.SigV4RequestValidator.LEGACY_ACCESS_KEY_ID;
-
 @ApplicationScoped
 public class S3Service implements Resettable, ResourceProvider {
     private static final int MAX_LIST_BUCKETS = 10000;
@@ -1726,7 +1724,7 @@ public class S3Service implements Resettable, ResourceProvider {
 
     private boolean isSameAccountAsBucketOwner(String accessKeyId, String principalArn, String bucketOwnerAccount) {
         String owner = bucketOwnerAccount != null ? bucketOwnerAccount : ownerId();
-        return (LEGACY_ACCESS_KEY_ID.equals(accessKeyId) && owner.equals(ownerId()))
+        return (iamService != null && iamService.isTestCredential(accessKeyId) && owner.equals(ownerId()))
                 || (accessKeyId != null && accessKeyId.equals(owner))
                 || (principalArn != null && owner.equals(extractAccountId(principalArn)));
     }
@@ -1750,7 +1748,7 @@ public class S3Service implements Resettable, ResourceProvider {
             String resourceArn,
             RequestAuthorization authorization) {
         if (authorization == null || !authorization.signed()
-                || LEGACY_ACCESS_KEY_ID.equals(authorization.accessKeyId()) || iamService == null) {
+                || iamService == null || iamService.isTestCredential(authorization.accessKeyId())) {
             return new SignedPrincipalResourcePolicyEvaluation(ResourcePolicyDecision.NEUTRAL, null);
         }
 
@@ -1812,11 +1810,8 @@ public class S3Service implements Resettable, ResourceProvider {
         if (accessKeyId == null || accessKeyId.isBlank()) {
             return false;
         }
-        if (LEGACY_ACCESS_KEY_ID.equals(accessKeyId)) {
-            return true;
-        }
-        return iamService != null
-                && iamService.findSecretKey(accessKeyId, authorization.sessionToken()).isPresent();
+        return iamService != null && (iamService.isTestCredential(accessKeyId)
+                || iamService.findSecretKey(accessKeyId, authorization.sessionToken()).isPresent());
     }
 
     private boolean publicBucketAclAllowsRead(Bucket bucket) {

@@ -67,6 +67,7 @@ class IamAuthValidatorTest {
                 Clock.fixed(NOW, ZoneOffset.UTC));
         lenient().when(iamService.findSecretKey("AKIAGOOD")).thenReturn(Optional.of("good-secret"));
         lenient().when(iamService.findSecretKey("AKIDDENY")).thenReturn(Optional.of("deny-secret"));
+        lenient().when(iamService.isTestCredential("test")).thenReturn(true);
     }
 
     private AuthRequestInfo infoWith(Map<String, String> signedHeaders) {
@@ -288,6 +289,15 @@ class IamAuthValidatorTest {
                 authorization(signed), "api-1", infoWith(signed));
 
         assertEquals("test", identity.get("user"));
+    }
+
+    @Test
+    void legacyTestKeyTurnedOffIsAnUnknownKey() throws Exception {
+        when(iamService.isTestCredential("test")).thenReturn(false);
+        Map<String, String> signed = AppSyncRequestSigner.signedHeaders(
+                "api-1", HOST, BODY, "test", "test", REGION, NOW);
+
+        assertRefused(signed, "The security token included in the request is invalid.");
     }
 
     @Test

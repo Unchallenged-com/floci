@@ -33,7 +33,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static io.floci.aws.core.common.auth.SigV4RequestValidator.LEGACY_ACCESS_KEY_ID;
 import static io.floci.aws.core.common.auth.SigV4RequestValidator.LEGACY_SECRET_KEY;
 
 @Provider
@@ -323,10 +322,10 @@ public class PreSignedUrlFilter implements ContainerRequestFilter {
     }
 
     private String resolveSecretKey(String accessKeyId, String sessionToken) {
-        if (LEGACY_ACCESS_KEY_ID.equals(accessKeyId)) {
-            return LEGACY_SECRET_KEY;
-        }
         if (iamService != null) {
+            if (iamService.isTestCredential(accessKeyId)) {
+                return LEGACY_SECRET_KEY;
+            }
             Optional<String> registered = iamService.findSecretKey(accessKeyId, sessionToken);
             if (registered.isPresent()) {
                 return registered.get();

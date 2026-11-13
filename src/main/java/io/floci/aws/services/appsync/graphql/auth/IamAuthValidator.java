@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import static io.floci.aws.core.common.auth.SigV4RequestValidator.LEGACY_ACCESS_KEY_ID;
 import static io.floci.aws.core.common.auth.SigV4RequestValidator.LEGACY_SECRET_KEY;
 
 /**
@@ -82,7 +81,7 @@ public class IamAuthValidator {
             throw AppSyncAuth.unauthorized();
         }
         String accessKeyId = verifySignature(authorization.trim(), apiId, info);
-        if (!isEmulatorAllow(accessKeyId)) {
+        if (!iamService.isTestCredential(accessKeyId)) {
             CallerContext caller = iamService.resolveCallerContext(accessKeyId);
             if (caller != null) {
                 String resource = requestArn(info.region(), info.accountId(), apiId);
@@ -94,7 +93,7 @@ public class IamAuthValidator {
             }
         }
         String userArn = iamService.resolveCallerArn(accessKeyId).orElseGet(
-                () -> isEmulatorAllow(accessKeyId)
+                () -> iamService.isTestCredential(accessKeyId)
                         ? AwsArnUtils.Arn.global(AwsRegions.partitionFor(info.region()), "iam", nullToEmpty(info.accountId()), "root").toString()
                         : null);
         if (userArn == null) {
@@ -250,7 +249,7 @@ public class IamAuthValidator {
      * unregistered key sign its own requests before this fix.
      */
     private String resolveSecretKey(String accessKeyId) {
-        if (LEGACY_ACCESS_KEY_ID.equals(accessKeyId)) {
+        if (iamService.isTestCredential(accessKeyId)) {
             return LEGACY_SECRET_KEY;
         }
         return iamService.findSecretKey(accessKeyId).orElse(null);
@@ -258,7 +257,7 @@ public class IamAuthValidator {
 
     /** Rejects a session token that does not fit the access key. The local {@code test} key takes any token. */
     private void checkSessionToken(String accessKeyId, Map<String, String> requestHeaders) {
-        if (LEGACY_ACCESS_KEY_ID.equals(accessKeyId)) {
+        if (iamService.isTestCredential(accessKeyId)) {
             return;
         }
         String presented = hasHeader(requestHeaders, SECURITY_TOKEN) ? header(requestHeaders, SECURITY_TOKEN) : null;
@@ -306,7 +305,7 @@ public class IamAuthValidator {
     }
 
     public boolean isFieldDenied(String accessKeyId, String fieldArn) {
-        if (accessKeyId == null || isEmulatorAllow(accessKeyId)) {
+        if (accessKeyId == null || iamService.isTestCredential(accessKeyId)) {
             return false;
         }
         CallerContext caller = iamService.resolveCallerContext(accessKeyId);
@@ -315,10 +314,6 @@ public class IamAuthValidator {
         }
         return iamPolicyEvaluator.evaluate(caller, null, "appsync:GraphQL", fieldArn, null)
                 == IamPolicyEvaluator.Decision.DENY;
-    }
-
-    static boolean isEmulatorAllow(String accessKeyId) {
-        return LEGACY_ACCESS_KEY_ID.equals(accessKeyId);
     }
 
     static String requestArn(String region, String accountId, String apiId) {

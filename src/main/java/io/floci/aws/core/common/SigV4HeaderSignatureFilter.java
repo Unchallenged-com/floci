@@ -47,7 +47,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.UnaryOperator;
 
-import static io.floci.aws.core.common.auth.SigV4RequestValidator.LEGACY_ACCESS_KEY_ID;
 import static io.floci.aws.core.common.auth.SigV4RequestValidator.LEGACY_SECRET_KEY;
 
 /**
@@ -418,7 +417,7 @@ public class SigV4HeaderSignatureFilter implements ContainerRequestFilter {
     }
 
     private Optional<String> resolveSecretKey(String accessKeyId, String sessionToken) {
-        if (LEGACY_ACCESS_KEY_ID.equals(accessKeyId)) {
+        if (iamService.isTestCredential(accessKeyId)) {
             return Optional.of(LEGACY_SECRET_KEY);
         }
         return iamService.findSecretKey(accessKeyId, sessionToken);

@@ -37,6 +37,8 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
+import static io.floci.aws.core.common.auth.SigV4RequestValidator.LEGACY_SECRET_KEY;
+
 /**
  * The EC2 Instance Connect Endpoint data plane: {@code wss://<endpoint DnsName>/openTunnel}, the
  * SigV4-presigned WebSocket the AWS CLI opens for {@code aws ec2-instance-connect open-tunnel} and
@@ -72,9 +74,6 @@ public class InstanceConnectTunnelHandler {
     /** AWS's limit, and the CLI's default, for {@code maxTunnelDuration}. */
     static final int MAX_TUNNEL_SECONDS = 3600;
     private static final int CONNECT_TIMEOUT_MILLIS = 10_000;
-    /** The well-known local-dev pair, honoured as every other SigV4 check in Floci honours it. */
-    private static final String LEGACY_ACCESS_KEY_ID = "test";
-    private static final String LEGACY_SECRET_KEY = "test";
 
     private final Ec2Service ec2Service;
     private final Vertx vertx;
@@ -283,7 +282,7 @@ public class InstanceConnectTunnelHandler {
      */
     private void authorize(String akid, String accountId, String credential, String endpointArn,
                            Function<String, String> parameter) {
-        if (!config.services().iam().enforcementEnabled() || LEGACY_ACCESS_KEY_ID.equals(akid)) {
+        if (!config.services().iam().enforcementEnabled() || iamService.isTestCredential(akid)) {
             return;
         }
         if (!akid.equals(accountId) && !iamService.isKnownAccessKey(akid)
@@ -308,7 +307,7 @@ public class InstanceConnectTunnelHandler {
         if (!SigV4RequestValidator.containsHeader(signed.signedHeaders(), "host")) {
             throw new Refusal(403, "X-Amz-SignedHeaders must include host");
         }
-        String secret = LEGACY_ACCESS_KEY_ID.equals(scope.accessKeyId()) ? LEGACY_SECRET_KEY
+        String secret = iamService.isTestCredential(scope.accessKeyId()) ? LEGACY_SECRET_KEY
                 : iamService.findSecretKey(scope.accessKeyId(), sessionToken).orElse(null);
         if (secret == null) {
             throw new Refusal(403, "The security token included in the request is invalid.");

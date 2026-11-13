@@ -338,6 +338,7 @@ floci:
 
   auth:
     validate-signatures: false
+    test-credential-enabled: true
     presign-secret: local-emulator-secret
 
   security:

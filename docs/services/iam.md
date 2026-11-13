@@ -1865,6 +1865,36 @@ When enabled, Floci creates the `floci-deployer` user if it does not already exi
 
 Requests signed with the seeded access key return the deployer user ARN from `sts:GetCallerIdentity`.
 
+## Turning the test credential off
+
+By default the `test` access key, with the secret `test`, is accepted everywhere and acts as the
+account root without a policy lookup, whatever the enforcement settings: anyone who can reach Floci
+can do anything in the default account. To take it away, set:
+
+```bash
+FLOCI_AUTH_TEST_CREDENTIAL_ENABLED=false
+```
+
+`test` is then a key Floci does not know, refused as any other by every check that used to accept
+it: `403 InvalidClientTokenId` (Query) or `UnrecognizedClientException` (JSON) under signature
+validation or IAM enforcement, `403 InvalidAccessKeyId` from S3, and the unknown-key answers of the
+API Gateway, AppSync, Lambda Web, EC2 Instance Connect, RDS, ElastiCache and Aurora DSQL
+signature checks. A CloudTrail record no longer reports it as the account root.
+
+The setting only authenticates callers together with `FLOCI_AUTH_VALIDATE_SIGNATURES=true`: without
+it, a request names any access key Floci knows without proving its secret, and a bare 12-digit
+account ID key still acts as that account's root under IAM enforcement. The startup banner reports
+the setting (`Test key:  refused`) and warns when signatures are not validated.
+
+To provision an account with `test` refused, sign with credentials Floci knows, such as the
+[deployer principal](#optional-local-deployer-principal): create the account's IAM users and roles
+with it, then delete its `floci` access key. Floci seeds that key again at its next start.
+
+Floci itself still hands out `test` in some places, which then cannot call Floci: containers it
+launches without a role (ECS tasks without a task role, Flink applications, MWAA environments),
+CodeBuild builds, the Athena engine's reads from S3, the web console, and the AWS CLI configured in
+the Docker image for initialization hooks.
+
 ## IAM Enforcement Mode
 
 By default Floci accepts any credentials without enforcing IAM policies — all requests are allowed through regardless of what policies are attached to the calling identity. This preserves backward compatibility and keeps the default setup frictionless.
@@ -2584,7 +2614,8 @@ floci:
 
 SCP semantics match AWS: SCPs never grant permissions — they cap what identity policies
 may allow; the organization's **management account is exempt**; and an account outside
-any organization is unaffected. The `test` credential is never SCP-denied.
+any organization is unaffected. The `test` credential is never SCP-denied, while it is accepted
+(see [Turning the test credential off](#turning-the-test-credential-off)).
 
 **The account-root principal is subject to SCPs.** floci's account root is a bare
 12-digit account-id access key (the LocalStack multi-account convention). It carries no
@@ -2605,7 +2636,7 @@ These identities always bypass enforcement (backward-compatible defaults):
 
 | Identity | Behaviour |
 |---|---|
-| Access key `test` (the default dev credential) | Always allowed — no policy lookup |
+| Access key `test` (the default dev credential) | Always allowed — no policy lookup. With `FLOCI_AUTH_TEST_CREDENTIAL_ENABLED=false`, rejected as an access key that exists nowhere (next row) |
 | Access key that exists nowhere | **Rejected** with `403`, `sts:GetCallerIdentity` included: `InvalidAccessKeyId` for S3, `InvalidClientTokenId` for Query services, `UnrecognizedClientException` for JSON services. A presigned POST, whose credential is in the form body, is left to S3's own presigned-POST check |
 | Inactive access key | **Rejected** the same way, until the key is activated again |
 | Expired session credentials | **Rejected** with `403 ExpiredTokenException`, or `400 ExpiredToken` for S3, rather than as a key that exists nowhere, for as long as Floci still holds the session |

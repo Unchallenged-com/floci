@@ -17,6 +17,8 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Pins the shared SigV4 crypto primitives against AWS's own published test vector, independent
@@ -211,6 +213,19 @@ class SigV4RequestValidatorTest {
             assertEquals(expires == Integer.MAX_VALUE, validator.validate(rawQuery, host, "DbConnectAdmin", "DBUser",
                     false, null, "DSQL IAM token", null, Duration.ofSeconds(5)), "X-Amz-Expires=" + expires);
         }
+    }
+
+    @Test
+    void theTestCredentialSignsATokenOnlyWhileItIsEnabled() throws Exception {
+        IamService iamService = mock(IamService.class);
+        String token = SigV4TokenTestHelper.createRdsToken("db.example.local", 5432, "app_user",
+                "test", "test", Instant.now().minusSeconds(60), 900);
+
+        when(iamService.isTestCredential("test")).thenReturn(true);
+        assertTrue(validate(iamService, token));
+
+        when(iamService.isTestCredential("test")).thenReturn(false);
+        assertFalse(validate(iamService, token), "turned off, test is a key Floci does not know");
     }
 
     private static boolean validate(IamService iamService, String token) {

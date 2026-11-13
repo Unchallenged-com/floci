@@ -57,8 +57,6 @@ import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static io.floci.aws.core.common.auth.SigV4RequestValidator.LEGACY_ACCESS_KEY_ID;
-
 /**
  * JAX-RS filter that enforces IAM policies on every incoming request when
  * {@code floci.services.iam.enforcement-enabled = true}
@@ -67,7 +65,8 @@ import static io.floci.aws.core.common.auth.SigV4RequestValidator.LEGACY_ACCESS_
  * <p>Bypass rules (request is always allowed through):
  * <ul>
  *   <li>Enforcement is disabled (default)</li>
- *   <li>Access key is {@code "test"} (root/admin stand-in)</li>
+ *   <li>Access key is {@code "test"} (root/admin stand-in), unless
+ *       {@code floci.auth.test-credential-enabled} is off</li>
  *   <li>Access key is a real credential this filter cannot map to policies, such as a session
  *       carrying no role ARN. An access key that exists nowhere or is inactive, an expired
  *       session, and an {@code Authorization} header with no readable credential are rejected,
@@ -385,7 +384,7 @@ public class IamEnforcementFilter implements ContainerRequestFilter {
         }
 
         String akid = accountResolver.extractAccessKeyId(auth);
-        if (LEGACY_ACCESS_KEY_ID.equals(akid)) {
+        if (iamService.isTestCredential(akid)) {
             return; // root bypass
         }
 
@@ -1517,7 +1516,7 @@ public class IamEnforcementFilter implements ContainerRequestFilter {
             return;
         }
         String akid = accountResolver.extractAccessKeyId(authorizationHeader);
-        if (akid == null || LEGACY_ACCESS_KEY_ID.equals(akid)) {
+        if (akid == null || iamService.isTestCredential(akid)) {
             return;
         }
         String rawScope = extractCredentialScope(authorizationHeader);

@@ -132,6 +132,7 @@ class EmulatorLifecycleTest {
     @Mock private PersistentPathValidator persistentPathValidator;
     @Mock private EmulatorConfig.TlsConfig tlsConfig;
     @Mock private EmulatorConfig.IamServiceConfig iamServiceConfig;
+    @Mock private EmulatorConfig.AuthConfig authConfig;
     @Mock private SchemaCreationWorker schemaCreationWorker;
     @Mock private StepFunctionsService stepFunctionsService;
     @Mock private DurableExecutionService durableExecutionService;
@@ -165,6 +166,8 @@ class EmulatorLifecycleTest {
         Mockito.lenient().when(timestreamInfluxDbServiceConfig.enabled()).thenReturn(true);
         Mockito.lenient().when(servicesConfig.iam()).thenReturn(iamServiceConfig);
         Mockito.lenient().when(iamServiceConfig.enforcementEnabled()).thenReturn(false);
+        Mockito.lenient().when(config.auth()).thenReturn(authConfig);
+        Mockito.lenient().when(authConfig.testCredentialEnabled()).thenReturn(true);
         Mockito.lenient().when(config.tls()).thenReturn(tlsConfig);
         Mockito.lenient().when(tlsConfig.enabled()).thenReturn(false);
         Mockito.lenient().when(config.port()).thenReturn(4566);
@@ -859,6 +862,45 @@ class EmulatorLifecycleTest {
 
         assertTrue(messages.contains("IAM:       policy enforcement enabled"),
                 "The banner must say enforcement is on");
+    }
+
+    @Test
+    @DisplayName("Should report in the banner that the test credential is accepted by default")
+    void shouldReportTestCredentialAcceptedInBanner() {
+        stubStorageConfig();
+        when(initializationHooksRunner.hasHooks(InitializationHook.START)).thenReturn(false);
+        when(initializationHooksRunner.hasHooks(InitializationHook.READY)).thenReturn(false);
+
+        List<String> messages =
+                lifecycleLogMessages(() -> emulatorLifecycle.onStart(Mockito.mock(StartupEvent.class)));
+
+        assertTrue(messages.contains("Test key:  test/test accepted as the account root"
+                        + " (set FLOCI_AUTH_TEST_CREDENTIAL_ENABLED=false to refuse it)"),
+                "The banner must say the test credential is accepted and name the flag that refuses it");
+    }
+
+    @Test
+    @DisplayName("Should report a refused test credential, and warn while signatures are not validated")
+    void shouldReportTestCredentialRefusedAndWarnWithoutSignatureValidation() {
+        stubStorageConfig();
+        when(authConfig.testCredentialEnabled()).thenReturn(false);
+        when(initializationHooksRunner.hasHooks(InitializationHook.START)).thenReturn(false);
+        when(initializationHooksRunner.hasHooks(InitializationHook.READY)).thenReturn(false);
+
+        List<String> messages =
+                lifecycleLogMessages(() -> emulatorLifecycle.onStart(Mockito.mock(StartupEvent.class)));
+
+        assertTrue(messages.contains("Test key:  refused"), "The banner must say the test credential is refused");
+        assertTrue(messages.stream().anyMatch(message -> message.startsWith("The test credential is refused, but")
+                        && message.contains("FLOCI_AUTH_VALIDATE_SIGNATURES=true")),
+                "Without signature validation, refusing test alone does not authenticate callers: say so");
+
+        when(authConfig.validateSignatures()).thenReturn(true);
+        messages = lifecycleLogMessages(() -> emulatorLifecycle.onStart(Mockito.mock(StartupEvent.class)));
+
+        assertTrue(messages.contains("Test key:  refused"));
+        assertFalse(messages.stream().anyMatch(message -> message.startsWith("The test credential is refused, but")),
+                "With signatures validated there is nothing to warn about");
     }
 
     @Test

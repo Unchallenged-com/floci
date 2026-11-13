@@ -52,6 +52,7 @@ class ExecuteApiSigV4AuthorizerTest {
         when(iamService.resolveCallerArn(anyString())).thenReturn(Optional.empty());
         when(iamService.findAccessKey(anyString())).thenReturn(Optional.empty());
         when(iamService.findSessionToken(anyString())).thenReturn(Optional.empty());
+        when(iamService.isTestCredential("test")).thenReturn(true);
 
         RegionResolver regionResolver = mock(RegionResolver.class);
         when(regionResolver.getAccountId()).thenReturn("000000000000");
@@ -114,6 +115,18 @@ class ExecuteApiSigV4AuthorizerTest {
         Map<String, String> signed = ExecuteApiRequestSigner.signedHeaders(
                 "GET", PATH, Map.of(), HOST, null,
                 "AKIAUNKNOWN", "AKIAUNKNOWN", REGION, Instant.now());
+
+        ExecuteApiSigV4Authorizer.Result result = authorizer.authorize(
+                "GET", headers(signed), uriInfo(PATH, null), null, null);
+
+        assertEquals(ExecuteApiSigV4Authorizer.Failure.UNKNOWN_KEY, result.failure());
+    }
+
+    @Test
+    void theTestCredentialTurnedOffIsAnUnknownKey() throws Exception {
+        when(iamService.isTestCredential("test")).thenReturn(false);
+        Map<String, String> signed = ExecuteApiRequestSigner.signedHeaders(
+                "GET", PATH, Map.of(), HOST, null, "test", "test", REGION, Instant.now());
 
         ExecuteApiSigV4Authorizer.Result result = authorizer.authorize(
                 "GET", headers(signed), uriInfo(PATH, null), null, null);
