@@ -424,6 +424,7 @@ public class IamService implements SessionAccountLookup, ResourceProvider {
     private final RegionResolver regionResolver;
     private final Clock clock;
     private final boolean seedDeployerPrincipal;
+    private final String seededDeployerAccessKeyId;
     /** {@code floci.auth.test-credential-enabled}; on for an instance built by hand, as it is by default. */
     private boolean testCredentialEnabled = true;
     private final String seededAccountAlias;
@@ -495,6 +496,7 @@ public class IamService implements SessionAccountLookup, ResourceProvider {
             storageFactory.create("iam", "iam-outbound-federation.json", new TypeReference<>() {}),
             regionResolver,
             config.services().iam().seedDeployerPrincipal(),
+            config.services().iam().seedDeployerAccessKeyId(),
             config.services().iam().accountAlias().orElse(null),
             clock
         );
@@ -654,6 +656,40 @@ public class IamService implements SessionAccountLookup, ResourceProvider {
                boolean seedDeployerPrincipal,
                String seededAccountAlias,
                Clock clock) {
+        this(users, groups, roles, policies, accessKeys, instanceProfiles, sessions, accountAliases,
+                passwordPolicies, loginProfiles, oidcProviders, serviceLinkedRoleDeletions, orgRootFeatures,
+                credentialReports, virtualMfaDevices, serverCertificates, signingCertificates, sshPublicKeys,
+                serviceCredentials, accountProperties, stsPreferences, outboundFederation,
+                regionResolver, seedDeployerPrincipal, DEFAULT_DEPLOYER_ACCESS_KEY_ID, seededAccountAlias, clock);
+    }
+
+    IamService(StorageBackend<String, IamUser> users,
+               StorageBackend<String, IamGroup> groups,
+               StorageBackend<String, IamRole> roles,
+               StorageBackend<String, IamPolicy> policies,
+               StorageBackend<String, AccessKey> accessKeys,
+               StorageBackend<String, InstanceProfile> instanceProfiles,
+               StorageBackend<String, SessionCredential> sessions,
+               StorageBackend<String, String> accountAliases,
+               StorageBackend<String, AccountPasswordPolicy> passwordPolicies,
+               StorageBackend<String, LoginProfile> loginProfiles,
+               StorageBackend<String, OpenIDConnectProvider> oidcProviders,
+               StorageBackend<String, String> serviceLinkedRoleDeletions,
+               StorageBackend<String, OrganizationRootFeatures> orgRootFeatures,
+               StorageBackend<String, CredentialReport> credentialReports,
+               StorageBackend<String, VirtualMfaDevice> virtualMfaDevices,
+               StorageBackend<String, ServerCertificate> serverCertificates,
+               StorageBackend<String, SigningCertificate> signingCertificates,
+               StorageBackend<String, SshPublicKey> sshPublicKeys,
+               StorageBackend<String, ServiceSpecificCredential> serviceCredentials,
+               StorageBackend<String, String> accountProperties,
+               StorageBackend<String, String> stsPreferences,
+               StorageBackend<String, OutboundWebIdentityFederation> outboundFederation,
+               RegionResolver regionResolver,
+               boolean seedDeployerPrincipal,
+               String seededDeployerAccessKeyId,
+               String seededAccountAlias,
+               Clock clock) {
         this.users = users;
         this.groups = groups;
         this.roles = roles;
@@ -678,6 +714,7 @@ public class IamService implements SessionAccountLookup, ResourceProvider {
         this.outboundFederation = outboundFederation;
         this.regionResolver = regionResolver;
         this.seedDeployerPrincipal = seedDeployerPrincipal;
+        this.seededDeployerAccessKeyId = seededDeployerAccessKeyId;
         this.seededAccountAlias = seededAccountAlias;
         this.clock = clock;
     }
@@ -774,12 +811,12 @@ public class IamService implements SessionAccountLookup, ResourceProvider {
             user.getAttachedPolicyArns().add(adminPolicyArn);
             users.put(DEFAULT_DEPLOYER_USER, user);
         }
-        if (accessKeys.get(DEFAULT_DEPLOYER_ACCESS_KEY_ID).isEmpty()) {
-            accessKeys.put(DEFAULT_DEPLOYER_ACCESS_KEY_ID, new AccessKey(
-                    DEFAULT_DEPLOYER_ACCESS_KEY_ID,
+        if (accessKeys.get(seededDeployerAccessKeyId).isEmpty()) {
+            accessKeys.put(seededDeployerAccessKeyId, new AccessKey(
+                    seededDeployerAccessKeyId,
                     DEFAULT_DEPLOYER_SECRET_ACCESS_KEY,
                     DEFAULT_DEPLOYER_USER));
-            LOG.infov("Seeded default IAM deployer access key: {0}", DEFAULT_DEPLOYER_ACCESS_KEY_ID);
+            LOG.infov("Seeded default IAM deployer access key: {0}", seededDeployerAccessKeyId);
         }
     }
 
@@ -4680,7 +4717,7 @@ public class IamService implements SessionAccountLookup, ResourceProvider {
 
     /** Whether an access key ID identifies Floci's documented public deployer credential. */
     public boolean isSeededDeployerAccessKey(String accessKeyId) {
-        return DEFAULT_DEPLOYER_ACCESS_KEY_ID.equals(accessKeyId);
+        return seededDeployerAccessKeyId.equals(accessKeyId);
     }
 
     /**
