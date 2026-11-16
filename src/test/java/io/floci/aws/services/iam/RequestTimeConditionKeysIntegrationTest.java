@@ -12,6 +12,7 @@ import io.quarkus.test.junit.TestProfile;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
+import software.amazon.awssdk.auth.credentials.AwsSessionCredentials;
 import software.amazon.awssdk.awscore.exception.AwsServiceException;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.iam.IamClient;
@@ -134,9 +135,10 @@ class RequestTimeConditionKeysIntegrationTest {
         return AwsTestClients.create(StsClient.builder(), keys.accessKeyId(), keys.secretAccessKey(), Region.US_EAST_1);
     }
 
-    private static IamClient sessionClient(Credentials session) {
-        return AwsTestClients.create(IamClient.builder(), session.accessKeyId(), session.secretAccessKey(),
-                session.sessionToken(), Region.US_EAST_1);
+    private IamClient sessionClient(Credentials session) {
+        return AwsTestClients.create(IamClient.builder(),
+                AwsSessionCredentials.create(session.accessKeyId(), session.secretAccessKey(), session.sessionToken()),
+                Region.US_EAST_1, baseUri);
     }
 
     private static void denied(Runnable operation) {
