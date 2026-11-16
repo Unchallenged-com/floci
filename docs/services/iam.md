@@ -1914,7 +1914,9 @@ the setting (`Test key:  refused`) and warns when signatures are not validated.
 
 To provision an account with `test` refused, sign with credentials Floci knows, such as the
 [deployer principal](#optional-local-deployer-principal): create the account's IAM users and roles
-with it, then delete its `floci` access key. Floci seeds that key again at its next start.
+with it, then deny it everything with an inline policy. Its `floci` access key cannot be deactivated
+or deleted, since IAM takes an access key ID of 16 to 128 characters, so the user cannot be deleted
+either; Floci seeds the user and its key again at its next start.
 
 Floci itself still hands out `test` in some places, which then cannot call Floci: containers it
 launches without a role (ECS tasks without a task role, Flink applications, MWAA environments),
