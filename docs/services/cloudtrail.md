@@ -186,6 +186,25 @@ one STS ran, one STS refused, and, with `floci.services.iam.enforcement-enabled`
 - Not recorded yet: a refused or invalid `AssumeRoleWithSAML` or `AssumeRoleWithWebIdentity`, a successful
   `GetWebIdentityToken` (its refusals are recorded), and `GetDelegatedAccessToken`.
 
+## CloudTrail API Coverage
+
+CloudTrail's own calls are management events like any other service's: `CreateTrail`, `UpdateTrail`, `DeleteTrail`,
+`StartLogging`, `StopLogging`, `PutEventSelectors` and the rest reach the trails that select them.
+
+- `eventSource` is `cloudtrail.amazonaws.com` and `awsRegion` the request's Region.
+- `requestParameters` holds the request's members with a lower first letter (`{"name": "myTrail"}`,
+  `{"trailName": ..., "eventSelectors": [...]}`), as the guide's
+  [`StartLogging` event](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-events.html) shows.
+- `readOnly` is `true` for `Describe*`, `Get*`, `List*` and `Lookup*`, whose `responseElements` is `null`. A call that
+  answers nothing (`StartLogging`, `StopLogging`, `DeleteTrail`) has `"responseElements": null`; one that answers the
+  trail or its selectors (`CreateTrail`, `UpdateTrail`, `PutEventSelectors`) records that answer the same way.
+- A failed call carries CloudTrail's error code and message (`TrailNotFoundException`), its `requestParameters`, and
+  `"responseElements": null`, as the guide's
+  [failed `UpdateTrail`](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-log-file-examples.html)
+  shows. A call IAM enforcement refuses is recorded as `AccessDenied` with `"requestParameters": null`.
+- A trail whose logging is stopped, or that is deleted, receives no event that occurs afterwards; the other trails
+  record the `StopLogging` or `DeleteTrail`.
+
 ## Management Write Coverage
 
 Successful Secrets Manager `PutSecretValue` and `UpdateSecret` API calls produce management

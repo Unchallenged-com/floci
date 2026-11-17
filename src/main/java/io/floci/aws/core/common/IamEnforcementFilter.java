@@ -2,6 +2,7 @@ package io.floci.aws.core.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import io.floci.aws.config.EmulatorConfig;
+import io.floci.aws.services.cloudtrail.CloudTrailApiEvents;
 import io.floci.aws.services.cloudtrail.CloudTrailService;
 import io.floci.aws.services.cloudwatch.metrics.OtlpMetricsController;
 import io.floci.aws.services.iam.AccessDeniedMessages;
@@ -1766,12 +1767,23 @@ public class IamEnforcementFilter implements ContainerRequestFilter {
     }
 
     /**
-     * Records an IAM or STS API call IAM enforcement refused as the CloudTrail management event that
-     * service records for the calls it runs, with the refusal naming the caller, the action and the
-     * resource.
+     * Records an IAM, STS or CloudTrail API call IAM enforcement refused as the CloudTrail management
+     * event that service records for the calls it runs, with the refusal naming the caller, the action
+     * and the resource.
      */
     private void emitIamDenialIfApplicable(String akid, String action, String credentialScope,
                                            ContainerRequestContext ctx, String region, String denyMessage) {
+        if ("cloudtrail".equals(credentialScope) && cloudTrailService.hasTrails()) {
+            try {
+                cloudTrailService.emitManagementEvent(CloudTrailApiEvents.denied(
+                        action.substring(action.indexOf(':') + 1), akid, region, currentVertxRequest.getCurrent(),
+                        queryAccessDeniedCode(credentialScope), denyMessage));
+            } catch (RuntimeException e) {
+                // The request is refused either way; a record that could not be written is logged, not raised.
+                LOG.warnv(e, "CloudTrail denial emission failed for {0}", action);
+            }
+            return;
+        }
         boolean sts = "sts".equals(credentialScope);
         if ((!"iam".equals(credentialScope) && !sts) || !cloudTrailService.hasTrails()) {
             return;
