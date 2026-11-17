@@ -61,13 +61,13 @@ class CloudTrailApiEventsIntegrationTest {
     }
 
     @AfterEach
-    void restoreTheStopLoggingDelay() {
-        service.stopLoggingDelay(CloudTrailService.STOP_LOGGING_DELAY);
+    void restoreTheDelaysTestsRunWith() {
+        service.startLoggingDelay(Duration.ZERO);
+        service.stopLoggingDelay(Duration.ZERO);
     }
 
     @Test
     void trailManagementCallsAreRecordedAsManagementEvents() throws IOException {
-        service.stopLoggingDelay(Duration.ZERO);
         String suffix = UUID.randomUUID().toString().substring(0, 8);
         String audit = "ct-audit-" + suffix;
         String auditLogs = "ct-audit-logs-" + suffix;
@@ -152,6 +152,11 @@ class CloudTrailApiEventsIntegrationTest {
         JsonNode deleted = only(records, "DeleteTrail", doomed);
         assertThat(deleted.path("requestParameters").path("name").asText(), equalTo(doomed));
         assertThat(deleted.path("responseElements").isNull(), equalTo(true));
+        assertThat(deleted.path("resources").get(0).path("ARN").asText(),
+                equalTo("arn:aws:cloudtrail:us-east-1:" + ACCOUNT + ":trail/" + doomed));
+        assertThat(deleted.path("resources").get(0).path("type").asText(), equalTo("AWS::CloudTrail::Trail"));
+        assertThat(started.path("resources").get(0).path("ARN").asText(),
+                equalTo("arn:aws:cloudtrail:us-east-1:" + ACCOUNT + ":trail/" + main));
 
         List<JsonNode> ownRecords = cloudTrailRecords(mainLogs, suffix);
         assertThat(byName(ownRecords, "PutEventSelectors"), hasSize(1));
@@ -186,6 +191,24 @@ class CloudTrailApiEventsIntegrationTest {
         assertThat(byName(records, "StopLogging"), hasSize(1));
         assertThat("a call right after StopLogging is still recorded", byName(records, "GetTrailStatus"), hasSize(1));
         assertThat("a call after the delay is not", byName(records, "DescribeTrails"), empty());
+    }
+
+    @Test
+    void aStartedTrailBeginsRecordingALittleLater() throws IOException, InterruptedException {
+        service.startLoggingDelay(Duration.ofSeconds(2));
+        String suffix = UUID.randomUUID().toString().substring(0, 8);
+        String trail = "ct-waking-" + suffix;
+        String logs = "ct-waking-logs-" + suffix;
+        startTrail(trail, logs);
+
+        cloudTrail(ACCOUNT, "GetTrailStatus", "{\"Name\":\"" + trail + "\"}").statusCode(200);
+        Thread.sleep(2500);
+        cloudTrail(ACCOUNT, "DescribeTrails", "{\"trailNameList\":[\"" + trail + "\"]}").statusCode(200);
+
+        List<JsonNode> records = cloudTrailRecords(logs, suffix);
+        assertThat("a call right after StartLogging is not recorded yet", byName(records, "GetTrailStatus"), empty());
+        assertThat(byName(records, "StartLogging"), empty());
+        assertThat("a call after the delay is", byName(records, "DescribeTrails"), hasSize(1));
     }
 
     @Test
