@@ -129,22 +129,6 @@ class StsCloudTrailEventsTest {
     }
 
     @Test
-    void theSessionTokenSizeAndItsShareOfTheLimitAreRecordedRoundedDown() {
-        ObjectNode assumed = MAPPER.createObjectNode().put("packedPolicySize", 0);
-        assumed.putObject("credentials").put("sessionToken", "a".repeat(688));
-        StsCloudTrailEvents.sessionTokenSize("AssumeRole", assumed);
-        assertThat(assumed.path("sessionTokenSize").asInt(), equalTo(688));
-        assertThat(assumed.path("sessionTokenUtilization").asInt(), equalTo(16));
-        assertThat(assumed.path("packedPolicySize").asInt(), equalTo(16));
-
-        ObjectNode session = MAPPER.createObjectNode();
-        session.putObject("credentials").put("sessionToken", "a".repeat(2532));
-        StsCloudTrailEvents.sessionTokenSize("GetSessionToken", session);
-        assertThat(session.path("sessionTokenUtilization").asInt(), equalTo(61));
-        assertThat(session.has("packedPolicySize"), equalTo(false));
-    }
-
-    @Test
     void requestDetailsNameTheEndpointThatServedTheCall() {
         ObjectNode regional = StsCloudTrailEvents.additionalEventData("GetCallerIdentity", "localhost:4566",
                 "eu-west-3", 1789155634441L);

@@ -105,13 +105,6 @@ public class StsCloudTrailEvents {
     private static final Set<String> NOT_RECORDED_WHEN_ANSWERED =
             Set.of("GetWebIdentityToken", "GetDelegatedAccessToken");
 
-    /** "The value must not exceed 4,096 bytes": the size the utilization is a share of. */
-    private static final int MAX_SESSION_TOKEN_BYTES = 4096;
-
-    /** The operations whose answer carries the deprecated {@code PackedPolicySize}. */
-    private static final Set<String> PACKED_POLICY_SIZE = Set.of("AssumeRole", "AssumeRoleWithSAML",
-            "AssumeRoleWithWebIdentity", "GetFederationToken");
-
     private static final int EXTENDED_ID_LENGTH = 8;
     private static final String ALPHANUMERIC = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
@@ -163,9 +156,6 @@ public class StsCloudTrailEvents {
                 return;
             }
         }
-        if (result != null) {
-            sessionTokenSize(action, result);
-        }
         ObjectNode requestParameters = requestParameters(action, params, errorCode);
         if ("AssumeRoleWithSAML".equals(action) && result != null) {
             requestParameters = samlRequestParameters(requestParameters, params, result);
@@ -180,29 +170,6 @@ public class StsCloudTrailEvents {
                 errorCode == null ? additionalEventData(action, request == null ? null : request.getHeader("Host"),
                         region, System.currentTimeMillis()) : null,
                 errorCode == null ? resources(action, params) : null, federatedCaller));
-    }
-
-    /**
-     * The session token's size and how much of the limit it uses, which a successful call's record
-     * carries beside its credentials: {@code sessionTokenSize} "The size, in bytes, of the session
-     * token returned", {@code sessionTokenUtilization} "The percentage (0-100) of the maximum allowed
-     * session token size that the returned session token consumes", of 4,096 bytes, rounded down, and
-     * {@code packedPolicySize}, deprecated, with the same value where the operation answers it
-     * (https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html).
-     */
-    static void sessionTokenSize(String action, ObjectNode result) {
-        String token = result.path("credentials").path("sessionToken").asText(null);
-        result.remove("packedPolicySize");
-        if (token == null) {
-            return;
-        }
-        int size = token.getBytes(StandardCharsets.UTF_8).length;
-        int utilization = size * 100 / MAX_SESSION_TOKEN_BYTES;
-        if (PACKED_POLICY_SIZE.contains(action)) {
-            result.put("packedPolicySize", utilization);
-        }
-        result.put("sessionTokenSize", size);
-        result.put("sessionTokenUtilization", utilization);
     }
 
     /**

@@ -1149,4 +1149,13 @@ class StsQueryHandlerTest {
         verify(iamService, never()).registerIssuedSession(anyString(), anyString(), anyString(),
                 anyString(), any(), any(), anyString(), any());
     }
+
+    @Test
+    void theAnswerSaysHowMuchOfTheLimitItsSessionTokenUsesRoundedDown() {
+        assertEquals("<PackedPolicySize>16</PackedPolicySize><SessionTokenSize>688</SessionTokenSize>"
+                + "<SessionTokenUtilization>16</SessionTokenUtilization>",
+                StsQueryHandler.sessionTokenSizes("a".repeat(688), true));
+        assertEquals("<SessionTokenSize>2532</SessionTokenSize><SessionTokenUtilization>61</SessionTokenUtilization>",
+                StsQueryHandler.sessionTokenSizes("a".repeat(2532), false));
+    }
 }

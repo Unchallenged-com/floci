@@ -168,10 +168,8 @@ one STS ran, one STS refused, and, with `floci.services.iam.enforcement-enabled`
   the web identity token and a trade-in token are left out.
 - `responseElements` never carries `secretAccessKey`; a credential's `expiration` is in ISO 8601 to the second
   (`2026-09-11T19:55:38Z`), as CloudTrail records it today (the guide's older examples show `Feb 12, 2025, 11:16:48 PM`).
-- A successful call that issues credentials records `sessionTokenSize`, the session token's size in bytes, and
-  `sessionTokenUtilization`, its share of the 4,096-byte limit in percent, rounded down, beside `credentials`;
-  `AssumeRole`, `AssumeRoleWithSAML`, `AssumeRoleWithWebIdentity` and `GetFederationToken` also record the deprecated
-  `packedPolicySize`, with the same value.
+- A successful call that issues credentials records the `sessionTokenSize`, `sessionTokenUtilization` and, where
+  the operation answers it, `packedPolicySize` it answered, beside `credentials`.
 - A successful call records `additionalEventData.RequestDetails`: `endpointType` (`global` for a request to
   `sts.amazonaws.com`, `regional` otherwise) and `awsServingRegion`. It also records `ExtendedRequestId` as current
   CloudTrail records carry it, which AWS does not document: the base64 of
