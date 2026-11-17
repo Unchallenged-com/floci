@@ -25,6 +25,8 @@ import io.floci.aws.services.iam.ResourcePolicyProviders;
 import io.floci.aws.services.iam.ScpProvider;
 import io.floci.aws.services.iam.model.CallerContext;
 import io.floci.aws.services.iam.model.IamRole;
+import io.floci.aws.services.s3.S3CloudTrailEvents;
+import io.floci.aws.services.s3.S3CloudTrailFilter;
 import io.floci.aws.services.s3.S3ObjectActions;
 import io.floci.aws.services.s3.S3ScratchSpace;
 import io.floci.aws.services.s3.S3Service;
@@ -1531,7 +1533,7 @@ public class IamEnforcementFilter implements ContainerRequestFilter {
                     akid, accountId, decided.resourceOwnerAccountId(), action, resource,
                     decided.resourcePolicyDecision(), decided.context());
             if (deniedEvent != null) {
-                emitS3Denial(akid, deniedEvent.name(), resource, deniedEvent.region(), denyMessage);
+                emitS3Denial(akid, deniedEvent.name(), Map.of(), resource, deniedEvent.region(), denyMessage);
             }
             throw new AwsException("AccessDenied", denyMessage, 403);
         } finally {
@@ -1741,10 +1743,27 @@ public class IamEnforcementFilter implements ContainerRequestFilter {
             if (action == null || !action.startsWith("s3:")) {
                 return;
             }
+            // The refused resource names the bucket and the key the request was authorized on.
+            String[] target = parseS3Resource(resource);
+            String copySource = ctx.getHeaderString("x-amz-copy-source");
+            S3CloudTrailEvents.Event event = S3CloudTrailEvents.of(ctx.getMethod(), target[0], target[1],
+                    ctx.getUriInfo().getQueryParameters().keySet(), copySource != null && !copySource.isEmpty());
+            if (event != null) {
+                // A management event is recorded by S3CloudTrailFilter, from the refusal this filter answers.
+                if (event.category() == S3CloudTrailEvents.Category.DATA) {
+                    emitS3Denial(akid, event.name(), S3CloudTrailEvents.recordedQueryParameters(
+                            ctx.getUriInfo().getQueryParameters()), resource, region, denyMessage);
+                    ctx.setProperty(S3CloudTrailFilter.RECORDED_PROPERTY, Boolean.TRUE);
+                } else {
+                    ctx.setProperty(S3CloudTrailFilter.DENIAL_MESSAGE_PROPERTY, denyMessage);
+                }
+                return;
+            }
             String eventName = mapS3ActionToEventName(action, ctx.getMethod(),
                     ctx.getUriInfo().getQueryParameters().keySet());
             if (eventName != null) {
-                emitS3Denial(akid, eventName, resource, region, denyMessage);
+                emitS3Denial(akid, eventName, Map.of(), resource, region, denyMessage);
+                ctx.setProperty(S3CloudTrailFilter.RECORDED_PROPERTY, Boolean.TRUE);
             }
         } catch (RuntimeException e) {
             // The request is refused either way; a record that could not be written is logged, not raised.
@@ -1776,7 +1795,8 @@ public class IamEnforcementFilter implements ContainerRequestFilter {
     }
 
     /** Records an S3 request IAM refused as a CloudTrail data event named {@code eventName}. */
-    private void emitS3Denial(String akid, String eventName, String resource, String region, String denyMessage) {
+    private void emitS3Denial(String akid, String eventName, Map<String, String> queryParameters, String resource,
+                              String region, String denyMessage) {
         try {
             String[] bk = parseS3Resource(resource);
             String bucket = bk[0];
@@ -1807,6 +1827,7 @@ public class IamEnforcementFilter implements ContainerRequestFilter {
                     .userAgent(userAgent)
                     .errorCode("AccessDenied")
                     .errorMessage(denyMessage)
+                    .queryParameters(queryParameters)
                     .eventTimeMillis(System.currentTimeMillis())
                     .build());
         } catch (RuntimeException e) {

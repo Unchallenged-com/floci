@@ -48,6 +48,8 @@ import io.floci.aws.services.s3.model.S3Object;
 import io.floci.aws.services.s3.model.TopicNotification;
 import io.floci.aws.services.s3.model.WebsiteConfiguration;
 import io.floci.aws.services.sns.SnsQueryHandler;
+import io.vertx.core.http.HttpServerRequest;
+import io.vertx.ext.web.RoutingContext;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
@@ -184,7 +186,7 @@ public class S3Controller {
     private void emitCloudTrailEvent(String eventName, String bucket, String key,
                                      long bytesIn, long bytesOut,
                                      String errorCode, String errorMessage) {
-        if (!cloudTrailService.hasTrails()) {
+        if (!cloudTrailService.hasTrails() || !namesThisRequest(eventName, bucket, key)) {
             return;
         }
         try {
@@ -225,6 +227,26 @@ public class S3Controller {
         } catch (Exception e) {
             LOG.tracev(e, "CloudTrail event emission failed for {0} {1}/{2}", eventName, bucket, key);
         }
+    }
+
+    /**
+     * Whether {@code eventName} is the event the current request is recorded as. An operation's
+     * error path also catches its sub-resources' errors, which {@link S3CloudTrailFilter} records
+     * under their own names.
+     */
+    private boolean namesThisRequest(String eventName, String bucket, String key) {
+        RoutingContext context = currentVertxRequest.getCurrent();
+        if (context == null || context.request() == null) {
+            return true;
+        }
+        HttpServerRequest request = context.request();
+        if (request.method() == null) {
+            return true;
+        }
+        String copySource = request.getHeader("x-amz-copy-source");
+        S3CloudTrailEvents.Event event = S3CloudTrailEvents.of(request.method().name(), bucket, key,
+                request.params().names(), copySource != null && !copySource.isEmpty());
+        return event == null || eventName.equals(event.name());
     }
 
     // --- Bucket operations ---

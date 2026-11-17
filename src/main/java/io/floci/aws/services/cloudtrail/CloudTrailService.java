@@ -499,18 +499,32 @@ public class CloudTrailService implements StoredResourceArns, Resettable {
      * leader Region" (botocore's CloudTrail model, {@code IncludeGlobalServiceEvents}).
      * {@code userIdentity} is the caller as {@link #userIdentity} read it before the call ran, for a call
      * that can remove the key it was signed with; when null it is read from {@code accessKeyId} here.
+     * {@code additionalEventData} and {@code resources} are left out of the record when null.
      */
     public record ManagementEventInput(String eventSource, String eventName, String region, String accessKeyId,
                                        ObjectNode requestParameters, ObjectNode responseElements,
                                        boolean readOnly, String sourceIp, String userAgent, String requestId,
                                        String errorCode, String errorMessage, boolean globalService,
-                                       ObjectNode userIdentity) {
+                                       ObjectNode userIdentity, ObjectNode additionalEventData,
+                                       ArrayNode resources) {
+
+        /**
+         * A call to a Regional service, read as its caller's when it is recorded, whose record carries no
+         * {@code additionalEventData} or {@code resources}.
+         */
+        public ManagementEventInput(String eventSource, String eventName, String region, String accessKeyId,
+                                    ObjectNode requestParameters, ObjectNode responseElements, boolean readOnly,
+                                    String sourceIp, String userAgent, String requestId, String errorCode,
+                                    String errorMessage) {
+            this(eventSource, eventName, region, accessKeyId, requestParameters, responseElements, readOnly,
+                    sourceIp, userAgent, requestId, errorCode, errorMessage, false, null, null, null);
+        }
 
         /** A successful write, from a caller whose address and agent are not known. */
         public ManagementEventInput(String eventSource, String eventName, String region, String accessKeyId,
                                     ObjectNode requestParameters, ObjectNode responseElements) {
             this(eventSource, eventName, region, accessKeyId, requestParameters, responseElements, false,
-                    null, null, null, null, null, false, null);
+                    null, null, null, null, null);
         }
     }
 
@@ -554,6 +568,12 @@ public class CloudTrailService implements StoredResourceArns, Resettable {
                     ? mapper.nullNode() : in.requestParameters().deepCopy());
             record.set("responseElements", in.responseElements() == null
                     ? mapper.nullNode() : in.responseElements().deepCopy());
+            if (in.additionalEventData() != null) {
+                record.set("additionalEventData", in.additionalEventData().deepCopy());
+            }
+            if (in.resources() != null) {
+                record.set("resources", in.resources().deepCopy());
+            }
             eventHistory.record(regionResolver.getAccountId(), region, eventTime, record);
             List<MatchedTrail> matched = trailsMatching(region, entry ->
                     (!in.globalService() || entry.trail().includeGlobalServiceEvents())
@@ -1068,7 +1088,9 @@ public class CloudTrailService implements StoredResourceArns, Resettable {
         return switch (eventName) {
             case "GetObject", "HeadObject", "ListObjects", "ListObjectsV2",
                  "GetObjectAcl", "GetObjectTagging", "GetObjectAttributes", "ListMultipartUploads",
-                 "GetObjectAnnotation", "ListObjectAnnotations", "SelectObjectContent" -> true;
+                 "GetObjectAnnotation", "ListObjectAnnotations", "SelectObjectContent",
+                 "GetObjectLockLegalHold", "GetObjectLockRetention", "GetObjectTorrent", "ListParts",
+                 "ListObjectVersions", "HeadBucket" -> true;
             default -> false;
         };
     }
@@ -1107,15 +1129,14 @@ public class CloudTrailService implements StoredResourceArns, Resettable {
         if (in.bucketName() != null) reqParams.put("bucketName", in.bucketName());
         reqParams.put("Host", s3Host);
         if (in.key() != null) reqParams.put("key", in.key());
+        in.queryParameters().forEach(reqParams::put);
         record.set("requestParameters", reqParams);
         record.set("responseElements", mapper.nullNode());
 
-        ObjectNode addl = mapper.createObjectNode();
-        addl.put("SignatureVersion", "SigV4");
-        addl.put("CipherSuite", "TLS_AES_128_GCM_SHA256");
-        addl.put("bytesTransferredIn", in.bytesIn());
-        addl.put("AuthenticationMethod", "AuthHeader");
-        addl.put("bytesTransferredOut", in.bytesOut());
+        ObjectNode addl = s3AdditionalEventData(in.bytesIn(), in.bytesOut());
+        if (in.objectRetentionInfo() != null) {
+            addl.set("objectRetentionInfo", in.objectRetentionInfo().deepCopy());
+        }
         record.set("additionalEventData", addl);
 
         record.put("requestID", UUID.randomUUID().toString().replace("-", "").substring(0, 16).toUpperCase());
@@ -1154,6 +1175,17 @@ public class CloudTrailService implements StoredResourceArns, Resettable {
     /** The {@code userIdentity} a record names the caller signing with {@code accessKeyId} by, as IAM holds it now. */
     public ObjectNode userIdentity(String accessKeyId) {
         return buildUserIdentity(accessKeyId);
+    }
+
+    /** The {@code additionalEventData} S3 records carry for a request signed in its header. */
+    public ObjectNode s3AdditionalEventData(long bytesIn, long bytesOut) {
+        ObjectNode addl = mapper.createObjectNode();
+        addl.put("SignatureVersion", "SigV4");
+        addl.put("CipherSuite", "TLS_AES_128_GCM_SHA256");
+        addl.put("bytesTransferredIn", bytesIn);
+        addl.put("AuthenticationMethod", "AuthHeader");
+        addl.put("bytesTransferredOut", bytesOut);
+        return addl;
     }
 
     private ObjectNode buildUserIdentity(String accessKeyId) {
@@ -1285,7 +1317,13 @@ public class CloudTrailService implements StoredResourceArns, Resettable {
             long bytesOut,
             String errorCode,
             String errorMessage,
-            long eventTimeMillis) {
+            long eventTimeMillis,
+            Map<String, String> queryParameters,
+            ObjectNode objectRetentionInfo) {
+
+        public S3EventInput {
+            queryParameters = queryParameters == null ? Map.of() : Map.copyOf(queryParameters);
+        }
 
         public static Builder builder() { return new Builder(); }
 
@@ -1302,6 +1340,8 @@ public class CloudTrailService implements StoredResourceArns, Resettable {
             private String errorCode;
             private String errorMessage;
             private long eventTimeMillis;
+            private Map<String, String> queryParameters;
+            private ObjectNode objectRetentionInfo;
 
             public Builder region(String v) { this.region = v; return this; }
             public Builder eventName(String v) { this.eventName = v; return this; }
@@ -1315,11 +1355,15 @@ public class CloudTrailService implements StoredResourceArns, Resettable {
             public Builder errorCode(String v) { this.errorCode = v; return this; }
             public Builder errorMessage(String v) { this.errorMessage = v; return this; }
             public Builder eventTimeMillis(long v) { this.eventTimeMillis = v; return this; }
+            /** The request's query parameters, which {@code requestParameters} carries, a sub-resource with an empty value. */
+            public Builder queryParameters(Map<String, String> v) { this.queryParameters = v; return this; }
+            /** The retention and legal hold an Object Lock call left, carried in {@code additionalEventData}. */
+            public Builder objectRetentionInfo(ObjectNode v) { this.objectRetentionInfo = v; return this; }
 
             public S3EventInput build() {
                 return new S3EventInput(region, eventName, bucketName, key, accessKeyId,
                         sourceIp, userAgent, bytesIn, bytesOut,
-                        errorCode, errorMessage, eventTimeMillis);
+                        errorCode, errorMessage, eventTimeMillis, queryParameters, objectRetentionInfo);
             }
         }
     }

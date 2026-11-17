@@ -2469,10 +2469,11 @@ class IamEnforcementFilterTest {
         // permission, while CloudTrail records PutObject, the operation that was refused.
         assertEquals("PutObject", deniedExtraActionEvent("PUT", new MultivaluedHashMap<>(),
                 "x-amz-object-lock-legal-hold", "ON", "s3:PutObject", "s3:PutObjectLegalHold"));
-        // A retention change asking for the bypass is recorded as the retention change.
+        // A retention change asking for the bypass is recorded as the retention change, under the
+        // name S3 records PutObjectRetention with.
         MultivaluedHashMap<String, String> retention = new MultivaluedHashMap<>();
         retention.putSingle("retention", "");
-        assertEquals("PutObjectRetention", deniedExtraActionEvent("PUT", retention,
+        assertEquals("PutObjectLockRetention", deniedExtraActionEvent("PUT", retention,
                 "x-amz-bypass-governance-retention", "true", "s3:PutObjectRetention",
                 "s3:BypassGovernanceRetention"));
         // GetObjectAttributes is checked as the read and as its own action; denied the second, it is

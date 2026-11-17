@@ -241,7 +241,8 @@ class CloudTrailIntegrationTest {
 
     @Test
     void lookupEventsReturnsEmptyEventPage() {
-        invokeCloudTrail("LookupEvents", """
+        // S3 records CreateBucket as a management event, so another test's bucket would be found here.
+        invokeCloudTrailInAnEmptyAccount("LookupEvents", """
                 {
                     "LookupAttributes": [
                         {"AttributeKey": "EventName", "AttributeValue": "CreateBucket"}

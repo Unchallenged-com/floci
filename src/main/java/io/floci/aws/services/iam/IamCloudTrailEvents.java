@@ -132,6 +132,7 @@ public class IamCloudTrailEvents {
                 iam.map(AwsPartition.GlobalEndpoint::signingRegion).orElse(region), accessKeyId,
                 params == null ? null : shapes.requestParameters(action, params), result,
                 IamActionResources.isReadOnly(action), sourceIp, userAgent, answer.requestId(),
-                shapes.recordedErrorCode(answer.errorCode()), answer.errorMessage(), iam.isPresent(), caller);
+                shapes.recordedErrorCode(answer.errorCode()), answer.errorMessage(), iam.isPresent(), caller,
+                null, null);
     }
 }

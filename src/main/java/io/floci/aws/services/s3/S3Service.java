@@ -1901,17 +1901,21 @@ public class S3Service implements Resettable, ResourceProvider {
 
     private void applyObjectLock(S3Object object, Bucket bucket,
                                  String objectLockMode, Instant retainUntilDate, String legalHoldStatus) {
+        Instant now = Instant.now();
         if (objectLockMode != null) {
             object.setObjectLockMode(objectLockMode);
             object.setRetainUntilDate(retainUntilDate);
+            object.setRetentionModifiedAt(now);
         } else if (bucket.isObjectLockEnabled() && bucket.getDefaultRetention() != null) {
             ObjectLockRetention def = bucket.getDefaultRetention();
             object.setObjectLockMode(def.mode());
             long days = "Years".equals(def.unit()) ? (long) def.value() * 365 : def.value();
-            object.setRetainUntilDate(Instant.now().plusSeconds(days * 86400L));
+            object.setRetainUntilDate(now.plusSeconds(days * 86400L));
+            object.setRetentionModifiedAt(now);
         }
         if (legalHoldStatus != null) {
             object.setLegalHoldStatus(legalHoldStatus);
+            object.setLegalHoldModifiedAt(now);
         }
     }
 
@@ -4684,9 +4688,15 @@ public class S3Service implements Resettable, ResourceProvider {
 
             obj.setObjectLockMode(mode);
             obj.setRetainUntilDate(retainUntil);
+            obj.setRetentionModifiedAt(Instant.now());
             putObjectMetadataForAccount(ownedObject.account(), bucketName, key, obj);
             LOG.debugv("Set retention on {0}/{1}: mode={2}, until={3}", bucketName, key, mode, retainUntil);
         }
+    }
+
+    /** The object version's retention and legal hold as they stand, whether or not it has either. */
+    public S3Object getObjectLockState(String bucketName, String key, String versionId) {
+        return getLockableObjectEntry(bucketName, key, versionId).value();
     }
 
     public S3Object getObjectRetention(String bucketName, String key, String versionId) {
@@ -4711,6 +4721,7 @@ public class S3Service implements Resettable, ResourceProvider {
                     getLockableObjectEntry(bucketName, key, versionId);
             S3Object obj = ownedObject.value();
             obj.setLegalHoldStatus(status);
+            obj.setLegalHoldModifiedAt(Instant.now());
             putObjectMetadataForAccount(ownedObject.account(), bucketName, key, obj);
             LOG.debugv("Set legal hold on {0}/{1}: {2}", bucketName, key, status);
         }

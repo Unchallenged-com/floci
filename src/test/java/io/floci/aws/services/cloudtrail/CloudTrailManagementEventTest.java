@@ -123,7 +123,7 @@ class CloudTrailManagementEventTest {
 
         service.emitManagementEvent(new CloudTrailService.ManagementEventInput("iam.amazonaws.com", "CreateUser",
                 REGION, "test", MAPPER.createObjectNode().put("userName", "alice"), null, false, null, null, null,
-                null, null, true, null)).orElseThrow();
+                null, null, true, null, null, null)).orElseThrow();
 
         assertEquals(0, service.pendingRecordCount(new CloudTrailService.TrailKey(REGION, "management-trail", REGION)));
         assertEquals(1, service.pendingRecordCount(new CloudTrailService.TrailKey(REGION, "global-trail", REGION)));
