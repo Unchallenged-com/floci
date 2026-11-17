@@ -1297,7 +1297,7 @@ public class IamEnforcementFilter implements ContainerRequestFilter {
                     continue;
                 }
                 LOG.infov("IAM enforcement DENY: akid={0} action={1} resource={2}", akid, action, resource);
-                String denyMessage = "User: " + AwsArnUtils.Arn.global(requestPartition(), "iam", accountId, "user/" + akid)
+                String denyMessage = "User: " + deniedCaller(principal, accountId, akid)
                         + " is not authorized to perform: " + action
                         + " on resource: \"" + resource + "\""
                         + " " + PolicyType.IDENTITY_BASED_POLICY.noAllow(action);
@@ -1628,7 +1628,7 @@ public class IamEnforcementFilter implements ContainerRequestFilter {
                 return;
             }
             LOG.infov("IAM enforcement DENY: akid={0} action={1} resource={2}", akid, action, resource);
-            String denyMessage = "User: " + AwsArnUtils.Arn.global(requestPartition(), "iam", accountId, "user/" + akid)
+            String denyMessage = "User: " + deniedCaller(RequestPrincipal.caller(callerArns.orElse(null)), accountId, akid)
                     + " is not authorized to perform: " + action
                     + " on resource: \"" + resource + "\""
                     + " " + PolicyType.IDENTITY_BASED_POLICY.noAllow(action);
@@ -1726,6 +1726,18 @@ public class IamEnforcementFilter implements ContainerRequestFilter {
         } catch (RuntimeException e) {
             LOG.warnv(e, "CloudTrail denial emission failed for {0} on {1}", eventName, resource);
         }
+    }
+
+    /**
+     * The ARN an access denied message names the caller by, "the ARN of the principal that is denied
+     * access" (https://docs.aws.amazon.com/IAM/latest/UserGuide/troubleshoot_access-denied.html); for
+     * a key IAM resolves to no principal, the key under the account, which is all the request says.
+     */
+    private String deniedCaller(RequestPrincipal principal, String accountId, String akid) {
+        if (principal != null && principal.arn() != null) {
+            return principal.arn();
+        }
+        return AwsArnUtils.Arn.global(requestPartition(), "iam", accountId, "user/" + akid).toString();
     }
 
     // Package-private for unit testing.

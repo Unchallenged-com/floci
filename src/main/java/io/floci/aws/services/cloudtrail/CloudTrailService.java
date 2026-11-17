@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import io.floci.aws.core.common.AccountResolver;
 import io.floci.aws.core.common.AwsArnUtils;
 import io.floci.aws.core.common.AwsEndpoints;
 import io.floci.aws.core.common.AwsException;
@@ -30,6 +31,7 @@ import org.jboss.logging.Logger;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
@@ -1041,31 +1043,78 @@ public class CloudTrailService {
         return record;
     }
 
+    /**
+     * The caller as CloudTrail's {@code userIdentity} element describes one
+     * (https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-event-reference-user-identity.html):
+     * {@code Root} for the account's own credentials, with the account as {@code principalId} and no
+     * {@code userName}, since "the userName field can't contain Root"; {@code IAMUser} for a user's key
+     * and for the credentials a user's {@code GetSessionToken} issued; {@code AssumedRole} for a role
+     * session, with the role in {@code sessionContext.sessionIssuer} and the session's
+     * {@code creationDate}; {@code FederatedUser} for a federation token.
+     */
     private ObjectNode buildUserIdentity(String accessKeyId) {
         ObjectNode identity = mapper.createObjectNode();
         String accountId = regionResolver.getAccountId();
 
-        if (accessKeyId == null || "test".equals(accessKeyId)) {
+        if (accessKeyId == null) {
             identity.put("type", "IAMUser");
             identity.put("principalId", "AIDA" + repeat('A', 17));
             identity.put("arn", regionResolver.buildGlobalArn("iam", accountId, "root"));
             identity.put("accountId", accountId);
-            identity.put("accessKeyId", accessKeyId == null ? "" : accessKeyId);
+            identity.put("accessKeyId", "");
             identity.put("userName", "root");
             return identity;
         }
+        if ("test".equals(accessKeyId) || AccountResolver.isAccountId(accessKeyId)) {
+            return rootIdentity(identity, AccountResolver.isAccountId(accessKeyId) ? accessKeyId : accountId,
+                    accessKeyId);
+        }
 
-        AccessKey key = iamService.findAccessKey(accessKeyId).orElse(null);
-        if (key != null) {
-            IamUser user = iamService.findUser(key.getUserName()).orElse(null);
-            if (user != null) {
-                identity.put("type", "IAMUser");
-                identity.put("principalId", user.getUserId());
-                identity.put("arn", user.getArn());
-                identity.put("accountId", accountId);
-                identity.put("accessKeyId", accessKeyId);
-                identity.put("userName", user.getUserName());
-                return identity;
+        IamService.CallerArns caller = iamService.resolveCallerArns(accessKeyId).orElse(null);
+        if (caller != null && caller.principalType() != null) {
+            String callerAccount = AwsArnUtils.accountOrDefault(caller.callerArn(), accountId);
+            switch (caller.principalType()) {
+                case IamService.CallerArns.TYPE_ACCOUNT -> {
+                    return rootIdentity(identity, callerAccount, accessKeyId);
+                }
+                case IamService.CallerArns.TYPE_USER -> {
+                    identity.put("type", "IAMUser");
+                    identity.put("principalId", caller.userId());
+                    identity.put("arn", caller.callerArn());
+                    identity.put("accountId", callerAccount);
+                    identity.put("accessKeyId", accessKeyId);
+                    identity.put("userName", caller.userName());
+                    return identity;
+                }
+                case IamService.CallerArns.TYPE_ASSUMED_ROLE -> {
+                    identity.put("type", "AssumedRole");
+                    identity.put("principalId", caller.userId());
+                    identity.put("arn", caller.callerArn());
+                    identity.put("accountId", callerAccount);
+                    identity.put("accessKeyId", accessKeyId);
+                    ObjectNode sessionContext = identity.putObject("sessionContext");
+                    ObjectNode issuer = sessionContext.putObject("sessionIssuer");
+                    issuer.put("type", "Role");
+                    String userId = caller.userId() == null ? "" : caller.userId();
+                    issuer.put("principalId", userId.contains(":") ? userId.substring(0, userId.indexOf(':')) : userId);
+                    issuer.put("arn", caller.principalArn());
+                    issuer.put("accountId", AwsArnUtils.accountOrDefault(caller.principalArn(), callerAccount));
+                    issuer.put("userName", caller.principalArn().substring(caller.principalArn().lastIndexOf('/') + 1));
+                    sessionAttributes(sessionContext, caller);
+                    return identity;
+                }
+                case IamService.CallerArns.TYPE_FEDERATED_USER -> {
+                    identity.put("type", "FederatedUser");
+                    identity.put("principalId", caller.userId());
+                    identity.put("arn", caller.callerArn());
+                    identity.put("accountId", callerAccount);
+                    identity.put("accessKeyId", accessKeyId);
+                    sessionAttributes(identity.putObject("sessionContext"), caller);
+                    return identity;
+                }
+                default -> {
+                    // Another kind of principal is described as a key Floci cannot name, below.
+                }
             }
         }
 
@@ -1076,6 +1125,28 @@ public class CloudTrailService {
         identity.put("accessKeyId", accessKeyId);
         identity.put("userName", "anonymous");
         return identity;
+    }
+
+    private ObjectNode rootIdentity(ObjectNode identity, String accountId, String accessKeyId) {
+        identity.put("type", "Root");
+        identity.put("principalId", accountId);
+        identity.put("arn", regionResolver.buildGlobalArn("iam", accountId, "root"));
+        identity.put("accountId", accountId);
+        identity.put("accessKeyId", accessKeyId);
+        return identity;
+    }
+
+    /**
+     * A session's {@code attributes}: when its credentials were issued, and whether they were
+     * authenticated with MFA, which Floci does not record for a session.
+     */
+    private static void sessionAttributes(ObjectNode sessionContext, IamService.CallerArns caller) {
+        ObjectNode attributes = sessionContext.putObject("attributes");
+        if (caller.tokenIssueTime() != null) {
+            attributes.put("creationDate", DateTimeFormatter.ISO_INSTANT.format(
+                    caller.tokenIssueTime().truncatedTo(ChronoUnit.SECONDS)));
+        }
+        attributes.put("mfaAuthenticated", "false");
     }
 
     private static String repeat(char c, int n) {
