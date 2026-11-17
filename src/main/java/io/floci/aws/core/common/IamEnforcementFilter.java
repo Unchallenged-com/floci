@@ -3,6 +3,7 @@ package io.floci.aws.core.common;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.floci.aws.config.EmulatorConfig;
 import io.floci.aws.core.common.RequestOperationResolver.ResolvedOperation;
+import io.floci.aws.services.cloudtrail.CloudTrailApiEvents;
 import io.floci.aws.services.cloudtrail.CloudTrailService;
 import io.floci.aws.services.cloudwatch.metrics.OtlpMetricsController;
 import io.floci.aws.services.iam.AccessDeniedMessages;
@@ -1772,13 +1773,13 @@ public class IamEnforcementFilter implements ContainerRequestFilter {
     }
 
     /**
-     * Refuses the request with {@code refusal}, recording an IAM API call as the CloudTrail management event
-     * IAM records for the calls it runs, with the code, message and request ID the refusal answers with.
+     * Refuses the request with {@code refusal}, recording an IAM or CloudTrail API call as the CloudTrail
+     * management event that service records for the calls it runs, with the message the refusal answers with.
      */
     private void abortIamAware(ContainerRequestContext ctx, Response refusal, String akid, String action,
                                String credentialScope, String region) {
-        if ("iam".equals(credentialScope)) {
-            try {
+        try {
+            if ("iam".equals(credentialScope)) {
                 MultivaluedMap<String, String> params = new MultivaluedHashMap<>();
                 IamConditionContextResolver.formParameters(ctx).forEach(params::putSingle);
                 CloudTrailService.ManagementEventInput event = IamCloudTrailEvents.denied(params, akid, region,
@@ -1786,10 +1787,14 @@ public class IamEnforcementFilter implements ContainerRequestFilter {
                 if (event != null) {
                     cloudTrailService.emitManagementEvent(event);
                 }
-            } catch (RuntimeException e) {
-                // The request is refused either way; a record that could not be written is logged, not raised.
-                LOG.warnv(e, "CloudTrail denial emission failed for {0}", action);
+            } else if ("cloudtrail".equals(credentialScope)) {
+                cloudTrailService.emitManagementEvent(CloudTrailApiEvents.denied(
+                        action.substring(action.indexOf(':') + 1), akid, region, currentVertxRequest.getCurrent(),
+                        refusal));
             }
+        } catch (RuntimeException e) {
+            // The request is refused either way; a record that could not be written is logged, not raised.
+            LOG.warnv(e, "CloudTrail denial emission failed for {0}", action);
         }
         ctx.abortWith(refusal);
     }

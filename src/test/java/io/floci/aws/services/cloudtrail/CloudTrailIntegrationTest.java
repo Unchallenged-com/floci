@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.zip.GZIPInputStream;
 
 import static io.floci.aws.testing.CloudTrailRequests.invokeCloudTrail;
@@ -33,7 +34,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class CloudTrailIntegrationTest {
 
     private static final String CT_TARGET = "CloudTrail_20131101.";
-    private static final String EMPTY_HISTORY_ACCOUNT = "246813579024";
     private static final String JSON11 = "application/x-amz-json-1.1";
 
     @Inject
@@ -611,11 +611,15 @@ class CloudTrailIntegrationTest {
 
     // --- Helpers ---
 
-    /** The MaxResults checks run in an account no test writes to, so its history stays empty. */
+    /**
+     * Each call runs in an account of its own, which no other call writes to, so its history is empty: a
+     * CloudTrail call is itself a management event, which a second call in the same account would find.
+     */
     private static Response invokeCloudTrailInAnEmptyAccount(String action, String body) {
+        String account = String.format("%012d", ThreadLocalRandom.current().nextLong(1_000_000_000_000L));
         return given()
             .header("X-Amz-Target", CT_TARGET + action)
-            .header("Authorization", "AWS4-HMAC-SHA256 Credential=" + EMPTY_HISTORY_ACCOUNT
+            .header("Authorization", "AWS4-HMAC-SHA256 Credential=" + account
                     + "/20260101/us-east-1/cloudtrail/aws4_request, SignedHeaders=host, Signature=0")
             .contentType(JSON11)
             .body(body)

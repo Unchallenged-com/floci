@@ -35,11 +35,27 @@ public class CloudTrailJsonHandler {
 
     private final CloudTrailService service;
     private final ObjectMapper mapper;
+    private final CloudTrailApiEvents events;
 
     @Inject
-    public CloudTrailJsonHandler(CloudTrailService service, ObjectMapper mapper) {
+    public CloudTrailJsonHandler(CloudTrailService service, ObjectMapper mapper, CloudTrailApiEvents events) {
         this.service = service;
         this.mapper = mapper;
+        this.events = events;
+    }
+
+    /** Runs the call and records it in the trails that select it, as answered or as failed. */
+    public Response handle(String action, JsonNode request, String region, String authorization) throws Exception {
+        Response response;
+        try {
+            response = handle(action, request, region);
+        } catch (AwsException e) {
+            events.record(action, request, region, authorization, null, e.getErrorCode(),
+                    e.getMessage());
+            throw e;
+        }
+        events.record(action, request, region, authorization, response, null, null);
+        return response;
     }
 
     public Response handle(String action, JsonNode request, String region) throws Exception {

@@ -389,7 +389,7 @@ public class AwsJson11Controller {
             case "cur" -> curJsonHandler.handle(action, request, region);
             case "bcm-data-exports" -> bcmDataExportsJsonHandler.handle(action, request, region);
             case "config" -> configServiceJsonHandler.handle(action, request, region);
-            case "cloudtrail" -> cloudTrailJsonHandler.handle(action, request, region);
+            case "cloudtrail" -> cloudTrailJsonHandler.handle(action, request, region, authorization);
             case "application-autoscaling" -> applicationAutoScalingJsonHandler.handle(action, request, region);
             case "lightsail" -> lightsailJsonHandler.handle(action, request, region);
             case "route53resolver" -> route53ResolverJsonHandler.handle(action, request, region, regionResolver.getAccountId());
