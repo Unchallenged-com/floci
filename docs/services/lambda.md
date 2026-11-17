@@ -702,6 +702,7 @@ Configuration resource reads and `ListFunctionsByCodeSigningConfig` return
 | `FLOCI_SERVICES_LAMBDA_REACTIVE_S3_SYNC_ENABLED` | `true` | Re-deploy a function when its S3 deployment object is overwritten. See [Reactive S3 Sync](#reactive-s3-sync-configuration) |
 | `FLOCI_SERVICES_LAMBDA_REACTIVE_S3_SYNC_ASYNC` | `false` | Run that re-deploy in the background so the upload does not wait for it |
 | `FLOCI_SERVICES_LAMBDA_DOCKER_NETWORK` | *(unset)* | Docker network to attach Lambda containers to (overrides `FLOCI_SERVICES_DOCKER_NETWORK`) |
+| `FLOCI_SERVICES_LAMBDA_DOCKER_RUNTIME` | *(unset)* | Docker runtime for Lambda containers, such as `runsc` (falls back to `FLOCI_DOCKER_RUNTIME`, then the daemon's default; see [Container Runtime](../configuration/docker.md#container-runtime)) |
 | `FLOCI_SERVICES_LAMBDA_DOCKER_FLAGS` | *(unset)* | Additional Docker flags applied to Lambda containers, including `--env`, `--volume`, `--publish`, `--add-host`, `--dns`, `--label`, `--network`, `--user`, `--privileged`, and `--platform`. Explicit `--dns` entries replace automatic embedded DNS and public fallback resolvers. Published ports support `host:container` and `127.0.0.1:host:container` forms |
 | `FLOCI_SERVICES_LAMBDA_EXTRA_HOSTS` | *(unset)* | Comma-separated `hostname:ip` entries added to each Lambda container's `/etc/hosts`; `ip` may be `host-gateway`, mirroring `docker run --add-host` |
 | `FLOCI_SERVICES_LAMBDA_DOCKER_HOST_OVERRIDE` | *(unset)* | Explicit host/IP that spawned Lambda containers use to reach Floci's Runtime API, bypassing auto-detection |

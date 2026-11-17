@@ -487,6 +487,7 @@ public class Ec2VolumeBlockDeviceManager implements ContainerTeardown, Resettabl
             ContainerBuilder.Builder builder = containerBuilder.newContainer(helperImage)
                     .withName(helperName)
                     .withPrivileged(true)
+                    .withDockerRuntime(config.services().ec2().dockerRuntime())
                     .withEntrypoint(List.of("sleep", "2147483647"))
                     .withLabels(ContainerStorageHelper.defaultLabels(config))
                     .withLabels(ContainerStorageHelper.resourceIdentityLabels("ec2", "volume-helper", "default", "global"));

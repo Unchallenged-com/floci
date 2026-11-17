@@ -428,6 +428,7 @@ floci:
     # set here WINS over the annotation.
     image-pull-timeout-seconds: 300
     resource-namespace: ""          # FLOCI_DOCKER_RESOURCE_NAMESPACE; scopes child container/volume names
+    # runtime: runsc                # FLOCI_DOCKER_RUNTIME; Docker runtime for every launched container (unset = daemon default)
     docker-config-path: ""
     # extra-labels:                 # Extra Docker labels applied to every Floci-created container and volume
     #   - key: "com.example.project"  #   (FLOCI_DOCKER_EXTRA_LABELS_0__KEY / _0__VALUE; increment the index for more;
@@ -478,6 +479,7 @@ floci:
       ephemeral: false
       # Extra Docker create flags for Lambda containers, for example: --env KEY=VALUE --volume /host:/container:ro
       docker-flags: ""
+      # docker-runtime: runsc       # FLOCI_SERVICES_LAMBDA_DOCKER_RUNTIME; overrides floci.docker.runtime
       ecr-base-uri: public.ecr.aws            # FLOCI_SERVICES_LAMBDA_ECR_BASE_URI — registry for Lambda runtime images (legacy: floci.ecr-base-uri / FLOCI_ECR_BASE_URI)
       # runtime-images:                   # Optional full references keyed by runtime or runtime.os.arch
       #   "python3.12": "public.ecr.aws/lambda/python:3.12@sha256:<digest>"
@@ -799,6 +801,7 @@ floci:
       socat-image: alpine/socat
       volume-block-devices: true
       volume-helper-image: alpine:3.21
+      # docker-runtime: kata        # FLOCI_SERVICES_EC2_DOCKER_RUNTIME; instances and the volume helper, overrides floci.docker.runtime
       mock: false
       # Automatic public IPv4 address of a mock instance: none, documentation (203.0.113.0/24,
       # routed nowhere) or fixed (mock-public-address, default 127.0.0.1). Instances with
@@ -909,6 +912,7 @@ floci:
       max-memory-mib: 0        # optional k3s container memory ceiling; 0 follows the node type
       max-vcpus: 0             # optional k3s container CPU ceiling; 0 follows the node type
       # node-instance-type: t2.2xlarge # optional catalog type to size the k3s node from; the API keeps the node group's type
+      # docker-runtime: kata     # FLOCI_SERVICES_EKS_DOCKER_RUNTIME; k3s containers, overrides floci.docker.runtime
       provider: k3s
       default-image: "rancher/k3s:latest"
       # image-template: "myregistry.io/k3s:v%s" # optional custom image format template taking cluster version

@@ -143,6 +143,21 @@ public class ContainerBuilder {
                 || NetworkExposureGuard.isLoopback(host);
     }
 
+    /**
+     * The Docker runtime {@code floci.docker.runtime} names for every container Floci launches, when one is set.
+     * Empty leaves containers on the daemon's default runtime.
+     */
+    public static Optional<String> configuredRuntime(EmulatorConfig config) {
+        if (config == null || config.docker() == null || config.docker().runtime() == null) {
+            return Optional.empty();
+        }
+        return nonBlank(config.docker().runtime());
+    }
+
+    private static Optional<String> nonBlank(Optional<String> value) {
+        return value.map(String::strip).filter(v -> !v.isEmpty());
+    }
+
     private static Optional<String> configuredImageRegistryBase(EmulatorConfig config) {
         if (config == null || config.docker() == null) {
             return Optional.empty();
@@ -231,6 +246,7 @@ public class ContainerBuilder {
         private boolean javaTrustStore;
         private String dnsName;
         private final List<String> joinedNetworks = new ArrayList<>();
+        private String runtime;
 
         Builder(String image, EmulatorConfig config, DockerHostResolver dockerHostResolver,
                 EmbeddedDnsServer embeddedDnsServer,
@@ -464,6 +480,28 @@ public class ContainerBuilder {
         public Builder withDockerNetwork(Optional<String> serviceNetwork) {
             ContainerBuilder.resolveDockerNetwork(serviceNetwork, config, currentContainerNetworkResolver)
                     .ifPresent(n -> this.networkMode = n);
+            return this;
+        }
+
+        /**
+         * Runs the container with the Docker runtime {@code runtime} ({@code docker run --runtime}), a name the
+         * daemon has registered, in place of {@code floci.docker.runtime}. Null or blank leaves that setting in effect.
+         */
+        public Builder withRuntime(String runtime) {
+            if (runtime != null && !runtime.isBlank()) {
+                this.runtime = runtime.strip();
+            }
+            return this;
+        }
+
+        /**
+         * Sets the Docker runtime from a service-specific Optional, falling back to the global
+         * {@code floci.docker.runtime}, then to the daemon's default runtime, when it is empty.
+         */
+        public Builder withDockerRuntime(Optional<String> serviceRuntime) {
+            if (serviceRuntime != null) {
+                nonBlank(serviceRuntime).ifPresent(this::withRuntime);
+            }
             return this;
         }
 
@@ -874,7 +912,8 @@ public class ContainerBuilder {
                             shmSizeBytes, Map.copyOf(tmpfs), memorySwapBytes, memorySwappiness),
                     javaTrustStore,
                     dnsName,
-                    List.copyOf(joinedNetworks)
+                    List.copyOf(joinedNetworks),
+                    runtime != null ? runtime : configuredRuntime(config).orElse(null)
             );
         }
     }

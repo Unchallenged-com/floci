@@ -277,6 +277,30 @@ A network mode of `host`, `none` or `container:<id>` places the spawned containe
 !!! tip
     In Docker Compose, the default network name is `<project-name>_default`. If your compose file is in a directory named `myapp`, the network is `myapp_default`.
 
+## Container Runtime
+
+By default the containers Floci launches run with the Docker daemon's default runtime (usually `runc`). To run them with another OCI runtime the daemon has registered, such as gVisor's `runsc` or Kata Containers, name it as `docker run --runtime` would:
+
+```yaml
+floci:
+  docker:
+    runtime: runsc
+```
+
+Environment variable: `FLOCI_DOCKER_RUNTIME`
+
+The value is passed as the container's `HostConfig.Runtime`, so it must be a name listed under `Runtimes` in `docker info`; the daemon refuses to create a container with a runtime it does not know.
+
+EC2, EKS and Lambda can each name a runtime of their own, which takes the place of the global one for their containers:
+
+| Setting | Environment variable | Containers |
+|---|---|---|
+| `floci.services.ec2.docker-runtime` | `FLOCI_SERVICES_EC2_DOCKER_RUNTIME` | EC2 instance containers and the EBS volume helper |
+| `floci.services.eks.docker-runtime` | `FLOCI_SERVICES_EKS_DOCKER_RUNTIME` | EKS k3s node containers |
+| `floci.services.lambda.docker-runtime` | `FLOCI_SERVICES_LAMBDA_DOCKER_RUNTIME` | Lambda function containers and the helpers that fill their code volumes |
+
+Leaving a setting empty falls back to the global one, then to the daemon's default. EC2 instances, the volume helper and k3s nodes run privileged, so check that the runtime you choose supports privileged containers.
+
 ## Running on Podman (rootless)
 
 Floci runs under rootless Podman, but Podman's network topology needs a few
@@ -355,6 +379,7 @@ caller keeps its existing failure handling after retries are exhausted.
 | `FLOCI_DOCKER_REGISTRY_CREDENTIALS_0__USERNAME` | _(unset)_ | Username for credential entry 0 |
 | `FLOCI_DOCKER_REGISTRY_CREDENTIALS_0__PASSWORD` | _(unset)_ | Password for credential entry 0 |
 | `FLOCI_DOCKER_LOG_MAX_SIZE` | `10m` | Max container log file size before rotation |
+| `FLOCI_DOCKER_RUNTIME` | _(unset)_ | Docker runtime the containers Floci launches run with (`docker run --runtime`); unset uses the daemon's default. See [Container Runtime](#container-runtime) |
 | `FLOCI_DOCKER_LOG_MAX_FILE` | `3` | Number of rotated log files to retain |
 | `FLOCI_DOCKER_EXTRA_LABELS_0__KEY` | _(unset)_ | Label key for extra-label entry 0, applied to every Floci-created container and volume (increment the index for more) |
 | `FLOCI_DOCKER_EXTRA_LABELS_0__VALUE` | _(unset)_ | Label value for extra-label entry 0 |

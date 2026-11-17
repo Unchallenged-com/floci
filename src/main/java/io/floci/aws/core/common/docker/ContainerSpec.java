@@ -55,6 +55,8 @@ import java.util.regex.Pattern;
  *        containers there reach it by that name (null = Docker's own)
  * @param joinedNetworks Further user-defined networks the container joins before it starts, with no alias of its own
  *        there (empty = none)
+ * @param runtime Docker runtime the container runs with, as {@code docker run --runtime} names it (null = the
+ *        daemon's default runtime)
  */
 public record ContainerSpec(
         String image,
@@ -89,7 +91,8 @@ public record ContainerSpec(
         LinuxOptions linuxOptions,
         boolean javaTrustStore,
         String dnsName,
-        List<String> joinedNetworks
+        List<String> joinedNetworks,
+        String runtime
 ) {
     private static final Pattern LINK_LOCAL_IPV4 = Pattern.compile("^169\\.254\\.(\\d{1,3})\\.(\\d{1,3})$");
     private static final Set<String> NETWORKS_WITHOUT_ENDPOINT_IPAM = Set.of("bridge", "default", "host", "none");
@@ -114,7 +117,53 @@ public record ContainerSpec(
         this(image, null, List.of(), null, null, null, Map.of(), List.of(), List.of(), null,
                 List.of(), List.of(), List.of(), List.of(), Map.of(), null, false, null, List.of(),
                 null, null, List.of(), List.of(), null, null, false, List.of(), Map.of(), false, LinuxOptions.NONE,
-                false, null, List.of());
+                false, null, List.of(), null);
+    }
+
+    /**
+     * Backward-compatible constructor that leaves the container on the daemon's default runtime, so callers that
+     * predate {@code runtime} keep their existing behaviour.
+     */
+    public ContainerSpec(
+            String image,
+            String name,
+            List<String> env,
+            List<String> cmd,
+            List<String> entrypoint,
+            Long memoryBytes,
+            Map<Integer, Integer> portBindings,
+            List<Integer> loopbackPortBindings,
+            List<Integer> exposedPorts,
+            String networkMode,
+            List<Mount> mounts,
+            List<Bind> binds,
+            List<VolumesFrom> volumesFrom,
+            List<String> extraHosts,
+            Map<String, String> labels,
+            LogConfig logConfig,
+            boolean privileged,
+            String cgroupnsMode,
+            List<String> dnsServers,
+            String workingDir,
+            String user,
+            List<String> groupAdd,
+            List<DeviceRequest> deviceRequests,
+            Long nanoCpus,
+            Integer cpuShares,
+            boolean readonlyRootfs,
+            List<String> linkLocalIps,
+            Map<Integer, String> portBindingHostIps,
+            boolean init,
+            LinuxOptions linuxOptions,
+            boolean javaTrustStore,
+            String dnsName,
+            List<String> joinedNetworks
+    ) {
+        this(image, name, env, cmd, entrypoint, memoryBytes, portBindings, loopbackPortBindings,
+                exposedPorts, networkMode, mounts, binds, volumesFrom, extraHosts, labels, logConfig,
+                privileged, cgroupnsMode, dnsServers, workingDir, user, groupAdd, deviceRequests,
+                nanoCpus, cpuShares, readonlyRootfs, linkLocalIps, portBindingHostIps, init, linuxOptions,
+                javaTrustStore, dnsName, joinedNetworks, null);
     }
 
     /**
@@ -412,6 +461,13 @@ public record ContainerSpec(
      */
     public boolean publishesPorts() {
         return hasPortBindings() && !sharesNetworkNamespace();
+    }
+
+    /**
+     * Returns true if this spec names the Docker runtime the container runs with.
+     */
+    public boolean hasRuntime() {
+        return runtime != null && !runtime.isBlank();
     }
 
     /**

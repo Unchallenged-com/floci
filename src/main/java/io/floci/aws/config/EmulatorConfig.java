@@ -3530,6 +3530,14 @@ public interface EmulatorConfig {
         /** Docker network to attach Lambda containers to. Empty = default bridge. */
         Optional<String> dockerNetwork();
 
+        /**
+         * Docker runtime Lambda containers run with, such as {@code runsc} or {@code kata}, in place of
+         * {@code floci.docker.runtime}. Empty = that setting.
+         *
+         * Env var: FLOCI_SERVICES_LAMBDA_DOCKER_RUNTIME
+         */
+        Optional<String> dockerRuntime();
+
         /** Additional Docker create flags applied to every Lambda execution container. */
         Optional<String> dockerFlags();
 
@@ -3838,6 +3846,14 @@ public interface EmulatorConfig {
         @WithDefault("alpine:3.21")
         String volumeHelperImage();
 
+        /**
+         * Docker runtime instance containers and the volume helper run with, such as {@code runsc} or
+         * {@code kata}, in place of {@code floci.docker.runtime}. Empty = that setting.
+         *
+         * Env var: FLOCI_SERVICES_EC2_DOCKER_RUNTIME
+         */
+        Optional<String> dockerRuntime();
+
         /** When true, instances go straight to RUNNING without launching Docker containers. */
         @WithDefault("false")
         boolean mock();
@@ -4069,6 +4085,14 @@ public interface EmulatorConfig {
 
         /** Docker network to attach k3s containers to. Empty = default bridge. */
         Optional<String> dockerNetwork();
+
+        /**
+         * Docker runtime k3s containers run with, such as {@code kata}, in place of
+         * {@code floci.docker.runtime}. Empty = that setting.
+         *
+         * Env var: FLOCI_SERVICES_EKS_DOCKER_RUNTIME
+         */
+        Optional<String> dockerRuntime();
 
         @WithDefault("false")
         boolean keepRunningOnShutdown();
@@ -4397,6 +4421,14 @@ public interface EmulatorConfig {
          * Useful when multiple Floci processes share one Docker daemon.
          */
         Optional<String> resourceNamespace();
+
+        /**
+         * Docker runtime every container Floci launches runs with ({@code docker run --runtime}), such as
+         * {@code runsc} or {@code kata}: a name the daemon has registered. A service's own
+         * {@code docker-runtime} setting takes its place for that service's containers. Empty = the daemon's
+         * default runtime.
+         */
+        Optional<String> runtime();
 
         /**
          * Optional registry/repository base for every Docker image Floci launches.

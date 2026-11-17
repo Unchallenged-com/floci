@@ -1503,6 +1503,7 @@ State is reported settled rather than transitional, as elsewhere in this service
 | `FLOCI_SERVICES_EC2_APP_PORT_RANGE_END` | `30999` | End of the host-port range for published app ports |
 | `FLOCI_SERVICES_EC2_MAX_PUBLISHED_PORTS_PER_INSTANCE` | `20` | Max published ports per instance; also the widest single-rule span published |
 | `FLOCI_SERVICES_EC2_SOCAT_IMAGE` | `alpine/socat` | Image used for the port-forwarding sidecar |
+| `FLOCI_SERVICES_EC2_DOCKER_RUNTIME` | *(unset)* | Docker runtime for instance containers and the EBS volume helper, such as `kata` (falls back to `FLOCI_DOCKER_RUNTIME`, then the daemon's default; see [Container Runtime](../configuration/docker.md#container-runtime)) |
 | `FLOCI_SERVICES_EC2_MOCK` | `false` | Skip Docker; instances jump directly to final state (useful for tests) |
 | `FLOCI_SERVICES_EC2_MOCK_PUBLIC_ADDRESSES` | `none` | Automatic public IPv4 address of a mock instance: `none`, `documentation` (from `203.0.113.0/24`, which routes nowhere) or `fixed` (see below). Instances with containers always report their reachable address (see [Public IPv4 addresses](#public-ipv4-addresses)) |
 | `FLOCI_SERVICES_EC2_MOCK_PUBLIC_ADDRESS` | `127.0.0.1` | The address every mock instance due one gets when `FLOCI_SERVICES_EC2_MOCK_PUBLIC_ADDRESSES` is `fixed`, for example this host's own address; an Elastic IP associated with its primary private address shows it too |

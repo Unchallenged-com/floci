@@ -313,6 +313,7 @@ public class ContainerLauncher implements LambdaRuntimeLauncher {
                 .withMemoryBytes(memoryBytes)
                 .withMemorySwapBytes(memoryBytes)
                 .withDockerNetwork(config.services().lambda().dockerNetwork())
+                .withDockerRuntime(config.services().lambda().dockerRuntime())
                 .withLogRotation()
                 .withLabels(ContainerStorageHelper.resourceIdentityLabels(
                         "lambda", fn.getFunctionName(), lambdaAccountId, lambdaRegion));
@@ -1072,6 +1073,7 @@ public class ContainerLauncher implements LambdaRuntimeLauncher {
                 .withEnv(List.of())
                 .withEntrypoint(List.of("sleep"))
                 .withCmd(List.of("3600"))
+                .withDockerRuntime(config.services().lambda().dockerRuntime())
                 .withLabels(containerReconciler.ownershipLabels())
                 .withNamedVolume(volName, TASK_DIR, false);
         ContainerSpec helperSpec = helperBuilder.build();

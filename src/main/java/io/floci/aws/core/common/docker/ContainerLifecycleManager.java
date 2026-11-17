@@ -943,8 +943,8 @@ public class ContainerLifecycleManager {
         String image = (initImage != null && !initImage.isBlank()) ? initImage : "busybox:stable";
         imageCacheService.ensureImageExists(image);
 
-        HostConfig hostConfig = HostConfig.newHostConfig().withMounts(List.of(
-                new Mount().withType(MountType.VOLUME).withSource(volumeName).withTarget(mount)));
+        HostConfig hostConfig = withConfiguredRuntime(HostConfig.newHostConfig().withMounts(List.of(
+                new Mount().withType(MountType.VOLUME).withSource(volumeName).withTarget(mount))));
         CreateContainerCmd command = dockerClient.createContainerCmd(image)
                 .withHostConfig(hostConfig)
                 .withCmd("sh", "-c", script.toString());
@@ -963,8 +963,8 @@ public class ContainerLifecycleManager {
         String mount = "/floci-bind-directory";
         String script = "ownership=$(stat -c '%u:%g' \"$1\") && "
                 + "chown \"$ownership\" \"$2\" && chmod u+rwx \"$2\"";
-        HostConfig hostConfig = HostConfig.newHostConfig()
-                .withBinds(new Bind(hostPath, new Volume(mount)));
+        HostConfig hostConfig = withConfiguredRuntime(HostConfig.newHostConfig()
+                .withBinds(new Bind(hostPath, new Volume(mount))));
         CreateContainerCmd command = dockerClient.createContainerCmd(image)
                 .withHostConfig(hostConfig)
                 .withUser("0")
@@ -972,6 +972,12 @@ public class ContainerLifecycleManager {
                 .withCmd("-c", script, "floci-bind-init", imageDataPath, mount);
         runStorageInitHelper(command, "bind directory " + hostPath);
         LOG.infov("Initialised bind directory {0} using ownership from {1}:{2}", hostPath, image, imageDataPath);
+    }
+
+    /** A storage init helper runs with {@code floci.docker.runtime}, as every container Floci launches does. */
+    private HostConfig withConfiguredRuntime(HostConfig hostConfig) {
+        ContainerBuilder.configuredRuntime(config).ifPresent(hostConfig::withRuntime);
+        return hostConfig;
     }
 
     private void runStorageInitHelper(CreateContainerCmd command, String description) {
@@ -1691,6 +1697,9 @@ public class ContainerLifecycleManager {
         }
         if (spec.init()) {
             hostConfig.withInit(true);
+        }
+        if (spec.hasRuntime()) {
+            hostConfig.withRuntime(spec.runtime());
         }
 
         // Port bindings — services decide whether to request them based on their

@@ -376,6 +376,41 @@ class ContainerLauncherTest {
     }
 
     @Test
+    void launchRunsTheFunctionWithTheDockerRuntimeLambdaNames() {
+        when(config.services().lambda().dockerRuntime()).thenReturn(Optional.of("kata"));
+
+        launcher.launch(hotReloadFunction("runtime-fn"));
+
+        assertEquals("kata", captureRealContainerSpec().runtime());
+    }
+
+    @Test
+    void launchRunsTheFunctionWithTheGlobalRuntimeWhenLambdaNamesNone() {
+        when(config.docker().runtime()).thenReturn(Optional.of("runsc"));
+        when(config.services().lambda().dockerRuntime()).thenReturn(Optional.empty());
+
+        launcher.launch(hotReloadFunction("global-runtime-fn"));
+
+        assertEquals("runsc", captureRealContainerSpec().runtime());
+    }
+
+    @Test
+    void launchLeavesTheFunctionOnTheDaemonsDefaultRuntimeWhenNoneIsConfigured() {
+        launcher.launch(hotReloadFunction("default-runtime-fn"));
+
+        assertNull(captureRealContainerSpec().runtime());
+    }
+
+    private static LambdaFunction hotReloadFunction(String name) {
+        LambdaFunction fn = new LambdaFunction();
+        fn.setFunctionName(name);
+        fn.setHotReloadHostPath("/home/ci/code");
+        fn.setRuntime("nodejs20.x");
+        fn.setHandler("index.handler");
+        return fn;
+    }
+
+    @Test
     void launchLimitsMemoryAndSwapTogetherToTheDeclaredMemorySize() {
         LambdaFunction fn = new LambdaFunction();
         fn.setFunctionName("memory-fn");

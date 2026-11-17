@@ -495,6 +495,54 @@ class ContainerBuilderTest {
     }
 
     @Test
+    void aContainerRunsOnTheDaemonsDefaultRuntimeWhenNoneIsConfigured() {
+        TestFixture fixture = new TestFixture();
+
+        ContainerSpec spec = fixture.builder.newContainer("alpine").build();
+
+        assertNull(spec.runtime());
+        assertFalse(spec.hasRuntime());
+    }
+
+    @Test
+    void theGlobalRuntimeReachesEveryContainer() {
+        TestFixture fixture = new TestFixture();
+        when(fixture.docker.runtime()).thenReturn(Optional.of("runsc"));
+
+        assertEquals("runsc", fixture.builder.newContainer("alpine").build().runtime());
+        assertEquals("runsc",
+                fixture.builder.newContainer("alpine").withDockerRuntime(Optional.empty()).build().runtime());
+    }
+
+    @Test
+    void aServiceRuntimeTakesThePlaceOfTheGlobalOne() {
+        TestFixture fixture = new TestFixture();
+        when(fixture.docker.runtime()).thenReturn(Optional.of("runsc"));
+
+        ContainerSpec spec = fixture.builder.newContainer("alpine")
+                .withDockerRuntime(Optional.of("kata"))
+                .build();
+
+        assertEquals("kata", spec.runtime());
+    }
+
+    @Test
+    void aBlankRuntimeSettingIsNoRuntimeAtAll() {
+        TestFixture fixture = new TestFixture();
+        when(fixture.docker.runtime()).thenReturn(Optional.of("  "));
+
+        assertNull(fixture.builder.newContainer("alpine").withDockerRuntime(Optional.of("")).build().runtime());
+        assertNull(fixture.builder.newContainer("alpine").withRuntime(" ").build().runtime());
+    }
+
+    @Test
+    void anExplicitRuntimeIsKeptWithoutSurroundingSpaces() {
+        TestFixture fixture = new TestFixture();
+
+        assertEquals("kata", fixture.builder.newContainer("alpine").withRuntime(" kata ").build().runtime());
+    }
+
+    @Test
     void imageRegistryBasePrefixesEveryContainerImage() {
         TestFixture fixture = new TestFixture();
         when(fixture.docker.imageRegistryBase()).thenReturn(Optional.of("ghcr.io/floci-io/mirror/"));
@@ -584,6 +632,7 @@ class ContainerBuilderTest {
             when(docker.logMaxSize()).thenReturn("10m");
             when(docker.logMaxFile()).thenReturn("3");
             when(docker.imageRegistryBase()).thenReturn(Optional.empty());
+            when(docker.runtime()).thenReturn(Optional.empty());
             when(config.dns()).thenReturn(dns);
             when(dns.containerFallbackEnabled()).thenReturn(true);
             when(dns.containerFallbackServers()).thenReturn(List.of("8.8.8.8", "8.8.4.4"));

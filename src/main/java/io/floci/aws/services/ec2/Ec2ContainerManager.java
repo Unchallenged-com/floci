@@ -735,6 +735,7 @@ public class Ec2ContainerManager {
                 .withName(containerName)
                 .withEmbeddedDns()
                 .withDockerNetwork(Optional.empty())
+                .withDockerRuntime(config.services().ec2().dockerRuntime())
                 .withEnv(localAwsEnvironment(region, serviceEndpoint, imdsEndpoint,
                         hasInstanceProfile))
                 .withEnv("AWS_EC2_INSTANCE_ID", instanceId)

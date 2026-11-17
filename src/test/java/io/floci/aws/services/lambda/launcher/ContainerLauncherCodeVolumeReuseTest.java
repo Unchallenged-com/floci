@@ -273,8 +273,29 @@ class ContainerLauncherCodeVolumeReuseTest {
         assertEquals("floci-aws-codevol-orders-", populateHelperNamePrefix(config(null)));
     }
 
+    @Test
+    void populateHelperRunsWithTheDockerRuntimeLambdaNames() {
+        EmulatorConfig config = config(null);
+        when(config.services().lambda().dockerRuntime()).thenReturn(Optional.of("kata"));
+
+        ContainerBuilder.Builder builder = populateHelperBuilder(config);
+
+        verify(builder).withDockerRuntime(Optional.of("kata"));
+    }
+
     /** Runs the real populateCodeVolume up to the helper spec build and returns the helper name minus its random id. */
     private String populateHelperNamePrefix(EmulatorConfig config) {
+        ContainerBuilder.Builder builder = populateHelperBuilder(config);
+
+        ArgumentCaptor<String> name = ArgumentCaptor.forClass(String.class);
+        verify(builder).withName(name.capture());
+        String helperName = name.getValue();
+        assertTrue(helperName.matches(".*-[0-9a-f]{8}"), helperName);
+        return helperName.substring(0, helperName.length() - 8);
+    }
+
+    /** Runs the real populateCodeVolume up to the helper spec build and returns the builder it was built with. */
+    private ContainerBuilder.Builder populateHelperBuilder(EmulatorConfig config) {
         ContainerBuilder containerBuilder = mock(ContainerBuilder.class);
         ContainerBuilder.Builder builder = mock(ContainerBuilder.Builder.class,
                 Answers.RETURNS_SELF);
@@ -288,12 +309,7 @@ class ContainerLauncherCodeVolumeReuseTest {
 
         assertThrows(IllegalStateException.class,
                 () -> real.populateCodeVolume("vol", fn("sha"), "img"));
-
-        ArgumentCaptor<String> name = ArgumentCaptor.forClass(String.class);
-        verify(builder).withName(name.capture());
-        String helperName = name.getValue();
-        assertTrue(helperName.matches(".*-[0-9a-f]{8}"), helperName);
-        return helperName.substring(0, helperName.length() - 8);
+        return builder;
     }
 
     @Test

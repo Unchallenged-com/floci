@@ -152,6 +152,7 @@ This foundation release provides opt-in security-group filtering for EC2 Docker 
 | `FLOCI_DOCKER_LOG_MAX_SIZE` | `10m` | Log rotation max size for spawned containers (e.g. `10m`, `1g`) |
 | `FLOCI_DOCKER_LOG_MAX_FILE` | `3` | Number of rotated log files to keep for spawned containers |
 | `FLOCI_DOCKER_RESOURCE_NAMESPACE` | _(none)_ | Optional namespace prefix for managed child Docker container and volume names |
+| `FLOCI_DOCKER_RUNTIME` | _(none)_ | Docker runtime the containers Floci launches run with (`docker run --runtime`), such as `runsc` or `kata`; a service's own `DOCKER_RUNTIME` takes its place for its containers. Unset uses the daemon's default runtime. See [Docker Configuration](docker.md#container-runtime) |
 | `FLOCI_DOCKER_EXTRA_LABELS_0__KEY` | _(none)_ | Label key for extra-label entry 0, applied to every Floci-created container and volume (increment the index for more) |
 | `FLOCI_DOCKER_EXTRA_LABELS_0__VALUE` | _(none)_ | Label value for extra-label entry 0 |
 
@@ -327,6 +328,7 @@ See [Initialization Hooks](./initialization-hooks.md) for lifecycle phases and s
 | `FLOCI_SERVICES_LAMBDA_REACTIVE_S3_SYNC_ENABLED` | `true` | Re-deploy a function when the S3 object it was deployed from is overwritten. See [Reactive S3 Sync](../services/lambda.md#reactive-s3-sync-configuration) |
 | `FLOCI_SERVICES_LAMBDA_REACTIVE_S3_SYNC_ASYNC` | `false` | Run that re-deploy in the background so the upload returns at once; the function reports `LastUpdateStatus` `InProgress` until it finishes |
 | `FLOCI_SERVICES_LAMBDA_DOCKER_NETWORK` | _(none)_ | Docker network for Lambda containers (overrides `FLOCI_SERVICES_DOCKER_NETWORK`) |
+| `FLOCI_SERVICES_LAMBDA_DOCKER_RUNTIME` | _(none)_ | Docker runtime for Lambda containers (overrides `FLOCI_DOCKER_RUNTIME`) |
 | `FLOCI_SERVICES_LAMBDA_DOCKER_FLAGS` | _(none)_ | Additional Docker flags applied to Lambda containers, such as `--env`, `--volume`, `--publish`, `--add-host`, `--dns`, `--label`, `--network`, `--user`, `--privileged`, and `--platform`. Explicit `--dns` entries replace automatic embedded DNS and public fallback resolvers. Published ports support `host:container` and `127.0.0.1:host:container` forms |
 | `FLOCI_SERVICES_LAMBDA_CONTAINER_NAME_PREFIX` | `floci` | Base name prefix for Lambda-spawned containers and code volumes (must match `[A-Za-z0-9][A-Za-z0-9_.-]*`) |
 | `FLOCI_SERVICES_LAMBDA_DOCKER_HOST_OVERRIDE` | _(none)_ | Explicit host/IP Lambda containers use to reach the Runtime API, bypassing auto-detection (e.g. rootless Podman) |
@@ -585,6 +587,7 @@ These services spawn Docker containers. They require access to the Docker socket
 | `FLOCI_SERVICES_EKS_API_SERVER_MAX_PORT` | `6599` | Last port in the Kubernetes API server range |
 | `FLOCI_SERVICES_EKS_KEEP_RUNNING_ON_SHUTDOWN` | `false` | Keep EKS containers running when Floci stops |
 | `FLOCI_SERVICES_EKS_DOCKER_NETWORK` | _(none)_ | Docker network for EKS containers |
+| `FLOCI_SERVICES_EKS_DOCKER_RUNTIME` | _(none)_ | Docker runtime for EKS k3s containers (overrides `FLOCI_DOCKER_RUNTIME`) |
 
 ### ECS (Elastic Container Service)
 
@@ -613,6 +616,7 @@ These services spawn Docker containers. They require access to the Docker socket
 | `FLOCI_SERVICES_EC2_ENFORCE_VCPU_QUOTAS` | `false` | Opt in to EC2 Run/Start admission against current running Standard On-Demand vCPU usage |
 | `FLOCI_SERVICES_EC2_ENABLED` | `true` | Enable the EC2 service |
 | `FLOCI_SERVICES_EC2_MOCK` | `false` | When `true`, instances are registered in state but no containers are spawned |
+| `FLOCI_SERVICES_EC2_DOCKER_RUNTIME` | _(none)_ | Docker runtime for instance containers and the EBS volume helper (overrides `FLOCI_DOCKER_RUNTIME`) |
 | `FLOCI_SERVICES_EC2_MOCK_PUBLIC_ADDRESSES` | `none` | Automatic public IPv4 address of a mock instance: `none`, `documentation` (from `203.0.113.0/24`) or `fixed` (`FLOCI_SERVICES_EC2_MOCK_PUBLIC_ADDRESS`) |
 | `FLOCI_SERVICES_EC2_MOCK_PUBLIC_ADDRESS` | `127.0.0.1` | Address given to every mock instance due one when `FLOCI_SERVICES_EC2_MOCK_PUBLIC_ADDRESSES` is `fixed`, and shown by an Elastic IP on its primary private address |
 | `FLOCI_SERVICES_EC2_IMAGE_CATALOG_PATH` | (unset) | Path to a complete YAML image catalog replacing the bundled EC2 catalog; mount the file at this path when running in Docker |

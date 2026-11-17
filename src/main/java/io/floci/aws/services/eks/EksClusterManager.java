@@ -841,6 +841,7 @@ public class EksClusterManager
                     .withPortBinding(K3S_API_SERVER_PORT, hostPort)
                     .withNamedVolume(volumeName, K3S_DATA_DIR)
                     .withDockerNetwork(config.services().eks().dockerNetwork())
+                    .withDockerRuntime(config.services().eks().dockerRuntime())
                     .withPrivileged(true)
                     .withLogRotation()
                     .withLabels(labels);

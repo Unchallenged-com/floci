@@ -288,6 +288,17 @@ class Ec2VolumeBlockDeviceManagerTest {
         verify(helperBuilder).withBind(directory.resolve("ec2").resolve("volumes").toString(), "/volumes");
     }
 
+    @Test
+    void helperRunsWithTheDockerRuntimeEc2Names(@TempDir Path directory) {
+        when(containerDetector.isRunningInContainer()).thenReturn(false);
+        when(config.services().ec2().dockerRuntime()).thenReturn(Optional.of("kata"));
+        ContainerBuilder.Builder helperBuilder = helperToBeCreatedOn(directory);
+
+        manager.attachVolume(volume(), runningInstance(), "/dev/xvdf");
+
+        verify(helperBuilder).withDockerRuntime(Optional.of("kata"));
+    }
+
     /**
      * Stubs bind-mode storage under {@code hostPersistentPath} with no helper container yet, so the
      * next operation creates the helper through the returned builder and its commands succeed.

@@ -674,6 +674,7 @@ does not enable it; omitted or false values keep the simulated behavior.
 | `FLOCI_SERVICES_EKS_API_SERVER_MAX_PORT` | `6599` | Last port in the k3s API server range |
 | `FLOCI_SERVICES_EKS_DATA_PATH` | `./data/eks` | Host bind-mount root for cluster data |
 | `FLOCI_SERVICES_EKS_DOCKER_NETWORK` | *(unset)* | Docker network for k3s containers (falls back to the global `FLOCI_SERVICES_DOCKER_NETWORK`, then Floci's own network) |
+| `FLOCI_SERVICES_EKS_DOCKER_RUNTIME` | *(unset)* | Docker runtime for k3s containers, such as `kata` (falls back to `FLOCI_DOCKER_RUNTIME`, then the daemon's default; see [Container Runtime](../configuration/docker.md#container-runtime)) |
 | `FLOCI_SERVICES_EKS_KEEP_RUNNING_ON_SHUTDOWN` | `false` | Leave k3s containers running after Floci stops |
 | `FLOCI_SERVICES_EKS_ENDPOINT_MODE` | `host` | `describe-cluster` endpoint: `host` (`localhost:<hostPort>`) or `network` (container DNS) |
 | `FLOCI_SERVICES_EKS_ENDPOINT_HOST` | _(unset)_ | Hostname or IP address `host` mode advertises instead of `localhost`, for clients on other machines. Added to the k3s certificate as a SAN when the cluster's container is created |

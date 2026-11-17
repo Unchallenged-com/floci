@@ -1685,6 +1685,22 @@ class Ec2ContainerManagerTest {
     }
 
     @Test
+    void launchRunsTheInstanceWithTheDockerRuntimeEc2Names() throws Exception {
+        LaunchHarness harness = launchHarness();
+        when(harness.config().services().ec2().dockerRuntime()).thenReturn(Optional.of("kata"));
+        harness.stubSuccessfulExecs(new CountDownLatch(0), new CountDownLatch(0));
+
+        InspectContainerCmd inspect = mock(InspectContainerCmd.class);
+        InspectContainerResponse response = inspectResponse("192.168.215.42");
+        when(harness.dockerClient.inspectContainerCmd(TEST_CONTAINER_ID)).thenReturn(inspect);
+        when(inspect.exec()).thenReturn(response);
+
+        harness.manager.launch(instance("i-runtime"), "ubuntu:24.04", null, "us-west-2");
+
+        verify(harness.builder, timeout(2000)).withDockerRuntime(Optional.of("kata"));
+    }
+
+    @Test
     void metadataProxyInstallCommandInstallsLinkLocalProxyDependencies() {
         String[] command = Ec2ContainerManager.metadataProxyInstallCommand();
 
