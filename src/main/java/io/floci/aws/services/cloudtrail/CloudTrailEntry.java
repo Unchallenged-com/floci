@@ -96,7 +96,7 @@ public record CloudTrailEntry(
                 trail.snsTopicArn(), trail.includeGlobalServiceEvents(), trail.isMultiRegionTrail(),
                 trail.homeRegion(), trail.logFileValidationEnabled(), hasCustomSelectors,
                 trail.hasInsightSelectors(), trail.isOrganizationTrail(), trail.kmsKeyId(),
-                trail.cloudWatchLogsLogGroupArn(), trail.cloudWatchLogsRoleArn());
+                trail.cloudWatchLogsLogGroupArn(), trail.cloudWatchLogsRoleArn(), trail.recursiveLogging());
     }
 
     /** Returns a mutable copy suitable for merging in new tags. */
