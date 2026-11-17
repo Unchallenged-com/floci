@@ -166,8 +166,8 @@ one STS ran, one STS refused, and, with `floci.services.iam.enforcement-enabled`
 - `requestParameters` holds the request's members, named with a lower first letter and typed as the STS model types
   them (`"durationSeconds": 900`, `tags: [{"key": ..., "value": ...}]`). The MFA code (`tokenCode`), the SAML assertion,
   the web identity token and a trade-in token are left out.
-- `responseElements` never carries `secretAccessKey`; a credential's `expiration` is written as the guide's records
-  write it (`Feb 12, 2025, 11:16:48 PM`).
+- `responseElements` never carries `secretAccessKey`; a credential's `expiration` is in ISO 8601 to the second
+  (`2026-09-11T19:55:38Z`), as CloudTrail records it today (the guide's older examples show `Feb 12, 2025, 11:16:48 PM`).
 - `AssumeRole`, `AssumeRoleWithSAML` and `AssumeRoleWithWebIdentity` carry the role in `resources`
   (`AWS::IAM::Role`), and `AssumeRoleWithSAML` the SAML provider too.
 - `AssumeRoleWithSAML` and `AssumeRoleWithWebIdentity` name their caller as a `SAMLUser` or a `WebIdentityUser`. They

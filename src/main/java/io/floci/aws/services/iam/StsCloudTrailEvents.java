@@ -20,7 +20,6 @@ import org.jboss.logging.Logger;
 
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -87,9 +86,12 @@ public class StsCloudTrailEvents {
     private static final Pattern NUMBER_MEMBER = Pattern.compile("packedPolicySize|sessionTokenSize"
             + "|sessionTokenUtilization");
 
-    /** Credentials expire as the page's records write it: {@code Feb 12, 2025, 11:16:48 PM}. */
+    /**
+     * Credentials expire as CloudTrail records them today, in ISO 8601 to the second
+     * ({@code 2026-09-11T19:55:38Z}); the page's older examples still show {@code Feb 12, 2025, 11:16:48 PM}.
+     */
     private static final DateTimeFormatter RECORD_TIMESTAMP =
-            DateTimeFormatter.ofPattern("MMM d, yyyy, h:mm:ss a", Locale.US).withZone(ZoneOffset.UTC);
+            DateTimeFormatter.ISO_INSTANT.withZone(ZoneOffset.UTC);
 
     private static final QueryResultElements RESULTS =
             new QueryResultElements(NUMBER_MEMBER, RECORD_TIMESTAMP, Set.of("secretAccessKey"));
@@ -128,7 +130,7 @@ public class StsCloudTrailEvents {
         if ("UnsupportedOperation".equals(errorCode)) {
             return;
         }
-        ObjectNode result = errorCode == null && recordsResult(action) ? RESULTS.read(action, xml) : null;
+        ObjectNode result = errorCode == null && recordsResult(action) ? result(action, xml) : null;
         ObjectNode federatedCaller = null;
         if (isFederated(action)) {
             federatedCaller = result == null ? null : federatedCaller(action, params, result);
@@ -166,6 +168,11 @@ public class StsCloudTrailEvents {
     /** Whether CloudTrail records {@code action} as read-only. */
     static boolean isReadOnly(String action) {
         return !WRITES.contains(action);
+    }
+
+    /** The call's result as the record carries it, or null when it carries nothing. */
+    static ObjectNode result(String action, String xml) {
+        return RESULTS.read(action, xml);
     }
 
     /** Whether the record carries the call's result. */
