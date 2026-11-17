@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.floci.aws.core.common.AccountResolver;
 import io.floci.aws.core.common.AwsArnUtils;
+import io.floci.aws.core.common.AwsRegions;
 import io.floci.aws.core.common.RequestContext;
 import io.floci.aws.core.common.ServicePrincipals;
 import io.floci.aws.core.common.XmlParser;
@@ -18,9 +19,12 @@ import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.core.Response;
 import org.jboss.logging.Logger;
 
+import java.nio.charset.StandardCharsets;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.util.Base64;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Pattern;
 
 /**
@@ -93,6 +97,24 @@ public class StsCloudTrailEvents {
     private static final DateTimeFormatter RECORD_TIMESTAMP =
             DateTimeFormatter.ISO_INSTANT.withZone(ZoneOffset.UTC);
 
+    /**
+     * Calls not recorded yet when STS answers them: how AWS records a token
+     * {@code GetWebIdentityToken} issues, and anything about {@code GetDelegatedAccessToken}, is not
+     * settled. A refused {@code GetWebIdentityToken} is recorded.
+     */
+    private static final Set<String> NOT_RECORDED_WHEN_ANSWERED =
+            Set.of("GetWebIdentityToken", "GetDelegatedAccessToken");
+
+    /** "The value must not exceed 4,096 bytes": the size the utilization is a share of. */
+    private static final int MAX_SESSION_TOKEN_BYTES = 4096;
+
+    /** The operations whose answer carries the deprecated {@code PackedPolicySize}. */
+    private static final Set<String> PACKED_POLICY_SIZE = Set.of("AssumeRole", "AssumeRoleWithSAML",
+            "AssumeRoleWithWebIdentity", "GetFederationToken");
+
+    private static final int EXTENDED_ID_LENGTH = 8;
+    private static final String ALPHANUMERIC = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
     private static final QueryResultElements RESULTS =
             new QueryResultElements(NUMBER_MEMBER, RECORD_TIMESTAMP, Set.of("secretAccessKey"));
 
@@ -130,6 +152,9 @@ public class StsCloudTrailEvents {
         if ("UnsupportedOperation".equals(errorCode)) {
             return;
         }
+        if (errorCode == null ? NOT_RECORDED_WHEN_ANSWERED.contains(action) : "GetDelegatedAccessToken".equals(action)) {
+            return;
+        }
         ObjectNode result = errorCode == null && recordsResult(action) ? result(action, xml) : null;
         ObjectNode federatedCaller = null;
         if (isFederated(action)) {
@@ -138,13 +163,88 @@ public class StsCloudTrailEvents {
                 return;
             }
         }
+        if (result != null) {
+            sessionTokenSize(action, result);
+        }
+        ObjectNode requestParameters = requestParameters(action, params, errorCode);
+        if ("AssumeRoleWithSAML".equals(action) && result != null) {
+            requestParameters = samlRequestParameters(requestParameters, params, result);
+        }
         String errorMessage = errorCode == null ? null : XmlParser.extractFirst(xml, "Message", null);
         HttpServerRequest request = request(currentRequest.getCurrent());
+        String region = requestContext.getRegion();
         cloudTrail.emitManagementEvent(new CloudTrailService.ManagementEventInput(EVENT_SOURCE, action,
-                requestContext.getRegion(), federatedCaller == null ? accounts.extractAccessKeyId(authorization) : null,
-                requestParameters(action, params, errorCode), result, isReadOnly(action), sourceIp(request),
-                userAgent(request), XmlParser.extractFirst(xml, "RequestId", null), errorCode, errorMessage, null,
+                region, federatedCaller == null ? accounts.extractAccessKeyId(authorization) : null,
+                requestParameters, result, isReadOnly(action), sourceIp(request),
+                userAgent(request), XmlParser.extractFirst(xml, "RequestId", null), errorCode, errorMessage,
+                errorCode == null ? additionalEventData(action, request == null ? null : request.getHeader("Host"),
+                        region, System.currentTimeMillis()) : null,
                 errorCode == null ? resources(action, params) : null, federatedCaller));
+    }
+
+    /**
+     * The session token's size and how much of the limit it uses, which a successful call's record
+     * carries beside its credentials: {@code sessionTokenSize} "The size, in bytes, of the session
+     * token returned", {@code sessionTokenUtilization} "The percentage (0-100) of the maximum allowed
+     * session token size that the returned session token consumes", of 4,096 bytes, rounded down, and
+     * {@code packedPolicySize}, deprecated, with the same value where the operation answers it
+     * (https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html).
+     */
+    static void sessionTokenSize(String action, ObjectNode result) {
+        String token = result.path("credentials").path("sessionToken").asText(null);
+        result.remove("packedPolicySize");
+        if (token == null) {
+            return;
+        }
+        int size = token.getBytes(StandardCharsets.UTF_8).length;
+        int utilization = size * 100 / MAX_SESSION_TOKEN_BYTES;
+        if (PACKED_POLICY_SIZE.contains(action)) {
+            result.put("packedPolicySize", utilization);
+        }
+        result.put("sessionTokenSize", size);
+        result.put("sessionTokenUtilization", utilization);
+    }
+
+    /**
+     * {@code AssumeRoleWithSAML}'s parameters as the guide's example records them: the assertion's
+     * {@code sAMLAssertionID} rather than the assertion, and the session's {@code roleSessionName},
+     * which the assertion rather than the request names.
+     */
+    static ObjectNode samlRequestParameters(ObjectNode read, MultivaluedMap<String, String> params,
+                                            ObjectNode result) {
+        ObjectNode parameters = read == null ? MAPPER.createObjectNode() : read;
+        String assertionId = params == null || params.getFirst("SAMLAssertion") == null ? null
+                : SAMLAssertionVerifier.assertionId(params.getFirst("SAMLAssertion"));
+        if (assertionId != null) {
+            parameters.put("sAMLAssertionID", assertionId);
+        }
+        String arn = result.path("assumedRoleUser").path("arn").asText("");
+        if (arn.contains("/")) {
+            parameters.put("roleSessionName", arn.substring(arn.lastIndexOf('/') + 1));
+        }
+        return parameters.isEmpty() ? null : parameters;
+    }
+
+    /**
+     * What a successful call's record adds: the {@code ExtendedRequestId} below, {@code RequestDetails}, the endpoint type that served it
+     * and the Region serving it, which the guide's examples carry for the global and the Regional
+     * endpoint alike, and for {@code AssumeRoleWithWebIdentity} how the provider's connection was
+     * verified, "either IAMTrustStore or Thumbprint".
+     */
+    static ObjectNode additionalEventData(String action, String host, String region, long nowMillis) {
+        ObjectNode data = MAPPER.createObjectNode();
+        if ("AssumeRoleWithWebIdentity".equals(action)) {
+            data.put("identityProviderConnectionVerificationMethod", "IAMTrustStore");
+        }
+        String name = host == null ? "" : host.split(":", 2)[0];
+        boolean global = region != null && name.equalsIgnoreCase("sts." + AwsRegions.dnsSuffixFor(region));
+        data.put("ExtendedRequestId", extendedRequestId(region, nowMillis, global));
+        ObjectNode details = data.putObject("RequestDetails");
+        details.put("endpointType", global ? "global" : "regional");
+        if (region != null) {
+            details.put("awsServingRegion", region);
+        }
+        return data;
     }
 
     /**
@@ -272,6 +372,21 @@ public class StsCloudTrailEvents {
         AwsArnUtils.Arn role = AwsArnUtils.parse(roleArn);
         return AwsArnUtils.Arn.global(role.partition(), "iam", role.accountId(),
                 "oidc-provider/" + (schemeEnd < 0 ? issuer : issuer.substring(schemeEnd + 3))).toString();
+    }
+
+    /**
+     * The {@code ExtendedRequestId} current CloudTrail records carry on a successful STS call, which
+     * AWS does not document: the base64 of {@code 1:<Region>:S:<epoch milliseconds>:<R or G>:<id>},
+     * {@code R} for a Regional endpoint and {@code G} for the global one, the id eight letters or
+     * digits.
+     */
+    static String extendedRequestId(String region, long nowMillis, boolean global) {
+        StringBuilder id = new StringBuilder(EXTENDED_ID_LENGTH);
+        for (int i = 0; i < EXTENDED_ID_LENGTH; i++) {
+            id.append(ALPHANUMERIC.charAt(ThreadLocalRandom.current().nextInt(ALPHANUMERIC.length())));
+        }
+        String plain = "1:" + region + ":S:" + nowMillis + ":" + (global ? "G" : "R") + ":" + id;
+        return Base64.getEncoder().encodeToString(plain.getBytes(StandardCharsets.UTF_8));
     }
 
     private static HttpServerRequest request(RoutingContext routingContext) {

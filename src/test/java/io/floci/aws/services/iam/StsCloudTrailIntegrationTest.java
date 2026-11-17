@@ -116,6 +116,17 @@ class StsCloudTrailIntegrationTest {
         assertThat(assumeRole.toString().contains(sessionSecret), equalTo(false));
         assertThat(assumeRole.path("responseElements").path("assumedRoleUser").path("arn").asText(),
                 equalTo("arn:aws:sts::" + ACCOUNT + ":assumed-role/ct-sts-role-" + suffix + "/night-" + suffix));
+        String sessionTokenValue = assumed.getString("AssumeRoleResponse.AssumeRoleResult.Credentials.SessionToken");
+        assertThat(assumeRole.path("responseElements").path("sessionTokenSize").asInt(),
+                equalTo(sessionTokenValue.length()));
+        assertThat(assumeRole.path("responseElements").path("sessionTokenUtilization").asInt(),
+                equalTo(sessionTokenValue.length() * 100 / 4096));
+        assertThat(assumeRole.path("responseElements").path("packedPolicySize").asInt(),
+                equalTo(sessionTokenValue.length() * 100 / 4096));
+        assertThat(assumeRole.path("additionalEventData").path("RequestDetails").path("endpointType").asText(),
+                equalTo("regional"));
+        assertThat(assumeRole.path("additionalEventData").path("RequestDetails").path("awsServingRegion").asText(),
+                equalTo("us-east-1"));
         JsonNode resource = assumeRole.path("resources").get(0);
         assertThat(resource.path("type").asText(), equalTo("AWS::IAM::Role"));
         assertThat(resource.path("ARN").asText(), equalTo(roleArn));
@@ -126,11 +137,15 @@ class StsCloudTrailIntegrationTest {
         assertThat(refused.path("errorMessage").asText(), matchesPattern(".*not authorized to perform: sts:AssumeRole.*"));
         assertThat(refused.path("requestParameters").isNull(), equalTo(true));
         assertThat(refused.path("responseElements").isNull(), equalTo(true));
+        assertThat(refused.has("additionalEventData"), equalTo(false));
+        assertThat(refused.has("resources"), equalTo(false));
 
         JsonNode whoAmI = only(records, "GetCallerIdentity", caller.accessKeyId());
         assertThat(whoAmI.path("readOnly").asBoolean(), equalTo(true));
         assertThat(whoAmI.path("requestParameters").isNull(), equalTo(true));
         assertThat(whoAmI.path("responseElements").isNull(), equalTo(true));
+        assertThat(whoAmI.path("additionalEventData").path("RequestDetails").path("endpointType").asText(),
+                equalTo("regional"));
 
         JsonNode sessionToken = only(records, "GetSessionToken", caller.accessKeyId());
         assertThat(sessionToken.path("readOnly").asBoolean(), equalTo(false));
@@ -138,6 +153,8 @@ class StsCloudTrailIntegrationTest {
         assertThat(sessionToken.path("responseElements").path("credentials").path("expiration").asText(),
                 matchesPattern(EXPIRATION));
         assertThat(sessionToken.toString().contains(tokenSecret), equalTo(false));
+        assertThat(sessionToken.path("responseElements").has("packedPolicySize"), equalTo(false));
+        assertThat(sessionToken.path("responseElements").path("sessionTokenSize").isInt(), equalTo(true));
 
         JsonNode keyInfo = only(records, "GetAccessKeyInfo", ACCOUNT);
         assertThat(keyInfo.path("readOnly").asBoolean(), equalTo(true));
@@ -156,11 +173,19 @@ class StsCloudTrailIntegrationTest {
                 trusting("arn:aws:iam::" + ACCOUNT + ":user/" + user), allowAll());
         EnforcementFixtures.putUserPolicy(baseUri.getPort(), auth(ACCOUNT, "iam"), user, "deny",
                 "{\"Version\":\"2012-10-17\",\"Statement\":[" + EnforcementFixtures.statement("Deny", "sts:AssumeRole", "*")
-                        + "]}");
+                        + "," + EnforcementFixtures.statement("Deny", "sts:GetWebIdentityToken", "*") + "]}");
 
         sts(caller.accessKeyId(), "AssumeRole", "RoleArn", roleArn, "RoleSessionName", "s-" + suffix).statusCode(403);
+        sts(caller.accessKeyId(), "GetWebIdentityToken", "Audience.member.1", "https://api.example.com",
+                "SigningAlgorithm", "RS256").statusCode(403);
 
-        JsonNode refused = only(stsRecords(logs), "AssumeRole", caller.accessKeyId());
+        List<JsonNode> records = stsRecords(logs);
+        JsonNode tokenRefused = only(records, "GetWebIdentityToken", caller.accessKeyId());
+        assertThat(tokenRefused.path("errorCode").asText(), equalTo("AccessDenied"));
+        assertThat(tokenRefused.path("readOnly").asBoolean(), equalTo(false));
+        assertThat(tokenRefused.path("requestParameters").isNull(), equalTo(true));
+
+        JsonNode refused = only(records, "AssumeRole", caller.accessKeyId());
         assertThat(refused.path("errorCode").asText(), equalTo("AccessDenied"));
         assertThat(refused.path("errorMessage").asText(), matchesPattern(".*sts:AssumeRole.*"));
         assertThat(refused.path("readOnly").asBoolean(), equalTo(true));

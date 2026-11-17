@@ -43,6 +43,25 @@ final class SAMLAssertionVerifier {
                     Instant expiration, List<RolePair> roles) {}
     record RolePair(String roleArn, String principalArn) {}
 
+    /**
+     * The {@code ID} of the assertion {@code encoded} carries, as CloudTrail records it for an
+     * assertion STS accepted; null when the assertion cannot be read.
+     */
+    static String assertionId(String encoded) {
+        try {
+            Element assertion = SAMLXml.document(new String(Base64.getDecoder().decode(encoded),
+                    StandardCharsets.UTF_8)).getDocumentElement();
+            if ("Response".equals(assertion.getLocalName())) {
+                assertion = first(assertion, SAML, "Assertion");
+            }
+            String id = assertion == null ? null : assertion.getAttribute("ID");
+            return id == null || id.isBlank() ? null : id;
+        } catch (Exception unreadable) {
+            // Only an assertion STS already accepted is read here; one that cannot be is left out.
+            return null;
+        }
+    }
+
     static Verified verify(String encoded, SAMLProvider provider, Instant now) throws InvalidAssertionException {
         try {
             byte[] bytes = Base64.getDecoder().decode(encoded);

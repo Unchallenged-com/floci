@@ -161,13 +161,23 @@ one STS ran, one STS refused, and, with `floci.services.iam.enforcement-enabled`
   [IAM User Guide's table](https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html#cloudtrail-integration_signin-tempcreds):
   `AssumeRole`, `AssumeRoleWithSAML` and `AssumeRoleWithWebIdentity` are read-only and carry the call's result;
   `AssumeRoot`, `GetFederationToken` and `GetSessionToken` are not read-only and carry it too. `GetWebIdentityToken`
-  is not read-only and carries no result, the token being a bearer credential. Any other call (`GetCallerIdentity`,
+  is not read-only. Any other call (`GetCallerIdentity`,
   `GetAccessKeyInfo`, `DecodeAuthorizationMessage`) is read-only with `"responseElements": null`.
 - `requestParameters` holds the request's members, named with a lower first letter and typed as the STS model types
   them (`"durationSeconds": 900`, `tags: [{"key": ..., "value": ...}]`). The MFA code (`tokenCode`), the SAML assertion,
   the web identity token and a trade-in token are left out.
 - `responseElements` never carries `secretAccessKey`; a credential's `expiration` is in ISO 8601 to the second
   (`2026-09-11T19:55:38Z`), as CloudTrail records it today (the guide's older examples show `Feb 12, 2025, 11:16:48 PM`).
+- A successful call that issues credentials records `sessionTokenSize`, the session token's size in bytes, and
+  `sessionTokenUtilization`, its share of the 4,096-byte limit in percent, rounded down, beside `credentials`;
+  `AssumeRole`, `AssumeRoleWithSAML`, `AssumeRoleWithWebIdentity` and `GetFederationToken` also record the deprecated
+  `packedPolicySize`, with the same value.
+- A successful call records `additionalEventData.RequestDetails`: `endpointType` (`global` for a request to
+  `sts.amazonaws.com`, `regional` otherwise) and `awsServingRegion`. It also records `ExtendedRequestId` as current
+  CloudTrail records carry it, which AWS does not document: the base64 of
+  `1:<region>:S:<epoch milliseconds>:<R or G>:<8 letters or digits>`, `G` for the global endpoint. `AssumeRoleWithWebIdentity` adds
+  `identityProviderConnectionVerificationMethod`, and `AssumeRoleWithSAML` records the assertion's `sAMLAssertionID`
+  and the session's `roleSessionName` rather than the assertion.
 - `AssumeRole`, `AssumeRoleWithSAML` and `AssumeRoleWithWebIdentity` carry the role in `resources`
   (`AWS::IAM::Role`), and `AssumeRoleWithSAML` the SAML provider too.
 - `AssumeRoleWithSAML` and `AssumeRoleWithWebIdentity` name their caller as a `SAMLUser` or a `WebIdentityUser`. They
@@ -175,6 +185,8 @@ one STS ran, one STS refused, and, with `floci.services.iam.enforcement-enabled`
   not be logged".
 - A refused call (`AccessDenied`) is recorded with its message, `"requestParameters": null` and no `resources`; any
   other error keeps the request's members.
+- Not recorded yet: a refused or invalid `AssumeRoleWithSAML` or `AssumeRoleWithWebIdentity`, a successful
+  `GetWebIdentityToken` (its refusals are recorded), and `GetDelegatedAccessToken`.
 
 ## Management Write Coverage
 
