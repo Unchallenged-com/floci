@@ -181,8 +181,8 @@ class StsCloudTrailIntegrationTest {
         String roleArn = EnforcementFixtures.createRole(cleanup, baseUri.getPort(), ACCOUNT, "/", "ct-sts-role-" + suffix,
                 trusting("arn:aws:iam::" + ACCOUNT + ":user/" + user), allowAll());
         EnforcementFixtures.putUserPolicy(baseUri.getPort(), auth(ACCOUNT, "iam"), user, "deny",
-                "{\"Version\":\"2012-10-17\",\"Statement\":[" + EnforcementFixtures.statement("Deny", "sts:AssumeRole", "*")
-                        + "," + EnforcementFixtures.statement("Deny", "sts:GetWebIdentityToken", "*") + "]}");
+                "{\"Version\":\"2012-10-17\",\"Statement\":[" + statement("Deny", "sts:AssumeRole", "*")
+                        + "," + statement("Deny", "sts:GetWebIdentityToken", "*") + "]}");
 
         sts(caller.accessKeyId(), "AssumeRole", "RoleArn", roleArn, "RoleSessionName", "s-" + suffix).statusCode(403);
         sts(caller.accessKeyId(), "GetWebIdentityToken", "Audience.member.1", "https://api.example.com",
@@ -207,8 +207,12 @@ class StsCloudTrailIntegrationTest {
                 + principalArn + "\"},\"Action\":[\"sts:AssumeRole\",\"sts:TagSession\"]}]}";
     }
 
+    private static String statement(String effect, String action, String resource) {
+        return "{\"Effect\":\"" + effect + "\",\"Action\":\"" + action + "\",\"Resource\":\"" + resource + "\"}";
+    }
+
     private static String allowAll() {
-        return "{\"Version\":\"2012-10-17\",\"Statement\":[" + EnforcementFixtures.statement("Allow", "*", "*") + "]}";
+        return "{\"Version\":\"2012-10-17\",\"Statement\":[" + statement("Allow", "*", "*") + "]}";
     }
 
     private void startTrail(String trail, String bucket) {
