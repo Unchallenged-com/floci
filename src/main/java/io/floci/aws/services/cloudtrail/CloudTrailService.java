@@ -451,13 +451,23 @@ public class CloudTrailService {
     public record ManagementEventInput(String eventSource, String eventName, String region, String accessKeyId,
                                        ObjectNode requestParameters, ObjectNode responseElements,
                                        boolean readOnly, String sourceIp, String userAgent, String requestId,
-                                       String errorCode, String errorMessage) {
+                                       String errorCode, String errorMessage, ObjectNode additionalEventData,
+                                       ArrayNode resources) {
+
+        /** A call whose record carries no {@code additionalEventData} or {@code resources}. */
+        public ManagementEventInput(String eventSource, String eventName, String region, String accessKeyId,
+                                    ObjectNode requestParameters, ObjectNode responseElements, boolean readOnly,
+                                    String sourceIp, String userAgent, String requestId, String errorCode,
+                                    String errorMessage) {
+            this(eventSource, eventName, region, accessKeyId, requestParameters, responseElements, readOnly,
+                    sourceIp, userAgent, requestId, errorCode, errorMessage, null, null);
+        }
 
         /** A successful write, from a caller whose address and agent are not known. */
         public ManagementEventInput(String eventSource, String eventName, String region, String accessKeyId,
                                     ObjectNode requestParameters, ObjectNode responseElements) {
             this(eventSource, eventName, region, accessKeyId, requestParameters, responseElements, false,
-                    null, null, null, null, null);
+                    null, null, null, null, null, null, null);
         }
     }
 
@@ -496,6 +506,12 @@ public class CloudTrailService {
                     ? mapper.nullNode() : in.requestParameters().deepCopy());
             record.set("responseElements", in.responseElements() == null
                     ? mapper.nullNode() : in.responseElements().deepCopy());
+            if (in.additionalEventData() != null) {
+                record.set("additionalEventData", in.additionalEventData().deepCopy());
+            }
+            if (in.resources() != null) {
+                record.set("resources", in.resources().deepCopy());
+            }
             List<MatchedTrail> matched = trailsMatching(region, entry -> matchesManagementEvent(entry, record));
             if (matched.isEmpty()) {
                 return Optional.empty();
@@ -991,7 +1007,9 @@ public class CloudTrailService {
         return switch (eventName) {
             case "GetObject", "HeadObject", "ListObjects", "ListObjectsV2",
                  "GetObjectAcl", "GetObjectTagging", "GetObjectAttributes", "ListMultipartUploads",
-                 "GetObjectAnnotation", "ListObjectAnnotations", "SelectObjectContent" -> true;
+                 "GetObjectAnnotation", "ListObjectAnnotations", "SelectObjectContent",
+                 "GetObjectLockLegalHold", "GetObjectLockRetention", "GetObjectTorrent", "ListParts",
+                 "ListObjectVersions", "HeadBucket" -> true;
             default -> false;
         };
     }
@@ -1030,15 +1048,14 @@ public class CloudTrailService {
         if (in.bucketName() != null) reqParams.put("bucketName", in.bucketName());
         reqParams.put("Host", s3Host);
         if (in.key() != null) reqParams.put("key", in.key());
+        in.queryParameters().forEach(reqParams::put);
         record.set("requestParameters", reqParams);
         record.set("responseElements", mapper.nullNode());
 
-        ObjectNode addl = mapper.createObjectNode();
-        addl.put("SignatureVersion", "SigV4");
-        addl.put("CipherSuite", "TLS_AES_128_GCM_SHA256");
-        addl.put("bytesTransferredIn", in.bytesIn());
-        addl.put("AuthenticationMethod", "AuthHeader");
-        addl.put("bytesTransferredOut", in.bytesOut());
+        ObjectNode addl = s3AdditionalEventData(in.bytesIn(), in.bytesOut());
+        if (in.objectRetentionInfo() != null) {
+            addl.set("objectRetentionInfo", in.objectRetentionInfo().deepCopy());
+        }
         record.set("additionalEventData", addl);
 
         record.put("requestID", UUID.randomUUID().toString().replace("-", "").substring(0, 16).toUpperCase());
@@ -1072,6 +1089,17 @@ public class CloudTrailService {
         record.set("tlsDetails", tls);
 
         return record;
+    }
+
+    /** The {@code additionalEventData} S3 records carry for a request signed in its header. */
+    public ObjectNode s3AdditionalEventData(long bytesIn, long bytesOut) {
+        ObjectNode addl = mapper.createObjectNode();
+        addl.put("SignatureVersion", "SigV4");
+        addl.put("CipherSuite", "TLS_AES_128_GCM_SHA256");
+        addl.put("bytesTransferredIn", bytesIn);
+        addl.put("AuthenticationMethod", "AuthHeader");
+        addl.put("bytesTransferredOut", bytesOut);
+        return addl;
     }
 
     private ObjectNode buildUserIdentity(String accessKeyId) {
@@ -1203,7 +1231,13 @@ public class CloudTrailService {
             long bytesOut,
             String errorCode,
             String errorMessage,
-            long eventTimeMillis) {
+            long eventTimeMillis,
+            Map<String, String> queryParameters,
+            ObjectNode objectRetentionInfo) {
+
+        public S3EventInput {
+            queryParameters = queryParameters == null ? Map.of() : Map.copyOf(queryParameters);
+        }
 
         public static Builder builder() { return new Builder(); }
 
@@ -1220,6 +1254,8 @@ public class CloudTrailService {
             private String errorCode;
             private String errorMessage;
             private long eventTimeMillis;
+            private Map<String, String> queryParameters;
+            private ObjectNode objectRetentionInfo;
 
             public Builder region(String v) { this.region = v; return this; }
             public Builder eventName(String v) { this.eventName = v; return this; }
@@ -1233,11 +1269,15 @@ public class CloudTrailService {
             public Builder errorCode(String v) { this.errorCode = v; return this; }
             public Builder errorMessage(String v) { this.errorMessage = v; return this; }
             public Builder eventTimeMillis(long v) { this.eventTimeMillis = v; return this; }
+            /** The request's query parameters, which {@code requestParameters} carries, a sub-resource with an empty value. */
+            public Builder queryParameters(Map<String, String> v) { this.queryParameters = v; return this; }
+            /** The retention and legal hold an Object Lock call left, carried in {@code additionalEventData}. */
+            public Builder objectRetentionInfo(ObjectNode v) { this.objectRetentionInfo = v; return this; }
 
             public S3EventInput build() {
                 return new S3EventInput(region, eventName, bucketName, key, accessKeyId,
                         sourceIp, userAgent, bytesIn, bytesOut,
-                        errorCode, errorMessage, eventTimeMillis);
+                        errorCode, errorMessage, eventTimeMillis, queryParameters, objectRetentionInfo);
             }
         }
     }
