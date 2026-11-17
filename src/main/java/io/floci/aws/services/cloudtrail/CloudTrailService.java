@@ -212,8 +212,7 @@ public class CloudTrailService {
         Trail resolved = findTrailOrThrow(region, trailNameOrArn);
         String key = regionKey(resolved.homeRegion(), resolved.name());
         return withTrailLock(key, () -> {
-            CloudTrailEntry entry = store.get(key).orElseThrow(() -> new AwsException(
-                    "TrailNotFoundException", "Unknown trail: " + trailNameOrArn, 400));
+            CloudTrailEntry entry = store.get(key).orElseThrow(() -> trailNotFound(region, trailNameOrArn));
             Trail updated = change.apply(entry.trail());
             store.put(key, entry.withTrail(updated));
             return updated;
@@ -246,7 +245,16 @@ public class CloudTrailService {
                 kmsKeyId != null ? blankToNull(kmsKeyId) : existing.kmsKeyId(),
                 cloudWatchLogsLogGroupArn != null
                         ? blankToNull(cloudWatchLogsLogGroupArn) : existing.cloudWatchLogsLogGroupArn(),
-                cloudWatchLogsRoleArn != null ? blankToNull(cloudWatchLogsRoleArn) : existing.cloudWatchLogsRoleArn());
+                cloudWatchLogsRoleArn != null ? blankToNull(cloudWatchLogsRoleArn) : existing.cloudWatchLogsRoleArn(),
+                existing.recursiveLogging());
+    }
+
+    /**
+     * Sets whether CloudTrail records the events its own log delivery generates. Floci's delivery
+     * generates none, so the setting is recorded and reported back only.
+     */
+    public Trail setRecursiveLogging(String region, String trailNameOrArn, boolean recursiveLogging) {
+        return rewriteTrail(region, trailNameOrArn, existing -> existing.withRecursiveLogging(recursiveLogging));
     }
 
     public List<Trail> describeTrails(String region, List<String> trailNameOrArnList) {
@@ -1163,11 +1171,22 @@ public class CloudTrailService {
                 .orElse(null);
     }
 
+    /**
+     * CloudTrail names the trail by its ARN and the caller by its account: "Unknown trail:
+     * arn:aws:cloudtrail:us-east-1:111122223333:trail/myTrail2 for the user: 111122223333"
+     * (https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-log-file-examples.html).
+     */
+    private AwsException trailNotFound(String region, String nameOrArn) {
+        String accountId = regionResolver.getAccountId();
+        String arn = AwsArnUtils.isArn(nameOrArn) ? nameOrArn
+                : AwsArnUtils.Arn.of("cloudtrail", region, accountId, "trail/" + nameOrArn).toString();
+        return new AwsException("TrailNotFoundException", "Unknown trail: " + arn + " for the user: " + accountId, 400);
+    }
+
     private Trail findTrailOrThrow(String region, String nameOrArn) {
         Trail t = findTrail(region, nameOrArn);
         if (t == null) {
-            throw new AwsException("TrailNotFoundException",
-                    "Unknown trail: " + nameOrArn, 400);
+            throw trailNotFound(region, nameOrArn);
         }
         return t;
     }

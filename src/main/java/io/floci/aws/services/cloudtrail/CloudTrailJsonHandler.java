@@ -86,6 +86,9 @@ public class CloudTrailJsonHandler {
                 includeGlobal, isMultiRegion, enableLogFileValidation, isOrganizationTrail, tags,
                 textOrNull(req, "KmsKeyId"), textOrNull(req, "CloudWatchLogsLogGroupArn"),
                 textOrNull(req, "CloudWatchLogsRoleArn"));
+        if (req.hasNonNull("RecursiveLogging")) {
+            trail = service.setRecursiveLogging(region, name, req.path("RecursiveLogging").asBoolean());
+        }
 
         ObjectNode resp = mapper.createObjectNode();
         resp.put("Name", trail.name());
@@ -100,6 +103,7 @@ public class CloudTrailJsonHandler {
         resp.put("TrailARN", trail.trailArn());
         resp.put("LogFileValidationEnabled", trail.logFileValidationEnabled());
         resp.put("IsOrganizationTrail", trail.isOrganizationTrail());
+        resp.put("RecursiveLogging", trail.recursiveLogging());
         putIfSet(resp, "KmsKeyId", trail.kmsKeyId());
         putIfSet(resp, "CloudWatchLogsLogGroupArn", trail.cloudWatchLogsLogGroupArn());
         putIfSet(resp, "CloudWatchLogsRoleArn", trail.cloudWatchLogsRoleArn());
@@ -142,6 +146,9 @@ public class CloudTrailJsonHandler {
                 includeGlobal, isMultiRegion, enableLogFileValidation, isOrganizationTrail,
                 textOrNull(req, "KmsKeyId"), textOrNull(req, "CloudWatchLogsLogGroupArn"),
                 textOrNull(req, "CloudWatchLogsRoleArn"));
+        if (req.hasNonNull("RecursiveLogging")) {
+            trail = service.setRecursiveLogging(region, name, req.path("RecursiveLogging").asBoolean());
+        }
 
         ObjectNode resp = mapper.createObjectNode();
         resp.put("Name", trail.name());
@@ -156,6 +163,7 @@ public class CloudTrailJsonHandler {
         resp.put("TrailARN", trail.trailArn());
         resp.put("LogFileValidationEnabled", trail.logFileValidationEnabled());
         resp.put("IsOrganizationTrail", trail.isOrganizationTrail());
+        resp.put("RecursiveLogging", trail.recursiveLogging());
         putIfSet(resp, "KmsKeyId", trail.kmsKeyId());
         putIfSet(resp, "CloudWatchLogsLogGroupArn", trail.cloudWatchLogsLogGroupArn());
         putIfSet(resp, "CloudWatchLogsRoleArn", trail.cloudWatchLogsRoleArn());
