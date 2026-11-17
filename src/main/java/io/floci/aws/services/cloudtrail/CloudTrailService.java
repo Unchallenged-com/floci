@@ -29,6 +29,7 @@ import jakarta.inject.Inject;
 import org.jboss.logging.Logger;
 
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -52,6 +53,12 @@ public class CloudTrailService {
     private static final String EVENT_VERSION = "1.11";
     private static final String S3_EVENT_SOURCE = ServicePrincipals.of("s3");
     static final int MAX_PENDING_RECORDS_PER_TRAIL = 1024;
+
+    /**
+     * How long a trail keeps recording after {@code StopLogging}: on AWS, logging stops shortly
+     * after the call, and events in the following couple of minutes may still be delivered.
+     */
+    static final Duration STOP_LOGGING_DELAY = Duration.ofMinutes(2);
     static final long MAX_PENDING_BYTES_PER_TRAIL = 4L * 1024L * 1024L;
 
     private final StorageBackend<String, CloudTrailEntry> store;
@@ -71,6 +78,8 @@ public class CloudTrailService {
      * first read, silently discarding whatever the first call changed.
      */
     private final ConcurrentHashMap<String, Object> trailLocks = new ConcurrentHashMap<>();
+
+    private volatile Duration stopLoggingDelay = STOP_LOGGING_DELAY;
 
     @Inject
     public CloudTrailService(StorageFactory storageFactory, RegionResolver regionResolver,
@@ -493,6 +502,18 @@ public class CloudTrailService {
 
     /** Records one management write and returns the event only when a logging trail selects it. */
     public Optional<ObjectNode> emitManagementEvent(ManagementEventInput in) {
+        return emitManagementEvent(in, null);
+    }
+
+    /**
+     * Records a call that occurred at {@code occurredAt} (epoch milliseconds), before it changed
+     * the trails: a trail receives it when its logging had started before the call and had not
+     * stopped before it, so a {@code StopLogging} reaches the trail it stops and a
+     * {@code StartLogging} not the trail it starts. "After you turn off logging for a trail, the
+     * trail can still receive events that occurred before logging was turned off"
+     * (https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-turning-off-logging.html).
+     */
+    public Optional<ObjectNode> emitManagementEvent(ManagementEventInput in, Long occurredAt) {
         try {
             String region = in.region() != null ? in.region() : regionResolver.getDefaultRegion();
             ObjectNode record = mapper.createObjectNode();
@@ -533,7 +554,9 @@ public class CloudTrailService {
             if (in.resources() != null) {
                 record.set("resources", in.resources().deepCopy());
             }
-            List<MatchedTrail> matched = trailsMatching(region, entry -> matchesManagementEvent(entry, record));
+            List<MatchedTrail> matched = occurredAt == null
+                    ? trailsMatching(region, entry -> matchesManagementEvent(entry, record))
+                    : trailsMatching(region, entry -> matchesManagementEvent(entry, record), occurredAt);
             if (matched.isEmpty()) {
                 return Optional.empty();
             }
@@ -837,6 +860,11 @@ public class CloudTrailService {
     }
 
     private List<MatchedTrail> trailsMatching(String region, Predicate<CloudTrailEntry> matches) {
+        return trailsMatching(region, matches, null);
+    }
+
+    /** The trails that select an event, among those logging when it occurred, or now when that is null. */
+    private List<MatchedTrail> trailsMatching(String region, Predicate<CloudTrailEntry> matches, Long occurredAt) {
         List<MatchedTrail> result = new ArrayList<>();
         for (String k : store.keys()) {
             String trailRegion = regionFromKey(k);
@@ -852,7 +880,7 @@ public class CloudTrailService {
             if (!regionResolver.partitionForRegion(region).equals(regionResolver.partitionForRegion(trail.homeRegion()))) {
                 continue;
             }
-            if (!entry.logging()) {
+            if (!recordingAt(entry, occurredAt == null ? System.currentTimeMillis() : occurredAt, occurredAt != null)) {
                 continue;
             }
             if (matches.test(entry)) {
@@ -860,6 +888,26 @@ public class CloudTrailService {
             }
         }
         return result;
+    }
+
+    /**
+     * Whether the trail records an event that occurred at {@code at} (epoch milliseconds): while it
+     * is logging, and for {@link #stopLoggingDelay} after a {@code StopLogging}, as logging stops
+     * shortly after it on AWS. A call to CloudTrail itself ({@code beforeChange}) also needs the
+     * logging to have started before it, so the {@code StartLogging} that starts a trail is not
+     * recorded there.
+     */
+    private boolean recordingAt(CloudTrailEntry entry, long at, boolean beforeChange) {
+        if (beforeChange && (entry.startLoggingTime() == null || entry.startLoggingTime() >= at)) {
+            return false;
+        }
+        return entry.logging()
+                || (entry.stopLoggingTime() != null && at <= entry.stopLoggingTime() + stopLoggingDelay.toMillis());
+    }
+
+    /** Sets how long a trail keeps recording after {@code StopLogging}; for tests. */
+    void stopLoggingDelay(Duration delay) {
+        this.stopLoggingDelay = delay;
     }
 
     private boolean matchesManagementEvent(CloudTrailEntry entry, ObjectNode record) {

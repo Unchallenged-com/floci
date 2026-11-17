@@ -208,8 +208,11 @@ CloudTrail's own calls are management events like any other service's: `CreateTr
   `"responseElements": null`, as the guide's
   [failed `UpdateTrail`](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-log-file-examples.html)
   shows. A call IAM enforcement refuses is recorded as `AccessDenied` with `"requestParameters": null`.
-- A trail whose logging is stopped, or that is deleted, receives no event that occurs afterwards; the other trails
-  record the `StopLogging` or `DeleteTrail`.
+- A trail receives a CloudTrail call when its logging had started before the call and had not stopped before it: a
+  `StopLogging` reaches the trail it stops, as on AWS, while the `CreateTrail` and the `StartLogging` that start a
+  trail do not reach it. `StopLogging` carries the trail in `resources` (`AWS::CloudTrail::Trail`). Logging stops shortly
+  after `StopLogging`: events in the following two minutes are still delivered, later ones are not, and events that
+  occurred before the stop are delivered too. A deleted trail receives no event that occurs afterwards.
 
 ## Management Write Coverage
 
