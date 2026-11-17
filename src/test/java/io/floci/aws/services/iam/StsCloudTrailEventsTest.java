@@ -62,6 +62,24 @@ class StsCloudTrailEventsTest {
     }
 
     @Test
+    void credentialsExpireInIso8601ToTheSecondWithoutTheirSecret() {
+        String xml = """
+                <AssumeRoleResponse xmlns="https://sts.amazonaws.com/doc/2011-06-15/"><AssumeRoleResult>
+                  <Credentials><AccessKeyId>ASIAIOSFODNN7EXAMPLE</AccessKeyId>
+                    <SecretAccessKey>wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY</SecretAccessKey>
+                    <SessionToken>FwoGZXIvYXdzEXAMPLE</SessionToken>
+                    <Expiration>2026-09-11T19:55:38.512Z</Expiration></Credentials>
+                  <AssumedRoleUser><Arn>arn:aws:sts::111122223333:assumed-role/ops/night</Arn>
+                    <AssumedRoleId>AROA123456789EXAMPLE:night</AssumedRoleId></AssumedRoleUser>
+                  <PackedPolicySize>0</PackedPolicySize>
+                </AssumeRoleResult></AssumeRoleResponse>""";
+        ObjectNode result = StsCloudTrailEvents.result("AssumeRole", xml);
+        assertThat(result.path("credentials").path("expiration").asText(), equalTo("2026-09-11T19:55:38Z"));
+        assertThat(result.path("credentials").has("secretAccessKey"), equalTo(false));
+        assertThat(result.path("packedPolicySize").isNumber(), equalTo(true));
+    }
+
+    @Test
     void anAuthorizationRefusalHasNoRequestParameters() {
         assertThat(StsCloudTrailEvents.requestParameters("AssumeRole",
                 params("RoleArn", "arn:aws:iam::111122223333:role/ops", "RoleSessionName", "night"), "AccessDenied"),

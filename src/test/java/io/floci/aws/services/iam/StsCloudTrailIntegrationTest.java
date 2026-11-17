@@ -46,7 +46,7 @@ class StsCloudTrailIntegrationTest {
 
     private static final String ACCOUNT = "661100000252";
     private static final ObjectMapper MAPPER = new ObjectMapper();
-    private static final String EXPIRATION = "[A-Z][a-z]{2} \\d{1,2}, \\d{4}, \\d{1,2}:\\d{2}:\\d{2} [AP]M";
+    private static final String EXPIRATION = "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z";
 
     @TestHTTPResource("/")
     static URI baseUri;

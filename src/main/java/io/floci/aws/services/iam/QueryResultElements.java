@@ -9,6 +9,7 @@ import io.floci.aws.core.common.XmlParser;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -94,7 +95,7 @@ final class QueryResultElements {
             return value;
         }
         try {
-            return timestamps.format(Instant.parse(value));
+            return timestamps.format(Instant.parse(value).truncatedTo(ChronoUnit.SECONDS));
         } catch (DateTimeParseException expected) {
             // Shaped like a timestamp without being one, such as a name a caller chose: kept as sent.
             return value;
