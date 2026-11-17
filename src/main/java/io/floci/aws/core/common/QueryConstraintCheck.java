@@ -2,6 +2,8 @@ package io.floci.aws.core.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.ws.rs.core.MultivaluedMap;
 
 import java.math.BigInteger;
@@ -159,6 +161,89 @@ public final class QueryConstraintCheck {
     private static IllegalStateException refusal(String operation, String member, String type) {
         return new IllegalStateException(operation + "'s " + member + " is a " + type
                 + ", which this check does not read yet");
+    }
+
+    /**
+     * The members {@code params} carries for {@code operation}, read through the model into a tree:
+     * each member named as {@link #memberPath} names it, a number or a boolean as one where the
+     * model types it so, a list as an array, a structure as an object and a map as an object keyed
+     * by the keys the request sent. An operation the vendored file does not carry reads as null,
+     * and so does one whose request carries none of its members.
+     */
+    public ObjectNode read(String operation, MultivaluedMap<String, String> params) {
+        JsonNode shape = shapes.path(operations.path(operation).asText());
+        if (!shape.hasNonNull("members") || params == null) {
+            return null;
+        }
+        ObjectNode read = readStructure(shape, "", params);
+        return read.isEmpty() ? null : read;
+    }
+
+    private ObjectNode readStructure(JsonNode structure, String prefix, MultivaluedMap<String, String> params) {
+        ObjectNode read = MAPPER.createObjectNode();
+        for (Map.Entry<String, JsonNode> member : structure.path("members").properties()) {
+            JsonNode value = readMember(member.getValue().asText(), prefix + member.getKey(), params);
+            if (value != null) {
+                read.set(memberPath(member.getKey()), value);
+            }
+        }
+        return read;
+    }
+
+    private JsonNode readMember(String shapeName, String param, MultivaluedMap<String, String> params) {
+        JsonNode shape = shapes.path(shapeName);
+        return switch (shape.path("type").asText()) {
+            case "list" -> readList(shape, param, params);
+            case "map" -> readMap(shape, param, params);
+            case "structure" -> params.keySet().stream().anyMatch(key -> key.startsWith(param + "."))
+                    ? readStructure(shape, param + ".", params) : null;
+            default -> readScalar(shape.path("type").asText(), params.getFirst(param));
+        };
+    }
+
+    private JsonNode readList(JsonNode shape, String param, MultivaluedMap<String, String> params) {
+        List<AwsQueryLists.IndexedMember> members = AwsQueryLists.members(params, param, null);
+        if (members.isEmpty()) {
+            return null;
+        }
+        ArrayNode read = MAPPER.createArrayNode();
+        for (AwsQueryLists.IndexedMember member : members) {
+            JsonNode value = readMember(shape.path("member").asText(), member.prefix(), params);
+            if (value != null) {
+                read.add(value);
+            }
+        }
+        return read;
+    }
+
+    private JsonNode readMap(JsonNode shape, String param, MultivaluedMap<String, String> params) {
+        List<AwsQueryLists.IndexedMember> entries = AwsQueryLists.members(params, param, "entry");
+        if (entries.isEmpty()) {
+            return null;
+        }
+        ObjectNode read = MAPPER.createObjectNode();
+        for (AwsQueryLists.IndexedMember entry : entries) {
+            String key = params.getFirst(entry.prefix() + ".key");
+            if (key != null) {
+                JsonNode value = readMember(shape.path("value").asText(), entry.prefix() + ".value", params);
+                read.set(key, value == null ? MAPPER.nullNode() : value);
+            }
+        }
+        return read;
+    }
+
+    /** A number or a boolean that does not read as one is kept as the text the request sent. */
+    private static JsonNode readScalar(String type, String value) {
+        if (value == null) {
+            return null;
+        }
+        if (("integer".equals(type) || "long".equals(type)) && isInteger(value)) {
+            return MAPPER.getNodeFactory().numberNode(new BigInteger(value.trim()));
+        }
+        if ("boolean".equals(type) && ("true".equals(value) || "false".equals(value))) {
+            return MAPPER.getNodeFactory().booleanNode(Boolean.parseBoolean(value));
+        }
+        return MAPPER.getNodeFactory().textNode(value);
     }
 
     /**

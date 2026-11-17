@@ -1,5 +1,6 @@
 package io.floci.aws.services.iam;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.floci.aws.core.common.QueryConstraintCheck;
 import jakarta.ws.rs.core.MultivaluedMap;
 
@@ -44,6 +45,11 @@ public final class IamRequestShapes {
     /** Whether the operation's generated input shape declares the member. */
     static boolean hasMember(String operation, String member) {
         return CHECK.hasMember(operation, member);
+    }
+
+    /** The request's members as CloudTrail names them, or null for an operation the file does not carry. */
+    static ObjectNode read(String action, MultivaluedMap<String, String> params) {
+        return CHECK.read(action, params);
     }
 
     /** Throws {@code ValidationError} when the request breaks a constraint the model declares. */
