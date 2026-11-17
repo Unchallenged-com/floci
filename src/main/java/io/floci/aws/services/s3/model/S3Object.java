@@ -46,6 +46,10 @@ public class S3Object {
     private String objectLockMode;       // "GOVERNANCE" | "COMPLIANCE" | null
     private Instant retainUntilDate;     // null if no retention
     private String legalHoldStatus;      // "ON" | "OFF" | null
+    /** When the retention was last set, which CloudTrail reports; null when not known. */
+    private Instant retentionModifiedAt;
+    /** When the legal hold was last set, which CloudTrail reports; null when not known. */
+    private Instant legalHoldModifiedAt;
     private String acl;
     private String ownerAccountId;
 
@@ -123,6 +127,8 @@ public class S3Object {
         this.objectLockMode = source.objectLockMode;
         this.retainUntilDate = source.retainUntilDate;
         this.legalHoldStatus = source.legalHoldStatus;
+        this.retentionModifiedAt = source.retentionModifiedAt;
+        this.legalHoldModifiedAt = source.legalHoldModifiedAt;
         this.acl = source.acl;
         this.ownerAccountId = source.ownerAccountId;
         this.dataGeneration = source.dataGeneration;
@@ -209,6 +215,12 @@ public class S3Object {
 
     public String getLegalHoldStatus() { return legalHoldStatus; }
     public void setLegalHoldStatus(String legalHoldStatus) { this.legalHoldStatus = legalHoldStatus; }
+
+    public Instant getRetentionModifiedAt() { return retentionModifiedAt; }
+    public void setRetentionModifiedAt(Instant retentionModifiedAt) { this.retentionModifiedAt = retentionModifiedAt; }
+
+    public Instant getLegalHoldModifiedAt() { return legalHoldModifiedAt; }
+    public void setLegalHoldModifiedAt(Instant legalHoldModifiedAt) { this.legalHoldModifiedAt = legalHoldModifiedAt; }
 
     public String getAcl() { return acl; }
     public void setAcl(String acl) { this.acl = acl; }
