@@ -288,12 +288,43 @@ class Ec2VolumeBlockDeviceManagerTest {
         verify(helperBuilder).withBind(directory.resolve("ec2").resolve("volumes").toString(), "/volumes");
     }
 
+    @Test
+    void helperJoinsTheNetworkFlociContainersShare(@TempDir Path directory) {
+        when(containerDetector.isRunningInContainer()).thenReturn(false);
+        ContainerBuilder.Builder helperBuilder = helperToBeCreatedOn(directory);
+
+        manager.attachVolume(volume(), runningInstance(), "/dev/xvdf");
+
+        verify(helperBuilder).withDockerNetwork(Optional.empty());
+    }
+
+    @Test
+    void helpersNamedVolumeCarriesTheHelpersIdentityLabels() {
+        ContainerBuilder.Builder helperBuilder = helperToBeCreatedOn("");
+
+        manager.attachVolume(volume(), runningInstance(), "/dev/xvdf");
+
+        Map<String, String> identity = Map.of(
+                "io.floci", "aws",
+                "io.floci.service", "ec2",
+                "io.floci.resource-id", "volume-helper",
+                "io.floci.account", "default",
+                "io.floci.region", "global");
+        verify(lifecycleManager).ensureVolume("floci-aws-ec2-volumes", identity);
+        verify(helperBuilder).withLabels(identity);
+        verify(helperBuilder).withNamedVolume("floci-aws-ec2-volumes", "/volumes");
+    }
+
+    private ContainerBuilder.Builder helperToBeCreatedOn(Path hostPersistentPath) {
+        return helperToBeCreatedOn(hostPersistentPath.toString());
+    }
+
     /**
-     * Stubs bind-mode storage under {@code hostPersistentPath} with no helper container yet, so the
+     * Stubs storage under {@code hostPersistentPath} (a named volume when blank) with no helper container yet, so the
      * next operation creates the helper through the returned builder and its commands succeed.
      */
-    private ContainerBuilder.Builder helperToBeCreatedOn(Path hostPersistentPath) {
-        when(config.storage().hostPersistentPath()).thenReturn(hostPersistentPath.toString());
+    private ContainerBuilder.Builder helperToBeCreatedOn(String hostPersistentPath) {
+        when(config.storage().hostPersistentPath()).thenReturn(hostPersistentPath);
         when(config.services().ec2().volumeHelperImage()).thenReturn(HELPER_IMAGE);
         when(dockerClient.inspectContainerCmd(anyString()).exec()).thenThrow(new NotFoundException("no such container"));
         ContainerBuilder.Builder builder = mock(ContainerBuilder.Builder.class, RETURNS_SELF);

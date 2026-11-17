@@ -484,16 +484,22 @@ public class Ec2VolumeBlockDeviceManager implements ContainerTeardown, Resettabl
 
         try {
             String helperImage = config.services().ec2().volumeHelperImage();
+            Map<String, String> identityLabels =
+                    ContainerStorageHelper.resourceIdentityLabels("ec2", "volume-helper", "default", "global");
+            // On the network Floci's other containers share, as instances are, rather than on Docker's default bridge.
             ContainerBuilder.Builder builder = containerBuilder.newContainer(helperImage)
                     .withName(helperName)
+                    .withDockerNetwork(Optional.empty())
                     .withPrivileged(true)
                     .withEntrypoint(List.of("sleep", "2147483647"))
                     .withLabels(ContainerStorageHelper.defaultLabels(config))
-                    .withLabels(ContainerStorageHelper.resourceIdentityLabels("ec2", "volume-helper", "default", "global"));
+                    .withLabels(identityLabels);
 
             if (ContainerStorageHelper.isNamedVolumeMode(config)) {
                 String volumeName = ContainerStorageHelper.dockerName(config, "ec2-volumes");
-                ContainerStorageHelper.applyNamedVolume(builder, lifecycleManager, volumeName, "/volumes");
+                // The volume carries the helper's identity labels, so what finds the helper by them finds its storage.
+                lifecycleManager.ensureVolume(volumeName, identityLabels);
+                builder.withNamedVolume(volumeName, "/volumes");
             } else {
                 String hostPath = ContainerStorageHelper.hostResourcePath(config, "ec2", "volumes")
                         .toAbsolutePath().toString();

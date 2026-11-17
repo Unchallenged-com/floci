@@ -205,6 +205,31 @@ class Ec2VolumeBlockDeviceDockerIntegrationTest {
     }
 
     @Test
+    void helperJoinsFlocisNetworkAndItsVolumeCarriesItsIdentityLabels() {
+        Assumptions.assumeTrue(ContainerStorageHelper.isNamedVolumeMode(config),
+                "the helper's storage is a named volume only in named volume mode");
+        String helperName = ContainerStorageHelper.resourceName(config, "ec2", null, "volume-helper");
+        String volumeName = ContainerStorageHelper.dockerName(config, "ec2-volumes");
+        // Docker sets a volume's labels when it creates it, so start from no helper and no volume.
+        volumeBlockDeviceManager.stopManagedContainers();
+        lifecycleManager.removeVolume(volumeName);
+
+        Volume volume = ec2Service.createVolume("us-east-1", "us-east-1a", "gp3", 1, false, 3000, 125, null, null);
+        volumesToClean.add(volume.getVolumeId());
+
+        String expectedNetwork = containerBuilder.resolveDockerNetwork(Optional.empty()).orElse("bridge");
+        Map<String, ?> networks = dockerClient.inspectContainerCmd(helperName).exec()
+                .getNetworkSettings().getNetworks();
+        assertTrue(networks.containsKey(expectedNetwork),
+                "helper should be on " + expectedNetwork + ", got " + networks.keySet());
+        Map<String, String> volumeLabels = dockerClient.inspectVolumeCmd(volumeName).exec().getLabels();
+        assertEquals("aws", volumeLabels.get("io.floci"));
+        assertEquals("ec2", volumeLabels.get("io.floci.service"));
+        assertEquals("volume-helper", volumeLabels.get("io.floci.resource-id"));
+        assertEquals("true", volumeLabels.get("floci"));
+    }
+
+    @Test
     void volumeAttachedProducesUsableBlockDeviceOfCorrectSize() {
         String suffix = UUID.randomUUID().toString().replace("-", "").substring(0, 10);
         Instance instance = createRunningTestInstance(suffix);
