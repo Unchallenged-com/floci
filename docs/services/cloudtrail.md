@@ -57,6 +57,23 @@ QUARKUS_HTTP_PROXY_TRUSTED_PROXIES=10.0.0.5   # the proxy's address or range
 With `floci.tls.enabled`, Floci's own TCP proxy relays every connection to Quarkus, so the source address is the
 loopback address.
 
+## Caller identity
+
+Each record's `userIdentity` describes the caller as CloudTrail's
+[userIdentity element](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-event-reference-user-identity.html)
+types it:
+
+- `Root` for the account's own credentials (the `test` credential, or an access key ID that is the account ID):
+  `principalId` is the account ID, `arn` the account's `root` ARN, and there is no `userName`, since "the userName
+  field can't contain Root".
+- `IAMUser` for a user's access key, and for the credentials a user's `GetSessionToken` issued, with `userName`.
+- `AssumedRole` for a role session: `principalId` is the role ID and the session name, `arn` the session's
+  `assumed-role` ARN, and `sessionContext.sessionIssuer` the role (`type: Role`), with the session's `creationDate`
+  in `sessionContext.attributes`. `mfaAuthenticated` is `false`: Floci does not record MFA for a session.
+- `FederatedUser` for a federation token.
+
+A request IAM enforcement refuses names the same caller in its `errorMessage`.
+
 ## Encryption and CloudWatch Logs settings
 
 `CreateTrail` and `UpdateTrail` record `KmsKeyId`, `CloudWatchLogsLogGroupArn` and `CloudWatchLogsRoleArn`, and `DescribeTrails` returns them, so a Terraform `aws_cloudtrail` with encryption or log delivery reads back what it declared. `UpdateTrail` with an empty value clears one, as on AWS. A log group without a role is refused with `InvalidCloudWatchLogsRoleArnException`, and a role without a log group with `InvalidCloudWatchLogsLogGroupArnException`. The settings are recorded only: log files are not encrypted, events are not delivered to the log group, and `KmsKeyId` is stored as sent (an alias is not resolved to the key ARN, and an unknown key is not refused).
