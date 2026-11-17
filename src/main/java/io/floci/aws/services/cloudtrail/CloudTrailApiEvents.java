@@ -18,6 +18,7 @@ import org.jboss.logging.Logger;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Records CloudTrail's own API calls as management events, as CloudTrail records any service's:
@@ -38,6 +39,7 @@ public class CloudTrailApiEvents {
 
     private static final Logger LOG = Logger.getLogger(CloudTrailApiEvents.class);
     private static final String EVENT_SOURCE = ServicePrincipals.of("cloudtrail");
+    private static final Set<String> TRAIL_RESOURCE_CALLS = Set.of("StartLogging", "StopLogging", "DeleteTrail");
     private static final List<String> READ_ONLY_PREFIXES = List.of("Describe", "Get", "List", "Lookup");
 
     private final CloudTrailService cloudTrail;
@@ -89,12 +91,13 @@ public class CloudTrailApiEvents {
     }
 
     /**
-     * The trail a successful {@code StopLogging} stopped, as AWS records it
-     * ({@code AWS::CloudTrail::Trail}, its ARN and account); no other call's resources are known.
+     * The trail a successful {@code StartLogging}, {@code StopLogging} or {@code DeleteTrail} acted on,
+     * as AWS records it ({@code AWS::CloudTrail::Trail}, its ARN and account); no other call's
+     * resources are known.
      */
     ArrayNode resources(String action, JsonNode request, String region) {
         String name = request == null ? null : request.path("Name").asText(null);
-        if (!"StopLogging".equals(action) || name == null) {
+        if (!TRAIL_RESOURCE_CALLS.contains(action) || name == null) {
             return null;
         }
         String accountId = regionResolver.getAccountId();

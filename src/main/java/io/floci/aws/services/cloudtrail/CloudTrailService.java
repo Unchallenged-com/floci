@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import io.floci.aws.config.EmulatorConfig;
 import io.floci.aws.core.common.AccountResolver;
 import io.floci.aws.core.common.AwsArnUtils;
 import io.floci.aws.core.common.AwsEndpoints;
@@ -59,6 +60,12 @@ public class CloudTrailService {
      * after the call, and events in the following couple of minutes may still be delivered.
      */
     static final Duration STOP_LOGGING_DELAY = Duration.ofMinutes(2);
+
+    /**
+     * How long after {@code StartLogging} a trail begins recording: on AWS, the first events a
+     * trail delivers are those of a minute or so after it is started.
+     */
+    static final Duration START_LOGGING_DELAY = Duration.ofSeconds(50);
     static final long MAX_PENDING_BYTES_PER_TRAIL = 4L * 1024L * 1024L;
 
     private final StorageBackend<String, CloudTrailEntry> store;
@@ -80,8 +87,17 @@ public class CloudTrailService {
     private final ConcurrentHashMap<String, Object> trailLocks = new ConcurrentHashMap<>();
 
     private volatile Duration stopLoggingDelay = STOP_LOGGING_DELAY;
+    private volatile Duration startLoggingDelay = START_LOGGING_DELAY;
 
     @Inject
+    public CloudTrailService(StorageFactory storageFactory, RegionResolver regionResolver,
+                             IamService iamService, ObjectMapper mapper, EmulatorConfig config) {
+        this(storageFactory, regionResolver, iamService, mapper);
+        this.startLoggingDelay = Duration.ofSeconds(config.services().cloudtrail().startLoggingDelaySeconds());
+        this.stopLoggingDelay = Duration.ofSeconds(config.services().cloudtrail().stopLoggingDelaySeconds());
+    }
+
+    /** A service that records from the moment a trail starts until the moment it stops. */
     public CloudTrailService(StorageFactory storageFactory, RegionResolver regionResolver,
                              IamService iamService, ObjectMapper mapper) {
         this.store = storageFactory.create("cloudtrail", "cloudtrail-trails.json",
@@ -89,6 +105,8 @@ public class CloudTrailService {
         this.regionResolver = regionResolver;
         this.iamService = iamService;
         this.mapper = mapper;
+        this.startLoggingDelay = Duration.ZERO;
+        this.stopLoggingDelay = Duration.ZERO;
     }
 
     // --- Control plane ---
@@ -891,14 +909,18 @@ public class CloudTrailService {
     }
 
     /**
-     * Whether the trail records an event that occurred at {@code at} (epoch milliseconds): while it
-     * is logging, and for {@link #stopLoggingDelay} after a {@code StopLogging}, as logging stops
-     * shortly after it on AWS. A call to CloudTrail itself ({@code beforeChange}) also needs the
-     * logging to have started before it, so the {@code StartLogging} that starts a trail is not
-     * recorded there.
+     * Whether the trail records an event that occurred at {@code at} (epoch milliseconds): from
+     * {@link #startLoggingDelay} after a {@code StartLogging}, while it is logging, and for
+     * {@link #stopLoggingDelay} after a {@code StopLogging}, as recording begins and ends a little
+     * after those calls on AWS. A call to CloudTrail itself ({@code beforeChange}) occurred before
+     * it changed the trail, so the {@code StartLogging} that starts a trail is never recorded there.
      */
     private boolean recordingAt(CloudTrailEntry entry, long at, boolean beforeChange) {
-        if (beforeChange && (entry.startLoggingTime() == null || entry.startLoggingTime() >= at)) {
+        if (entry.startLoggingTime() == null) {
+            return false;
+        }
+        long recordingFrom = entry.startLoggingTime() + startLoggingDelay.toMillis();
+        if (beforeChange ? recordingFrom >= at : recordingFrom > at) {
             return false;
         }
         return entry.logging()
@@ -908,6 +930,11 @@ public class CloudTrailService {
     /** Sets how long a trail keeps recording after {@code StopLogging}; for tests. */
     void stopLoggingDelay(Duration delay) {
         this.stopLoggingDelay = delay;
+    }
+
+    /** Sets how long after {@code StartLogging} a trail begins recording; for tests. */
+    void startLoggingDelay(Duration delay) {
+        this.startLoggingDelay = delay;
     }
 
     private boolean matchesManagementEvent(CloudTrailEntry entry, ObjectNode record) {
