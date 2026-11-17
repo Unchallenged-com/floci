@@ -135,8 +135,8 @@ Four things are deviations rather than readings, since the operation models only
   operation to materialize it and is no longer the only one, the five others that model the member
   reading it through the same writer. Out of that range is
   a `ValidationError` and a value that is no integer an `InvalidParameterValue`, the pair
-  `DurationSeconds` already answers. `SessionTokenUtilization` is not answered: the model documents
-  neither member, so only the one with an obvious meaning is filled.
+  `DurationSeconds` already answers. `SessionTokenUtilization` is answered too, as the share of the
+  4,096-byte maximum the token uses, in percent rounded down.
 
 The audit reads the `IAMAuditRootUserCredentials` task policy allows name the member account's root
 user when they are called with no `UserName`, which is what that policy's own `arn:aws:iam::*:root`
@@ -273,6 +273,14 @@ The documents stay served while the feature is disabled. The issuer outlives a d
 the tokens already minted under it, which a relying party still has to verify until they expire.
 AWS does not document this either way, so it is Floci's reading. An issuer no account was given
 answers 404.
+
+## Session token size
+
+`AssumeRole`, `AssumeRoleWithSAML`, `AssumeRoleWithWebIdentity`, `GetFederationToken`, `GetSessionToken` and
+`AssumeRoot` answer `SessionTokenSize`, the session token's size in bytes, and `SessionTokenUtilization`, its share
+of the 4,096-byte maximum in percent, rounded down. The first four also answer the deprecated `PackedPolicySize`, with
+the same percentage
+([`AssumeRole`](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html)).
 
 ## CloudTrail
 

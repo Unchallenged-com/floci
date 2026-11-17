@@ -117,6 +117,15 @@ class StsCloudTrailIntegrationTest {
         assertThat(assumeRole.path("responseElements").path("assumedRoleUser").path("arn").asText(),
                 equalTo("arn:aws:sts::" + ACCOUNT + ":assumed-role/ct-sts-role-" + suffix + "/night-" + suffix));
         String sessionTokenValue = assumed.getString("AssumeRoleResponse.AssumeRoleResult.Credentials.SessionToken");
+        assertThat(assumed.getInt("AssumeRoleResponse.AssumeRoleResult.SessionTokenSize"),
+                equalTo(sessionTokenValue.length()));
+        assertThat(assumed.getInt("AssumeRoleResponse.AssumeRoleResult.SessionTokenUtilization"),
+                equalTo(sessionTokenValue.length() * 100 / 4096));
+        assertThat(assumed.getInt("AssumeRoleResponse.AssumeRoleResult.PackedPolicySize"),
+                equalTo(sessionTokenValue.length() * 100 / 4096));
+        assertThat(token.getInt("GetSessionTokenResponse.GetSessionTokenResult.SessionTokenUtilization"),
+                equalTo(token.getString("GetSessionTokenResponse.GetSessionTokenResult.Credentials.SessionToken")
+                        .length() * 100 / 4096));
         assertThat(assumeRole.path("responseElements").path("sessionTokenSize").asInt(),
                 equalTo(sessionTokenValue.length()));
         assertThat(assumeRole.path("responseElements").path("sessionTokenUtilization").asInt(),

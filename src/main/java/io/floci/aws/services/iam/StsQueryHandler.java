@@ -34,6 +34,7 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 import org.jboss.logging.Logger;
 
+import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.security.interfaces.RSAPublicKey;
 import java.time.Clock;
@@ -66,6 +67,8 @@ public class StsQueryHandler {
     private static final int DEFAULT_TOKEN_SECONDS = 300;
     /** The session token this emulator has always minted, and the floor a request cannot go under. */
     private static final int SESSION_TOKEN_LENGTH = 200;
+    /** "The value must not exceed 4,096 bytes": the size a session token's utilization is a share of. */
+    private static final int MAX_SESSION_TOKEN_BYTES = 4096;
     private static final String STS_AUDIENCE = "sts.amazonaws.com"; // partition-literal: web-identity audience; no source outside the commercial partition (P9)
 
     private final IamService iamService;
@@ -224,7 +227,7 @@ public class StsQueryHandler {
                   .elem("Arn", assumedRoleArn)
                   .elem("AssumedRoleId", assumedRoleId)
                 .end("AssumedRoleUser")
-                .elem("PackedPolicySize", "0")
+                .raw(sessionTokenSizes(sessionToken, true))
                 .build();
         return Response.ok(AwsQueryResponse.envelope("AssumeRole", AwsNamespaces.STS, result)).build();
     }
@@ -435,7 +438,8 @@ public class StsQueryHandler {
         String sessionToken = sessionToken(params);
         Instant expiration = clock.instant().plusSeconds(durationSeconds);
 
-        String result = credentialsXml(accessKeyId, secretKey, sessionToken, expiration);
+        String result = credentialsXml(accessKeyId, secretKey, sessionToken, expiration)
+                + sessionTokenSizes(sessionToken, false);
         // No role ARN: the credentials route back to the caller's account and act as the caller.
         iamService.registerIssuedSession(accessKeyId, secretKey, sessionToken, null, expiration, null,
                 regionResolver.getAccountId(), callerAccessKeyId());
@@ -509,7 +513,7 @@ public class StsQueryHandler {
                   .elem("Arn", assumedRoleArn)
                   .elem("AssumedRoleId", assumedRoleId)
                 .end("AssumedRoleUser")
-                .elem("PackedPolicySize", "0")
+                .raw(sessionTokenSizes(sessionToken, true))
                 .elem("Provider", provider)
                 .elem("Audience", audience)
                 .elem("SubjectFromWebIdentityToken", subject)
@@ -707,7 +711,7 @@ public class StsQueryHandler {
         String result = new XmlBuilder()
                 .raw(credentialsXml(accessKeyId, secretKey, sessionToken, expiration))
                 .start("AssumedRoleUser").elem("Arn", assumedRoleArn).elem("AssumedRoleId", assumedRoleId).end("AssumedRoleUser")
-                .elem("PackedPolicySize", "0").elem("Issuer", verified.issuer()).elem("Audience", "urn:amazon:webservices")
+                .raw(sessionTokenSizes(sessionToken, true)).elem("Issuer", verified.issuer()).elem("Audience", "urn:amazon:webservices")
                 .elem("NameQualifier", verified.nameQualifier()).elem("SubjectType", verified.subjectType()).elem("Subject", verified.subject()).build();
         return Response.ok(AwsQueryResponse.envelope("AssumeRoleWithSAML", AwsNamespaces.STS, result)).build();
     }
@@ -763,7 +767,7 @@ public class StsQueryHandler {
                   .elem("FederatedUserId", federatedUserId)
                   .elem("Arn", federatedUserArn)
                 .end("FederatedUser")
-                .elem("PackedPolicySize", "0")
+                .raw(sessionTokenSizes(sessionToken, true))
                 .build();
         return Response.ok(AwsQueryResponse.envelope("GetFederationToken", AwsNamespaces.STS, result)).build();
     }
@@ -896,7 +900,7 @@ public class StsQueryHandler {
 
         String result = new XmlBuilder()
                 .raw(credentialsXml(accessKeyId, secretKey, sessionToken, expiration))
-                .elem("SessionTokenSize", String.valueOf(sessionToken.length()))
+                .raw(sessionTokenSizes(sessionToken, false))
                 .build();
         return Response.ok(AwsQueryResponse.envelope("AssumeRoot", AwsNamespaces.STS, result)).build();
     }
@@ -1166,6 +1170,26 @@ public class StsQueryHandler {
         }
         return Map.of("SigningAlgorithm", SmithyValidationErrors.notInEnum(algorithm,
                 "signingAlgorithm", WebIdentityTokenIssuer.Algorithm.names()));
+    }
+
+    /**
+     * What the answer says of its session token: {@code SessionTokenSize}, "The size, in bytes, of
+     * the session token returned in the Credentials for this response", and
+     * {@code SessionTokenUtilization}, "The percentage (0-100) of the maximum allowed session token
+     * size that the returned session token consumes", the maximum being the 4,096 bytes
+     * {@code MinimumSessionTokenSize} "must not exceed", rounded down. Where the operation answers
+     * the deprecated {@code PackedPolicySize}, it carries the same percentage
+     * (https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html).
+     */
+    static String sessionTokenSizes(String sessionToken, boolean packedPolicySize) {
+        int size = sessionToken.getBytes(StandardCharsets.UTF_8).length;
+        String utilization = String.valueOf(size * 100 / MAX_SESSION_TOKEN_BYTES);
+        XmlBuilder xml = new XmlBuilder();
+        if (packedPolicySize) {
+            xml.elem("PackedPolicySize", utilization);
+        }
+        return xml.elem("SessionTokenSize", String.valueOf(size)).elem("SessionTokenUtilization", utilization)
+                .build();
     }
 
     private String credentialsXml(String accessKeyId, String secretKey, String sessionToken, Instant expiration) {
