@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.floci.aws.core.common.AccountResolver;
+import io.floci.aws.core.common.AwsArnUtils;
+import io.floci.aws.core.common.RegionResolver;
 import io.floci.aws.core.common.ServicePrincipals;
 import io.quarkus.vertx.http.runtime.CurrentVertxRequest;
 import io.vertx.core.http.HttpServerRequest;
@@ -40,20 +42,25 @@ public class CloudTrailApiEvents {
 
     private final CloudTrailService cloudTrail;
     private final AccountResolver accounts;
+    private final RegionResolver regionResolver;
     private final CurrentVertxRequest currentRequest;
     private final ObjectMapper mapper;
 
     @Inject
-    public CloudTrailApiEvents(CloudTrailService cloudTrail, AccountResolver accounts,
+    public CloudTrailApiEvents(CloudTrailService cloudTrail, AccountResolver accounts, RegionResolver regionResolver,
                                CurrentVertxRequest currentRequest, ObjectMapper mapper) {
         this.cloudTrail = cloudTrail;
         this.accounts = accounts;
+        this.regionResolver = regionResolver;
         this.currentRequest = currentRequest;
         this.mapper = mapper;
     }
 
-    /** Records the call {@code response} answered, or that failed with {@code errorCode} when it is set. */
-    void record(String action, JsonNode request, String region, String authorization,
+    /**
+     * Records the call made at {@code occurredAt} (epoch milliseconds) that {@code response} answered,
+     * or that failed with {@code errorCode} when it is set.
+     */
+    void record(String action, JsonNode request, String region, String authorization, long occurredAt,
                 Response response, String errorCode, String errorMessage) {
         try {
             ObjectNode result = errorCode == null && !isReadOnly(action) && response != null
@@ -61,7 +68,8 @@ public class CloudTrailApiEvents {
             HttpServerRequest http = request(currentRequest.getCurrent());
             cloudTrail.emitManagementEvent(new CloudTrailService.ManagementEventInput(EVENT_SOURCE, action, region,
                     accounts.extractAccessKeyId(authorization), named(request), result, isReadOnly(action),
-                    sourceIp(http), userAgent(http), null, errorCode, errorMessage));
+                    sourceIp(http), userAgent(http), null, errorCode, errorMessage, null,
+                    errorCode == null ? resources(action, request, region) : null), occurredAt);
         } catch (RuntimeException e) {
             // The call is answered either way; a record that could not be written is logged, not raised.
             LOG.warnv(e, "Failed to record CloudTrail call {0}", action);
@@ -78,6 +86,24 @@ public class CloudTrailApiEvents {
         HttpServerRequest http = request(routingContext);
         return new CloudTrailService.ManagementEventInput(EVENT_SOURCE, action, region, accessKeyId, null, null,
                 isReadOnly(action), sourceIp(http), userAgent(http), null, errorCode, errorMessage);
+    }
+
+    /**
+     * The trail a successful {@code StopLogging} stopped, as AWS records it
+     * ({@code AWS::CloudTrail::Trail}, its ARN and account); no other call's resources are known.
+     */
+    ArrayNode resources(String action, JsonNode request, String region) {
+        String name = request == null ? null : request.path("Name").asText(null);
+        if (!"StopLogging".equals(action) || name == null) {
+            return null;
+        }
+        String accountId = regionResolver.getAccountId();
+        String arn = AwsArnUtils.isArn(name) ? name
+                : AwsArnUtils.Arn.of("cloudtrail", region, accountId, "trail/" + name).toString();
+        ArrayNode resources = mapper.createArrayNode();
+        resources.addObject().put("ARN", arn).put("accountId", AwsArnUtils.parse(arn).accountId())
+                .put("type", "AWS::CloudTrail::Trail");
+        return resources;
     }
 
     /** Whether CloudTrail records {@code action} as read-only. */

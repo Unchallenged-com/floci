@@ -36,15 +36,16 @@ public class CloudTrailJsonHandler {
 
     /** Runs the call and records it in the trails that select it, as answered or as failed. */
     public Response handle(String action, JsonNode request, String region, String authorization) throws Exception {
+        long occurredAt = System.currentTimeMillis();
         Response response;
         try {
             response = handle(action, request, region);
         } catch (AwsException e) {
-            events.record(action, request, region, authorization, null, e.getErrorCode(),
+            events.record(action, request, region, authorization, occurredAt, null, e.getErrorCode(),
                     e.getMessage());
             throw e;
         }
-        events.record(action, request, region, authorization, response, null, null);
+        events.record(action, request, region, authorization, occurredAt, response, null, null);
         return response;
     }
 
