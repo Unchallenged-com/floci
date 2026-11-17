@@ -1407,6 +1407,14 @@ public interface EmulatorConfig {
          *  default here is 60s so dev/CI feedback loops stay fast. */
         @WithDefault("60")
         int flushIntervalSeconds();
+
+        /** Seconds after StartLogging before a trail begins recording, as on AWS. */
+        @WithDefault("50")
+        int startLoggingDelaySeconds();
+
+        /** Seconds a trail keeps recording after StopLogging, as on AWS. */
+        @WithDefault("120")
+        int stopLoggingDelaySeconds();
     }
 
     interface ResourceExplorer2ServiceConfig {

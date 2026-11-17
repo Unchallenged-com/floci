@@ -140,9 +140,13 @@ CloudTrail's own calls are management events like any other service's: `CreateTr
   shows. A call IAM enforcement refuses is recorded as `AccessDenied` with `"requestParameters": null`.
 - A trail receives a CloudTrail call when its logging had started before the call and had not stopped before it: a
   `StopLogging` reaches the trail it stops, as on AWS, while the `CreateTrail` and the `StartLogging` that start a
-  trail do not reach it. `StopLogging` carries the trail in `resources` (`AWS::CloudTrail::Trail`). Logging stops shortly
-  after `StopLogging`: events in the following two minutes are still delivered, later ones are not, and events that
-  occurred before the stop are delivered too. A deleted trail receives no event that occurs afterwards.
+  trail do not reach it. `StartLogging`, `StopLogging` and `DeleteTrail` carry the trail in `resources`
+  (`AWS::CloudTrail::Trail`, its ARN and account). Recording begins a
+  little after `StartLogging` (50 seconds by default) and stops shortly after `StopLogging`: events in the following
+  two minutes are still delivered, later ones are not, and events that occurred before the stop are delivered too.
+  Calls made while a trail is stopped are never delivered to it. A stop within the first minute after a start is not
+  reproduced as AWS behaves (AWS then delivers almost nothing). A deleted trail receives neither its `DeleteTrail` nor
+  any later event, and the events it had not delivered yet are lost.
 
 ## Management Write Coverage
 
@@ -167,6 +171,8 @@ the secret-specific event pattern, and the limits of this coverage.
 |---|---|---|
 | `FLOCI_SERVICES_CLOUDTRAIL_ENABLED` | `true` | Enable or disable the service |
 | `FLOCI_SERVICES_CLOUDTRAIL_FLUSH_INTERVAL_SECONDS` | `60` | How often the writer flushes buffered records into the destination bucket. Real CloudTrail delivers with ~5 minute latency; the local default is shorter for fast feedback loops. |
+| `FLOCI_SERVICES_CLOUDTRAIL_START_LOGGING_DELAY_SECONDS` | `50` | How long after `StartLogging` a trail begins recording. |
+| `FLOCI_SERVICES_CLOUDTRAIL_STOP_LOGGING_DELAY_SECONDS` | `120` | How long a trail keeps recording after `StopLogging`. |
 
 ## Example
 

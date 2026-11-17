@@ -24,6 +24,7 @@ import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -52,6 +53,7 @@ public class CloudTrailLogWriter {
 
     private static final Logger LOG = Logger.getLogger(CloudTrailLogWriter.class);
     static final int MAX_RECORDS_PER_LOG_FILE = 1_000;
+    private static final int LOG_FILE_SLOT_MINUTES = 5;
 
     private static final DateTimeFormatter PATH_DATE = DateTimeFormatter.ofPattern("yyyy/MM/dd");
     private static final DateTimeFormatter FILE_TS = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmm'Z'");
@@ -261,12 +263,21 @@ public class CloudTrailLogWriter {
         }
     }
 
+    /**
+     * The end of the five-minute slot {@code time} falls in, which names the log files CloudTrail
+     * delivers for it: several files can share a slot.
+     */
+    static LocalDateTime endOfSlot(LocalDateTime time) {
+        LocalDateTime minute = time.truncatedTo(ChronoUnit.MINUTES);
+        return minute.plusMinutes(LOG_FILE_SLOT_MINUTES - minute.getMinute() % LOG_FILE_SLOT_MINUTES);
+    }
+
     private String buildObjectKey(Trail trail, String accountId, String region) {
         LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
         String prefix = trail.s3KeyPrefix() == null || trail.s3KeyPrefix().isEmpty()
                 ? "" : trail.s3KeyPrefix() + (trail.s3KeyPrefix().endsWith("/") ? "" : "/");
         String datePath = PATH_DATE.format(now);
-        String fileTs = FILE_TS.format(now);
+        String fileTs = FILE_TS.format(endOfSlot(now));
         String rand = randomFilenameSuffix(16);
         return prefix
                 + "AWSLogs/" + accountId

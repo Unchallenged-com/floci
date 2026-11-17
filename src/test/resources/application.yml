@@ -493,6 +493,9 @@ floci:
     cloudtrail:
       enabled: true
       flush-interval-seconds: 3600
+      # Tests that measure the delays set them on CloudTrailService themselves.
+      start-logging-delay-seconds: 0
+      stop-logging-delay-seconds: 0
     lightsail:
       enabled: true
     cloudcontrol:
