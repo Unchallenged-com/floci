@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.time.Duration;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -58,8 +59,20 @@ class CloudTrailManagementEventTest {
         assertTrue(record.path("managementEvent").asBoolean());
         assertFalse(record.path("readOnly").asBoolean());
         assertEquals(1, service.pendingRecordCount(new CloudTrailService.TrailKey(REGION, "management-trail", REGION)));
+        service.stopLoggingDelay(Duration.ZERO);
         service.stopLogging(REGION, "management-trail");
-        assertTrue(service.emitManagementEvent(event(REGION)).isEmpty());
+        assertTrue(service.emitManagementEvent(event(REGION), System.currentTimeMillis() + 1).isEmpty());
+    }
+
+    @Test
+    void aStoppedTrailKeepsRecordingForAShortWhile() {
+        trail(false);
+        service.startLogging(REGION, "management-trail");
+        service.stopLoggingDelay(Duration.ofMinutes(2));
+        service.stopLogging(REGION, "management-trail");
+        assertTrue(service.emitManagementEvent(event(REGION)).isPresent());
+        assertTrue(service.emitManagementEvent(event(REGION), System.currentTimeMillis() + 60_000).isPresent());
+        assertTrue(service.emitManagementEvent(event(REGION), System.currentTimeMillis() + 180_000).isEmpty());
     }
 
     @ParameterizedTest

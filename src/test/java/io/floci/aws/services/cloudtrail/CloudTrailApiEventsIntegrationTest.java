@@ -13,12 +13,14 @@ import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.TestProfile;
 import io.restassured.response.ValidatableResponse;
 import jakarta.inject.Inject;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
 import java.io.IOException;
 import java.net.URI;
+import java.time.Duration;
 import java.util.List;
 import java.util.UUID;
 
@@ -47,6 +49,9 @@ class CloudTrailApiEventsIntegrationTest {
     @Inject
     CloudTrailLogWriter writer;
 
+    @Inject
+    CloudTrailService service;
+
     @RegisterExtension
     final PartitionCleanup cleanup = new PartitionCleanup();
 
@@ -55,8 +60,14 @@ class CloudTrailApiEventsIntegrationTest {
         RestAssuredJsonUtils.configureAwsContentTypes();
     }
 
+    @AfterEach
+    void restoreTheStopLoggingDelay() {
+        service.stopLoggingDelay(CloudTrailService.STOP_LOGGING_DELAY);
+    }
+
     @Test
     void trailManagementCallsAreRecordedAsManagementEvents() throws IOException {
+        service.stopLoggingDelay(Duration.ZERO);
         String suffix = UUID.randomUUID().toString().substring(0, 8);
         String audit = "ct-audit-" + suffix;
         String auditLogs = "ct-audit-logs-" + suffix;
@@ -132,6 +143,11 @@ class CloudTrailApiEventsIntegrationTest {
         assertThat(stopped.path("readOnly").asBoolean(), equalTo(false));
         assertThat(stopped.path("requestParameters").path("name").asText(), equalTo(main));
         assertThat(stopped.path("responseElements").isNull(), equalTo(true));
+        JsonNode stoppedTrail = stopped.path("resources").get(0);
+        assertThat(stoppedTrail.path("type").asText(), equalTo("AWS::CloudTrail::Trail"));
+        assertThat(stoppedTrail.path("ARN").asText(), equalTo("arn:aws:cloudtrail:us-east-1:" + ACCOUNT + ":trail/" + main));
+        assertThat(stoppedTrail.path("accountId").asText(), equalTo(ACCOUNT));
+        assertThat(created.has("resources"), equalTo(false));
 
         JsonNode deleted = only(records, "DeleteTrail", doomed);
         assertThat(deleted.path("requestParameters").path("name").asText(), equalTo(doomed));
@@ -139,9 +155,37 @@ class CloudTrailApiEventsIntegrationTest {
 
         List<JsonNode> ownRecords = cloudTrailRecords(mainLogs, suffix);
         assertThat(byName(ownRecords, "PutEventSelectors"), hasSize(1));
+        assertThat("the stopped trail receives its own StopLogging", byName(ownRecords, "StopLogging"), hasSize(1));
+        assertThat("a trail does not receive the StartLogging that starts it",
+                byName(ownRecords, "StartLogging").stream()
+                        .filter(r -> main.equals(r.path("requestParameters").path("name").asText())).toList(),
+                empty());
+        assertThat("a trail does not receive its own CreateTrail",
+                byName(ownRecords, "CreateTrail").stream()
+                        .filter(r -> main.equals(r.path("requestParameters").path("name").asText())).toList(),
+                empty());
         assertThat("no event after StopLogging reaches the stopped trail",
                 byName(ownRecords, "DeleteTrail"), empty());
         assertThat(byName(ownRecords, "GetTrailStatus"), hasSize(1));
+    }
+
+    @Test
+    void aStoppedTrailKeepsRecordingForAShortWhile() throws IOException, InterruptedException {
+        service.stopLoggingDelay(Duration.ofSeconds(2));
+        String suffix = UUID.randomUUID().toString().substring(0, 8);
+        String trail = "ct-fading-" + suffix;
+        String logs = "ct-fading-logs-" + suffix;
+        startTrail(trail, logs);
+
+        cloudTrail(ACCOUNT, "StopLogging", "{\"Name\":\"" + trail + "\"}").statusCode(200);
+        cloudTrail(ACCOUNT, "GetTrailStatus", "{\"Name\":\"" + trail + "\"}").statusCode(200);
+        Thread.sleep(2500);
+        cloudTrail(ACCOUNT, "DescribeTrails", "{\"trailNameList\":[\"" + trail + "\"]}").statusCode(200);
+
+        List<JsonNode> records = cloudTrailRecords(logs, suffix);
+        assertThat(byName(records, "StopLogging"), hasSize(1));
+        assertThat("a call right after StopLogging is still recorded", byName(records, "GetTrailStatus"), hasSize(1));
+        assertThat("a call after the delay is not", byName(records, "DescribeTrails"), empty());
     }
 
     @Test
