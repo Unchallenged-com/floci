@@ -103,6 +103,7 @@ public class IamQueryHandler {
     private final CentralRootAccess centralRootAccess;
     private final RegionResolver regionResolver;
     private final Instance<ServerCertificateReferenceProvider> serverCertificateReferenceProviders;
+    private final IamCloudTrailEvents cloudTrailEvents;
     /** Signs each page's Marker, so only a marker this handler issued names an item. */
     private final SignedMarkers markers = new SignedMarkers(MARKER_MAX_LENGTH);
 
@@ -114,7 +115,8 @@ public class IamQueryHandler {
                            DelegationRequestService delegationRequestService,
                            CentralRootAccess centralRootAccess,
                            RegionResolver regionResolver,
-                           Instance<ServerCertificateReferenceProvider> serverCertificateReferenceProviders) {
+                           Instance<ServerCertificateReferenceProvider> serverCertificateReferenceProviders,
+                           IamCloudTrailEvents cloudTrailEvents) {
         this.iamService = iamService;
         this.policyEvaluator = policyEvaluator;
         this.accountResolver = accountResolver;
@@ -125,11 +127,17 @@ public class IamQueryHandler {
         this.centralRootAccess = centralRootAccess;
         this.regionResolver = regionResolver;
         this.serverCertificateReferenceProviders = serverCertificateReferenceProviders;
+        this.cloudTrailEvents = cloudTrailEvents;
     }
 
     public Response handle(String action, MultivaluedMap<String, String> params, String authorization) {
         LOG.debugv("IAM action: {0}", action);
+        Response response = dispatch(action, params, authorization);
+        cloudTrailEvents.record(action, params, authorization, response);
+        return response;
+    }
 
+    private Response dispatch(String action, MultivaluedMap<String, String> params, String authorization) {
         try {
             IamRequestShapes.check(action, params);
             return switch (action) {
