@@ -3,7 +3,7 @@
 **Protocol:** JSON 1.1 (`X-Amz-Target: com.amazonaws.cloudtrail.v20131101.CloudTrail_20131101.*`)
 **Endpoint:** `POST http://localhost:4566/`
 
-Floci emulates a CloudTrail trail's full life cycle and emits S3 data and management events, IAM API calls
+Floci emulates a CloudTrail trail's full life cycle and emits S3 data and management events, IAM and STS API calls
 and selected Secrets Manager management writes to the trail's destination bucket as gzipped JSON log files at the
 AWS-shaped key path:
 
@@ -115,6 +115,32 @@ refused.
   (`User: <caller> is not authorized to perform: <action> on resource: <resource> because ...`).
 - `sourceIPAddress` is the address the request came from and `userAgent` its `User-Agent`; `requestID` is the one
   IAM answered with.
+
+## STS Coverage
+
+Every STS API call is recorded as a management event, as CloudTrail
+["logs all authenticated API requests to IAM and AWS STS API operations"](https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html):
+one STS ran, one STS refused, and, with `floci.services.iam.enforcement-enabled`, one IAM enforcement refused.
+
+- `eventSource` is `sts.amazonaws.com` and `awsRegion` the Region the request was signed for.
+- `readOnly` and `responseElements` follow the
+  [IAM User Guide's table](https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html#cloudtrail-integration_signin-tempcreds):
+  `AssumeRole`, `AssumeRoleWithSAML` and `AssumeRoleWithWebIdentity` are read-only and carry the call's result;
+  `AssumeRoot`, `GetFederationToken` and `GetSessionToken` are not read-only and carry it too. `GetWebIdentityToken`
+  is not read-only and carries no result, the token being a bearer credential. Any other call (`GetCallerIdentity`,
+  `GetAccessKeyInfo`, `DecodeAuthorizationMessage`) is read-only with `"responseElements": null`.
+- `requestParameters` holds the request's members, named with a lower first letter and typed as the STS model types
+  them (`"durationSeconds": 900`, `tags: [{"key": ..., "value": ...}]`). The MFA code (`tokenCode`), the SAML assertion,
+  the web identity token and a trade-in token are left out.
+- `responseElements` never carries `secretAccessKey`; a credential's `expiration` is written as the guide's records
+  write it (`Feb 12, 2025, 11:16:48 PM`).
+- `AssumeRole`, `AssumeRoleWithSAML` and `AssumeRoleWithWebIdentity` carry the role in `resources`
+  (`AWS::IAM::Role`), and `AssumeRoleWithSAML` the SAML provider too.
+- `AssumeRoleWithSAML` and `AssumeRoleWithWebIdentity` name their caller as a `SAMLUser` or a `WebIdentityUser`. They
+  are recorded once STS accepted the assertion or the token; the guide says some non-authenticated STS requests "might
+  not be logged".
+- A refused call (`AccessDenied`) is recorded with its message, `"requestParameters": null` and no `resources`; any
+  other error keeps the request's members.
 
 ## Management Write Coverage
 

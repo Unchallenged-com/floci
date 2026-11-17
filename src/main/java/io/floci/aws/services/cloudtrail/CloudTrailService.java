@@ -447,12 +447,23 @@ public class CloudTrailService {
      * which the record carries as a JSON null, as CloudTrail does for a call without parameters and
      * for a read-only call or a failed one. {@code sourceIp}, {@code userAgent} and
      * {@code requestId} are left out of the record, or generated for the request ID, when null.
+     * {@code userIdentity}, when set, is the caller as the record names it, for a call that no
+     * access key signed.
      */
     public record ManagementEventInput(String eventSource, String eventName, String region, String accessKeyId,
                                        ObjectNode requestParameters, ObjectNode responseElements,
                                        boolean readOnly, String sourceIp, String userAgent, String requestId,
                                        String errorCode, String errorMessage, ObjectNode additionalEventData,
-                                       ArrayNode resources) {
+                                       ArrayNode resources, ObjectNode userIdentity) {
+
+        /** A call by the caller {@code accessKeyId} names, whose {@code userIdentity} is built from it. */
+        public ManagementEventInput(String eventSource, String eventName, String region, String accessKeyId,
+                                    ObjectNode requestParameters, ObjectNode responseElements, boolean readOnly,
+                                    String sourceIp, String userAgent, String requestId, String errorCode,
+                                    String errorMessage, ObjectNode additionalEventData, ArrayNode resources) {
+            this(eventSource, eventName, region, accessKeyId, requestParameters, responseElements, readOnly,
+                    sourceIp, userAgent, requestId, errorCode, errorMessage, additionalEventData, resources, null);
+        }
 
         /** A call whose record carries no {@code additionalEventData} or {@code resources}. */
         public ManagementEventInput(String eventSource, String eventName, String region, String accessKeyId,
@@ -460,14 +471,14 @@ public class CloudTrailService {
                                     String sourceIp, String userAgent, String requestId, String errorCode,
                                     String errorMessage) {
             this(eventSource, eventName, region, accessKeyId, requestParameters, responseElements, readOnly,
-                    sourceIp, userAgent, requestId, errorCode, errorMessage, null, null);
+                    sourceIp, userAgent, requestId, errorCode, errorMessage, null, null, null);
         }
 
         /** A successful write, from a caller whose address and agent are not known. */
         public ManagementEventInput(String eventSource, String eventName, String region, String accessKeyId,
                                     ObjectNode requestParameters, ObjectNode responseElements) {
             this(eventSource, eventName, region, accessKeyId, requestParameters, responseElements, false,
-                    null, null, null, null, null, null, null);
+                    null, null, null, null, null, null, null, null);
         }
     }
 
@@ -489,7 +500,8 @@ public class CloudTrailService {
             record.put("readOnly", in.readOnly());
             record.put("eventID", UUID.randomUUID().toString());
             record.put("requestID", in.requestId() != null ? in.requestId() : UUID.randomUUID().toString());
-            record.set("userIdentity", buildUserIdentity(in.accessKeyId()));
+            record.set("userIdentity", in.userIdentity() != null
+                    ? in.userIdentity().deepCopy() : buildUserIdentity(in.accessKeyId()));
             if (in.sourceIp() != null) {
                 record.put("sourceIPAddress", in.sourceIp());
             }

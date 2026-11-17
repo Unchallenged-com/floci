@@ -22,6 +22,7 @@ import io.floci.aws.services.iam.ResourceArnBuilder;
 import io.floci.aws.services.iam.ResourcePolicyProvider;
 import io.floci.aws.services.iam.ResourcePolicyProviders;
 import io.floci.aws.services.iam.ScpProvider;
+import io.floci.aws.services.iam.StsCloudTrailEvents;
 import io.floci.aws.services.iam.model.CallerContext;
 import io.floci.aws.services.iam.model.IamRole;
 import io.floci.aws.services.s3.S3CloudTrailEvents;
@@ -1893,19 +1894,25 @@ public class IamEnforcementFilter implements ContainerRequestFilter {
     }
 
     /**
-     * Records an IAM API call IAM enforcement refused as the CloudTrail management event IAM records
-     * for the calls it runs, with the refusal naming the caller, the action and the resource.
+     * Records an IAM or STS API call IAM enforcement refused as the CloudTrail management event that
+     * service records for the calls it runs, with the refusal naming the caller, the action and the
+     * resource.
      */
     private void emitIamDenialIfApplicable(String akid, String action, String credentialScope,
                                            ContainerRequestContext ctx, String region, String denyMessage) {
-        if (!"iam".equals(credentialScope) || !cloudTrailService.hasTrails()) {
+        boolean sts = "sts".equals(credentialScope);
+        if ((!"iam".equals(credentialScope) && !sts) || !cloudTrailService.hasTrails()) {
             return;
         }
         try {
             MultivaluedMap<String, String> params = new MultivaluedHashMap<>();
             IamConditionContextResolver.formParameters(ctx).forEach(params::putSingle);
-            CloudTrailService.ManagementEventInput event = IamCloudTrailEvents.denied(params, akid, region,
-                    currentVertxRequest.getCurrent(), queryAccessDeniedCode(credentialScope), denyMessage);
+            String errorCode = queryAccessDeniedCode(credentialScope);
+            CloudTrailService.ManagementEventInput event = sts
+                    ? StsCloudTrailEvents.denied(params, akid, region, currentVertxRequest.getCurrent(), errorCode,
+                            denyMessage)
+                    : IamCloudTrailEvents.denied(params, akid, region, currentVertxRequest.getCurrent(), errorCode,
+                            denyMessage);
             if (event != null) {
                 cloudTrailService.emitManagementEvent(event);
             }

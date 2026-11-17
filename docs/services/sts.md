@@ -274,6 +274,11 @@ the tokens already minted under it, which a relying party still has to verify un
 AWS does not document this either way, so it is Floci's reading. An issuer no account was given
 answers 404.
 
+## CloudTrail
+
+STS calls reach a logging trail as management events, with the read-only flag and response elements AWS records for
+each call and without secrets. See [CloudTrail STS coverage](cloudtrail.md#sts-coverage).
+
 ## Configuration
 
 | Variable | Default | Description |

@@ -1,0 +1,108 @@
+package io.floci.aws.services.iam;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import jakarta.ws.rs.core.MultivaluedHashMap;
+import jakarta.ws.rs.core.MultivaluedMap;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.nullValue;
+
+class StsCloudTrailEventsTest {
+
+    private static final ObjectMapper MAPPER = new ObjectMapper();
+
+    private static MultivaluedMap<String, String> params(String... pairs) {
+        MultivaluedMap<String, String> params = new MultivaluedHashMap<>();
+        for (int i = 0; i < pairs.length; i += 2) {
+            params.putSingle(pairs[i], pairs[i + 1]);
+        }
+        return params;
+    }
+
+    @ParameterizedTest
+    @CsvSource({"AssumeRole,true,true", "AssumeRoleWithSAML,true,true", "AssumeRoleWithWebIdentity,true,true",
+            "AssumeRoot,false,true", "GetFederationToken,false,true", "GetSessionToken,false,true",
+            "GetCallerIdentity,true,false", "GetAccessKeyInfo,true,false", "DecodeAuthorizationMessage,true,false",
+            "GetWebIdentityToken,false,false"})
+    void readOnlyAndTheResultFollowTheUserGuidesTable(String action, boolean readOnly, boolean recordsResult) {
+        assertThat(StsCloudTrailEvents.isReadOnly(action), equalTo(readOnly));
+        assertThat(StsCloudTrailEvents.recordsResult(action), equalTo(recordsResult));
+    }
+
+    @Test
+    void theMfaCodeIsLeftOutAndTheDeviceKept() {
+        ObjectNode read = StsCloudTrailEvents.requestParameters("AssumeRole", params("Action", "AssumeRole",
+                "RoleArn", "arn:aws:iam::111122223333:role/ops", "RoleSessionName", "night",
+                "SerialNumber", "arn:aws:iam::111122223333:mfa/alice", "TokenCode", "123456",
+                "DurationSeconds", "1800"), null);
+        assertThat(read.path("serialNumber").asText(), equalTo("arn:aws:iam::111122223333:mfa/alice"));
+        assertThat(read.has("tokenCode"), equalTo(false));
+        assertThat(read.path("durationSeconds").isIntegralNumber(), equalTo(true));
+    }
+
+    @Test
+    void theFederatedCallsLeaveTheirTokenAndAssertionOut() {
+        ObjectNode web = StsCloudTrailEvents.requestParameters("AssumeRoleWithWebIdentity",
+                params("RoleArn", "arn:aws:iam::111122223333:role/web", "RoleSessionName", "app",
+                        "WebIdentityToken", "eyJhbGciOiJSUzI1NiJ9.e30.c2ln"), null);
+        assertThat(web.has("webIdentityToken"), equalTo(false));
+        assertThat(web.path("roleSessionName").asText(), equalTo("app"));
+        ObjectNode saml = StsCloudTrailEvents.requestParameters("AssumeRoleWithSAML",
+                params("RoleArn", "arn:aws:iam::111122223333:role/saml",
+                        "PrincipalArn", "arn:aws:iam::111122223333:saml-provider/idp", "SAMLAssertion", "PHNhbWw+"),
+                null);
+        assertThat(saml.has("sAMLAssertion"), equalTo(false));
+        assertThat(saml.path("principalArn").asText(), equalTo("arn:aws:iam::111122223333:saml-provider/idp"));
+    }
+
+    @Test
+    void anAuthorizationRefusalHasNoRequestParameters() {
+        assertThat(StsCloudTrailEvents.requestParameters("AssumeRole",
+                params("RoleArn", "arn:aws:iam::111122223333:role/ops", "RoleSessionName", "night"), "AccessDenied"),
+                nullValue());
+    }
+
+    @Test
+    void aSamlRoleSessionNamesTheRoleAndTheProvider() {
+        ArrayNode resources = StsCloudTrailEvents.resources("AssumeRoleWithSAML",
+                params("RoleArn", "arn:aws:iam::111122223333:role/saml",
+                        "PrincipalArn", "arn:aws:iam::111122223333:saml-provider/idp"));
+        assertThat(resources.size(), equalTo(2));
+        assertThat(resources.get(0).path("type").asText(), equalTo("AWS::IAM::Role"));
+        assertThat(resources.get(0).path("accountId").asText(), equalTo("111122223333"));
+        assertThat(resources.get(1).path("type").asText(), equalTo("AWS::IAM::SAMLProvider"));
+        assertThat(resources.get(1).path("ARN").asText(), equalTo("arn:aws:iam::111122223333:saml-provider/idp"));
+        assertThat(StsCloudTrailEvents.resources("GetSessionToken", params()), nullValue());
+    }
+
+    @Test
+    void aWebIdentityCallerIsNamedUnderItsProviderAndAudience() {
+        ObjectNode result = MAPPER.createObjectNode()
+                .put("provider", "https://issuer.example.com/tenant")
+                .put("audience", "sts.amazonaws.com")
+                .put("subjectFromWebIdentityToken", "user-42");
+        ObjectNode caller = StsCloudTrailEvents.federatedCaller("AssumeRoleWithWebIdentity",
+                params("RoleArn", "arn:aws:iam::111122223333:role/web"), result);
+        String provider = "arn:aws:iam::111122223333:oidc-provider/issuer.example.com/tenant";
+        assertThat(caller.path("type").asText(), equalTo("WebIdentityUser"));
+        assertThat(caller.path("identityProvider").asText(), equalTo(provider));
+        assertThat(caller.path("principalId").asText(), equalTo(provider + ":sts.amazonaws.com:user-42"));
+        assertThat(caller.path("userName").asText(), equalTo("user-42"));
+    }
+
+    @Test
+    void aSamlCallerIsNamedUnderItsNameQualifier() {
+        ObjectNode result = MAPPER.createObjectNode().put("subject", "alice").put("nameQualifier", "bdGOnTe=");
+        ObjectNode caller = StsCloudTrailEvents.federatedCaller("AssumeRoleWithSAML", params(), result);
+        assertThat(caller.path("type").asText(), equalTo("SAMLUser"));
+        assertThat(caller.path("principalId").asText(), equalTo("bdGOnTe=:alice"));
+        assertThat(caller.path("userName").asText(), equalTo("alice"));
+        assertThat(caller.path("identityProvider").asText(), equalTo("bdGOnTe="));
+    }
+}
