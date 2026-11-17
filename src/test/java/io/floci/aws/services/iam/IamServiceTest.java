@@ -3046,7 +3046,7 @@ class IamServiceTest {
                 new InMemoryStorage<>(), new InMemoryStorage<>(), new InMemoryStorage<>(), new InMemoryStorage<>(),
                 new InMemoryStorage<>(), new InMemoryStorage<>(), new InMemoryStorage<>(), new InMemoryStorage<>(),
                 new InMemoryStorage<>(), new InMemoryStorage<>(), new InMemoryStorage<>(),
-                new RegionResolver("us-east-1", "000000000000"), true, accessKeyId, null, Map.of(),
+                new RegionResolver("us-east-1", "000000000000"), true, accessKeyId, null,
                 Clock.systemUTC());
         service.seedDefaults();
         return service;
