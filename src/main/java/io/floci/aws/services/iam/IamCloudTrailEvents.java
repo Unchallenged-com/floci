@@ -1,8 +1,6 @@
 package io.floci.aws.services.iam;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.floci.aws.core.common.AccountResolver;
 import io.floci.aws.core.common.AwsPartition;
@@ -19,10 +17,8 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.core.Response;
 
-import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -118,12 +114,10 @@ public class IamCloudTrailEvents {
     /** Result members IAM types as numbers: its counts, ages, lengths, durations and policy positions. */
     private static final Pattern NUMBER_MEMBER =
             Pattern.compile(".*(Count|Age|Length|Prevention|Duration)|line|column");
-    private static final Pattern INTEGER = Pattern.compile("-?\\d+");
-
-    private static final Pattern WIRE_TIMESTAMP =
-            Pattern.compile("\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z");
     private static final DateTimeFormatter RECORD_TIMESTAMP =
             DateTimeFormatter.ofPattern("MMM d, yyyy h:mm:ss a", Locale.US).withZone(ZoneOffset.UTC);
+    private static final QueryResultElements RESULTS =
+            new QueryResultElements(NUMBER_MEMBER, RECORD_TIMESTAMP, SECRET_RESULT_MEMBERS);
 
     private final CloudTrailService cloudTrail;
     private final AccountResolver accounts;
@@ -232,66 +226,10 @@ public class IamCloudTrailEvents {
 
     /** The call's {@code <ActionResult>}, or null for a call whose result carries nothing. */
     static ObjectNode result(String action, String xml) {
-        XmlParser.XmlElement result = XmlParser.extractElementTree(xml, action + "Result");
-        if (result == null || result.children().isEmpty()) {
-            return null;
-        }
-        JsonNode read = read(result);
-        return read instanceof ObjectNode object && !object.isEmpty() ? object : null;
-    }
-
-    private static JsonNode read(XmlParser.XmlElement element) {
-        if (element.children().isEmpty()) {
-            return element.text().isEmpty() ? null : leaf(lowerFirst(element.name()), element.rawText());
-        }
-        if (element.children().stream().allMatch(child -> "member".equals(child.name()))) {
-            ArrayNode members = MAPPER.createArrayNode();
-            for (XmlParser.XmlElement child : element.children()) {
-                JsonNode value = read(child);
-                if (value != null) {
-                    members.add(value);
-                }
-            }
-            return members;
-        }
-        ObjectNode object = MAPPER.createObjectNode();
-        for (XmlParser.XmlElement child : element.children()) {
-            String name = lowerFirst(child.name());
-            JsonNode value = read(child);
-            if (value != null && !SECRET_RESULT_MEMBERS.contains(name)) {
-                object.set(name, value);
-            }
-        }
-        return object;
-    }
-
-    /**
-     * A result value as CloudTrail types it: a boolean as one, a count as a number, a timestamp in
-     * CloudTrail's form, anything else as the text IAM answered with.
-     */
-    private static JsonNode leaf(String name, String value) {
-        if ("true".equals(value) || "false".equals(value)) {
-            return MAPPER.getNodeFactory().booleanNode(Boolean.parseBoolean(value));
-        }
-        if (NUMBER_MEMBER.matcher(name).matches() && INTEGER.matcher(value).matches()) {
-            return MAPPER.getNodeFactory().numberNode(Long.parseLong(value));
-        }
-        return MAPPER.getNodeFactory().textNode(timestamp(value));
-    }
-
-    private static String timestamp(String value) {
-        if (!WIRE_TIMESTAMP.matcher(value).matches()) {
-            return value;
-        }
-        try {
-            return RECORD_TIMESTAMP.format(Instant.parse(value));
-        } catch (DateTimeParseException expected) {
-            // Shaped like a timestamp without being one, such as a name a caller chose: kept as sent.
-            return value;
-        }
+        return RESULTS.read(action, xml);
     }
 
     private static String lowerFirst(String name) {
-        return name.isEmpty() ? name : Character.toLowerCase(name.charAt(0)) + name.substring(1);
+        return QueryResultElements.lowerFirst(name);
     }
 }

@@ -1,5 +1,6 @@
 package io.floci.aws.services.iam;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.floci.aws.core.common.QueryConstraintCheck;
 import io.floci.aws.core.common.SmithyValidationErrors;
 import jakarta.ws.rs.core.MultivaluedMap;
@@ -35,6 +36,11 @@ final class StsRequestShapes {
             SmithyValidationErrors.Violations.QUOTED);
 
     private StsRequestShapes() {
+    }
+
+    /** The request's members as CloudTrail names them, or null for an operation the file does not carry. */
+    static ObjectNode read(String action, MultivaluedMap<String, String> params) {
+        return CHECK.read(action, params);
     }
 
     /** Every constraint the model declares for {@code action} that {@code params} breaks. */

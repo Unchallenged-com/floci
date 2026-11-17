@@ -240,6 +240,11 @@ verification key, so the `/.well-known/openid-configuration` and `/.well-known/j
 the issuer URL would host are not served, and a relying party cannot verify one of these tokens
 against this emulator.
 
+## CloudTrail
+
+STS calls reach a logging trail as management events, with the read-only flag and response elements AWS records for
+each call and without secrets. See [CloudTrail STS coverage](cloudtrail.md#sts-coverage).
+
 ## Configuration
 
 | Variable | Default | Description |
