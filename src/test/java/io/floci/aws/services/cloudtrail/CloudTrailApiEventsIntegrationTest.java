@@ -69,13 +69,16 @@ class CloudTrailApiEventsIntegrationTest {
         cloudTrail(ACCOUNT, "CreateTrail", "{\"Name\":\"" + doomed + "\",\"S3BucketName\":\"ct-doomed-logs-" + suffix
                 + "\"}").statusCode(200);
 
-        cloudTrail(ACCOUNT, "UpdateTrail", "{\"Name\":\"" + main + "\",\"EnableLogFileValidation\":true}")
-                .statusCode(200);
+        cloudTrail(ACCOUNT, "UpdateTrail", "{\"Name\":\"" + main + "\",\"EnableLogFileValidation\":true,"
+                + "\"RecursiveLogging\":false}").statusCode(200).body("RecursiveLogging", equalTo(false));
+        cloudTrail(ACCOUNT, "DescribeTrails", "{\"trailNameList\":[\"" + main + "\"]}").statusCode(200)
+                .body("trailList[0].RecursiveLogging", equalTo(false));
         cloudTrail(ACCOUNT, "PutEventSelectors", "{\"TrailName\":\"" + main + "\",\"EventSelectors\":"
                 + "[{\"ReadWriteType\":\"All\",\"IncludeManagementEvents\":true}]}").statusCode(200);
         cloudTrail(ACCOUNT, "GetTrailStatus", "{\"Name\":\"" + main + "\"}").statusCode(200);
         cloudTrail(ACCOUNT, "UpdateTrail", "{\"Name\":\"ct-missing-" + suffix + "\",\"IsMultiRegionTrail\":true}")
-                .statusCode(400);
+                .statusCode(400).body("message", equalTo("Unknown trail: arn:aws:cloudtrail:us-east-1:" + ACCOUNT
+                        + ":trail/ct-missing-" + suffix + " for the user: " + ACCOUNT));
         cloudTrail(ACCOUNT, "StopLogging", "{\"Name\":\"" + main + "\"}").statusCode(200);
         cloudTrail(ACCOUNT, "DeleteTrail", "{\"Name\":\"" + doomed + "\"}").statusCode(200);
         cloudTrail(ACCOUNT, "GetTrailStatus", "{\"Name\":\"" + main + "\"}").statusCode(200);
@@ -92,6 +95,7 @@ class CloudTrailApiEventsIntegrationTest {
         assertThat(created.path("requestParameters").path("s3BucketName").asText(), equalTo(mainLogs));
         assertThat(created.path("responseElements").path("trailARN").asText(),
                 equalTo("arn:aws:cloudtrail:us-east-1:" + ACCOUNT + ":trail/" + main));
+        assertThat(created.path("responseElements").path("recursiveLogging").asBoolean(false), equalTo(true));
 
         JsonNode started = only(records, "StartLogging", main);
         assertThat(started.path("requestParameters").path("name").asText(), equalTo(main));
@@ -102,6 +106,8 @@ class CloudTrailApiEventsIntegrationTest {
         assertThat(updated.path("requestParameters").path("name").asText(), equalTo(main));
         assertThat(updated.path("requestParameters").path("enableLogFileValidation").isBoolean(), equalTo(true));
         assertThat(updated.path("responseElements").path("logFileValidationEnabled").asBoolean(), equalTo(true));
+        assertThat(updated.path("requestParameters").path("recursiveLogging").asBoolean(true), equalTo(false));
+        assertThat(updated.path("responseElements").path("recursiveLogging").asBoolean(true), equalTo(false));
 
         JsonNode selectors = only(records, "PutEventSelectors", main);
         assertThat(selectors.path("requestParameters").path("trailName").asText(), equalTo(main));
@@ -117,7 +123,8 @@ class CloudTrailApiEventsIntegrationTest {
 
         JsonNode missing = only(records, "UpdateTrail", "ct-missing-" + suffix);
         assertThat(missing.path("errorCode").asText(), equalTo("TrailNotFoundException"));
-        assertThat(missing.path("errorMessage").asText(), not(emptyOrNullString()));
+        assertThat(missing.path("errorMessage").asText(), equalTo("Unknown trail: arn:aws:cloudtrail:us-east-1:"
+                + ACCOUNT + ":trail/ct-missing-" + suffix + " for the user: " + ACCOUNT));
         assertThat(missing.path("requestParameters").path("isMultiRegionTrail").asBoolean(), equalTo(true));
         assertThat(missing.path("responseElements").isNull(), equalTo(true));
 

@@ -62,6 +62,12 @@ and that is what gets recorded.
 With `floci.tls.enabled`, Floci's own TCP proxy relays every connection to Quarkus, so the source address is the
 loopback address.
 
+## Recursive logging
+
+`CreateTrail` and `UpdateTrail` accept `RecursiveLogging`, which defaults to `true`, and `CreateTrail`,
+`UpdateTrail` and `DescribeTrails` report it. Floci's own log delivery generates no events, so the setting changes
+nothing else.
+
 ## Encryption and CloudWatch Logs settings
 
 `CreateTrail` and `UpdateTrail` record `KmsKeyId`, `CloudWatchLogsLogGroupArn` and `CloudWatchLogsRoleArn`, and `DescribeTrails` returns them, so a Terraform `aws_cloudtrail` with encryption or log delivery reads back what it declared. `UpdateTrail` with an empty value clears one, as on AWS. A log group without a role is refused with `InvalidCloudWatchLogsRoleArnException`, and a role without a log group with `InvalidCloudWatchLogsLogGroupArnException`. The settings are recorded only: log files are not encrypted, events are not delivered to the log group, and `KmsKeyId` is stored as sent (an alias is not resolved to the key ARN, and an unknown key is not refused).
