@@ -102,7 +102,10 @@ A SAML role session is named after the assertion's `https://aws.amazon.com/SAML/
 attribute, which is also the `sts:RoleSessionName` the role's trust policy reads. A value outside
 `[a-zA-Z_0-9+=,.@-]{2,64}` is refused with `InvalidIdentityToken` and the message
 `RoleSessionName in AuthnResponse must match [a-zA-Z_0-9+=,.@-]{2,64}`. AWS refuses an assertion
-without the attribute; Floci accepts it, names the session after the assertion's subject, and leaves
+without the attribute,
+["RoleSessionName is required in AuthnResponse"](https://docs.aws.amazon.com/IAM/latest/UserGuide/troubleshoot_saml.html#troubleshoot_saml_missing-rolesessionname)
+with `InvalidIdentityToken` (400), and so does Floci when `FLOCI_SERVICES_IAM_ENFORCEMENT_ENABLED=true`.
+Without enforcement Floci accepts it, names the session after the assertion's subject, and leaves
 `sts:RoleSessionName` out of the request context, so a trust policy that requires a session name
 refuses it.
 

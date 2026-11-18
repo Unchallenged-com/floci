@@ -35,7 +35,8 @@ final class SAMLAssertionVerifier {
     static final String ASSERTION_INVALID = "The SAML assertion is invalid.";
     static final String SIGNATURE_INVALID = "Response signature invalid";
     private static final String ROLE_SESSION_NAME = "https://aws.amazon.com/SAML/Attributes/RoleSessionName";
-    // The pattern AWS names in its error for a RoleSessionName attribute outside it.
+    // AWS's errors for an assertion without a RoleSessionName attribute and for one outside the pattern.
+    static final String ROLE_SESSION_NAME_REQUIRED = "RoleSessionName is required in AuthnResponse";
     static final String ROLE_SESSION_NAME_INVALID = "RoleSessionName in AuthnResponse must match [a-zA-Z_0-9+=,.@-]{2,64}";
     private static final Pattern ROLE_SESSION_NAME_PATTERN = Pattern.compile("[a-zA-Z_0-9+=,.@-]{2,64}");
     // SAML 2.0 core 5.4.4. AWS rejects any other reference transform as an invalid signature.

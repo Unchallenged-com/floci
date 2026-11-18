@@ -693,6 +693,11 @@ public class StsQueryHandler {
             throw new AwsException("InvalidIdentityToken",
                     "The SAML assertion does not contain the requested role and principal.", 400);
         }
+        // AWS refuses an assertion without the attribute. Floci does under IAM enforcement; otherwise it
+        // keeps accepting one and naming the session after its subject, as it always has.
+        if (verified.roleSessionName() == null && config.services().iam().enforcementEnabled()) {
+            throw new AwsException("InvalidIdentityToken", SAMLAssertionVerifier.ROLE_SESSION_NAME_REQUIRED, 400);
+        }
 
         String callerAccountId = regionResolver.getAccountId();
         String accountId = AwsArnUtils.accountOrDefault(roleArn, callerAccountId);
@@ -713,8 +718,6 @@ public class StsQueryHandler {
         }
 
         String sessionName = verified.roleSessionName();
-        // AWS refuses an assertion without the attribute; Floci has always accepted one, naming the
-        // session after its subject, and keeps doing so.
         if (sessionName == null) {
             sessionName = verified.subject().replaceAll("[^A-Za-z0-9+=,.@_-]", "_");
             if (sessionName.length() > 64) {
