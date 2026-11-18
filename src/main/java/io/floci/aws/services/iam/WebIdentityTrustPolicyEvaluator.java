@@ -3,14 +3,14 @@ package io.floci.aws.services.iam;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.floci.aws.core.common.IamConditionContextResolver;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.jboss.logging.Logger;
 
-import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.StreamSupport;
 
 /**
  * Evaluates a role's trust policy for {@code sts:AssumeRoleWithWebIdentity}, matching the
@@ -22,10 +22,10 @@ import java.util.stream.StreamSupport;
  * conditions — widening it would risk regressing a path that already works. The two are
  * complementary: this one only ever considers federated principals.
  *
- * <p>Condition values are compared with exact, case-sensitive equality rather than
- * {@link IamPolicyEvaluator#globMatches} (which lowercases both operands). An OIDC subject like
- * {@code system:serviceaccount:apps:My-Account} must not match a policy naming {@code my-account}:
- * case-folding here would silently grant a different service account.
+ * <p>The {@code Condition} is read by {@link IamPolicyEvaluator#conditionMatches}, with the
+ * operators every other policy is read with. Its string operators compare case-sensitively, so an
+ * OIDC subject like {@code system:serviceaccount:apps:My-Account} does not match a policy naming
+ * {@code my-account}.
  */
 @ApplicationScoped
 public class WebIdentityTrustPolicyEvaluator {
@@ -34,10 +34,12 @@ public class WebIdentityTrustPolicyEvaluator {
     private static final String WEB_IDENTITY_ACTION = "sts:assumerolewithwebidentity";
 
     private final ObjectMapper objectMapper;
+    private final IamPolicyEvaluator policyEvaluator;
 
     @Inject
-    public WebIdentityTrustPolicyEvaluator(ObjectMapper objectMapper) {
+    public WebIdentityTrustPolicyEvaluator(ObjectMapper objectMapper, IamPolicyEvaluator policyEvaluator) {
         this.objectMapper = objectMapper;
+        this.policyEvaluator = policyEvaluator;
     }
 
     /**
@@ -46,29 +48,34 @@ public class WebIdentityTrustPolicyEvaluator {
      *
      * <p>{@code claims} holds the OIDC condition context keyed <em>without</em> the provider
      * prefix — {@code sub}, {@code aud} — which this evaluator resolves against policy keys of the
-     * form {@code <provider-host-and-path>:sub}. An explicit {@code Deny} wins over any
-     * {@code Allow}, per AWS precedence.
+     * form {@code <provider-host-and-path>:sub}, so a key naming another provider is absent. The
+     * context also carries the time of the request, which the IAM User Guide says "is always
+     * included in the request context". An explicit {@code Deny} wins over any {@code Allow}, per
+     * AWS precedence.
      */
     public boolean allows(String trustPolicyDocument, String oidcProviderArn, String issuerKeyPrefix,
                           Map<String, List<String>> claims) {
         if (trustPolicyDocument == null || trustPolicyDocument.isBlank()) {
             return false;
         }
-        JsonNode statements;
+        JsonNode root;
         try {
-            statements = objectMapper.readTree(trustPolicyDocument).path("Statement");
+            root = objectMapper.readTree(trustPolicyDocument);
         } catch (JsonProcessingException e) {
             LOG.warnv("Failed to parse web-identity trust policy: {0}", e.getMessage());
             return false;
         }
+        JsonNode statements = root.path("Statement");
         if (!TrustPolicyStatements.wellFormed(statements)) {
             return false;
         }
+        String version = root.path("Version").asText(null);
+        Map<String, List<String>> context = conditionContext(issuerKeyPrefix, claims);
 
         boolean allow = false;
         if (statements.isArray()) {
             for (JsonNode stmt : statements) {
-                switch (evaluate(stmt, oidcProviderArn, issuerKeyPrefix, claims)) {
+                switch (evaluate(stmt, oidcProviderArn, context, version)) {
                     case DENY -> { return false; }
                     case ALLOW -> allow = true;
                     case NO_MATCH -> { }
@@ -77,22 +84,30 @@ public class WebIdentityTrustPolicyEvaluator {
             return allow;
         }
         if (statements.isObject()) {
-            return evaluate(statements, oidcProviderArn, issuerKeyPrefix, claims) == Match.ALLOW;
+            return evaluate(statements, oidcProviderArn, context, version) == Match.ALLOW;
         }
         return false;
     }
 
     private enum Match { ALLOW, DENY, NO_MATCH }
 
-    private Match evaluate(JsonNode stmt, String oidcProviderArn, String issuerKeyPrefix,
-                           Map<String, List<String>> claims) {
+    private static Map<String, List<String>> conditionContext(String issuerKeyPrefix,
+                                                              Map<String, List<String>> claims) {
+        Map<String, List<String>> context = new LinkedHashMap<>();
+        claims.forEach((name, values) -> context.put(issuerKeyPrefix + ":" + name, values));
+        IamConditionContextResolver.putRequestTime(context);
+        return context;
+    }
+
+    private Match evaluate(JsonNode stmt, String oidcProviderArn, Map<String, List<String>> context,
+                           String version) {
         if (!actionApplies(stmt)) {
             return Match.NO_MATCH;
         }
         if (!matchesFederatedPrincipal(stmt.get("Principal"), oidcProviderArn)) {
             return Match.NO_MATCH;
         }
-        if (!conditionsSatisfied(stmt.get("Condition"), issuerKeyPrefix, claims)) {
+        if (!policyEvaluator.conditionMatches(stmt.get("Condition"), context, version)) {
             return Match.NO_MATCH;
         }
         return TrustPolicyStatements.denies(stmt) ? Match.DENY : Match.ALLOW;
@@ -162,102 +177,5 @@ public class WebIdentityTrustPolicyEvaluator {
 
     private boolean federatedMatches(String declared, String oidcProviderArn) {
         return "*".equals(declared) || declared.equals(oidcProviderArn);
-    }
-
-    /**
-     * Evaluates the condition block. Every operator block and every key within it must be satisfied
-     * (AWS ANDs them). Only the string operators meaningful for OIDC claims are handled; a condition
-     * using anything else does not match, which fails closed.
-     */
-    private boolean conditionsSatisfied(JsonNode conditionNode, String issuerKeyPrefix,
-                                        Map<String, List<String>> claims) {
-        if (conditionNode == null || conditionNode.isNull()) {
-            // No condition constraints — the federated principal alone is enough.
-            return true;
-        }
-        if (!conditionNode.isObject()) {
-            return false;
-        }
-
-        Iterator<Map.Entry<String, JsonNode>> operators = conditionNode.fields();
-        while (operators.hasNext()) {
-            Map.Entry<String, JsonNode> operatorEntry = operators.next();
-            String operator = operatorEntry.getKey();
-            JsonNode keys = operatorEntry.getValue();
-            if (!keys.isObject()) {
-                return false;
-            }
-            Iterator<Map.Entry<String, JsonNode>> keyIterator = keys.fields();
-            while (keyIterator.hasNext()) {
-                Map.Entry<String, JsonNode> keyEntry = keyIterator.next();
-                if (!keySatisfied(operator, keyEntry.getKey(), keyEntry.getValue(),
-                        issuerKeyPrefix, claims)) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    private boolean keySatisfied(String operator, String conditionKey, JsonNode expected,
-                                 String issuerKeyPrefix, Map<String, List<String>> claims) {
-        List<String> actual = resolveClaim(conditionKey, issuerKeyPrefix, claims);
-        List<String> expectedValues = textValues(expected);
-        if (expectedValues.isEmpty()) {
-            return false;
-        }
-
-        return switch (operator) {
-            case "StringEquals" -> actual.stream().anyMatch(expectedValues::contains);
-            case "StringNotEquals" -> actual.stream().noneMatch(expectedValues::contains);
-            case "StringLike" -> actual.stream().anyMatch(
-                    a -> expectedValues.stream().anyMatch(e -> IamPolicyEvaluator.caseSensitiveGlobMatches(e, a)));
-            case "StringNotLike" -> actual.stream().noneMatch(
-                    a -> expectedValues.stream().anyMatch(e -> IamPolicyEvaluator.caseSensitiveGlobMatches(e, a)));
-            default -> {
-                LOG.debugv("Unsupported web-identity trust policy condition operator: {0}", operator);
-                yield false;
-            }
-        };
-    }
-
-    /**
-     * Resolves a policy condition key such as
-     * {@code oidc.eks.us-east-1.amazonaws.com/id/ABC123:sub} to the token's claim values. The key
-     * prefix is the issuer with its scheme stripped, which is how the AWS console, eksctl, and
-     * Terraform all render it.
-     */
-    private List<String> resolveClaim(String conditionKey, String issuerKeyPrefix,
-                                      Map<String, List<String>> claims) {
-        if (conditionKey == null) {
-            return List.of();
-        }
-        int separator = conditionKey.lastIndexOf(':');
-        if (separator < 0) {
-            return List.of();
-        }
-        String prefix = conditionKey.substring(0, separator);
-        String claimName = conditionKey.substring(separator + 1);
-
-        // The provider prefix must be this token's issuer; a condition pinned to a different
-        // provider must not be satisfied by our claims.
-        if (!prefix.equalsIgnoreCase(issuerKeyPrefix)) {
-            return List.of();
-        }
-        return claims.getOrDefault(claimName.toLowerCase(), List.of());
-    }
-
-    private List<String> textValues(JsonNode node) {
-        if (node.isTextual()) {
-            return List.of(node.asText());
-        }
-        if (node.isArray()) {
-            return StreamSupport
-                    .stream(node.spliterator(), false)
-                    .filter(JsonNode::isTextual)
-                    .map(JsonNode::asText)
-                    .toList();
-        }
-        return List.of();
     }
 }

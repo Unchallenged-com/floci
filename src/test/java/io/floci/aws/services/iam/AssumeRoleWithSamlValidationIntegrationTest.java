@@ -16,6 +16,8 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import software.amazon.awssdk.auth.credentials.AnonymousCredentialsProvider;
@@ -234,6 +236,42 @@ class AssumeRoleWithSamlValidationIntegrationTest {
         String roleArn = "arn:aws:iam::" + ACCOUNT + ":role/" + role;
         assume(roleArn, assertion(roleArn, PROVIDER, Instant.now().plusSeconds(300), AUDIENCE, ISSUER, true), PROVIDER)
                 .statusCode(403).body(containsString("AccessDenied"));
+    }
+
+    /**
+     * The trust policy's {@code Condition} is read with every IAM condition operator, against the assertion's
+     * {@code saml:} keys and the time of the request. The assertion carries {@code saml:sub} and no
+     * {@code saml:edupersonaffiliation}, so the cases on that key are the guide's missing-key rules: a negated
+     * operator, {@code ...IfExists} and {@code Null} set to {@code true} hold, a positive operator does not.
+     */
+    @ParameterizedTest
+    @CsvSource(delimiter = '|', value = {
+        "{\"StringEquals\":{\"saml:sub\":\"saml-subject\"}}|200",
+        "{\"StringEquals\":{\"saml:sub\":\"someone-else\"}}|403",
+        "{\"StringNotEquals\":{\"saml:edupersonaffiliation\":\"student\"}}|200",
+        "{\"StringNotLike\":{\"saml:edupersonaffiliation\":\"stu*\"}}|200",
+        "{\"StringEquals\":{\"saml:edupersonaffiliation\":\"staff\"}}|403",
+        "{\"StringLikeIfExists\":{\"saml:edupersonaffiliation\":\"staff\"}}|200",
+        "{\"Null\":{\"saml:edupersonaffiliation\":\"true\"}}|200",
+        "{\"Null\":{\"saml:sub\":\"true\"}}|403",
+        "{\"ForAnyValue:StringEquals\":{\"saml:sub\":[\"saml-subject\",\"other\"]}}|200",
+        "{\"ForAnyValue:StringEquals\":{\"saml:edupersonaffiliation\":[\"staff\"]}}|403",
+        "{\"DateGreaterThan\":{\"aws:CurrentTime\":\"2020-01-01T00:00:00Z\"}}|200",
+        "{\"DateLessThan\":{\"aws:CurrentTime\":\"2020-01-01T00:00:00Z\"}}|403",
+        "{\"StringEquals\":{\"saml:iss\":\"https://idp.example.test/saml\"},\"DateLessThan\":{\"aws:CurrentTime\":\"2020-01-01T00:00:00Z\"}}|403"
+    })
+    void trustPolicyConditionsAreReadWithEveryOperator(String condition, int status) {
+        String role = "saml-operators-" + UUID.randomUUID().toString().replace("-", "").substring(0, 12);
+        String trust = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Federated\":\""
+                + PROVIDER + "\"},\"Action\":\"sts:AssumeRoleWithSAML\",\"Condition\":" + condition + "}]}";
+        given().contentType("application/x-www-form-urlencoded")
+                .formParam("Action", "CreateRole").formParam("RoleName", role)
+                .formParam("AssumeRolePolicyDocument", trust)
+                .header("Authorization", auth("iam")).when().post("/").then().statusCode(200);
+        ensureProviderRegistered();
+        String roleArn = "arn:aws:iam::" + ACCOUNT + ":role/" + role;
+        assume(roleArn, assertion(roleArn, PROVIDER, Instant.now().plusSeconds(300), AUDIENCE, ISSUER, true), PROVIDER)
+                .statusCode(status);
     }
 
     @Test

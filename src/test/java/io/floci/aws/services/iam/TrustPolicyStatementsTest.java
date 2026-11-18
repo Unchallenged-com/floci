@@ -25,10 +25,10 @@ class TrustPolicyStatementsTest {
     private static final String SAML_PROVIDER = "arn:aws:iam::" + ACCOUNT + ":saml-provider/corp";
 
     private final ObjectMapper mapper = new ObjectMapper();
-    private final AssumeRolePolicyEvaluator assumeRole =
-            new AssumeRolePolicyEvaluator(mapper, new IamPolicyEvaluator(mapper));
-    private final WebIdentityTrustPolicyEvaluator webIdentity = new WebIdentityTrustPolicyEvaluator(mapper);
-    private final SAMLTrustPolicyEvaluator saml = new SAMLTrustPolicyEvaluator(mapper);
+    private final IamPolicyEvaluator policies = new IamPolicyEvaluator(mapper);
+    private final AssumeRolePolicyEvaluator assumeRole = new AssumeRolePolicyEvaluator(mapper, policies);
+    private final WebIdentityTrustPolicyEvaluator webIdentity = new WebIdentityTrustPolicyEvaluator(mapper, policies);
+    private final SAMLTrustPolicyEvaluator saml = new SAMLTrustPolicyEvaluator(mapper, policies);
 
     /** A path that assumes a role, with the principal and action a statement names to reach it. */
     enum Path {

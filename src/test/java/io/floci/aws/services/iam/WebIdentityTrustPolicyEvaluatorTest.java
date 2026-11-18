@@ -19,7 +19,7 @@ class WebIdentityTrustPolicyEvaluatorTest {
     private static final String SUBJECT = "system:serviceaccount:" + NAMESPACE + ":" + SERVICE_ACCOUNT;
 
     private final WebIdentityTrustPolicyEvaluator evaluator =
-            new WebIdentityTrustPolicyEvaluator(new ObjectMapper());
+            new WebIdentityTrustPolicyEvaluator(new ObjectMapper(), new IamPolicyEvaluator(new ObjectMapper()));
 
     /** The canonical IRSA trust policy shape. */
     private String irsaTrustPolicy(String subject) {
@@ -208,12 +208,12 @@ class WebIdentityTrustPolicyEvaluatorTest {
     }
 
     @Test
-    void deniesUnsupportedConditionOperator() {
+    void evaluatesDateOperatorsAgainstTheTimeOfTheRequest() {
         String policy = """
                 {"Statement":[{"Effect":"Allow","Principal":{"Federated":"%s"},
                 "Action":"sts:AssumeRoleWithWebIdentity","Condition":{"DateGreaterThan":{
                 "aws:CurrentTime":"2020-01-01T00:00:00Z"}}}]}""".formatted(PROVIDER_ARN);
-        assertFalse(allows(policy, claims(SUBJECT)));
+        assertTrue(allows(policy, claims(SUBJECT)));
     }
 
     @Test

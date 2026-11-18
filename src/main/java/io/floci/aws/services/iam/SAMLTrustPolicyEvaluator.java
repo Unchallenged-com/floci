@@ -2,33 +2,50 @@ package io.floci.aws.services.iam;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.floci.aws.core.common.IamConditionContextResolver;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
-import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.StreamSupport;
 
-/** Evaluates the federated principal and SAML action in a role trust policy. */
+/**
+ * Evaluates the federated principal and SAML action in a role trust policy, and its
+ * {@code Condition} with {@link IamPolicyEvaluator#conditionMatches}, the operators every other
+ * policy is read with.
+ */
 @ApplicationScoped
 public class SAMLTrustPolicyEvaluator {
+    private static final String SAML_KEY_PREFIX = "saml:";
     private final ObjectMapper mapper;
+    private final IamPolicyEvaluator policyEvaluator;
+
     @Inject
-    public SAMLTrustPolicyEvaluator(ObjectMapper mapper) {
+    public SAMLTrustPolicyEvaluator(ObjectMapper mapper, IamPolicyEvaluator policyEvaluator) {
         this.mapper = mapper;
+        this.policyEvaluator = policyEvaluator;
     }
 
+    /**
+     * {@code claims} holds the assertion's values keyed by their name in the {@code saml:}
+     * namespace without the prefix ({@code sub}, {@code iss}), which a policy reads as
+     * {@code saml:sub}. The context also carries the time of the request, which the IAM User Guide
+     * says "is always included in the request context".
+     */
     public boolean allows(String document, String providerArn, Map<String, List<String>> claims) {
         try {
-            JsonNode statements = mapper.readTree(document).path("Statement");
+            JsonNode root = mapper.readTree(document);
+            JsonNode statements = root.path("Statement");
             if (!TrustPolicyStatements.wellFormed(statements)) {
                 return false;
             }
+            String version = root.path("Version").asText(null);
+            Map<String, List<String>> context = conditionContext(claims);
             if (statements.isArray()) {
                 boolean allowed = false;
                 for (JsonNode statement : statements) {
-                    int result = evaluate(statement, providerArn, claims);
+                    int result = evaluate(statement, providerArn, context, version);
                     if (result < 0) {
                         return false;
                     }
@@ -38,71 +55,26 @@ public class SAMLTrustPolicyEvaluator {
                 }
                 return allowed;
             }
-            return statements.isObject() && evaluate(statements, providerArn, claims) > 0;
+            return statements.isObject() && evaluate(statements, providerArn, context, version) > 0;
         } catch (Exception e) {
             return false;
         }
     }
 
-    private int evaluate(JsonNode statement, String providerArn, Map<String, List<String>> claims) {
+    private static Map<String, List<String>> conditionContext(Map<String, List<String>> claims) {
+        Map<String, List<String>> context = new LinkedHashMap<>();
+        claims.forEach((name, values) -> context.put(SAML_KEY_PREFIX + name, values));
+        IamConditionContextResolver.putRequestTime(context);
+        return context;
+    }
+
+    private int evaluate(JsonNode statement, String providerArn, Map<String, List<String>> context,
+                         String version) {
         if (!actionApplies(statement) || !principal(statement.path("Principal"), providerArn)
-                || !conditionsSatisfied(statement.get("Condition"), claims)) {
+                || !policyEvaluator.conditionMatches(statement.get("Condition"), context, version)) {
             return 0;
         }
         return TrustPolicyStatements.denies(statement) ? -1 : 1;
-    }
-
-    private boolean conditionsSatisfied(JsonNode condition, Map<String, List<String>> claims) {
-        if (condition == null || condition.isNull()) {
-            return true;
-        }
-        if (!condition.isObject()) {
-            return false;
-        }
-        Iterator<Map.Entry<String, JsonNode>> operators = condition.fields();
-        while (operators.hasNext()) {
-            Map.Entry<String, JsonNode> operator = operators.next();
-            if (!operator.getValue().isObject()) {
-                return false;
-            }
-            Iterator<Map.Entry<String, JsonNode>> entries = operator.getValue().fields();
-            while (entries.hasNext()) {
-                Map.Entry<String, JsonNode> entry = entries.next();
-                String key = entry.getKey();
-                int colon = key.indexOf(':');
-                String claimName = colon < 0 ? key : key.substring(colon + 1);
-                List<String> actual = claims.getOrDefault(claimName, List.of());
-                List<String> expected = entry.getValue().isArray()
-                        ? StreamSupport.stream(entry.getValue().spliterator(), false)
-                                .filter(JsonNode::isTextual).map(JsonNode::asText).toList()
-                        : entry.getValue().isTextual() ? List.of(entry.getValue().asText()) : List.of();
-                if (expected.isEmpty() || actual.isEmpty()) {
-                    return false;
-                }
-                if (!operatorMatches(operator.getKey(), actual, expected)) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    private boolean operatorMatches(String operator, List<String> actual, List<String> expected) {
-        if ("StringEquals".equals(operator)) {
-            return actual.stream().anyMatch(value -> expected.contains(value));
-        }
-        if ("StringLike".equals(operator)) {
-            return actual.stream().anyMatch(value -> expected.stream().anyMatch(pattern ->
-                    IamPolicyEvaluator.caseSensitiveGlobMatches(pattern, value)));
-        }
-        if ("StringNotEquals".equals(operator)) {
-            return actual.stream().allMatch(value -> expected.stream().noneMatch(value::equals));
-        }
-        if ("StringNotLike".equals(operator)) {
-            return actual.stream().allMatch(value -> expected.stream().noneMatch(pattern ->
-                    IamPolicyEvaluator.caseSensitiveGlobMatches(pattern, value)));
-        }
-        return false;
     }
 
     private boolean actionApplies(JsonNode statement) {

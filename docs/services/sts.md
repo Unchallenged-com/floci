@@ -412,6 +412,19 @@ when its condition matches.
 The target role's tags do not supply the caller's principal tags. A chained request reads the
 current caller role's tags; tags on the user that originally assumed it are not inherited.
 
+`AssumeRoleWithWebIdentity` and `AssumeRoleWithSAML` read a trust policy's `Condition` with the
+same operators too: every operator of the
+[condition operator reference](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_condition_operators.html),
+its `...IfExists` form, the `ForAllValues:` and `ForAnyValue:` set operators, and `Null`. A key the
+request does not carry follows the reference: "If the key that you specify in a policy condition is
+not present in the request context, the values do not match and the condition is *false*. If the
+policy condition requires that the key is *not* matched, such as `StringNotLike` or `ArnNotLike`,
+and the right key is not present, the condition is *true*." The web identity context holds
+`<oidcProvider>:sub` and `<oidcProvider>:aud`; the SAML context holds `saml:aud`, `saml:iss`,
+`saml:sub` and `saml:namequalifier`, a claim being read only under its own namespace. Both carry
+`aws:CurrentTime` and `aws:EpochTime`, which the guide says are "always included in the request
+context", so a date window on federation is enforced.
+
 A trust policy with a statement whose `Effect` is not exactly `Allow` or `Deny`, or whose
 `Condition` is not an object of non-empty operator objects, lets no one assume the role, the same
 on `AssumeRole`, `AssumeRoleWithWebIdentity` and `AssumeRoleWithSAML`. IAM refuses such a document
@@ -433,7 +446,7 @@ When the token's `iss` names a known Floci issuer, all of the following are enfo
 - `iss` matches that issuer exactly
 - `aud` contains `sts.amazonaws.com`
 - `exp` / `nbf`, with 60s of clock-skew tolerance
-- the role's trust policy: `Principal.Federated` plus the `Condition` block, comparing `<oidcProvider>:sub` and `<oidcProvider>:aud` with exact, **case-sensitive** equality (`StringEquals`, `StringNotEquals`, `StringLike`, and `StringNotLike` are supported)
+- the role's trust policy: `Principal.Federated` plus the `Condition` block, with every IAM condition operator (see [Trust Policy Enforcement](#trust-policy-enforcement)); the string operators compare `<oidcProvider>:sub` and `<oidcProvider>:aud` **case-sensitively**, except the `IgnoreCase` ones
 
 The response carries the token's real claims in `SubjectFromWebIdentityToken`, `Provider`, and `Audience`. A bad token returns `InvalidIdentityToken` (400), an expired one returns `ExpiredTokenException` (400), and a role that does not exist or a trust policy that does not permit the subject returns `AccessDenied` (403).
 
