@@ -17,6 +17,7 @@ import java.security.KeyPairGenerator;
 import java.security.PrivateKey;
 import java.security.Signature;
 import java.security.interfaces.RSAPublicKey;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -152,6 +153,39 @@ class WebIdentityTokenVerifierTest {
 
         assertThrows(WebIdentityTokenVerifier.InvalidTokenException.class,
                 () -> verifier.verify(token, publicKey(), ISSUER, EksOidcService.STS_AUDIENCE));
+    }
+
+    /**
+     * STS answers "InvalidIdentityToken: Token audience contains more than one audience while authorized party is not
+     * present" for a token "with multiple audiences", including one naming the same audience twice.
+     */
+    @Test
+    void rejectsSeveralAudiencesWithoutAnAuthorizedParty() throws Exception {
+        KeyPair keyPair = newKeyPair();
+        long expiry = System.currentTimeMillis() / 1000 + 3600;
+        for (String audiences : List.of("[\"" + EksOidcService.STS_AUDIENCE + "\",\"other-client\"]",
+                "[\"" + EksOidcService.STS_AUDIENCE + "\",\"" + EksOidcService.STS_AUDIENCE + "\"]")) {
+            String token = signRs256(keyPair.getPrivate(), "{\"iss\":\"" + ISSUER + "\",\"aud\":" + audiences
+                    + ",\"sub\":\"system:serviceaccount:my-namespace:my-service-account\",\"exp\":" + expiry + "}");
+            WebIdentityTokenVerifier.InvalidTokenException thrown = assertThrows(
+                    WebIdentityTokenVerifier.InvalidTokenException.class,
+                    () -> verifier.verify(token, (RSAPublicKey) keyPair.getPublic(), ISSUER,
+                            EksOidcService.STS_AUDIENCE));
+            assertEquals("Token audience contains more than one audience while authorized party is not present",
+                    thrown.getMessage(), audiences);
+        }
+    }
+
+    @Test
+    void acceptsSeveralAudiencesWithAnAuthorizedParty() throws Exception {
+        KeyPair keyPair = newKeyPair();
+        long expiry = System.currentTimeMillis() / 1000 + 3600;
+        String token = signRs256(keyPair.getPrivate(), "{\"iss\":\"" + ISSUER + "\",\"aud\":[\""
+                + EksOidcService.STS_AUDIENCE + "\",\"other-client\"],\"azp\":\"" + EksOidcService.STS_AUDIENCE
+                + "\",\"sub\":\"system:serviceaccount:my-namespace:my-service-account\",\"exp\":" + expiry + "}");
+        WebIdentityToken verified = verifier.verify(token, (RSAPublicKey) keyPair.getPublic(), ISSUER,
+                EksOidcService.STS_AUDIENCE);
+        assertEquals(List.of(EksOidcService.STS_AUDIENCE, "other-client"), verified.audiences());
     }
 
     @Test

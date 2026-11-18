@@ -444,7 +444,7 @@ When the token's `iss` names a known Floci issuer, all of the following are enfo
 
 - the RS256 signature, against the issuer's public key
 - `iss` matches that issuer exactly
-- `aud` contains `sts.amazonaws.com`
+- `aud` contains `sts.amazonaws.com`, and holds a single value unless the token carries `azp`: a token with several audiences and no `azp` is refused with `InvalidIdentityToken` and `Token audience contains more than one audience while authorized party is not present`, as [AWS refuses it](https://repost.aws/knowledge-center/iam-oidc-idp-federation) ("AWS doesn't support JWT tokens with multiple audiences")
 - `exp` / `nbf`, with 60s of clock-skew tolerance
 - the role's trust policy: `Principal.Federated` plus the `Condition` block, with every IAM condition operator (see [Trust Policy Enforcement](#trust-policy-enforcement)); the string operators compare `<oidcProvider>:sub` and `<oidcProvider>:aud` **case-sensitively**, except the `IgnoreCase` ones
 

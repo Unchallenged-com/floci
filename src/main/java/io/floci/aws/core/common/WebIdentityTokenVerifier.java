@@ -73,7 +73,8 @@ public class WebIdentityTokenVerifier {
 
     /**
      * Fully verifies {@code token}: RS256 signature against {@code publicKey}, {@code iss} equal to
-     * {@code expectedIssuer}, {@code aud} containing {@code requiredAudience}, and {@code exp}/
+     * {@code expectedIssuer}, {@code aud} containing {@code requiredAudience} and holding one value
+     * unless the token carries {@code azp}, and {@code exp}/
      * {@code nbf} within {@link #CLOCK_SKEW_SECONDS}.
      *
      * <p>Claim comparisons are exact and case-sensitive, matching AWS treatment of OIDC claims.
@@ -109,6 +110,12 @@ public class WebIdentityTokenVerifier {
         }
 
         List<String> audiences = readAudiences(claims);
+        // AWS "doesn't support JWT tokens with multiple audiences" unless the token names its
+        // authorized party, and refuses one with this message, a repeated audience included.
+        if (audiences.size() > 1 && claims.path("azp").asText("").isEmpty()) {
+            throw new InvalidTokenException(
+                    "Token audience contains more than one audience while authorized party is not present");
+        }
         if (!audiences.contains(requiredAudience)) {
             throw new InvalidTokenException("The web identity token audience does not include "
                     + requiredAudience);
