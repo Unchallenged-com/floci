@@ -1,6 +1,6 @@
 {
   "_source": {
-    "generator": "tools/aws/regen_iam_cloudtrail_shapes.py",
+    "generator": "tools/aws/regen_cloudtrail_shapes.py",
     "botocore": "botocore 1.43.118 (installed package)"
   },
   "operations": {

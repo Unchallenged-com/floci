@@ -1,0 +1,667 @@
+{
+  "_source": {
+    "generator": "tools/aws/regen_cloudtrail_shapes.py",
+    "botocore": "botocore 1.43.118 (installed package)"
+  },
+  "operations": {
+    "AddPermission": {
+      "input": "AddPermissionRequest",
+      "output": null,
+      "resultWrapper": null
+    },
+    "CancelMessageMoveTask": {
+      "input": "CancelMessageMoveTaskRequest",
+      "output": "CancelMessageMoveTaskResult",
+      "resultWrapper": null
+    },
+    "ChangeMessageVisibility": {
+      "input": "ChangeMessageVisibilityRequest",
+      "output": null,
+      "resultWrapper": null
+    },
+    "ChangeMessageVisibilityBatch": {
+      "input": "ChangeMessageVisibilityBatchRequest",
+      "output": "ChangeMessageVisibilityBatchResult",
+      "resultWrapper": null
+    },
+    "CreateQueue": {
+      "input": "CreateQueueRequest",
+      "output": "CreateQueueResult",
+      "resultWrapper": null
+    },
+    "DeleteMessage": {
+      "input": "DeleteMessageRequest",
+      "output": null,
+      "resultWrapper": null
+    },
+    "DeleteMessageBatch": {
+      "input": "DeleteMessageBatchRequest",
+      "output": "DeleteMessageBatchResult",
+      "resultWrapper": null
+    },
+    "DeleteQueue": {
+      "input": "DeleteQueueRequest",
+      "output": null,
+      "resultWrapper": null
+    },
+    "GetQueueAttributes": {
+      "input": "GetQueueAttributesRequest",
+      "output": "GetQueueAttributesResult",
+      "resultWrapper": null
+    },
+    "GetQueueUrl": {
+      "input": "GetQueueUrlRequest",
+      "output": "GetQueueUrlResult",
+      "resultWrapper": null
+    },
+    "ListDeadLetterSourceQueues": {
+      "input": "ListDeadLetterSourceQueuesRequest",
+      "output": "ListDeadLetterSourceQueuesResult",
+      "resultWrapper": null
+    },
+    "ListMessageMoveTasks": {
+      "input": "ListMessageMoveTasksRequest",
+      "output": "ListMessageMoveTasksResult",
+      "resultWrapper": null
+    },
+    "ListQueueTags": {
+      "input": "ListQueueTagsRequest",
+      "output": "ListQueueTagsResult",
+      "resultWrapper": null
+    },
+    "ListQueues": {
+      "input": "ListQueuesRequest",
+      "output": "ListQueuesResult",
+      "resultWrapper": null
+    },
+    "PurgeQueue": {
+      "input": "PurgeQueueRequest",
+      "output": null,
+      "resultWrapper": null
+    },
+    "ReceiveMessage": {
+      "input": "ReceiveMessageRequest",
+      "output": "ReceiveMessageResult",
+      "resultWrapper": null
+    },
+    "RemovePermission": {
+      "input": "RemovePermissionRequest",
+      "output": null,
+      "resultWrapper": null
+    },
+    "SendMessage": {
+      "input": "SendMessageRequest",
+      "output": "SendMessageResult",
+      "resultWrapper": null
+    },
+    "SendMessageBatch": {
+      "input": "SendMessageBatchRequest",
+      "output": "SendMessageBatchResult",
+      "resultWrapper": null
+    },
+    "SetQueueAttributes": {
+      "input": "SetQueueAttributesRequest",
+      "output": null,
+      "resultWrapper": null
+    },
+    "StartMessageMoveTask": {
+      "input": "StartMessageMoveTaskRequest",
+      "output": "StartMessageMoveTaskResult",
+      "resultWrapper": null
+    },
+    "TagQueue": {
+      "input": "TagQueueRequest",
+      "output": null,
+      "resultWrapper": null
+    },
+    "UntagQueue": {
+      "input": "UntagQueueRequest",
+      "output": null,
+      "resultWrapper": null
+    }
+  },
+  "shapes": {
+    "AWSAccountIdList": {
+      "type": "list",
+      "member": "String"
+    },
+    "ActionNameList": {
+      "type": "list",
+      "member": "String"
+    },
+    "AddPermissionRequest": {
+      "type": "structure",
+      "members": {
+        "QueueUrl": "String",
+        "Label": "String",
+        "AWSAccountIds": "AWSAccountIdList",
+        "Actions": "ActionNameList"
+      }
+    },
+    "AttributeNameList": {
+      "type": "list",
+      "member": "QueueAttributeName"
+    },
+    "BatchResultErrorEntry": {
+      "type": "structure",
+      "members": {
+        "Id": "String",
+        "SenderFault": "Boolean",
+        "Code": "String",
+        "Message": "String"
+      }
+    },
+    "BatchResultErrorEntryList": {
+      "type": "list",
+      "member": "BatchResultErrorEntry"
+    },
+    "Binary": {
+      "type": "blob"
+    },
+    "BinaryList": {
+      "type": "list",
+      "member": "Binary"
+    },
+    "Boolean": {
+      "type": "boolean"
+    },
+    "BoxedInteger": {
+      "type": "integer"
+    },
+    "CancelMessageMoveTaskRequest": {
+      "type": "structure",
+      "members": {
+        "TaskHandle": "String"
+      }
+    },
+    "CancelMessageMoveTaskResult": {
+      "type": "structure",
+      "members": {
+        "ApproximateNumberOfMessagesMoved": "Long"
+      }
+    },
+    "ChangeMessageVisibilityBatchRequest": {
+      "type": "structure",
+      "members": {
+        "QueueUrl": "String",
+        "Entries": "ChangeMessageVisibilityBatchRequestEntryList"
+      }
+    },
+    "ChangeMessageVisibilityBatchRequestEntry": {
+      "type": "structure",
+      "members": {
+        "Id": "String",
+        "ReceiptHandle": "String",
+        "VisibilityTimeout": "NullableInteger"
+      }
+    },
+    "ChangeMessageVisibilityBatchRequestEntryList": {
+      "type": "list",
+      "member": "ChangeMessageVisibilityBatchRequestEntry"
+    },
+    "ChangeMessageVisibilityBatchResult": {
+      "type": "structure",
+      "members": {
+        "Successful": "ChangeMessageVisibilityBatchResultEntryList",
+        "Failed": "BatchResultErrorEntryList"
+      }
+    },
+    "ChangeMessageVisibilityBatchResultEntry": {
+      "type": "structure",
+      "members": {
+        "Id": "String"
+      }
+    },
+    "ChangeMessageVisibilityBatchResultEntryList": {
+      "type": "list",
+      "member": "ChangeMessageVisibilityBatchResultEntry"
+    },
+    "ChangeMessageVisibilityRequest": {
+      "type": "structure",
+      "members": {
+        "QueueUrl": "String",
+        "ReceiptHandle": "String",
+        "VisibilityTimeout": "NullableInteger"
+      }
+    },
+    "CreateQueueRequest": {
+      "type": "structure",
+      "members": {
+        "QueueName": "String",
+        "Attributes": "QueueAttributeMap",
+        "tags": "TagMap"
+      }
+    },
+    "CreateQueueResult": {
+      "type": "structure",
+      "members": {
+        "QueueUrl": "String"
+      }
+    },
+    "DeleteMessageBatchRequest": {
+      "type": "structure",
+      "members": {
+        "QueueUrl": "String",
+        "Entries": "DeleteMessageBatchRequestEntryList"
+      }
+    },
+    "DeleteMessageBatchRequestEntry": {
+      "type": "structure",
+      "members": {
+        "Id": "String",
+        "ReceiptHandle": "String"
+      }
+    },
+    "DeleteMessageBatchRequestEntryList": {
+      "type": "list",
+      "member": "DeleteMessageBatchRequestEntry"
+    },
+    "DeleteMessageBatchResult": {
+      "type": "structure",
+      "members": {
+        "Successful": "DeleteMessageBatchResultEntryList",
+        "Failed": "BatchResultErrorEntryList"
+      }
+    },
+    "DeleteMessageBatchResultEntry": {
+      "type": "structure",
+      "members": {
+        "Id": "String"
+      }
+    },
+    "DeleteMessageBatchResultEntryList": {
+      "type": "list",
+      "member": "DeleteMessageBatchResultEntry"
+    },
+    "DeleteMessageRequest": {
+      "type": "structure",
+      "members": {
+        "QueueUrl": "String",
+        "ReceiptHandle": "String"
+      }
+    },
+    "DeleteQueueRequest": {
+      "type": "structure",
+      "members": {
+        "QueueUrl": "String"
+      }
+    },
+    "GetQueueAttributesRequest": {
+      "type": "structure",
+      "members": {
+        "QueueUrl": "String",
+        "AttributeNames": "AttributeNameList"
+      }
+    },
+    "GetQueueAttributesResult": {
+      "type": "structure",
+      "members": {
+        "Attributes": "QueueAttributeMap"
+      }
+    },
+    "GetQueueUrlRequest": {
+      "type": "structure",
+      "members": {
+        "QueueName": "String",
+        "QueueOwnerAWSAccountId": "String"
+      }
+    },
+    "GetQueueUrlResult": {
+      "type": "structure",
+      "members": {
+        "QueueUrl": "String"
+      }
+    },
+    "ListDeadLetterSourceQueuesRequest": {
+      "type": "structure",
+      "members": {
+        "QueueUrl": "String",
+        "NextToken": "Token",
+        "MaxResults": "BoxedInteger"
+      }
+    },
+    "ListDeadLetterSourceQueuesResult": {
+      "type": "structure",
+      "members": {
+        "queueUrls": "QueueUrlList",
+        "NextToken": "Token"
+      }
+    },
+    "ListMessageMoveTasksRequest": {
+      "type": "structure",
+      "members": {
+        "SourceArn": "String",
+        "MaxResults": "NullableInteger"
+      }
+    },
+    "ListMessageMoveTasksResult": {
+      "type": "structure",
+      "members": {
+        "Results": "ListMessageMoveTasksResultEntryList"
+      }
+    },
+    "ListMessageMoveTasksResultEntry": {
+      "type": "structure",
+      "members": {
+        "TaskHandle": "String",
+        "Status": "String",
+        "SourceArn": "String",
+        "DestinationArn": "String",
+        "MaxNumberOfMessagesPerSecond": "NullableInteger",
+        "ApproximateNumberOfMessagesMoved": "Long",
+        "ApproximateNumberOfMessagesToMove": "NullableLong",
+        "FailureReason": "String",
+        "StartedTimestamp": "Long"
+      }
+    },
+    "ListMessageMoveTasksResultEntryList": {
+      "type": "list",
+      "member": "ListMessageMoveTasksResultEntry"
+    },
+    "ListQueueTagsRequest": {
+      "type": "structure",
+      "members": {
+        "QueueUrl": "String"
+      }
+    },
+    "ListQueueTagsResult": {
+      "type": "structure",
+      "members": {
+        "Tags": "TagMap"
+      }
+    },
+    "ListQueuesRequest": {
+      "type": "structure",
+      "members": {
+        "QueueNamePrefix": "String",
+        "NextToken": "Token",
+        "MaxResults": "BoxedInteger"
+      }
+    },
+    "ListQueuesResult": {
+      "type": "structure",
+      "members": {
+        "QueueUrls": "QueueUrlList",
+        "NextToken": "Token"
+      }
+    },
+    "Long": {
+      "type": "long"
+    },
+    "Message": {
+      "type": "structure",
+      "members": {
+        "MessageId": "String",
+        "ReceiptHandle": "String",
+        "MD5OfBody": "String",
+        "Body": "String",
+        "Attributes": "MessageSystemAttributeMap",
+        "MD5OfMessageAttributes": "String",
+        "MessageAttributes": "MessageBodyAttributeMap"
+      }
+    },
+    "MessageAttributeName": {
+      "type": "string"
+    },
+    "MessageAttributeNameList": {
+      "type": "list",
+      "member": "MessageAttributeName"
+    },
+    "MessageAttributeValue": {
+      "type": "structure",
+      "members": {
+        "StringValue": "String",
+        "BinaryValue": "Binary",
+        "StringListValues": "StringList",
+        "BinaryListValues": "BinaryList",
+        "DataType": "String"
+      }
+    },
+    "MessageBodyAttributeMap": {
+      "type": "map",
+      "key": "String",
+      "value": "MessageAttributeValue"
+    },
+    "MessageBodySystemAttributeMap": {
+      "type": "map",
+      "key": "MessageSystemAttributeNameForSends",
+      "value": "MessageSystemAttributeValue"
+    },
+    "MessageList": {
+      "type": "list",
+      "member": "Message"
+    },
+    "MessageSystemAttributeList": {
+      "type": "list",
+      "member": "MessageSystemAttributeName"
+    },
+    "MessageSystemAttributeMap": {
+      "type": "map",
+      "key": "MessageSystemAttributeName",
+      "value": "String"
+    },
+    "MessageSystemAttributeName": {
+      "type": "string"
+    },
+    "MessageSystemAttributeNameForSends": {
+      "type": "string"
+    },
+    "MessageSystemAttributeValue": {
+      "type": "structure",
+      "members": {
+        "StringValue": "String",
+        "BinaryValue": "Binary",
+        "StringListValues": "StringList",
+        "BinaryListValues": "BinaryList",
+        "DataType": "String"
+      }
+    },
+    "NullableInteger": {
+      "type": "integer"
+    },
+    "NullableLong": {
+      "type": "long"
+    },
+    "PurgeQueueRequest": {
+      "type": "structure",
+      "members": {
+        "QueueUrl": "String"
+      }
+    },
+    "QueueAttributeMap": {
+      "type": "map",
+      "key": "QueueAttributeName",
+      "value": "String"
+    },
+    "QueueAttributeName": {
+      "type": "string"
+    },
+    "QueueUrlList": {
+      "type": "list",
+      "member": "String"
+    },
+    "ReceiveMessageRequest": {
+      "type": "structure",
+      "members": {
+        "QueueUrl": "String",
+        "AttributeNames": "AttributeNameList",
+        "MessageSystemAttributeNames": "MessageSystemAttributeList",
+        "MessageAttributeNames": "MessageAttributeNameList",
+        "MaxNumberOfMessages": "NullableInteger",
+        "VisibilityTimeout": "NullableInteger",
+        "WaitTimeSeconds": "NullableInteger",
+        "ReceiveRequestAttemptId": "String"
+      }
+    },
+    "ReceiveMessageResult": {
+      "type": "structure",
+      "members": {
+        "Messages": "MessageList"
+      }
+    },
+    "RemovePermissionRequest": {
+      "type": "structure",
+      "members": {
+        "QueueUrl": "String",
+        "Label": "String"
+      }
+    },
+    "SendMessageBatchRequest": {
+      "type": "structure",
+      "members": {
+        "QueueUrl": "String",
+        "Entries": "SendMessageBatchRequestEntryList"
+      }
+    },
+    "SendMessageBatchRequestEntry": {
+      "type": "structure",
+      "members": {
+        "Id": "String",
+        "MessageBody": "String",
+        "DelaySeconds": "NullableInteger",
+        "MessageAttributes": "MessageBodyAttributeMap",
+        "MessageSystemAttributes": "MessageBodySystemAttributeMap",
+        "MessageDeduplicationId": "String",
+        "MessageGroupId": "String"
+      }
+    },
+    "SendMessageBatchRequestEntryList": {
+      "type": "list",
+      "member": "SendMessageBatchRequestEntry"
+    },
+    "SendMessageBatchResult": {
+      "type": "structure",
+      "members": {
+        "Successful": "SendMessageBatchResultEntryList",
+        "Failed": "BatchResultErrorEntryList"
+      }
+    },
+    "SendMessageBatchResultEntry": {
+      "type": "structure",
+      "members": {
+        "Id": "String",
+        "MessageId": "String",
+        "MD5OfMessageBody": "String",
+        "MD5OfMessageAttributes": "String",
+        "MD5OfMessageSystemAttributes": "String",
+        "SequenceNumber": "String"
+      }
+    },
+    "SendMessageBatchResultEntryList": {
+      "type": "list",
+      "member": "SendMessageBatchResultEntry"
+    },
+    "SendMessageRequest": {
+      "type": "structure",
+      "members": {
+        "QueueUrl": "String",
+        "MessageBody": "String",
+        "DelaySeconds": "NullableInteger",
+        "MessageAttributes": "MessageBodyAttributeMap",
+        "MessageSystemAttributes": "MessageBodySystemAttributeMap",
+        "MessageDeduplicationId": "String",
+        "MessageGroupId": "String"
+      }
+    },
+    "SendMessageResult": {
+      "type": "structure",
+      "members": {
+        "MD5OfMessageBody": "String",
+        "MD5OfMessageAttributes": "String",
+        "MD5OfMessageSystemAttributes": "String",
+        "MessageId": "String",
+        "SequenceNumber": "String"
+      }
+    },
+    "SetQueueAttributesRequest": {
+      "type": "structure",
+      "members": {
+        "QueueUrl": "String",
+        "Attributes": "QueueAttributeMap"
+      }
+    },
+    "StartMessageMoveTaskRequest": {
+      "type": "structure",
+      "members": {
+        "SourceArn": "String",
+        "DestinationArn": "String",
+        "MaxNumberOfMessagesPerSecond": "NullableInteger"
+      }
+    },
+    "StartMessageMoveTaskResult": {
+      "type": "structure",
+      "members": {
+        "TaskHandle": "String"
+      }
+    },
+    "String": {
+      "type": "string"
+    },
+    "StringList": {
+      "type": "list",
+      "member": "String"
+    },
+    "TagKey": {
+      "type": "string"
+    },
+    "TagKeyList": {
+      "type": "list",
+      "member": "TagKey"
+    },
+    "TagMap": {
+      "type": "map",
+      "key": "TagKey",
+      "value": "TagValue"
+    },
+    "TagQueueRequest": {
+      "type": "structure",
+      "members": {
+        "QueueUrl": "String",
+        "Tags": "TagMap"
+      }
+    },
+    "TagValue": {
+      "type": "string"
+    },
+    "Token": {
+      "type": "string"
+    },
+    "UntagQueueRequest": {
+      "type": "structure",
+      "members": {
+        "QueueUrl": "String",
+        "TagKeys": "TagKeyList"
+      }
+    }
+  },
+  "errors": {
+    "BatchEntryIdsNotDistinct": "BatchEntryIdsNotDistinct",
+    "BatchRequestTooLong": "BatchRequestTooLong",
+    "EmptyBatchRequest": "EmptyBatchRequest",
+    "InvalidAddress": "InvalidAddress",
+    "InvalidAttributeName": "InvalidAttributeName",
+    "InvalidAttributeValue": "InvalidAttributeValue",
+    "InvalidBatchEntryId": "InvalidBatchEntryId",
+    "InvalidIdFormat": "InvalidIdFormat",
+    "InvalidMessageContents": "InvalidMessageContents",
+    "InvalidSecurity": "InvalidSecurity",
+    "KmsAccessDenied": "KmsAccessDenied",
+    "KmsDisabled": "KmsDisabled",
+    "KmsInvalidKeyUsage": "KmsInvalidKeyUsage",
+    "KmsInvalidState": "KmsInvalidState",
+    "KmsNotFound": "KmsNotFound",
+    "KmsOptInRequired": "KmsOptInRequired",
+    "KmsThrottled": "KmsThrottled",
+    "MessageNotInflight": "MessageNotInflight",
+    "OverLimit": "OverLimit",
+    "PurgeQueueInProgress": "PurgeQueueInProgress",
+    "QueueDeletedRecently": "QueueDeletedRecently",
+    "QueueDoesNotExist": "QueueDoesNotExist",
+    "QueueNameExists": "QueueNameExists",
+    "ReceiptHandleIsInvalid": "ReceiptHandleIsInvalid",
+    "RequestThrottled": "RequestThrottled",
+    "ResourceNotFoundException": "ResourceNotFoundException",
+    "TooManyEntriesInBatchRequest": "TooManyEntriesInBatchRequest",
+    "UnsupportedOperation": "UnsupportedOperation"
+  }
+}

@@ -32,11 +32,30 @@ public class SqsJsonHandler {
 
     private final SqsService sqsService;
     private final ObjectMapper objectMapper;
+    private final SqsCloudTrailEvents cloudTrailEvents;
 
     @Inject
-    public SqsJsonHandler(SqsService sqsService, ObjectMapper objectMapper) {
+    public SqsJsonHandler(SqsService sqsService, ObjectMapper objectMapper, SqsCloudTrailEvents cloudTrailEvents) {
         this.sqsService = sqsService;
         this.objectMapper = objectMapper;
+        this.cloudTrailEvents = cloudTrailEvents;
+    }
+
+    /**
+     * Answers a call a client made to SQS's JSON endpoint, signed with {@code authorization}, and
+     * records it in CloudTrail when CloudTrail records it as a management event.
+     */
+    public Response handleApiCall(String action, JsonNode request, String region, String authorization)
+            throws Exception {
+        Response response;
+        try {
+            response = handle(action, request, region);
+        } catch (AwsException e) {
+            cloudTrailEvents.record(action, request, region, authorization, null, e);
+            throw e;
+        }
+        cloudTrailEvents.record(action, request, region, authorization, response, null);
+        return response;
     }
 
     public Response handle(String action, JsonNode request, String region) throws Exception {

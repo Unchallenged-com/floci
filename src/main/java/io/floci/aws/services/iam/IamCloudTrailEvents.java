@@ -8,6 +8,8 @@ import io.floci.aws.core.common.RequestContext;
 import io.floci.aws.core.common.ServicePrincipals;
 import io.floci.aws.core.common.XmlParser;
 import io.floci.aws.services.cloudtrail.CloudTrailService;
+import io.floci.aws.services.cloudtrail.CloudTrailShapes;
+import io.floci.aws.services.cloudtrail.ManagementEventSource;
 import io.quarkus.vertx.http.runtime.CurrentVertxRequest;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.ext.web.RoutingContext;
@@ -30,7 +32,7 @@ import jakarta.ws.rs.core.Response;
  * CloudTrail redacts the responseElements information", and the call's result otherwise. Which
  * call is read-only is AWS's Service Reference's access level ({@link IamActionResources#isReadOnly});
  * how each member is named and typed, which members are left out as sensitive, and the name each
- * error is recorded under are botocore's IAM model ({@link IamCloudTrailShapes}).
+ * error is recorded under are botocore's IAM model ({@link CloudTrailShapes}).
  *
  * <p>A call IAM enforcement refuses carries the refusal in the format IAM's guide gives access
  * denied messages, "User user is not authorized to perform action on resource because context"
@@ -38,7 +40,7 @@ import jakarta.ws.rs.core.Response;
  * {@code "requestParameters": null}, as AWS records an authorization refusal.
  */
 @ApplicationScoped
-public class IamCloudTrailEvents {
+public class IamCloudTrailEvents implements ManagementEventSource {
 
     private static final String EVENT_SOURCE = ServicePrincipals.of("iam");
 
@@ -70,25 +72,26 @@ public class IamCloudTrailEvents {
         // A read-only call's result is left out: "When logging a read-only event, CloudTrail redacts
         // the responseElements information".
         ObjectNode result = errorCode == null && !IamActionResources.isReadOnly(action)
-                ? IamCloudTrailShapes.get().result(action, xml) : null;
+                ? CloudTrailShapes.of("iam").result(action, xml) : null;
         cloudTrail.emitManagementEvent(event(action, params, accounts.extractAccessKeyId(authorization),
                 requestContext.getRegion(), request(currentRequest.getCurrent()), result,
                 XmlParser.extractFirst(xml, "RequestId", null), errorCode, errorMessage));
     }
 
-    /**
-     * The record of a call IAM enforcement refused before IAM ran it, named after the request's
-     * {@code Action}; null for a request that names none.
-     */
-    public static CloudTrailService.ManagementEventInput denied(MultivaluedMap<String, String> params,
-                                                                String accessKeyId, String region,
-                                                                RoutingContext routingContext,
-                                                                String errorCode, String errorMessage) {
-        String action = params.getFirst("Action");
-        if (action == null || action.isBlank()) {
+    @Override
+    public String credentialScope() {
+        return "iam";
+    }
+
+    /** The record of a call IAM enforcement refused before IAM ran it, named after its {@code Action}. */
+    @Override
+    public CloudTrailService.ManagementEventInput refused(String operation, String accessKeyId, String region,
+                                                          RoutingContext routingContext, String errorCode,
+                                                          String errorMessage) {
+        if (operation == null || operation.isBlank()) {
             return null;
         }
-        return event(action, null, accessKeyId, region, request(routingContext), null, null,
+        return event(operation, null, accessKeyId, region, request(routingContext), null, null,
                 errorCode, errorMessage);
     }
 
@@ -103,7 +106,7 @@ public class IamCloudTrailEvents {
                                                                 String errorMessage) {
         String sourceIp = request == null || request.remoteAddress() == null ? null : request.remoteAddress().host();
         String userAgent = request == null ? null : request.getHeader("User-Agent");
-        IamCloudTrailShapes shapes = IamCloudTrailShapes.get();
+        CloudTrailShapes shapes = CloudTrailShapes.of("iam");
         return new CloudTrailService.ManagementEventInput(EVENT_SOURCE, action, iamRegion(region), accessKeyId,
                 params == null ? null : shapes.requestParameters(action, params), result,
                 IamActionResources.isReadOnly(action), sourceIp, userAgent, requestId,

@@ -4,11 +4,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import io.floci.aws.config.EmulatorConfig;
 import io.floci.aws.core.common.RequestOperationResolver.ResolvedOperation;
 import io.floci.aws.services.cloudtrail.CloudTrailService;
+import io.floci.aws.services.cloudtrail.ManagementEventSource;
 import io.floci.aws.services.cloudwatch.metrics.OtlpMetricsController;
 import io.floci.aws.services.iam.AccessDeniedMessages;
 import io.floci.aws.services.iam.AccessDeniedMessages.PolicyType;
 import io.floci.aws.services.iam.IamActionRegistry;
-import io.floci.aws.services.iam.IamCloudTrailEvents;
 import io.floci.aws.services.iam.IamPolicyEvaluator;
 import io.floci.aws.services.iam.IamPolicyEvaluator.Decision;
 import io.floci.aws.services.iam.IamPolicyEvaluator.ResourceAccountRelationship;
@@ -38,7 +38,6 @@ import jakarta.ws.rs.container.ContainerRequestFilter;
 import jakarta.ws.rs.container.ResourceInfo;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.MultivaluedHashMap;
 import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.Provider;
@@ -223,6 +222,7 @@ public class IamEnforcementFilter implements ContainerRequestFilter {
     private final Clock clock;
     private final ResourceInfo resourceInfo;
     private final Instance<S3Service> s3ServiceProvider;
+    private final Instance<ManagementEventSource> managementEventSources;
     private final RequestOperationResolver operationResolver;
 
     @Inject
@@ -244,7 +244,8 @@ public class IamEnforcementFilter implements ContainerRequestFilter {
                                 Instance<PassedRoleLookup> passedRoleLookups,
                                 Clock clock,
                                 @Context ResourceInfo resourceInfo,
-                                Instance<S3Service> s3ServiceProvider) {
+                                Instance<S3Service> s3ServiceProvider,
+                                Instance<ManagementEventSource> managementEventSources) {
         this.config = config;
         this.accountResolver = accountResolver;
         this.iamService = iamService;
@@ -264,6 +265,7 @@ public class IamEnforcementFilter implements ContainerRequestFilter {
         this.clock = clock;
         this.resourceInfo = resourceInfo;
         this.s3ServiceProvider = s3ServiceProvider;
+        this.managementEventSources = managementEventSources;
         this.operationResolver =
                 new RequestOperationResolver(actionRegistry, queryServiceResolver, arnBuilder, catalog);
     }
@@ -290,7 +292,7 @@ public class IamEnforcementFilter implements ContainerRequestFilter {
         this(config, accountResolver, iamService, evaluator, actionRegistry,
                 queryServiceResolver, arnBuilder, requestContext,
                 conditionContextResolver, cloudTrailService, currentVertxRequest, catalog,
-                scpProvider, sessionAccountLookup, resourcePolicyProviders, passedRoleLookups, clock, resourceInfo, null);
+                scpProvider, sessionAccountLookup, resourcePolicyProviders, passedRoleLookups, clock, resourceInfo, null, null);
     }
 
     /** Package-private constructor for callers predating Query dispatch-aware enforcement. */
@@ -311,7 +313,7 @@ public class IamEnforcementFilter implements ContainerRequestFilter {
         this(config, accountResolver, iamService, evaluator, actionRegistry,
                 new AwsQueryServiceResolver(catalog), arnBuilder, requestContext,
                 conditionContextResolver, cloudTrailService, currentVertxRequest, catalog,
-                scpProvider, sessionAccountLookup, resourcePolicyProviders, null, Clock.systemUTC(), null, null);
+                scpProvider, sessionAccountLookup, resourcePolicyProviders, null, Clock.systemUTC(), null, null, null);
     }
 
     /** Package-private constructor for callers predating resourcePolicyProviders. */
@@ -331,7 +333,7 @@ public class IamEnforcementFilter implements ContainerRequestFilter {
         this(config, accountResolver, iamService, evaluator, actionRegistry,
                 new AwsQueryServiceResolver(catalog), arnBuilder, requestContext,
                 conditionContextResolver, cloudTrailService, currentVertxRequest, catalog,
-                scpProvider, sessionAccountLookup, null, null, Clock.systemUTC(), null, null);
+                scpProvider, sessionAccountLookup, null, null, Clock.systemUTC(), null, null, null);
     }
 
     /** Package-private constructor for testing with S3Service. */
@@ -353,7 +355,7 @@ public class IamEnforcementFilter implements ContainerRequestFilter {
         this(config, accountResolver, iamService, evaluator, actionRegistry,
                 new AwsQueryServiceResolver(catalog), arnBuilder, requestContext,
                 conditionContextResolver, cloudTrailService, currentVertxRequest, catalog,
-                scpProvider, sessionAccountLookup, resourcePolicyProviders, null, Clock.systemUTC(), null, s3ServiceProvider);
+                scpProvider, sessionAccountLookup, resourcePolicyProviders, null, Clock.systemUTC(), null, s3ServiceProvider, null);
     }
 
     @Override
@@ -1287,7 +1289,7 @@ public class IamEnforcementFilter implements ContainerRequestFilter {
                         + " on resource: \"" + resource + "\""
                         + " " + PolicyType.IDENTITY_BASED_POLICY.noAllow(action);
                 emitS3DenialIfApplicable(akid, operationAction, resource, ctx, region, denyMessage);
-                emitIamDenialIfApplicable(akid, action, credentialScope, ctx, region, denyMessage);
+                emitManagementDenialIfApplicable(akid, action, credentialScope, ctx, region, denyMessage);
                 ctx.abortWith(accessDeniedForRequest(action, credentialScope, ctx, resource));
                 return true;
             }
@@ -1709,21 +1711,30 @@ public class IamEnforcementFilter implements ContainerRequestFilter {
     }
 
     /**
-     * Records an IAM API call IAM enforcement refused as the CloudTrail management event IAM records
-     * for the calls it runs, with the refusal naming the caller, the action and the resource.
+     * Records a call IAM enforcement refused as the CloudTrail management event its service records
+     * for the calls it runs, with the refusal naming the caller, the action and the resource. The
+     * operation is the one the request names, in its {@code X-Amz-Target} or its Query
+     * {@code Action}; the service's {@link ManagementEventSource} says whether, and how, it is recorded.
      */
-    private void emitIamDenialIfApplicable(String akid, String action, String credentialScope,
-                                           ContainerRequestContext ctx, String region, String denyMessage) {
-        if (!"iam".equals(credentialScope) || !cloudTrailService.hasTrails()) {
+    private void emitManagementDenialIfApplicable(String akid, String action, String credentialScope,
+                                                  ContainerRequestContext ctx, String region, String denyMessage) {
+        if (managementEventSources == null || !cloudTrailService.hasTrails()) {
             return;
         }
         try {
-            MultivaluedMap<String, String> params = new MultivaluedHashMap<>();
-            IamConditionContextResolver.formParameters(ctx).forEach(params::putSingle);
-            CloudTrailService.ManagementEventInput event = IamCloudTrailEvents.denied(params, akid, region,
-                    currentVertxRequest.getCurrent(), queryAccessDeniedCode(credentialScope), denyMessage);
-            if (event != null) {
-                cloudTrailService.emitManagementEvent(event);
+            for (ManagementEventSource source : managementEventSources) {
+                if (!source.credentialScope().equals(credentialScope)) {
+                    continue;
+                }
+                String operation = IamActionRegistry.targetOperation(ctx);
+                if (operation == null) {
+                    operation = IamConditionContextResolver.formParameters(ctx).get("Action");
+                }
+                CloudTrailService.ManagementEventInput event = source.refused(operation, akid, region,
+                        currentVertxRequest.getCurrent(), queryAccessDeniedCode(credentialScope), denyMessage);
+                if (event != null) {
+                    cloudTrailService.emitManagementEvent(event);
+                }
             }
         } catch (RuntimeException e) {
             // The request is refused either way; a record that could not be written is logged, not raised.

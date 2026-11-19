@@ -1,4 +1,4 @@
-"""Tests for regen_iam_cloudtrail_shapes.
+"""Tests for regen_cloudtrail_shapes.
 
 Run with: pytest tools/aws -q  (or: make aws-data-test)
 """
@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import pytest
 
-import regen_iam_cloudtrail_shapes as r
+import regen_cloudtrail_shapes as r
 
 
 def model(shapes: dict, operations: dict) -> dict:
@@ -93,6 +93,28 @@ def test_a_member_trait_the_record_does_not_read_stops_the_generation():
         r.shapes_from(model(shapes, OPERATIONS))
 
 
+def test_a_json_model_reads_flattened_and_deprecated_members_as_plain_ones():
+    shapes = dict(SHAPES, User={"type": "structure", "members": {
+        "UserName": {"shape": "userNameType", "flattened": True},
+        "CreateDate": {"shape": "dateType", "deprecated": True, "deprecatedMessage": "Use another."}}})
+    json_model = dict(model(shapes, OPERATIONS), metadata={"protocol": "json"})
+    assert r.shapes_from(json_model)["User"] == {"type": "structure",
+                                                 "members": {"UserName": "userNameType", "CreateDate": "dateType"}}
+
+
+def test_a_flattened_member_stops_the_generation_of_a_query_model():
+    shapes = dict(SHAPES, User={"type": "structure", "members": {
+        "UserName": {"shape": "userNameType", "flattened": True}}})
+    query_model = dict(model(shapes, OPERATIONS), metadata={"protocol": "query"})
+    with pytest.raises(ValueError, match="flattened"):
+        r.shapes_from(query_model)
+
+
+def test_each_service_has_its_own_file():
+    assert r.output_for("sqs").name == "sqs-cloudtrail-shapes.json"
+    assert set(r.SERVICES) >= {"iam", "sqs"}
+
+
 def test_errors_map_the_code_they_answer_with_to_their_shape():
     assert r.errors_from(model(SHAPES, OPERATIONS)) == {
         "NoSuchEntity": "NoSuchEntityException",
@@ -109,6 +131,6 @@ def test_two_errors_answering_one_code_stop_the_generation():
 
 def test_the_document_names_its_generator_and_source():
     document = r.build(model(SHAPES, OPERATIONS), "botocore test")
-    assert document["_source"] == {"generator": "tools/aws/regen_iam_cloudtrail_shapes.py",
+    assert document["_source"] == {"generator": "tools/aws/regen_cloudtrail_shapes.py",
                                    "botocore": "botocore test"}
     assert list(document) == ["_source", "operations", "shapes", "errors"]
