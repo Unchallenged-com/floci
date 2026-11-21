@@ -1431,6 +1431,16 @@ public interface EmulatorConfig {
          *  default here is 60s so dev/CI feedback loops stay fast. */
         @WithDefault("60")
         int flushIntervalSeconds();
+
+        /** How many management events event history keeps per account and Region, the oldest
+         *  dropped first. AWS keeps 90 days with no count limit; this bounds Floci's memory. */
+        @WithDefault("10000")
+        int eventHistoryMaxEvents();
+
+        /** How many LookupEvents requests an account may make per second in a Region, as AWS
+         *  limits them ("two per second, per account, per Region"); 0 lifts the limit. */
+        @WithDefault("2")
+        int lookupEventsPerSecond();
     }
 
     interface ResourceExplorer2ServiceConfig {

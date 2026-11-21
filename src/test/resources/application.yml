@@ -496,6 +496,8 @@ floci:
     cloudtrail:
       enabled: true
       flush-interval-seconds: 3600
+      # Tests call LookupEvents back to back; the rate limit is tested on its own.
+      lookup-events-per-second: 0
     lightsail:
       enabled: true
     cloudcontrol:

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.floci.aws.core.common.AwsException;
 import io.floci.aws.core.common.EpochSeconds;
 import io.floci.aws.core.common.JsonNumberCoercion;
+import io.floci.aws.core.common.RegionResolver;
 import io.floci.aws.services.cloudtrail.model.AdvancedEventSelector;
 import io.floci.aws.services.cloudtrail.model.DataResource;
 import io.floci.aws.services.cloudtrail.model.EventSelector;
@@ -15,6 +16,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -24,11 +26,16 @@ import java.util.Map;
 public class CloudTrailJsonHandler {
 
     private final CloudTrailService service;
+    private final CloudTrailEventHistory history;
+    private final RegionResolver regionResolver;
     private final ObjectMapper mapper;
 
     @Inject
-    public CloudTrailJsonHandler(CloudTrailService service, ObjectMapper mapper) {
+    public CloudTrailJsonHandler(CloudTrailService service, CloudTrailEventHistory history,
+                                 RegionResolver regionResolver, ObjectMapper mapper) {
         this.service = service;
+        this.history = history;
+        this.regionResolver = regionResolver;
         this.mapper = mapper;
     }
 
@@ -242,11 +249,54 @@ public class CloudTrailJsonHandler {
         return Response.ok(resp).build();
     }
 
+    /**
+     * Answers from the account's event history. Floci records no Insights events, so
+     * {@code EventCategory: insight} finds none.
+     */
     private Response lookupEvents(JsonNode req, String region) {
         validateMaxResults(req.path("MaxResults"));
+        CloudTrailEventHistory.LookupAttribute attribute = lookupAttribute(req.path("LookupAttributes"));
+        String category = textOrNull(req, "EventCategory");
+        if (category != null && !"insight".equals(category)) {
+            throw new AwsException("InvalidEventCategoryException", "Invalid EventCategory: " + category, 400);
+        }
+        int maxResults = req.path("MaxResults").isNumber()
+                ? JsonNumberCoercion.truncateAndClampToInt(req.path("MaxResults"))
+                : CloudTrailEventHistory.MAX_PAGE;
+        CloudTrailEventHistory.Page page = history.lookup(regionResolver.getAccountId(), region,
+                attribute, timestamp(req.path("StartTime")), timestamp(req.path("EndTime")), maxResults,
+                textOrNull(req, "NextToken"));
         ObjectNode resp = mapper.createObjectNode();
-        resp.putArray("Events");
+        ArrayNode events = resp.putArray("Events");
+        if (category == null) {
+            page.events().forEach(record -> events.add(LookupFields.event(mapper, record)));
+            if (page.nextToken() != null) {
+                resp.put("NextToken", page.nextToken());
+            }
+        }
         return Response.ok(resp).build();
+    }
+
+    /** The one lookup attribute a request may carry: "Currently the list can contain only one item." */
+    private static CloudTrailEventHistory.LookupAttribute lookupAttribute(JsonNode attributes) {
+        if (attributes.isMissingNode() || attributes.isNull() || attributes.isEmpty()) {
+            return null;
+        }
+        if (!attributes.isArray() || attributes.size() > 1) {
+            throw new AwsException("InvalidLookupAttributesException",
+                    "You can specify only one lookup attribute.", 400);
+        }
+        JsonNode attribute = attributes.get(0);
+        return new CloudTrailEventHistory.LookupAttribute(attribute.path("AttributeKey").asText(null),
+                attribute.path("AttributeValue").asText(null));
+    }
+
+    /** A JSON 1.1 timestamp: epoch seconds, possibly fractional. */
+    private static Instant timestamp(JsonNode value) {
+        if (!value.isNumber()) {
+            return null;
+        }
+        return Instant.ofEpochMilli(Math.round(value.asDouble() * 1000));
     }
 
     /** An omitted or null {@code MaxResults} is optional and takes the service default. */

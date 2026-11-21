@@ -25,7 +25,7 @@ ${prefix}AWSLogs/${accountId}/CloudTrail/${region}/yyyy/MM/dd/${accountId}_Cloud
 | `StartLogging` | Starts logging for a trail |
 | `StopLogging` | Stops logging for a trail |
 | `GetTrailStatus` | Returns the logging status of a trail |
-| `LookupEvents` | - |
+| `LookupEvents` | Looks up the management events of the last 90 days in event history, with or without a trail |
 | `ListTrails` | - |
 | `AddTags` | Adds or overwrites tags on a trail, identified by ARN |
 | `RemoveTags` | Removes the given tag keys from a trail, identified by ARN |
@@ -85,12 +85,35 @@ These writes also reach EventBridge's default bus in the request's account and r
 [Secrets Manager event delivery](secrets-manager.md#secret-write-events) for prerequisites,
 the secret-specific event pattern, and the limits of this coverage.
 
+## Event history
+
+Every management event Floci records goes to the account's
+[event history](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/view-cloudtrail-events.html) in its Region,
+whatever the trails select and with no trail at all, as on AWS, where "the event history is separate from any trails
+or event data stores". `LookupEvents` answers it as its
+[API Reference](https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_LookupEvents.html) says:
+
+- One lookup attribute at most: `AccessKeyId`, `EventId`, `EventName`, `EventSource`, `ReadOnly`, `ResourceName`,
+  `ResourceType` or `Username`; `StartTime` and `EndTime` bound the events' time.
+- The most recent event first, at most 50 a page, with a `NextToken` that only the same lookup accepts.
+- `Username` is `root` for the account's own credentials, the user's name for an IAM user and the session name for a
+  role session; `Resources` are the record's `resources`, each as its type and its name: a role's name, an instance's ID and an Auto
+  Scaling group's name, as the CloudTrail documentation shows them, and the ARN of any other resource; `CloudTrailEvent` is the record.
+- Events older than 90 days are dropped. `EventCategory: insight` finds no events, since Floci records no Insights
+  events.
+- Two lookups per second per account and Region, as AWS limits them; a third is refused with `ThrottlingException`.
+
+The history is kept in memory, so a restart empties it, and holds at most `event-history-max-events` events per
+account and Region, the oldest dropped first.
+
 ## Configuration
 
 | Variable | Default | Description |
 |---|---|---|
 | `FLOCI_SERVICES_CLOUDTRAIL_ENABLED` | `true` | Enable or disable the service |
 | `FLOCI_SERVICES_CLOUDTRAIL_FLUSH_INTERVAL_SECONDS` | `60` | How often the writer flushes buffered records into the destination bucket. Real CloudTrail delivers with ~5 minute latency; the local default is shorter for fast feedback loops. |
+| `FLOCI_SERVICES_CLOUDTRAIL_EVENT_HISTORY_MAX_EVENTS` | `10000` | How many management events event history keeps per account and Region, the oldest dropped first. AWS keeps 90 days with no count limit; this bounds Floci's memory. |
+| `FLOCI_SERVICES_CLOUDTRAIL_LOOKUP_EVENTS_PER_SECOND` | `2` | How many `LookupEvents` requests an account may make per second in a Region, as AWS limits them; `0` lifts the limit. |
 
 ## Example
 

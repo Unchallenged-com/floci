@@ -30,6 +30,7 @@ import jakarta.inject.Inject;
 import org.jboss.logging.Logger;
 
 import java.nio.charset.StandardCharsets;
+import java.time.Clock;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayDeque;
@@ -58,11 +59,13 @@ public class CloudTrailService implements StoredResourceArns {
     private static final String TRAIL_RESOURCE = "trail/";
     static final int MAX_PENDING_RECORDS_PER_TRAIL = 1024;
     static final long MAX_PENDING_BYTES_PER_TRAIL = 4L * 1024L * 1024L;
+    static final int DEFAULT_EVENT_HISTORY_MAX_EVENTS = 10000;
 
     private final StorageBackend<String, CloudTrailEntry> store;
     private final RegionResolver regionResolver;
     private final IamService iamService;
     private final ObjectMapper mapper;
+    private final CloudTrailEventHistory history;
 
     /** Per-trail pending record buffers: ephemeral, never persisted. */
     private final ConcurrentHashMap<PendingTrailKey, PendingRecordBuffer> pendingRecordsByTrail =
@@ -77,14 +80,22 @@ public class CloudTrailService implements StoredResourceArns {
      */
     private final ConcurrentHashMap<String, Object> trailLocks = new ConcurrentHashMap<>();
 
-    @Inject
+    /** A service whose event history keeps the default number of events. */
     public CloudTrailService(StorageFactory storageFactory, RegionResolver regionResolver,
                              IamService iamService, ObjectMapper mapper) {
+        this(storageFactory, regionResolver, iamService, mapper,
+                new CloudTrailEventHistory(DEFAULT_EVENT_HISTORY_MAX_EVENTS, 0, Clock.systemUTC()));
+    }
+
+    @Inject
+    public CloudTrailService(StorageFactory storageFactory, RegionResolver regionResolver,
+                             IamService iamService, ObjectMapper mapper, CloudTrailEventHistory history) {
         this.store = storageFactory.create("cloudtrail", "cloudtrail-trails.json",
                 new TypeReference<Map<String, CloudTrailEntry>>() {});
         this.regionResolver = regionResolver;
         this.iamService = iamService;
         this.mapper = mapper;
+        this.history = history;
     }
 
     // --- Control plane ---
@@ -507,6 +518,8 @@ public class CloudTrailService implements StoredResourceArns {
             record.set("userIdentity", buildUserIdentity(in.accessKeyId()));
             record.set("requestParameters", in.requestParameters().deepCopy());
             record.set("responseElements", in.responseElements().deepCopy());
+            // Event history keeps every management event, whatever the trails select.
+            history.add(regionResolver.getAccountId(), region, record);
             List<MatchedTrail> matched = trailsMatching(region, entry -> matchesManagementEvent(entry, record));
             if (matched.isEmpty()) {
                 return Optional.empty();
