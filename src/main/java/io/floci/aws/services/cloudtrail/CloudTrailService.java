@@ -897,37 +897,80 @@ public class CloudTrailService implements StoredResourceArns {
         // by CloudTrail as AWS::S3::Bucket resources, not AWS::S3::Object: matching real
         // AWS behavior, an AWS::S3::Object DataResource selector must never match them.
         String resourceType = in.key() != null ? "AWS::S3::Object" : "AWS::S3::Bucket";
+        DataEventFields event = new DataEventFields(in.eventName(), resourceType, arn,
+                () -> buildUserIdentity(in.accessKeyId()).path("arn").asText());
         for (AdvancedEventSelector sel : selectors) {
-            if (matchesAdvancedSelector(sel, arn, resourceType)) {
+            if (matchesAdvancedSelector(sel, event)) {
                 return true;
             }
         }
         return false;
     }
 
-    private boolean matchesAdvancedSelector(AdvancedEventSelector selector, String s3ObjectArn, String resourceType) {
+    private boolean matchesAdvancedSelector(AdvancedEventSelector selector, DataEventFields event) {
         List<AdvancedFieldSelector> fieldSelectors = selector.fieldSelectors();
         if (fieldSelectors == null || fieldSelectors.isEmpty()) {
             return false;
         }
         for (AdvancedFieldSelector fs : fieldSelectors) {
-            if (!matchesAdvancedFieldSelector(fs, s3ObjectArn, resourceType)) {
+            if (!matchesAdvancedFieldSelector(fs, event)) {
                 return false;
             }
         }
         return true;
     }
 
-    // Package-private for unit testing. Only the fields CloudTrail evaluates for S3 data events
-    // are supported: eventCategory, resources.type, resources.ARN.
-    static boolean matchesAdvancedFieldSelector(AdvancedFieldSelector fs, String s3ObjectArn, String resourceType) {
-        String value = switch (fs.field()) {
-            case "eventCategory" -> "Data";
-            case "resources.type" -> resourceType;
-            case "resources.ARN" -> s3ObjectArn;
-            default -> null;
-        };
-        return matchesFieldValue(fs, value);
+    // Package-private for unit testing.
+    static boolean matchesAdvancedFieldSelector(AdvancedFieldSelector fs, DataEventFields event) {
+        return matchesFieldValue(fs, event.value(fs.field()));
+    }
+
+    /**
+     * The fields of an S3 data event that advanced event selectors filter on: "For CloudTrail data
+     * events, supported fields include eventCategory (required), eventName, eventSource, eventType,
+     * resources.type (required), readOnly, resources.ARN, sessionCredentialFromConsole, and
+     * userIdentity.arn"
+     * (https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_AdvancedFieldSelector.html).
+     * Each has the value the event's record carries. The caller's ARN takes an IAM lookup, so it is
+     * resolved only when a selector filters on it. {@code sessionCredentialFromConsole} has no value
+     * here: the record carries it only for a console session.
+     */
+    static final class DataEventFields {
+
+        private final String eventName;
+        private final String resourceType;
+        private final String resourceArn;
+        private final Supplier<String> userIdentityArn;
+        private String resolvedUserIdentityArn;
+
+        DataEventFields(String eventName, String resourceType, String resourceArn,
+                        Supplier<String> userIdentityArn) {
+            this.eventName = eventName;
+            this.resourceType = resourceType;
+            this.resourceArn = resourceArn;
+            this.userIdentityArn = userIdentityArn;
+        }
+
+        String value(String field) {
+            return switch (field) {
+                case "eventCategory" -> "Data";
+                case "eventSource" -> S3_EVENT_SOURCE;
+                case "eventName" -> eventName;
+                case "eventType" -> "AwsApiCall";
+                case "readOnly" -> Boolean.toString(isReadOnlyEvent(eventName));
+                case "resources.type" -> resourceType;
+                case "resources.ARN" -> resourceArn;
+                case "userIdentity.arn" -> callerArn();
+                default -> null;
+            };
+        }
+
+        private String callerArn() {
+            if (resolvedUserIdentityArn == null) {
+                resolvedUserIdentityArn = userIdentityArn.get();
+            }
+            return resolvedUserIdentityArn;
+        }
     }
 
     private static boolean matchesFieldValue(AdvancedFieldSelector fs, String value) {
