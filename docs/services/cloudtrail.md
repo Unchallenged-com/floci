@@ -44,8 +44,8 @@ Advanced event selectors for S3 data events evaluate the fields the
 [`AdvancedFieldSelector`](https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_AdvancedFieldSelector.html)
 reference lists for data events, against the values the event's record carries: `eventCategory` (`Data`),
 `eventSource` (`s3.amazonaws.com`), `eventName`, `eventType` (`AwsApiCall`), `readOnly` (`true` or `false`),
-`resources.type`, `resources.ARN` and `userIdentity.arn`, with every operator. `sessionCredentialFromConsole` never
-matches, since Floci has no console sessions.
+`resources.type`, `resources.ARN` and `userIdentity.arn`, with every operator. Floci has no console sessions, so
+`sessionCredentialFromConsole` is never `true`: `NotEquals true` matches every event, `Equals true` none.
 
 ## Encryption and CloudWatch Logs settings
 

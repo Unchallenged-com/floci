@@ -932,8 +932,12 @@ public class CloudTrailService implements StoredResourceArns {
      * userIdentity.arn"
      * (https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_AdvancedFieldSelector.html).
      * Each has the value the event's record carries. The caller's ARN takes an IAM lookup, so it is
-     * resolved only when a selector filters on it. {@code sessionCredentialFromConsole} has no value
-     * here: the record carries it only for a console session.
+     * resolved only when a selector filters on it. The record carries
+     * {@code sessionCredentialFromConsole} only for a console session ("This field is not shown
+     * unless the value is true",
+     * https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-event-reference-record-contents.html),
+     * which Floci has not, so it is {@code false}: {@code NotEquals true} matches every event and
+     * {@code Equals true} none.
      */
     static final class DataEventFields {
 
@@ -961,6 +965,7 @@ public class CloudTrailService implements StoredResourceArns {
                 case "resources.type" -> resourceType;
                 case "resources.ARN" -> resourceArn;
                 case "userIdentity.arn" -> callerArn();
+                case "sessionCredentialFromConsole" -> "false";
                 default -> null;
             };
         }

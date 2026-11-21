@@ -138,6 +138,16 @@ class CloudTrailAdvancedSelectorMatchingTest {
     }
 
     @Test
+    void sessionCredentialFromConsole_isNeverTrueOutsideAConsoleSession() {
+        AdvancedFieldSelector console = new AdvancedFieldSelector(
+                "sessionCredentialFromConsole", List.of("true"), null, null, null, null, null);
+        AdvancedFieldSelector notConsole = new AdvancedFieldSelector(
+                "sessionCredentialFromConsole", null, List.of("true"), null, null, null, null);
+        assertFalse(CloudTrailService.matchesAdvancedFieldSelector(console, event("PutObject")));
+        assertTrue(CloudTrailService.matchesAdvancedFieldSelector(notConsole, event("PutObject")));
+    }
+
+    @Test
     void unknownField_neverMatches() {
         AdvancedFieldSelector fs = new AdvancedFieldSelector(
                 "requestParameters.key", List.of("key"), null, null, null, null, null);
