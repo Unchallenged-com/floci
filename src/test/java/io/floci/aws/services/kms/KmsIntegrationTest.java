@@ -621,6 +621,32 @@ class KmsIntegrationTest {
     }
 
     @Test
+    void scheduleKeyDeletionAnswersTheKeyStateAndTheWaitingPeriod() {
+        for (Integer days : new Integer[] {7, null}) {
+            String keyArn = given()
+                    .header("X-Amz-Target", "TrentService.CreateKey")
+                    .contentType(KMS_CONTENT_TYPE)
+                    .body("{\"Description\":\"schedule-deletion-response\"}")
+                    .when().post("/")
+                    .then().statusCode(200)
+                    .extract().path("KeyMetadata.Arn");
+
+            given()
+                    .header("X-Amz-Target", "TrentService.ScheduleKeyDeletion")
+                    .contentType(KMS_CONTENT_TYPE)
+                    .body(days == null ? "{\"KeyId\":\"" + keyArn + "\"}"
+                            : "{\"KeyId\":\"" + keyArn + "\",\"PendingWindowInDays\":" + days + "}")
+                    .when().post("/")
+                    .then()
+                    .statusCode(200)
+                    .body("KeyId", equalTo(keyArn))
+                    .body("KeyState", equalTo("PendingDeletion"))
+                    .body("PendingWindowInDays", equalTo(days == null ? 30 : days))
+                    .body("DeletionDate", notNullValue());
+        }
+    }
+
+    @Test
     void enableKeyOnPendingDeletionKeyFails() {
         String keyId = given()
                 .header("X-Amz-Target", "TrentService.CreateKey")

@@ -628,9 +628,15 @@ public class KmsJsonHandler {
         int days = request.path("PendingWindowInDays").asInt(30);
         service.scheduleKeyDeletion(keyId, days, region);
 
+        // The API Reference's response: the key's ARN, its DeletionDate, its KeyState and the
+        // PendingWindowInDays the deletion waits
+        // (https://docs.aws.amazon.com/kms/latest/APIReference/API_ScheduleKeyDeletion.html).
+        KmsKey key = service.describeKey(keyId, region);
         ObjectNode response = objectMapper.createObjectNode();
-        response.put("KeyId", service.describeKey(keyId, region).getArn());
-        response.put("DeletionDate", service.describeKey(keyId, region).getDeletionDate());
+        response.put("KeyId", key.getArn());
+        response.put("DeletionDate", key.getDeletionDate());
+        response.put("KeyState", key.getKeyState());
+        response.put("PendingWindowInDays", days);
         return Response.ok(response).build();
     }
 
