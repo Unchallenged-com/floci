@@ -168,7 +168,8 @@ class CloudTrailIntegrationTest {
                     "Bad eventType: " + rec);
             assertNotNull(rec.path("eventID").asText(null), "Missing eventID");
             assertNotNull(rec.path("requestID").asText(null), "Missing requestID");
-            assertEquals("IAMUser", rec.path("userIdentity").path("type").asText(),
+            // The test's requests are unsigned: anonymous callers.
+            assertEquals("AWSAccount", rec.path("userIdentity").path("type").asText(),
                     "Bad userIdentity.type: " + rec);
 
             String name = rec.path("eventName").asText();

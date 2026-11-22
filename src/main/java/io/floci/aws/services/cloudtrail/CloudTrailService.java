@@ -1018,7 +1018,9 @@ public class CloudTrailService implements StoredResourceArns {
         String partition = AwsRegions.partitionFor(region);
         ObjectNode record = mapper.createObjectNode();
         record.put("eventVersion", EVENT_VERSION);
-        record.set("userIdentity", buildUserIdentity(in.accessKeyId()));
+        boolean anonymous = in.accessKeyId() == null;
+        record.set("userIdentity", anonymous ? anonymousS3Identity(in.errorCode() != null)
+                : buildUserIdentity(in.accessKeyId()));
         record.put("eventTime", DateTimeFormatter.ISO_INSTANT.format(
                 Instant.ofEpochMilli((in.eventTimeMillis() == 0L
                         ? System.currentTimeMillis() : in.eventTimeMillis()))
@@ -1044,15 +1046,23 @@ public class CloudTrailService implements StoredResourceArns {
         record.set("responseElements", mapper.nullNode());
 
         ObjectNode addl = mapper.createObjectNode();
-        addl.put("SignatureVersion", "SigV4");
+        if (!anonymous) {
+            // An unsigned request has no signature to describe: an anonymous record carries neither.
+            addl.put("SignatureVersion", "SigV4");
+        }
         addl.put("CipherSuite", "TLS_AES_128_GCM_SHA256");
         addl.put("bytesTransferredIn", in.bytesIn());
-        addl.put("AuthenticationMethod", "AuthHeader");
+        if (!anonymous) {
+            addl.put("AuthenticationMethod", "AuthHeader");
+        }
         addl.put("bytesTransferredOut", in.bytesOut());
         record.set("additionalEventData", addl);
 
         record.put("requestID", UUID.randomUUID().toString().replace("-", "").substring(0, 16).toUpperCase());
         record.put("eventID", UUID.randomUUID().toString());
+        if (anonymous && in.errorCode() == null) {
+            record.put("sharedEventID", UUID.randomUUID().toString());
+        }
         record.put("readOnly", isReadOnlyEvent(in.eventName()));
 
         if (in.bucketName() != null) {
@@ -1082,6 +1092,25 @@ public class CloudTrailService implements StoredResourceArns {
         record.set("tlsDetails", tls);
 
         return record;
+    }
+
+    /**
+     * The caller of an unsigned S3 request. A record of one S3 answered, captured in 2025, names it
+     * {@code {"type": "AWSAccount", "principalId": "", "accountId": "anonymous"}}, with no ARN, as the
+     * S3 User Guide's query for anonymous requests ({@code userIdentity.accountId = 'anonymous'},
+     * https://docs.aws.amazon.com/AmazonS3/latest/userguide/cloudtrail-request-identification.html)
+     * and the Athena guide's ({@code useridentity.accountid = 'anonymous' AND useridentity.arn IS
+     * NULL}, https://docs.aws.amazon.com/athena/latest/ug/query-examples-cloudtrail-logs.html) read
+     * it; that record also carries a {@code sharedEventID}, and no {@code SignatureVersion} or
+     * {@code AuthenticationMethod}. One S3 answers with an error is named {@code ANONYMOUS_PRINCIPAL},
+     * the account that detection rules reading failed and refused anonymous requests match on.
+     */
+    private ObjectNode anonymousS3Identity(boolean failed) {
+        ObjectNode identity = mapper.createObjectNode();
+        identity.put("type", "AWSAccount");
+        identity.put("principalId", "");
+        identity.put("accountId", failed ? "ANONYMOUS_PRINCIPAL" : "anonymous");
+        return identity;
     }
 
     private ObjectNode buildUserIdentity(String accessKeyId) {

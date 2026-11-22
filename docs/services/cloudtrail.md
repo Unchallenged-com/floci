@@ -68,6 +68,16 @@ refused for a permission it needs besides its own, such as
 operation. A browser `POST` upload, whose credential is in its form fields, is
 recorded as `PostObject` when IAM refuses it.
 
+## Anonymous S3 requests
+
+An unsigned S3 request (a public bucket's object read without credentials) is recorded with the caller CloudTrail
+names for it, `"userIdentity": {"type": "AWSAccount", "principalId": "", "accountId": "anonymous"}`, without an ARN,
+as the S3 User Guide's query for anonymous requests reads it (`userIdentity.accountId = 'anonymous'`,
+[Identifying Amazon S3 requests using CloudTrail](https://docs.aws.amazon.com/AmazonS3/latest/userguide/cloudtrail-request-identification.html)).
+Its record carries a `sharedEventID`, and its `additionalEventData` no `SignatureVersion` or `AuthenticationMethod`,
+since the request carries no signature. An unsigned request S3 answers with an error (`NoSuchKey`, `AccessDenied`) names
+the account `ANONYMOUS_PRINCIPAL` instead.
+
 ## Management Write Coverage
 
 Successful Secrets Manager `PutSecretValue` and `UpdateSecret` API calls produce management

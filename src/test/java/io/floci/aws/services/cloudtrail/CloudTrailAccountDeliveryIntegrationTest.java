@@ -22,6 +22,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPInputStream;
 
+import static io.floci.aws.core.common.auth.SigV4RequestValidator.LEGACY_ACCESS_KEY_ID;
 import static org.junit.jupiter.api.Assertions.*;
 
 @QuarkusTest
@@ -172,8 +173,10 @@ class CloudTrailAccountDeliveryIntegrationTest {
         return event(REGION);
     }
 
+    /** A signed call, so that its caller is the account the request runs in rather than the anonymous one. */
     private CloudTrailService.S3EventInput event(String region) {
         return CloudTrailService.S3EventInput.builder()
-                .region(region).eventName("PutObject").bucketName("source").key("example.txt").build();
+                .region(region).eventName("PutObject").bucketName("source").key("example.txt")
+                .accessKeyId(LEGACY_ACCESS_KEY_ID).build();
     }
 }
