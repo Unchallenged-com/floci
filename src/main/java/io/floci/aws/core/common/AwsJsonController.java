@@ -231,7 +231,7 @@ public class AwsJsonController {
                 DynamoDbRequestShapes.check(action, request, body);
                 yield dynamoDbJsonHandler.handle(action, request, region);
             }
-            case "sqs" -> sqsJsonHandler.handle(action, request, region);
+            case "sqs" -> sqsJsonHandler.handleApiCall(action, request, region);
             case "sns" -> snsJsonHandler.handle(action, request, region);
             case "states" -> sfnJsonHandler.handle(action, request, region);
             case "swf" -> swfJsonHandler.handle(action, request, region);

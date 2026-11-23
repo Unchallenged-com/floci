@@ -50,12 +50,12 @@ class IamDataVerifyTest(unittest.TestCase):
     def test_empty_diff_keeps_full_verification(self):
         result, calls = self.run_gate(self.changed_file(""))
         self.assertEqual(0, result.returncode, result.stderr)
-        self.assertEqual(12, len(calls))
+        self.assertEqual(13, len(calls))
 
     def test_weekly_run_checks_every_file(self):
         result, calls = self.run_gate()
         self.assertEqual(0, result.returncode, result.stderr)
-        self.assertEqual(12, len(calls))
+        self.assertEqual(13, len(calls))
 
     def test_legacy_changed_argument_still_selects(self):
         result, calls = self.run_gate("CHANGED=  tools/aws/regen_service_namespaces.py  ")
@@ -72,7 +72,9 @@ class IamDataVerifyTest(unittest.TestCase):
             "tools/aws/regen_service_namespaces.py\ntools/aws/regen_iam_action_resources.py\n"
         ), fail_target="iam-namespaces-verify")
         self.assertNotEqual(0, result.returncode)
-        self.assertEqual(["iam-namespaces-verify", "iam-action-resources-verify"], calls)
+        # The SQS CloudTrail event table's generator imports regen_iam_action_resources.py, so its check runs too.
+        self.assertEqual(["iam-namespaces-verify", "iam-action-resources-verify", "sqs-cloudtrail-events-verify"],
+                         calls)
         self.assertIn("the service namespace list", result.stdout)
 
 

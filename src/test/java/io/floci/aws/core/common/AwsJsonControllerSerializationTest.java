@@ -40,7 +40,7 @@ class AwsJsonControllerSerializationTest {
         Object entity = new Object();
         Response original = Response.status(202).entity(entity)
                 .header("x-amzn-query-error", "example;Sender").build();
-        when(sqs.handle(eq("Test"), any(), eq("us-east-1"))).thenReturn(original);
+        when(sqs.handleApiCall(eq("Test"), any(), eq("us-east-1"))).thenReturn(original);
 
         AwsJsonController controller = new AwsJsonController(mapper, catalog, regionResolver,
                 null, null, sqs, null, null, null,

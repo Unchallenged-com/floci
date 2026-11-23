@@ -129,6 +129,11 @@ jobs:
       - name: Check the vendored IAM action resource map is well-formed
         run: make iam-action-resources-check
 
+      # And for the SQS calls CloudTrail records as management events: a malformed table would
+      # record a call AWS does not, or mark a write read-only.
+      - name: Check the vendored SQS CloudTrail event table is well-formed
+        run: make sqs-cloudtrail-events-check
+
       # And for the map of operations AWS authorizes under another action's name: a malformed
       # entry would authorize a request as an action AWS does not check for it.
       - name: Check the vendored map of operations to their IAM actions is well-formed

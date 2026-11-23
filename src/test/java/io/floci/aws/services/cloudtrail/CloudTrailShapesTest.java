@@ -1,5 +1,7 @@
-package io.floci.aws.services.iam;
+package io.floci.aws.services.cloudtrail;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.ws.rs.core.MultivaluedHashMap;
 import jakarta.ws.rs.core.MultivaluedMap;
@@ -11,9 +13,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.nullValue;
 
-class IamCloudTrailShapesTest {
+class CloudTrailShapesTest {
 
-    private static final IamCloudTrailShapes SHAPES = IamCloudTrailShapes.get();
+    private static final CloudTrailShapes SHAPES = CloudTrailShapes.of("iam");
+    private static final CloudTrailShapes SQS = CloudTrailShapes.of("sqs");
+    private static final ObjectMapper MAPPER = new ObjectMapper();
 
     private static MultivaluedMap<String, String> params(String... pairs) {
         MultivaluedMap<String, String> params = new MultivaluedHashMap<>();
@@ -145,5 +149,38 @@ class IamCloudTrailShapesTest {
         assertThat(role.path("tags").get(0).path("key").asText(), equalTo("a"));
         assertThat(role.path("tags").get(0).path("value").asText(), equalTo("1"));
         assertThat(role.path("maxSessionDuration").isNumber(), equalTo(true));
+    }
+
+    @Test
+    void aJsonRequestKeepsItsMembersWithALowerFirstLetterAndItsMapKeysAsSent() throws Exception {
+        JsonNode request = MAPPER.readTree("""
+                {"QueueName": "orders", "Attributes": {"VisibilityTimeout": "60", "Policy": "{}"},
+                 "tags": {"Team": "ops"}, "Unmodeled": "x"}""");
+        ObjectNode read = SQS.requestParameters("CreateQueue", request);
+        assertThat(read.path("queueName").asText(), equalTo("orders"));
+        assertThat(read.path("attributes").path("VisibilityTimeout").asText(), equalTo("60"));
+        assertThat(read.path("attributes").path("Policy").asText(), equalTo("{}"));
+        assertThat(read.path("tags").path("Team").asText(), equalTo("ops"));
+        assertThat(read.has("unmodeled"), equalTo(false));
+    }
+
+    @Test
+    void aJsonListIsAnArrayAndANumberStaysOne() throws Exception {
+        ObjectNode read = SQS.requestParameters("AddPermission", MAPPER.readTree("""
+                {"QueueUrl": "http://localhost/000000000000/q", "Label": "l",
+                 "AWSAccountIds": ["111122223333"], "Actions": ["SendMessage"]}"""));
+        assertThat(read.path("aWSAccountIds").get(0).asText(), equalTo("111122223333"));
+        assertThat(read.path("actions").get(0).asText(), equalTo("SendMessage"));
+        ObjectNode moved = SQS.result("CancelMessageMoveTask",
+                MAPPER.readTree("{\"ApproximateNumberOfMessagesMoved\": 3}"));
+        assertThat(moved.path("approximateNumberOfMessagesMoved").isNumber(), equalTo(true));
+    }
+
+    @Test
+    void aJsonResultIsNamedAsTheRequestAndAnEmptyOneIsNull() throws Exception {
+        assertThat(SQS.result("CreateQueue", MAPPER.readTree("{\"QueueUrl\": \"http://q\"}"))
+                .path("queueUrl").asText(), equalTo("http://q"));
+        assertThat(SQS.result("DeleteQueue", MAPPER.readTree("{}")), nullValue());
+        assertThat(SQS.requestParameters("ListMessageMoveTasks", MAPPER.readTree("{}")), nullValue());
     }
 }

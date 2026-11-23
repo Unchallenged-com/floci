@@ -1,0 +1,24 @@
+{
+  "_source": {
+    "generator": "tools/aws/regen_sqs_cloudtrail_events.py",
+    "managementEvents": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/logging-using-cloudtrail.html",
+    "reference": "https://servicereference.us-east-1.amazonaws.com/v1/sqs/sqs.json",
+    "retrieved": "2026-11-19"
+  },
+  "managementEvents": [
+    "AddPermission",
+    "CancelMessageMoveTask",
+    "CreateQueue",
+    "DeleteQueue",
+    "ListMessageMoveTasks",
+    "PurgeQueue",
+    "RemovePermission",
+    "SetQueueAttributes",
+    "StartMessageMoveTask",
+    "TagQueue",
+    "UntagQueue"
+  ],
+  "readOnlyActions": [
+    "ListMessageMoveTasks"
+  ]
+}

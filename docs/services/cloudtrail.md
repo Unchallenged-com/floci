@@ -3,7 +3,7 @@
 **Protocol:** JSON 1.1 (`X-Amz-Target: com.amazonaws.cloudtrail.v20131101.CloudTrail_20131101.*`)
 **Endpoint:** `POST http://localhost:4566/`
 
-Floci emulates a CloudTrail trail's full life cycle and emits S3 data events, IAM API calls
+Floci emulates a CloudTrail trail's full life cycle and emits S3 data events, IAM API calls, SQS control plane calls
 and selected Secrets Manager management writes to the trail's destination bucket as gzipped JSON log files at the
 AWS-shaped key path:
 
@@ -125,6 +125,39 @@ refused.
 
 How each member is typed, which members are sensitive and each error's shape name are read from
 `iam-cloudtrail-shapes.json`, which `make aws-data-sync` generates from the pinned botocore.
+
+## SQS Coverage
+
+The SQS calls CloudTrail records as management events are recorded, as the SQS Developer Guide
+[lists them](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/logging-using-cloudtrail.html):
+`AddPermission`, `CancelMessageMoveTask`, `CreateQueue`, `DeleteQueue`, `ListMessageMoveTasks`, `PurgeQueue`,
+`RemovePermission`, `SetQueueAttributes`, `StartMessageMoveTask`, `TagQueue` and `UntagQueue`: one SQS ran, one SQS
+answered with an error, and, with `floci.services.iam.enforcement-enabled`, one IAM enforcement refused. Each
+reaches the account's event history whether or not a trail records it.
+
+- `eventSource` is `sqs.amazonaws.com` and `awsRegion` the queue's Region.
+- `readOnly` is `true` for `ListMessageMoveTasks` only, the one of them AWS's service reference
+  ([`sqs.json`](https://servicereference.us-east-1.amazonaws.com/v1/sqs/sqs.json)) gives no Write, Permissions
+  management or Tagging access level, vendored in `sqs-cloudtrail-events.json` by `make sqs-cloudtrail-events-sync`.
+- `requestParameters` and `responseElements` hold the request's and the result's members, named with a lower first
+  letter as the guide's event example names them (`queueUrl`, `mD5OfMessageBody`), a map's keys as sent
+  (`"attributes": {"Policy": ...}`, `"tags": {"team": ...}`), typed as botocore's SQS model types them
+  (`sqs-cloudtrail-shapes.json`). `responseElements` is `{"queueUrl": ...}` for `CreateQueue`,
+  `{"taskHandle": ...}` for `StartMessageMoveTask`, and `null` for a call that answers nothing, for
+  `ListMessageMoveTasks` and for a failed call.
+- An error is recorded under its shape's name (`QueueDoesNotExist`), with SQS's message. A call IAM enforcement
+  refuses is recorded as `AccessDenied` with `"requestParameters": null` and the message its refusal
+  answers with.
+
+Not recorded:
+
+- SQS data events (`SendMessage`, `ReceiveMessage`, `DeleteMessage`, `ChangeMessageVisibility`, their batches,
+  `GetQueueAttributes`, `GetQueueUrl`, `ListQueues`, `ListQueueTags`, `ListDeadLetterSourceQueues`), which AWS logs
+  only for a trail whose advanced event selectors select the `AWS::SQS::Queue` resource type.
+- A call made over SQS's Query protocol (`Action=CreateQueue` in a form body): botocore's SQS model no longer
+  carries that protocol's member names, so its request cannot be read as the model's members. A call IAM enforcement
+  refuses is recorded whichever protocol it uses.
+- A call another service makes for the caller, such as a Step Functions task or an API Gateway integration.
 
 ## Management Write Coverage
 

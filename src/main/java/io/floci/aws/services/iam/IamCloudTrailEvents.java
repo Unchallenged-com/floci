@@ -9,6 +9,8 @@ import io.floci.aws.core.common.RequestSourceAddress;
 import io.floci.aws.core.common.ServicePrincipals;
 import io.floci.aws.core.common.XmlParser;
 import io.floci.aws.services.cloudtrail.CloudTrailService;
+import io.floci.aws.services.cloudtrail.CloudTrailShapes;
+import io.floci.aws.services.cloudtrail.ManagementEventSource;
 import io.quarkus.vertx.http.runtime.CurrentVertxRequest;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.ext.web.RoutingContext;
@@ -33,7 +35,7 @@ import java.util.Optional;
  * CloudTrail redacts the responseElements information", and the call's result otherwise. Which
  * call is read-only is AWS's Service Reference's access level ({@link IamActionResources#isReadOnly});
  * how each member is named and typed, which members are left out as sensitive, and the name each
- * error is recorded under are botocore's IAM model ({@link IamCloudTrailShapes}).
+ * error is recorded under are botocore's IAM model ({@link CloudTrailShapes}).
  *
  * <p>A call IAM enforcement refuses carries the code, the message and the request ID its refusal
  * answered with, so the record and the response match, and {@code "requestParameters": null}, as AWS
@@ -41,7 +43,7 @@ import java.util.Optional;
  * every management event.
  */
 @ApplicationScoped
-public class IamCloudTrailEvents {
+public class IamCloudTrailEvents implements ManagementEventSource {
 
     private static final String EVENT_SOURCE = ServicePrincipals.of("iam");
 
@@ -83,9 +85,14 @@ public class IamCloudTrailEvents {
         // A read-only call's result is left out: "When logging a read-only event, CloudTrail redacts
         // the responseElements information".
         ObjectNode result = answer.errorCode() == null && !IamActionResources.isReadOnly(action)
-                ? IamCloudTrailShapes.get().result(action, xml) : null;
+                ? CloudTrailShapes.of("iam").result(action, xml) : null;
         cloudTrail.emitManagementEvent(event(action, params, accounts.extractAccessKeyId(authorization), caller,
                 requestContext.getRegion(), request(currentRequest.getCurrent()), result, answer));
+    }
+
+    @Override
+    public String credentialScope() {
+        return "iam";
     }
 
     /**
@@ -93,14 +100,13 @@ public class IamCloudTrailEvents {
      * request's {@code Action} and carrying the code, message and request ID the refusal answered with; null
      * for a request that names none.
      */
-    public static CloudTrailService.ManagementEventInput denied(MultivaluedMap<String, String> params,
-                                                                String accessKeyId, String region,
-                                                                RoutingContext routingContext, Response refusal) {
-        String action = params.getFirst("Action");
-        if (action == null || action.isBlank()) {
+    @Override
+    public CloudTrailService.ManagementEventInput refused(String operation, String accessKeyId, String region,
+                                                          RoutingContext routingContext, Response refusal) {
+        if (operation == null || operation.isBlank()) {
             return null;
         }
-        return event(action, null, accessKeyId, null, region, request(routingContext), null,
+        return event(operation, null, accessKeyId, null, region, request(routingContext), null,
                 Answer.of(refusal.getEntity() instanceof String xml ? xml : "", true));
     }
 
@@ -124,7 +130,7 @@ public class IamCloudTrailEvents {
                                                                 Answer answer) {
         String sourceIp = request == null ? null : RequestSourceAddress.of(request);
         String userAgent = request == null ? null : request.getHeader("User-Agent");
-        IamCloudTrailShapes shapes = IamCloudTrailShapes.get();
+        CloudTrailShapes shapes = CloudTrailShapes.of("iam");
         // IAM's events are recorded in the Region IAM's global endpoint signs for in the request's
         // partition, and as a global service's, which only a trail including global service events records.
         Optional<AwsPartition.GlobalEndpoint> iam = AwsPartitions.forRegionOrCommercial(region).globalEndpoint("iam");

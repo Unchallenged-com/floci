@@ -11,7 +11,8 @@ reachable from one, its type and the shapes of its members, list elements or map
 `regen_iam_cloudtrail_shapes.py` keeps what a CloudTrail record reads of every call: each operation's
 result shape and the element it is wrapped in with `results=True`, the shapes the model marks
 `sensitive` with `sensitive=True`, and the shape each modeled error code is answered by with
-`errors=True`, holding every shape it keeps to what the record can read through `check`.
+`errors=True`, holding every shape it keeps to what the record can read through `check`, which
+`record_check` builds for any service's CloudTrail shapes.
 `regen_iam_shapes.py` and `regen_sts_shapes.py` name their operations instead, which switches
 `main()` to `build_constraints()`.
 
@@ -51,6 +52,28 @@ def errors_from(model: dict) -> dict[str, str]:
             raise ValueError(f"{found[code]} and {name} both answer {code}")
         found[code] = name
     return dict(sorted(found.items()))
+
+
+# The shape types a CloudTrail record reads (`CloudTrailShapes`). Any other is one it would pass over
+# or misread, so a generator checking with `record_check` stops rather than vendoring it.
+RECORD_TYPES = {"structure", "list", "map", "string", "integer", "long", "boolean", "timestamp", "blob",
+                "double", "float"}
+
+
+def record_check(member_traits: set[str]) -> Callable[[str, dict], None]:
+    """A `check` for the shapes a CloudTrail record reads: it raises for a type the record does not
+    read, or for a member trait outside `member_traits`, such as a `locationName` that would rename
+    the member on the wire, since the record would misname that member."""
+
+    def readable(name: str, shape: dict) -> None:
+        if shape["type"] not in RECORD_TYPES:
+            raise ValueError(f"{name} is a {shape['type']}, which the record does not read")
+        for member, spec in shape.get("members", {}).items():
+            extra = set(spec) - member_traits
+            if extra:
+                raise ValueError(f"{name}.{member} carries {sorted(extra)}, which the record does not read")
+
+    return readable
 
 
 def build(model: dict, provenance: str, generator: str, outputs: bool = False, required: bool = False,

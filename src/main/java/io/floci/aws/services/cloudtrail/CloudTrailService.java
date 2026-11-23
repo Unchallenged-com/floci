@@ -506,6 +506,15 @@ public class CloudTrailService implements StoredResourceArns, Resettable {
                                        String errorCode, String errorMessage, boolean globalService,
                                        ObjectNode userIdentity) {
 
+        /** A call to a Regional service, read as its caller's when it is recorded. */
+        public ManagementEventInput(String eventSource, String eventName, String region, String accessKeyId,
+                                    ObjectNode requestParameters, ObjectNode responseElements, boolean readOnly,
+                                    String sourceIp, String userAgent, String requestId, String errorCode,
+                                    String errorMessage) {
+            this(eventSource, eventName, region, accessKeyId, requestParameters, responseElements, readOnly,
+                    sourceIp, userAgent, requestId, errorCode, errorMessage, false, null);
+        }
+
         /** A successful write, from a caller whose address and agent are not known. */
         public ManagementEventInput(String eventSource, String eventName, String region, String accessKeyId,
                                     ObjectNode requestParameters, ObjectNode responseElements) {
