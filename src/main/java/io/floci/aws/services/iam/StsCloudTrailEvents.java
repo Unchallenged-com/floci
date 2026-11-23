@@ -22,8 +22,11 @@ import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.core.Response;
 import org.jboss.logging.Logger;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Records STS API calls as CloudTrail management events, as the IAM User Guide says CloudTrail
@@ -94,6 +97,17 @@ public class StsCloudTrailEvents {
      */
     private static final String MFA_CODE = "tokenCode";
 
+    /**
+     * Calls not recorded yet when STS answers them: how AWS records a token
+     * {@code GetWebIdentityToken} issues, and anything about {@code GetDelegatedAccessToken}, is not
+     * settled. A refused {@code GetWebIdentityToken} is recorded.
+     */
+    private static final Set<String> NOT_RECORDED_WHEN_ANSWERED =
+            Set.of("GetWebIdentityToken", "GetDelegatedAccessToken");
+
+    private static final int EXTENDED_ID_LENGTH = 8;
+    private static final String ALPHANUMERIC = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
     private final CloudTrailService cloudTrail;
     private final AccountResolver accounts;
     private final RequestContext requestContext;
@@ -131,6 +145,9 @@ public class StsCloudTrailEvents {
         if ("UnsupportedOperation".equals(errorCode)) {
             return;
         }
+        if (errorCode == null ? NOT_RECORDED_WHEN_ANSWERED.contains(action) : "GetDelegatedAccessToken".equals(action)) {
+            return;
+        }
         ObjectNode result = errorCode == null && recordsResult(action) ? result(action, xml) : null;
         ObjectNode federatedCaller = null;
         if (isFederated(action)) {
@@ -139,11 +156,74 @@ public class StsCloudTrailEvents {
                 return;
             }
         }
+        ObjectNode requestParameters = requestParameters(action, params, errorCode);
+        if ("AssumeRoleWithSAML".equals(action) && result != null) {
+            requestParameters = samlRequestParameters(requestParameters, params, result);
+        }
         HttpServerRequest request = request(currentRequest.getCurrent());
-        cloudTrail.emitManagementEvent(event(action, requestParameters(action, params, errorCode),
+        String region = requestContext.getRegion();
+        cloudTrail.emitManagementEvent(event(action, requestParameters,
                 federatedCaller == null ? accounts.extractAccessKeyId(authorization) : null, federatedCaller,
-                requestContext.getRegion(), request, result, answer,
+                region, request, result, answer,
+                errorCode == null ? additionalEventData(action, host(request), region, System.currentTimeMillis())
+                        : null,
                 errorCode == null ? resources(action, params) : null));
+    }
+
+    /**
+     * {@code AssumeRoleWithSAML}'s parameters as the guide's example records them: the assertion's
+     * {@code sAMLAssertionID} rather than the assertion, and the session's {@code roleSessionName},
+     * which the assertion rather than the request names.
+     */
+    static ObjectNode samlRequestParameters(ObjectNode read, MultivaluedMap<String, String> params,
+                                            ObjectNode result) {
+        ObjectNode parameters = read == null ? MAPPER.createObjectNode() : read;
+        String assertionId = params == null || params.getFirst("SAMLAssertion") == null ? null
+                : SAMLAssertionVerifier.assertionId(params.getFirst("SAMLAssertion"));
+        if (assertionId != null) {
+            parameters.put("sAMLAssertionID", assertionId);
+        }
+        String arn = result.path("assumedRoleUser").path("arn").asText("");
+        if (arn.contains("/")) {
+            parameters.put("roleSessionName", arn.substring(arn.lastIndexOf('/') + 1));
+        }
+        return parameters.isEmpty() ? null : parameters;
+    }
+
+    /**
+     * What a successful call's record adds: the {@code ExtendedRequestId} below, {@code RequestDetails}, the
+     * endpoint type that served it and the Region serving it, which the guide's examples carry for the global
+     * and the Regional endpoint alike, and for {@code AssumeRoleWithWebIdentity} how the provider's connection
+     * was verified, "either IAMTrustStore or Thumbprint".
+     */
+    static ObjectNode additionalEventData(String action, String host, String region, long nowMillis) {
+        ObjectNode data = MAPPER.createObjectNode();
+        if ("AssumeRoleWithWebIdentity".equals(action)) {
+            data.put("identityProviderConnectionVerificationMethod", "IAMTrustStore");
+        }
+        boolean global = globalEndpoint(host, region).isPresent();
+        data.put("ExtendedRequestId", extendedRequestId(region, nowMillis, global));
+        ObjectNode details = data.putObject("RequestDetails");
+        details.put("endpointType", global ? "global" : "regional");
+        if (region != null) {
+            details.put("awsServingRegion", region);
+        }
+        return data;
+    }
+
+    /**
+     * The {@code ExtendedRequestId} current CloudTrail records carry on a successful STS call, which
+     * AWS does not document: the base64 of {@code 1:<Region>:S:<epoch milliseconds>:<R or G>:<id>},
+     * {@code R} for a Regional endpoint and {@code G} for the global one, the id eight letters or
+     * digits.
+     */
+    static String extendedRequestId(String region, long nowMillis, boolean global) {
+        StringBuilder id = new StringBuilder(EXTENDED_ID_LENGTH);
+        for (int i = 0; i < EXTENDED_ID_LENGTH; i++) {
+            id.append(ALPHANUMERIC.charAt(ThreadLocalRandom.current().nextInt(ALPHANUMERIC.length())));
+        }
+        String plain = "1:" + region + ":S:" + nowMillis + ":" + (global ? "G" : "R") + ":" + id;
+        return Base64.getEncoder().encodeToString(plain.getBytes(StandardCharsets.UTF_8));
     }
 
     /**
@@ -160,7 +240,8 @@ public class StsCloudTrailEvents {
             return null;
         }
         return event(action, null, accessKeyId, null, region, request(routingContext), null,
-                IamCloudTrailEvents.Answer.of(refusal.getEntity() instanceof String xml ? xml : "", true), null);
+                IamCloudTrailEvents.Answer.of(refusal.getEntity() instanceof String xml ? xml : "", true), null,
+                null);
     }
 
     private static CloudTrailService.ManagementEventInput event(String action, ObjectNode requestParameters,
@@ -168,22 +249,22 @@ public class StsCloudTrailEvents {
                                                                 String region, HttpServerRequest request,
                                                                 ObjectNode result,
                                                                 IamCloudTrailEvents.Answer answer,
+                                                                ObjectNode additionalEventData,
                                                                 ArrayNode resources) {
-        Optional<AwsPartition.GlobalEndpoint> global = globalEndpoint(request, region);
+        Optional<AwsPartition.GlobalEndpoint> global = globalEndpoint(host(request), region);
         return new CloudTrailService.ManagementEventInput(EVENT_SOURCE, action,
                 global.map(AwsPartition.GlobalEndpoint::signingRegion).orElse(region), accessKeyId,
                 requestParameters, result, isReadOnly(action),
                 request == null ? null : RequestSourceAddress.of(request),
                 request == null ? null : request.getHeader("User-Agent"), answer.requestId(), answer.errorCode(),
-                answer.errorMessage(), global.isPresent(), caller, null, resources);
+                answer.errorMessage(), global.isPresent(), caller, additionalEventData, resources);
     }
 
     /**
      * The partition's global STS endpoint when the request was sent to it, as its {@code Host} names it;
      * empty for a Regional endpoint.
      */
-    static Optional<AwsPartition.GlobalEndpoint> globalEndpoint(HttpServerRequest request, String region) {
-        String host = request == null ? null : request.getHeader("Host");
+    static Optional<AwsPartition.GlobalEndpoint> globalEndpoint(String host, String region) {
         if (host == null || region == null) {
             return Optional.empty();
         }
@@ -303,6 +384,10 @@ public class StsCloudTrailEvents {
         AwsArnUtils.Arn role = AwsArnUtils.parse(roleArn);
         return AwsArnUtils.Arn.global(role.partition(), "iam", role.accountId(),
                 "oidc-provider/" + (schemeEnd < 0 ? issuer : issuer.substring(schemeEnd + 3))).toString();
+    }
+
+    private static String host(HttpServerRequest request) {
+        return request == null ? null : request.getHeader("Host");
     }
 
     private static HttpServerRequest request(RoutingContext routingContext) {

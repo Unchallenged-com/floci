@@ -9,8 +9,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.matchesPattern;
 import static org.hamcrest.Matchers.nullValue;
 
 class StsCloudTrailEventsTest {
@@ -130,5 +134,39 @@ class StsCloudTrailEventsTest {
         assertThat(caller.path("principalId").asText(), equalTo("bdGOnTe=:alice"));
         assertThat(caller.path("userName").asText(), equalTo("alice"));
         assertThat(caller.path("identityProvider").asText(), equalTo("bdGOnTe="));
+    }
+
+    @Test
+    void requestDetailsNameTheEndpointThatServedTheCall() {
+        ObjectNode regional = StsCloudTrailEvents.additionalEventData("GetCallerIdentity", "localhost:4566",
+                "eu-west-3", 1789155634441L);
+        assertThat(regional.path("RequestDetails").path("endpointType").asText(), equalTo("regional"));
+        assertThat(regional.path("RequestDetails").path("awsServingRegion").asText(), equalTo("eu-west-3"));
+        ObjectNode global = StsCloudTrailEvents.additionalEventData("AssumeRole", "sts.amazonaws.com", "us-east-1",
+                1789155634441L);
+        assertThat(global.path("RequestDetails").path("endpointType").asText(), equalTo("global"));
+        assertThat(global.has("identityProviderConnectionVerificationMethod"), equalTo(false));
+        assertThat(new String(Base64.getDecoder().decode(regional.path("ExtendedRequestId").asText()),
+                StandardCharsets.UTF_8), matchesPattern("1:eu-west-3:S:1789155634441:R:[A-Za-z0-9]{8}"));
+        assertThat(new String(Base64.getDecoder().decode(global.path("ExtendedRequestId").asText()),
+                StandardCharsets.UTF_8), matchesPattern("1:us-east-1:S:1789155634441:G:[A-Za-z0-9]{8}"));
+        assertThat(StsCloudTrailEvents.additionalEventData("AssumeRoleWithWebIdentity", null, "us-east-1", 0L)
+                .path("identityProviderConnectionVerificationMethod").asText(), equalTo("IAMTrustStore"));
+    }
+
+    @Test
+    void aSamlCallRecordsTheAssertionIdAndTheSessionName() {
+        String assertion = Base64.getEncoder().encodeToString(
+                ("<saml2:Assertion xmlns:saml2=\"urn:oasis:names:tc:SAML:2.0:assertion\" ID=\"_c0046cEXAMPLE\""
+                        + " Version=\"2.0\"/>").getBytes(StandardCharsets.UTF_8));
+        ObjectNode result = MAPPER.createObjectNode();
+        result.putObject("assumedRoleUser").put("arn", "arn:aws:sts::111122223333:assumed-role/saml/alice");
+        ObjectNode read = StsCloudTrailEvents.samlRequestParameters(
+                StsCloudTrailEvents.requestParameters("AssumeRoleWithSAML",
+                        params("RoleArn", "arn:aws:iam::111122223333:role/saml", "SAMLAssertion", assertion), null),
+                params("SAMLAssertion", assertion), result);
+        assertThat(read.path("sAMLAssertionID").asText(), equalTo("_c0046cEXAMPLE"));
+        assertThat(read.path("roleSessionName").asText(), equalTo("alice"));
+        assertThat(read.has("sAMLAssertion"), equalTo(false));
     }
 }

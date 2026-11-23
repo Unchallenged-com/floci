@@ -163,14 +163,20 @@ one STS ran, one STS refused, and, with `floci.services.iam.enforcement-enabled`
   [IAM User Guide's table](https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html#cloudtrail-integration_signin-tempcreds):
   `AssumeRole`, `AssumeRoleWithSAML` and `AssumeRoleWithWebIdentity` are read-only and carry the call's result;
   `AssumeRoot`, `GetFederationToken` and `GetSessionToken` are not read-only and carry it too. `GetWebIdentityToken`
-  is not read-only and carries no result, the token being a bearer credential. Any other call (`GetCallerIdentity`,
-  `GetAccessKeyInfo`, `DecodeAuthorizationMessage`) is read-only with `"responseElements": null`.
+  is not read-only. Any other call (`GetCallerIdentity`, `GetAccessKeyInfo`, `DecodeAuthorizationMessage`) is
+  read-only with `"responseElements": null`.
 - `requestParameters` and `responseElements` hold the request's members and the call's result, named with a lower
   first letter and typed as botocore's STS model types them (`"durationSeconds": 900`,
   `tags: [{"key": ..., "value": ...}]`, `"sessionTokenSize": 1428`). A member the model marks sensitive (the SAML
   assertion, the web identity token, a trade-in token, `secretAccessKey`) is left out, and so is the MFA code
   (`tokenCode`), which the guide's records leave out beside the `serialNumber` they keep. A credential's `expiration`
   is written as the guide's records write it (`Feb 12, 2025, 11:16:48 PM`).
+- A successful call records `additionalEventData.RequestDetails`: `endpointType` (`global` for a request to the
+  global endpoint, `regional` otherwise) and `awsServingRegion`. It also records `ExtendedRequestId` as current
+  CloudTrail records carry it, which AWS does not document: the base64 of
+  `1:<region>:S:<epoch milliseconds>:<R or G>:<8 letters or digits>`, `G` for the global endpoint.
+  `AssumeRoleWithWebIdentity` adds `identityProviderConnectionVerificationMethod`, and `AssumeRoleWithSAML` records
+  the assertion's `sAMLAssertionID` and the session's `roleSessionName` rather than the assertion.
 - `AssumeRole`, `AssumeRoleWithSAML` and `AssumeRoleWithWebIdentity` carry the role in `resources`
   (`AWS::IAM::Role`), and `AssumeRoleWithSAML` the SAML provider too.
 - `AssumeRoleWithSAML` and `AssumeRoleWithWebIdentity` name their caller as a `SAMLUser` or a `WebIdentityUser`. They
@@ -180,6 +186,8 @@ one STS ran, one STS refused, and, with `floci.services.iam.enforcement-enabled`
   and request ID, `"requestParameters": null` and no `resources`; any other error keeps the request's members.
 - `sourceIPAddress` is the address the request came from and `userAgent` its `User-Agent`. Like every management
   event, an STS call also reaches the account's event history, whether or not a trail records it.
+- Not recorded yet: a refused or invalid `AssumeRoleWithSAML` or `AssumeRoleWithWebIdentity`, a successful
+  `GetWebIdentityToken` (its refusals are recorded), and `GetDelegatedAccessToken`.
 
 ## Management Write Coverage
 
