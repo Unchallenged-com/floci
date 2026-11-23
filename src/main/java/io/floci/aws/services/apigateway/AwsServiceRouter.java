@@ -5,6 +5,7 @@ import io.floci.aws.core.common.AwsArnUtils;
 import io.floci.aws.core.common.AwsException;
 import io.floci.aws.services.acm.AcmJsonHandler;
 import io.floci.aws.services.cloudwatch.logs.CloudWatchLogsHandler;
+import io.floci.aws.services.cloudwatch.logs.LogsCloudTrailEvents;
 import io.floci.aws.services.cloudwatch.metrics.CloudWatchMetricsJsonHandler;
 import io.floci.aws.services.cognito.CognitoJsonHandler;
 import io.floci.aws.services.dynamodb.DynamoDbJsonHandler;
@@ -47,6 +48,7 @@ public class AwsServiceRouter {
     private final SsmJsonHandler ssmHandler;
     private final KinesisJsonHandler kinesisHandler;
     private final CloudWatchLogsHandler logsHandler;
+    private final LogsCloudTrailEvents logsCloudTrailEvents;
     private final CloudWatchMetricsJsonHandler metricsHandler;
     private final SecretsManagerJsonHandler secretsManagerHandler;
     private final KmsJsonHandler kmsHandler;
@@ -63,6 +65,7 @@ public class AwsServiceRouter {
                             SsmJsonHandler ssmHandler,
                             KinesisJsonHandler kinesisHandler,
                             CloudWatchLogsHandler logsHandler,
+                            LogsCloudTrailEvents logsCloudTrailEvents,
                             CloudWatchMetricsJsonHandler metricsHandler,
                             SecretsManagerJsonHandler secretsManagerHandler,
                             KmsJsonHandler kmsHandler,
@@ -77,6 +80,7 @@ public class AwsServiceRouter {
         this.ssmHandler = ssmHandler;
         this.kinesisHandler = kinesisHandler;
         this.logsHandler = logsHandler;
+        this.logsCloudTrailEvents = logsCloudTrailEvents;
         this.metricsHandler = metricsHandler;
         this.secretsManagerHandler = secretsManagerHandler;
         this.kmsHandler = kmsHandler;
@@ -155,7 +159,8 @@ public class AwsServiceRouter {
                 case "events" -> eventBridgeHandler.handle(action, requestBody, region);
                 case "ssm" -> ssmHandler.handle(action, requestBody, region, null);
                 case "kinesis" -> kinesisHandler.handle(action, requestBody, region);
-                case "logs" -> logsHandler.handle(action, requestBody, region);
+                case "logs" -> logsCloudTrailEvents.recorded(action, requestBody, region, null,
+                        () -> logsHandler.handle(action, requestBody, region));
                 case "monitoring" -> metricsHandler.handle(action, requestBody, region);
                 case "secretsmanager" -> secretsManagerHandler.handle(action, requestBody, region);
                 case "kms" -> kmsHandler.handle(action, requestBody, region);

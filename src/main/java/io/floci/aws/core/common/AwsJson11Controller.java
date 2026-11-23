@@ -17,6 +17,7 @@ import io.floci.aws.services.cloudhsmv2.CloudHsmV2JsonHandler;
 import io.floci.aws.services.cloudmap.CloudMapHandler;
 import io.floci.aws.services.cloudtrail.CloudTrailJsonHandler;
 import io.floci.aws.services.cloudwatch.logs.CloudWatchLogsHandler;
+import io.floci.aws.services.cloudwatch.logs.LogsCloudTrailEvents;
 import io.floci.aws.services.codebuild.CodeBuildJsonHandler;
 import io.floci.aws.services.codedeploy.CodeDeployJsonHandler;
 import io.floci.aws.services.codepipeline.CodePipelineJsonHandler;
@@ -103,6 +104,7 @@ public class AwsJson11Controller {
     private final MemoryDbHandler memoryDbHandler;
     private final WafV2Handler wafV2Handler;
     private final CloudWatchLogsHandler cloudWatchLogsHandler;
+    private final LogsCloudTrailEvents logsCloudTrailEvents;
     private final SecretsManagerJsonHandler secretsManagerJsonHandler;
     private final KinesisJsonHandler kinesisJsonHandler;
     private final KinesisAnalyticsV2JsonHandler kinesisAnalyticsV2JsonHandler;
@@ -164,6 +166,7 @@ public class AwsJson11Controller {
                                MemoryDbHandler memoryDbHandler,
                                WafV2Handler wafV2Handler,
                                CloudWatchLogsHandler cloudWatchLogsHandler,
+                               LogsCloudTrailEvents logsCloudTrailEvents,
                                SecretsManagerJsonHandler secretsManagerJsonHandler,
                                KinesisJsonHandler kinesisJsonHandler,
                                KinesisAnalyticsV2JsonHandler kinesisAnalyticsV2JsonHandler,
@@ -223,6 +226,7 @@ public class AwsJson11Controller {
         this.memoryDbHandler = memoryDbHandler;
         this.wafV2Handler = wafV2Handler;
         this.cloudWatchLogsHandler = cloudWatchLogsHandler;
+        this.logsCloudTrailEvents = logsCloudTrailEvents;
         this.secretsManagerJsonHandler = secretsManagerJsonHandler;
         this.kinesisJsonHandler = kinesisJsonHandler;
         this.kinesisAnalyticsV2JsonHandler = kinesisAnalyticsV2JsonHandler;
@@ -355,7 +359,8 @@ public class AwsJson11Controller {
             case "elasticmapreduce" -> emrHandler.handle(action, request, region);
             case "wafv2" -> wafV2Handler.handle(action, request, region);
             case "memorydb" -> memoryDbHandler.handle(action, request, region);
-            case "logs" -> cloudWatchLogsHandler.handle(action, request, region);
+            case "logs" -> logsCloudTrailEvents.recorded(action, request, region, authorization,
+                    () -> cloudWatchLogsHandler.handle(action, request, region));
             case "secretsmanager" -> secretsManagerJsonHandler.handle(action, request, region, authorization);
             case "kinesis" -> kinesisJsonHandler.handle(action, request, region);
             case "kinesisanalytics" -> kinesisAnalyticsV2JsonHandler.handle(action, request, region);

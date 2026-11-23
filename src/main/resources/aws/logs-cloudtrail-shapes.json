@@ -1,0 +1,4352 @@
+{
+  "_source": {
+    "generator": "tools/aws/regen_logs_cloudtrail_shapes.py",
+    "botocore": "botocore 1.44.9 (installed package)"
+  },
+  "operations": {
+    "AssociateKmsKey": "AssociateKmsKeyRequest",
+    "AssociateSourceToS3TableIntegration": "AssociateSourceToS3TableIntegrationRequest",
+    "CancelExportTask": "CancelExportTaskRequest",
+    "CancelImportTask": "CancelImportTaskRequest",
+    "CreateDelivery": "CreateDeliveryRequest",
+    "CreateExportTask": "CreateExportTaskRequest",
+    "CreateImportTask": "CreateImportTaskRequest",
+    "CreateLogAnomalyDetector": "CreateLogAnomalyDetectorRequest",
+    "CreateLogGroup": "CreateLogGroupRequest",
+    "CreateLogStream": "CreateLogStreamRequest",
+    "CreateLookupTable": "CreateLookupTableRequest",
+    "CreateScheduledQuery": "CreateScheduledQueryRequest",
+    "DeleteAccountPolicy": "DeleteAccountPolicyRequest",
+    "DeleteDataProtectionPolicy": "DeleteDataProtectionPolicyRequest",
+    "DeleteDelivery": "DeleteDeliveryRequest",
+    "DeleteDeliveryDestination": "DeleteDeliveryDestinationRequest",
+    "DeleteDeliveryDestinationPolicy": "DeleteDeliveryDestinationPolicyRequest",
+    "DeleteDeliverySource": "DeleteDeliverySourceRequest",
+    "DeleteDestination": "DeleteDestinationRequest",
+    "DeleteIndexPolicy": "DeleteIndexPolicyRequest",
+    "DeleteIntegration": "DeleteIntegrationRequest",
+    "DeleteLogAnomalyDetector": "DeleteLogAnomalyDetectorRequest",
+    "DeleteLogGroup": "DeleteLogGroupRequest",
+    "DeleteLogStream": "DeleteLogStreamRequest",
+    "DeleteLookupTable": "DeleteLookupTableRequest",
+    "DeleteMetricFilter": "DeleteMetricFilterRequest",
+    "DeleteQueryDefinition": "DeleteQueryDefinitionRequest",
+    "DeleteResourcePolicy": "DeleteResourcePolicyRequest",
+    "DeleteRetentionPolicy": "DeleteRetentionPolicyRequest",
+    "DeleteScheduledQuery": "DeleteScheduledQueryRequest",
+    "DeleteSubscriptionFilter": "DeleteSubscriptionFilterRequest",
+    "DeleteSyslogConfiguration": "DeleteSyslogConfigurationRequest",
+    "DeleteTransformer": "DeleteTransformerRequest",
+    "DescribeAccountPolicies": "DescribeAccountPoliciesRequest",
+    "DescribeConfigurationTemplates": "DescribeConfigurationTemplatesRequest",
+    "DescribeDeliveries": "DescribeDeliveriesRequest",
+    "DescribeDeliveryDestinations": "DescribeDeliveryDestinationsRequest",
+    "DescribeDeliverySources": "DescribeDeliverySourcesRequest",
+    "DescribeDestinations": "DescribeDestinationsRequest",
+    "DescribeExportTasks": "DescribeExportTasksRequest",
+    "DescribeFieldIndexes": "DescribeFieldIndexesRequest",
+    "DescribeImportTaskBatches": "DescribeImportTaskBatchesRequest",
+    "DescribeImportTasks": "DescribeImportTasksRequest",
+    "DescribeIndexPolicies": "DescribeIndexPoliciesRequest",
+    "DescribeLogGroups": "DescribeLogGroupsRequest",
+    "DescribeLogStreams": "DescribeLogStreamsRequest",
+    "DescribeLookupTables": "DescribeLookupTablesRequest",
+    "DescribeMetricFilters": "DescribeMetricFiltersRequest",
+    "DescribeQueries": "DescribeQueriesRequest",
+    "DescribeQueryDefinitions": "DescribeQueryDefinitionsRequest",
+    "DescribeResourcePolicies": "DescribeResourcePoliciesRequest",
+    "DescribeSubscriptionFilters": "DescribeSubscriptionFiltersRequest",
+    "DisassociateKmsKey": "DisassociateKmsKeyRequest",
+    "DisassociateSourceFromS3TableIntegration": "DisassociateSourceFromS3TableIntegrationRequest",
+    "FilterLogEvents": "FilterLogEventsRequest",
+    "GetDataProtectionPolicy": "GetDataProtectionPolicyRequest",
+    "GetDelivery": "GetDeliveryRequest",
+    "GetDeliveryDestination": "GetDeliveryDestinationRequest",
+    "GetDeliveryDestinationPolicy": "GetDeliveryDestinationPolicyRequest",
+    "GetDeliverySource": "GetDeliverySourceRequest",
+    "GetIntegration": "GetIntegrationRequest",
+    "GetLogAnomalyDetector": "GetLogAnomalyDetectorRequest",
+    "GetLogEvents": "GetLogEventsRequest",
+    "GetLogFields": "GetLogFieldsRequest",
+    "GetLogGroupFields": "GetLogGroupFieldsRequest",
+    "GetLogObject": "GetLogObjectRequest",
+    "GetLogRecord": "GetLogRecordRequest",
+    "GetLookupTable": "GetLookupTableRequest",
+    "GetQueryResults": "GetQueryResultsRequest",
+    "GetScheduledQuery": "GetScheduledQueryRequest",
+    "GetScheduledQueryHistory": "GetScheduledQueryHistoryRequest",
+    "GetStorageTierPolicy": "GetStorageTierPolicyRequest",
+    "GetTransformer": "GetTransformerRequest",
+    "ListAggregateLogGroupSummaries": "ListAggregateLogGroupSummariesRequest",
+    "ListAnomalies": "ListAnomaliesRequest",
+    "ListIntegrations": "ListIntegrationsRequest",
+    "ListLogAnomalyDetectors": "ListLogAnomalyDetectorsRequest",
+    "ListLogGroups": "ListLogGroupsRequest",
+    "ListLogGroupsForQuery": "ListLogGroupsForQueryRequest",
+    "ListScheduledQueries": "ListScheduledQueriesRequest",
+    "ListSourcesForS3TableIntegration": "ListSourcesForS3TableIntegrationRequest",
+    "ListSyslogConfigurations": "ListSyslogConfigurationsRequest",
+    "ListTagsForResource": "ListTagsForResourceRequest",
+    "ListTagsLogGroup": "ListTagsLogGroupRequest",
+    "PutAccountPolicy": "PutAccountPolicyRequest",
+    "PutBearerTokenAuthentication": "PutBearerTokenAuthenticationRequest",
+    "PutDataProtectionPolicy": "PutDataProtectionPolicyRequest",
+    "PutDeliveryDestination": "PutDeliveryDestinationRequest",
+    "PutDeliveryDestinationPolicy": "PutDeliveryDestinationPolicyRequest",
+    "PutDeliverySource": "PutDeliverySourceRequest",
+    "PutDestination": "PutDestinationRequest",
+    "PutDestinationPolicy": "PutDestinationPolicyRequest",
+    "PutIndexPolicy": "PutIndexPolicyRequest",
+    "PutIntegration": "PutIntegrationRequest",
+    "PutLogEvents": "PutLogEventsRequest",
+    "PutLogGroupDeletionProtection": "PutLogGroupDeletionProtectionRequest",
+    "PutMetricFilter": "PutMetricFilterRequest",
+    "PutQueryDefinition": "PutQueryDefinitionRequest",
+    "PutResourcePolicy": "PutResourcePolicyRequest",
+    "PutRetentionPolicy": "PutRetentionPolicyRequest",
+    "PutStorageTierPolicy": "PutStorageTierPolicyRequest",
+    "PutSubscriptionFilter": "PutSubscriptionFilterRequest",
+    "PutSyslogConfiguration": "PutSyslogConfigurationRequest",
+    "PutTransformer": "PutTransformerRequest",
+    "StartLiveTail": "StartLiveTailRequest",
+    "StartQuery": "StartQueryRequest",
+    "StopQuery": "StopQueryRequest",
+    "TagLogGroup": "TagLogGroupRequest",
+    "TagResource": "TagResourceRequest",
+    "TestMetricFilter": "TestMetricFilterRequest",
+    "TestTransformer": "TestTransformerRequest",
+    "UntagLogGroup": "UntagLogGroupRequest",
+    "UntagResource": "UntagResourceRequest",
+    "UpdateAnomaly": "UpdateAnomalyRequest",
+    "UpdateDeliveryConfiguration": "UpdateDeliveryConfigurationRequest",
+    "UpdateLogAnomalyDetector": "UpdateLogAnomalyDetectorRequest",
+    "UpdateLookupTable": "UpdateLookupTableRequest",
+    "UpdateScheduledQuery": "UpdateScheduledQueryRequest"
+  },
+  "results": {
+    "AssociateSourceToS3TableIntegration": {
+      "shape": "AssociateSourceToS3TableIntegrationResponse",
+      "resultWrapper": null
+    },
+    "CancelImportTask": {
+      "shape": "CancelImportTaskResponse",
+      "resultWrapper": null
+    },
+    "CreateDelivery": {
+      "shape": "CreateDeliveryResponse",
+      "resultWrapper": null
+    },
+    "CreateExportTask": {
+      "shape": "CreateExportTaskResponse",
+      "resultWrapper": null
+    },
+    "CreateImportTask": {
+      "shape": "CreateImportTaskResponse",
+      "resultWrapper": null
+    },
+    "CreateLogAnomalyDetector": {
+      "shape": "CreateLogAnomalyDetectorResponse",
+      "resultWrapper": null
+    },
+    "CreateLookupTable": {
+      "shape": "CreateLookupTableResponse",
+      "resultWrapper": null
+    },
+    "CreateScheduledQuery": {
+      "shape": "CreateScheduledQueryResponse",
+      "resultWrapper": null
+    },
+    "DeleteAccountPolicy": {
+      "shape": "DeleteAccountPolicyResponse",
+      "resultWrapper": null
+    },
+    "DeleteIndexPolicy": {
+      "shape": "DeleteIndexPolicyResponse",
+      "resultWrapper": null
+    },
+    "DeleteIntegration": {
+      "shape": "DeleteIntegrationResponse",
+      "resultWrapper": null
+    },
+    "DeleteQueryDefinition": {
+      "shape": "DeleteQueryDefinitionResponse",
+      "resultWrapper": null
+    },
+    "DeleteScheduledQuery": {
+      "shape": "DeleteScheduledQueryResponse",
+      "resultWrapper": null
+    },
+    "DescribeAccountPolicies": {
+      "shape": "DescribeAccountPoliciesResponse",
+      "resultWrapper": null
+    },
+    "DescribeConfigurationTemplates": {
+      "shape": "DescribeConfigurationTemplatesResponse",
+      "resultWrapper": null
+    },
+    "DescribeDeliveries": {
+      "shape": "DescribeDeliveriesResponse",
+      "resultWrapper": null
+    },
+    "DescribeDeliveryDestinations": {
+      "shape": "DescribeDeliveryDestinationsResponse",
+      "resultWrapper": null
+    },
+    "DescribeDeliverySources": {
+      "shape": "DescribeDeliverySourcesResponse",
+      "resultWrapper": null
+    },
+    "DescribeDestinations": {
+      "shape": "DescribeDestinationsResponse",
+      "resultWrapper": null
+    },
+    "DescribeExportTasks": {
+      "shape": "DescribeExportTasksResponse",
+      "resultWrapper": null
+    },
+    "DescribeFieldIndexes": {
+      "shape": "DescribeFieldIndexesResponse",
+      "resultWrapper": null
+    },
+    "DescribeImportTaskBatches": {
+      "shape": "DescribeImportTaskBatchesResponse",
+      "resultWrapper": null
+    },
+    "DescribeImportTasks": {
+      "shape": "DescribeImportTasksResponse",
+      "resultWrapper": null
+    },
+    "DescribeIndexPolicies": {
+      "shape": "DescribeIndexPoliciesResponse",
+      "resultWrapper": null
+    },
+    "DescribeLogGroups": {
+      "shape": "DescribeLogGroupsResponse",
+      "resultWrapper": null
+    },
+    "DescribeLogStreams": {
+      "shape": "DescribeLogStreamsResponse",
+      "resultWrapper": null
+    },
+    "DescribeLookupTables": {
+      "shape": "DescribeLookupTablesResponse",
+      "resultWrapper": null
+    },
+    "DescribeMetricFilters": {
+      "shape": "DescribeMetricFiltersResponse",
+      "resultWrapper": null
+    },
+    "DescribeQueries": {
+      "shape": "DescribeQueriesResponse",
+      "resultWrapper": null
+    },
+    "DescribeQueryDefinitions": {
+      "shape": "DescribeQueryDefinitionsResponse",
+      "resultWrapper": null
+    },
+    "DescribeResourcePolicies": {
+      "shape": "DescribeResourcePoliciesResponse",
+      "resultWrapper": null
+    },
+    "DescribeSubscriptionFilters": {
+      "shape": "DescribeSubscriptionFiltersResponse",
+      "resultWrapper": null
+    },
+    "DisassociateSourceFromS3TableIntegration": {
+      "shape": "DisassociateSourceFromS3TableIntegrationResponse",
+      "resultWrapper": null
+    },
+    "FilterLogEvents": {
+      "shape": "FilterLogEventsResponse",
+      "resultWrapper": null
+    },
+    "GetDataProtectionPolicy": {
+      "shape": "GetDataProtectionPolicyResponse",
+      "resultWrapper": null
+    },
+    "GetDelivery": {
+      "shape": "GetDeliveryResponse",
+      "resultWrapper": null
+    },
+    "GetDeliveryDestination": {
+      "shape": "GetDeliveryDestinationResponse",
+      "resultWrapper": null
+    },
+    "GetDeliveryDestinationPolicy": {
+      "shape": "GetDeliveryDestinationPolicyResponse",
+      "resultWrapper": null
+    },
+    "GetDeliverySource": {
+      "shape": "GetDeliverySourceResponse",
+      "resultWrapper": null
+    },
+    "GetIntegration": {
+      "shape": "GetIntegrationResponse",
+      "resultWrapper": null
+    },
+    "GetLogAnomalyDetector": {
+      "shape": "GetLogAnomalyDetectorResponse",
+      "resultWrapper": null
+    },
+    "GetLogEvents": {
+      "shape": "GetLogEventsResponse",
+      "resultWrapper": null
+    },
+    "GetLogFields": {
+      "shape": "GetLogFieldsResponse",
+      "resultWrapper": null
+    },
+    "GetLogGroupFields": {
+      "shape": "GetLogGroupFieldsResponse",
+      "resultWrapper": null
+    },
+    "GetLogObject": {
+      "shape": "GetLogObjectResponse",
+      "resultWrapper": null
+    },
+    "GetLogRecord": {
+      "shape": "GetLogRecordResponse",
+      "resultWrapper": null
+    },
+    "GetLookupTable": {
+      "shape": "GetLookupTableResponse",
+      "resultWrapper": null
+    },
+    "GetQueryResults": {
+      "shape": "GetQueryResultsResponse",
+      "resultWrapper": null
+    },
+    "GetScheduledQuery": {
+      "shape": "GetScheduledQueryResponse",
+      "resultWrapper": null
+    },
+    "GetScheduledQueryHistory": {
+      "shape": "GetScheduledQueryHistoryResponse",
+      "resultWrapper": null
+    },
+    "GetStorageTierPolicy": {
+      "shape": "GetStorageTierPolicyResponse",
+      "resultWrapper": null
+    },
+    "GetTransformer": {
+      "shape": "GetTransformerResponse",
+      "resultWrapper": null
+    },
+    "ListAggregateLogGroupSummaries": {
+      "shape": "ListAggregateLogGroupSummariesResponse",
+      "resultWrapper": null
+    },
+    "ListAnomalies": {
+      "shape": "ListAnomaliesResponse",
+      "resultWrapper": null
+    },
+    "ListIntegrations": {
+      "shape": "ListIntegrationsResponse",
+      "resultWrapper": null
+    },
+    "ListLogAnomalyDetectors": {
+      "shape": "ListLogAnomalyDetectorsResponse",
+      "resultWrapper": null
+    },
+    "ListLogGroups": {
+      "shape": "ListLogGroupsResponse",
+      "resultWrapper": null
+    },
+    "ListLogGroupsForQuery": {
+      "shape": "ListLogGroupsForQueryResponse",
+      "resultWrapper": null
+    },
+    "ListScheduledQueries": {
+      "shape": "ListScheduledQueriesResponse",
+      "resultWrapper": null
+    },
+    "ListSourcesForS3TableIntegration": {
+      "shape": "ListSourcesForS3TableIntegrationResponse",
+      "resultWrapper": null
+    },
+    "ListSyslogConfigurations": {
+      "shape": "ListSyslogConfigurationsResponse",
+      "resultWrapper": null
+    },
+    "ListTagsForResource": {
+      "shape": "ListTagsForResourceResponse",
+      "resultWrapper": null
+    },
+    "ListTagsLogGroup": {
+      "shape": "ListTagsLogGroupResponse",
+      "resultWrapper": null
+    },
+    "PutAccountPolicy": {
+      "shape": "PutAccountPolicyResponse",
+      "resultWrapper": null
+    },
+    "PutDataProtectionPolicy": {
+      "shape": "PutDataProtectionPolicyResponse",
+      "resultWrapper": null
+    },
+    "PutDeliveryDestination": {
+      "shape": "PutDeliveryDestinationResponse",
+      "resultWrapper": null
+    },
+    "PutDeliveryDestinationPolicy": {
+      "shape": "PutDeliveryDestinationPolicyResponse",
+      "resultWrapper": null
+    },
+    "PutDeliverySource": {
+      "shape": "PutDeliverySourceResponse",
+      "resultWrapper": null
+    },
+    "PutDestination": {
+      "shape": "PutDestinationResponse",
+      "resultWrapper": null
+    },
+    "PutIndexPolicy": {
+      "shape": "PutIndexPolicyResponse",
+      "resultWrapper": null
+    },
+    "PutIntegration": {
+      "shape": "PutIntegrationResponse",
+      "resultWrapper": null
+    },
+    "PutLogEvents": {
+      "shape": "PutLogEventsResponse",
+      "resultWrapper": null
+    },
+    "PutQueryDefinition": {
+      "shape": "PutQueryDefinitionResponse",
+      "resultWrapper": null
+    },
+    "PutResourcePolicy": {
+      "shape": "PutResourcePolicyResponse",
+      "resultWrapper": null
+    },
+    "PutStorageTierPolicy": {
+      "shape": "PutStorageTierPolicyResponse",
+      "resultWrapper": null
+    },
+    "StartLiveTail": {
+      "shape": "StartLiveTailResponse",
+      "resultWrapper": null
+    },
+    "StartQuery": {
+      "shape": "StartQueryResponse",
+      "resultWrapper": null
+    },
+    "StopQuery": {
+      "shape": "StopQueryResponse",
+      "resultWrapper": null
+    },
+    "TestMetricFilter": {
+      "shape": "TestMetricFilterResponse",
+      "resultWrapper": null
+    },
+    "TestTransformer": {
+      "shape": "TestTransformerResponse",
+      "resultWrapper": null
+    },
+    "UpdateDeliveryConfiguration": {
+      "shape": "UpdateDeliveryConfigurationResponse",
+      "resultWrapper": null
+    },
+    "UpdateLookupTable": {
+      "shape": "UpdateLookupTableResponse",
+      "resultWrapper": null
+    },
+    "UpdateScheduledQuery": {
+      "shape": "UpdateScheduledQueryResponse",
+      "resultWrapper": null
+    }
+  },
+  "shapes": {
+    "AccessPolicy": {
+      "type": "string"
+    },
+    "AccountId": {
+      "type": "string"
+    },
+    "AccountIds": {
+      "type": "list",
+      "member": "AccountId"
+    },
+    "AccountPolicies": {
+      "type": "list",
+      "member": "AccountPolicy"
+    },
+    "AccountPolicy": {
+      "type": "structure",
+      "members": {
+        "policyName": "PolicyName",
+        "policyDocument": "AccountPolicyDocument",
+        "lastUpdatedTime": "Timestamp",
+        "policyType": "PolicyType",
+        "scope": "Scope",
+        "selectionCriteria": "SelectionCriteria",
+        "accountId": "AccountId"
+      }
+    },
+    "AccountPolicyDocument": {
+      "type": "string"
+    },
+    "ActionStatus": {
+      "type": "string"
+    },
+    "AddKeyEntries": {
+      "type": "list",
+      "member": "AddKeyEntry"
+    },
+    "AddKeyEntry": {
+      "type": "structure",
+      "members": {
+        "key": "Key",
+        "value": "AddKeyValue",
+        "overwriteIfExists": "OverwriteIfExists"
+      }
+    },
+    "AddKeyValue": {
+      "type": "string"
+    },
+    "AddKeys": {
+      "type": "structure",
+      "members": {
+        "entries": "AddKeyEntries"
+      }
+    },
+    "AggregateLogGroupSummaries": {
+      "type": "list",
+      "member": "AggregateLogGroupSummary"
+    },
+    "AggregateLogGroupSummary": {
+      "type": "structure",
+      "members": {
+        "logGroupCount": "LogGroupCount",
+        "groupingIdentifiers": "GroupingIdentifiers"
+      }
+    },
+    "AllowedActionForAllowVendedLogsDeliveryForResource": {
+      "type": "string"
+    },
+    "AllowedFieldDelimiters": {
+      "type": "list",
+      "member": "FieldDelimiter"
+    },
+    "AllowedFields": {
+      "type": "list",
+      "member": "RecordField"
+    },
+    "AmazonResourceName": {
+      "type": "string"
+    },
+    "Anomalies": {
+      "type": "list",
+      "member": "Anomaly"
+    },
+    "Anomaly": {
+      "type": "structure",
+      "members": {
+        "anomalyId": "AnomalyId",
+        "patternId": "PatternId",
+        "anomalyDetectorArn": "AnomalyDetectorArn",
+        "patternString": "PatternString",
+        "patternRegex": "PatternRegex",
+        "priority": "Priority",
+        "firstSeen": "EpochMillis",
+        "lastSeen": "EpochMillis",
+        "description": "Description",
+        "active": "Boolean",
+        "state": "State",
+        "histogram": "Histogram",
+        "logSamples": "LogSamples",
+        "patternTokens": "PatternTokens",
+        "logGroupArnList": "LogGroupArnList",
+        "suppressed": "Boolean",
+        "suppressedDate": "EpochMillis",
+        "suppressedUntil": "EpochMillis",
+        "isPatternLevelSuppression": "Boolean"
+      }
+    },
+    "AnomalyDetector": {
+      "type": "structure",
+      "members": {
+        "anomalyDetectorArn": "AnomalyDetectorArn",
+        "detectorName": "DetectorName",
+        "logGroupArnList": "LogGroupArnList",
+        "evaluationFrequency": "EvaluationFrequency",
+        "filterPattern": "FilterPattern",
+        "anomalyDetectorStatus": "AnomalyDetectorStatus",
+        "kmsKeyId": "KmsKeyId",
+        "creationTimeStamp": "EpochMillis",
+        "lastModifiedTimeStamp": "EpochMillis",
+        "anomalyVisibilityTime": "AnomalyVisibilityTime"
+      }
+    },
+    "AnomalyDetectorArn": {
+      "type": "string"
+    },
+    "AnomalyDetectorStatus": {
+      "type": "string"
+    },
+    "AnomalyDetectors": {
+      "type": "list",
+      "member": "AnomalyDetector"
+    },
+    "AnomalyId": {
+      "type": "string"
+    },
+    "AnomalyVisibilityTime": {
+      "type": "long"
+    },
+    "ApplyOnTransformedLogs": {
+      "type": "boolean"
+    },
+    "Arn": {
+      "type": "string"
+    },
+    "AssociateKmsKeyRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupName": "LogGroupName",
+        "kmsKeyId": "KmsKeyId",
+        "resourceIdentifier": "ResourceIdentifier"
+      }
+    },
+    "AssociateSourceToS3TableIntegrationRequest": {
+      "type": "structure",
+      "members": {
+        "integrationArn": "Arn",
+        "dataSource": "DataSource"
+      }
+    },
+    "AssociateSourceToS3TableIntegrationResponse": {
+      "type": "structure",
+      "members": {
+        "identifier": "S3TableIntegrationSourceIdentifier"
+      }
+    },
+    "Baseline": {
+      "type": "boolean"
+    },
+    "BatchId": {
+      "type": "string"
+    },
+    "BearerTokenAuthenticationEnabled": {
+      "type": "boolean"
+    },
+    "Boolean": {
+      "type": "boolean"
+    },
+    "BytesScannedValue": {
+      "type": "double"
+    },
+    "CSV": {
+      "type": "structure",
+      "members": {
+        "quoteCharacter": "QuoteCharacter",
+        "delimiter": "Delimiter",
+        "columns": "Columns",
+        "source": "Source",
+        "destination": "DestinationField"
+      }
+    },
+    "CancelExportTaskRequest": {
+      "type": "structure",
+      "members": {
+        "taskId": "ExportTaskId"
+      }
+    },
+    "CancelImportTaskRequest": {
+      "type": "structure",
+      "members": {
+        "importId": "ImportId"
+      }
+    },
+    "CancelImportTaskResponse": {
+      "type": "structure",
+      "members": {
+        "importId": "ImportId",
+        "importStatistics": "ImportStatistics",
+        "importStatus": "ImportStatus",
+        "creationTime": "Timestamp",
+        "lastUpdatedTime": "Timestamp"
+      }
+    },
+    "ClientToken": {
+      "type": "string"
+    },
+    "CollectionRetentionDays": {
+      "type": "integer"
+    },
+    "Column": {
+      "type": "string"
+    },
+    "Columns": {
+      "type": "list",
+      "member": "Column"
+    },
+    "ConfigurationTemplate": {
+      "type": "structure",
+      "members": {
+        "service": "Service",
+        "logType": "LogType",
+        "resourceType": "ResourceType",
+        "deliveryDestinationType": "DeliveryDestinationType",
+        "defaultDeliveryConfigValues": "ConfigurationTemplateDeliveryConfigValues",
+        "allowedFields": "AllowedFields",
+        "allowedOutputFormats": "OutputFormats",
+        "allowedActionForAllowVendedLogsDeliveryForResource": "AllowedActionForAllowVendedLogsDeliveryForResource",
+        "allowedFieldDelimiters": "AllowedFieldDelimiters",
+        "allowedSuffixPathFields": "RecordFields",
+        "deliverySourceConfiguration": "DeliverySourceConfigurationSchemas",
+        "s3TablesIntegration": "S3TablesIntegration"
+      }
+    },
+    "ConfigurationTemplateDeliveryConfigValues": {
+      "type": "structure",
+      "members": {
+        "recordFields": "RecordFields",
+        "fieldDelimiter": "FieldDelimiter",
+        "s3DeliveryConfiguration": "S3DeliveryConfiguration"
+      }
+    },
+    "ConfigurationTemplates": {
+      "type": "list",
+      "member": "ConfigurationTemplate"
+    },
+    "CopyValue": {
+      "type": "structure",
+      "members": {
+        "entries": "CopyValueEntries"
+      }
+    },
+    "CopyValueEntries": {
+      "type": "list",
+      "member": "CopyValueEntry"
+    },
+    "CopyValueEntry": {
+      "type": "structure",
+      "members": {
+        "source": "Source",
+        "target": "Target",
+        "overwriteIfExists": "OverwriteIfExists"
+      }
+    },
+    "Count": {
+      "type": "long"
+    },
+    "CreateDeliveryRequest": {
+      "type": "structure",
+      "members": {
+        "deliverySourceName": "DeliverySourceName",
+        "deliveryDestinationArn": "Arn",
+        "recordFields": "RecordFields",
+        "fieldDelimiter": "FieldDelimiter",
+        "s3DeliveryConfiguration": "S3DeliveryConfiguration",
+        "tags": "Tags"
+      }
+    },
+    "CreateDeliveryResponse": {
+      "type": "structure",
+      "members": {
+        "delivery": "Delivery"
+      }
+    },
+    "CreateExportTaskRequest": {
+      "type": "structure",
+      "members": {
+        "taskName": "ExportTaskName",
+        "logGroupName": "LogGroupName",
+        "logStreamNamePrefix": "LogStreamName",
+        "from": "Timestamp",
+        "to": "Timestamp",
+        "destination": "ExportDestinationBucket",
+        "destinationPrefix": "ExportDestinationPrefix"
+      }
+    },
+    "CreateExportTaskResponse": {
+      "type": "structure",
+      "members": {
+        "taskId": "ExportTaskId"
+      }
+    },
+    "CreateImportTaskRequest": {
+      "type": "structure",
+      "members": {
+        "importSourceArn": "Arn",
+        "importRoleArn": "RoleArn",
+        "importFilter": "ImportFilter"
+      }
+    },
+    "CreateImportTaskResponse": {
+      "type": "structure",
+      "members": {
+        "importId": "ImportId",
+        "importDestinationArn": "Arn",
+        "creationTime": "Timestamp"
+      }
+    },
+    "CreateLogAnomalyDetectorRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupArnList": "LogGroupArnList",
+        "detectorName": "DetectorName",
+        "evaluationFrequency": "EvaluationFrequency",
+        "filterPattern": "FilterPattern",
+        "kmsKeyId": "DetectorKmsKeyArn",
+        "anomalyVisibilityTime": "AnomalyVisibilityTime",
+        "tags": "Tags"
+      }
+    },
+    "CreateLogAnomalyDetectorResponse": {
+      "type": "structure",
+      "members": {
+        "anomalyDetectorArn": "AnomalyDetectorArn"
+      }
+    },
+    "CreateLogGroupRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupName": "LogGroupName",
+        "kmsKeyId": "KmsKeyId",
+        "tags": "Tags",
+        "logGroupClass": "LogGroupClass",
+        "deletionProtectionEnabled": "DeletionProtectionEnabled"
+      }
+    },
+    "CreateLogStreamRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupName": "LogGroupName",
+        "logStreamName": "LogStreamName"
+      }
+    },
+    "CreateLookupTableRequest": {
+      "type": "structure",
+      "members": {
+        "lookupTableName": "LookupTableName",
+        "description": "LookupTableDescription",
+        "tableBody": "TableBody",
+        "queryId": "QueryId",
+        "kmsKeyId": "KmsKeyId",
+        "tags": "Tags"
+      }
+    },
+    "CreateLookupTableResponse": {
+      "type": "structure",
+      "members": {
+        "lookupTableArn": "Arn",
+        "createdAt": "Timestamp"
+      }
+    },
+    "CreateScheduledQueryRequest": {
+      "type": "structure",
+      "members": {
+        "name": "ScheduledQueryName",
+        "description": "ScheduledQueryDescription",
+        "queryLanguage": "QueryLanguage",
+        "queryString": "QueryString",
+        "logGroupIdentifiers": "ScheduledQueryLogGroupIdentifiers",
+        "scheduleExpression": "ScheduleExpression",
+        "timezone": "ScheduleTimezone",
+        "startTimeOffset": "StartTimeOffset",
+        "endTimeOffset": "EndTimeOffset",
+        "destinationConfiguration": "DestinationConfiguration",
+        "scheduleStartTime": "Timestamp",
+        "scheduleEndTime": "Timestamp",
+        "executionRoleArn": "RoleArn",
+        "state": "ScheduledQueryState",
+        "tags": "Tags"
+      }
+    },
+    "CreateScheduledQueryResponse": {
+      "type": "structure",
+      "members": {
+        "scheduledQueryArn": "Arn",
+        "state": "ScheduledQueryState"
+      }
+    },
+    "DashboardViewerPrincipals": {
+      "type": "list",
+      "member": "Arn"
+    },
+    "Data": {
+      "type": "blob"
+    },
+    "DataProtectionPolicyDocument": {
+      "type": "string"
+    },
+    "DataProtectionStatus": {
+      "type": "string"
+    },
+    "DataSource": {
+      "type": "structure",
+      "members": {
+        "name": "DataSourceName",
+        "type": "DataSourceType"
+      }
+    },
+    "DataSourceFilter": {
+      "type": "structure",
+      "members": {
+        "name": "DataSourceName",
+        "type": "DataSourceType"
+      }
+    },
+    "DataSourceFilters": {
+      "type": "list",
+      "member": "DataSourceFilter"
+    },
+    "DataSourceName": {
+      "type": "string"
+    },
+    "DataSourceType": {
+      "type": "string"
+    },
+    "DataType": {
+      "type": "string"
+    },
+    "DateTimeConverter": {
+      "type": "structure",
+      "members": {
+        "source": "Source",
+        "target": "Target",
+        "targetFormat": "TargetFormat",
+        "matchPatterns": "MatchPatterns",
+        "sourceTimezone": "SourceTimezone",
+        "targetTimezone": "TargetTimezone",
+        "locale": "Locale"
+      }
+    },
+    "Days": {
+      "type": "integer"
+    },
+    "DefaultValue": {
+      "type": "double"
+    },
+    "DeleteAccountPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "policyName": "PolicyName",
+        "policyType": "PolicyType",
+        "dryRun": "DryRun"
+      }
+    },
+    "DeleteAccountPolicyResponse": {
+      "type": "structure",
+      "members": {
+        "dryRunResult": "DryRunResult"
+      }
+    },
+    "DeleteDataProtectionPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupIdentifier": "LogGroupIdentifier"
+      }
+    },
+    "DeleteDeliveryDestinationPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "deliveryDestinationName": "DeliveryDestinationName"
+      }
+    },
+    "DeleteDeliveryDestinationRequest": {
+      "type": "structure",
+      "members": {
+        "name": "DeliveryDestinationName"
+      }
+    },
+    "DeleteDeliveryRequest": {
+      "type": "structure",
+      "members": {
+        "id": "DeliveryId"
+      }
+    },
+    "DeleteDeliverySourceRequest": {
+      "type": "structure",
+      "members": {
+        "name": "DeliverySourceName"
+      }
+    },
+    "DeleteDestinationRequest": {
+      "type": "structure",
+      "members": {
+        "destinationName": "DestinationName"
+      }
+    },
+    "DeleteIndexPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupIdentifier": "LogGroupIdentifier"
+      }
+    },
+    "DeleteIndexPolicyResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "DeleteIntegrationRequest": {
+      "type": "structure",
+      "members": {
+        "integrationName": "IntegrationName",
+        "force": "Force"
+      }
+    },
+    "DeleteIntegrationResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "DeleteKeys": {
+      "type": "structure",
+      "members": {
+        "withKeys": "DeleteWithKeys"
+      }
+    },
+    "DeleteLogAnomalyDetectorRequest": {
+      "type": "structure",
+      "members": {
+        "anomalyDetectorArn": "AnomalyDetectorArn"
+      }
+    },
+    "DeleteLogGroupRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupName": "LogGroupName"
+      }
+    },
+    "DeleteLogStreamRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupName": "LogGroupName",
+        "logStreamName": "LogStreamName"
+      }
+    },
+    "DeleteLookupTableRequest": {
+      "type": "structure",
+      "members": {
+        "lookupTableArn": "Arn"
+      }
+    },
+    "DeleteMetricFilterRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupName": "LogGroupName",
+        "filterName": "FilterName"
+      }
+    },
+    "DeleteQueryDefinitionRequest": {
+      "type": "structure",
+      "members": {
+        "queryDefinitionId": "QueryId"
+      }
+    },
+    "DeleteQueryDefinitionResponse": {
+      "type": "structure",
+      "members": {
+        "success": "Success"
+      }
+    },
+    "DeleteResourcePolicyRequest": {
+      "type": "structure",
+      "members": {
+        "policyName": "PolicyName",
+        "resourceArn": "Arn",
+        "expectedRevisionId": "ExpectedRevisionId"
+      }
+    },
+    "DeleteRetentionPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupName": "LogGroupName"
+      }
+    },
+    "DeleteScheduledQueryRequest": {
+      "type": "structure",
+      "members": {
+        "identifier": "ScheduledQueryIdentifier"
+      }
+    },
+    "DeleteScheduledQueryResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "DeleteSubscriptionFilterRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupName": "LogGroupName",
+        "filterName": "FilterName"
+      }
+    },
+    "DeleteSyslogConfigurationRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupIdentifier": "LogGroupIdentifier",
+        "vpcEndpointId": "VpcEndpointId"
+      }
+    },
+    "DeleteTransformerRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupIdentifier": "LogGroupIdentifier"
+      }
+    },
+    "DeleteWithKeys": {
+      "type": "list",
+      "member": "WithKey"
+    },
+    "DeletionProtectionEnabled": {
+      "type": "boolean"
+    },
+    "Delimiter": {
+      "type": "string"
+    },
+    "Deliveries": {
+      "type": "list",
+      "member": "Delivery"
+    },
+    "Delivery": {
+      "type": "structure",
+      "members": {
+        "id": "DeliveryId",
+        "arn": "Arn",
+        "deliverySourceName": "DeliverySourceName",
+        "deliveryDestinationArn": "Arn",
+        "deliveryDestinationType": "DeliveryDestinationType",
+        "recordFields": "RecordFields",
+        "fieldDelimiter": "FieldDelimiter",
+        "s3DeliveryConfiguration": "S3DeliveryConfiguration",
+        "tags": "Tags"
+      }
+    },
+    "DeliveryDestination": {
+      "type": "structure",
+      "members": {
+        "name": "DeliveryDestinationName",
+        "arn": "Arn",
+        "deliveryDestinationType": "DeliveryDestinationType",
+        "outputFormat": "OutputFormat",
+        "deliveryDestinationConfiguration": "DeliveryDestinationConfiguration",
+        "roleArn": "Arn",
+        "tags": "Tags"
+      }
+    },
+    "DeliveryDestinationConfiguration": {
+      "type": "structure",
+      "members": {
+        "destinationResourceArn": "Arn"
+      }
+    },
+    "DeliveryDestinationName": {
+      "type": "string"
+    },
+    "DeliveryDestinationNames": {
+      "type": "list",
+      "member": "DeliveryDestinationName"
+    },
+    "DeliveryDestinationPolicy": {
+      "type": "string"
+    },
+    "DeliveryDestinationType": {
+      "type": "string"
+    },
+    "DeliveryDestinationTypes": {
+      "type": "list",
+      "member": "DeliveryDestinationType"
+    },
+    "DeliveryDestinations": {
+      "type": "list",
+      "member": "DeliveryDestination"
+    },
+    "DeliveryId": {
+      "type": "string"
+    },
+    "DeliverySource": {
+      "type": "structure",
+      "members": {
+        "name": "DeliverySourceName",
+        "arn": "Arn",
+        "resourceArns": "ResourceArns",
+        "service": "Service",
+        "logType": "LogType",
+        "tags": "Tags",
+        "deliverySourceConfiguration": "DeliverySourceConfiguration",
+        "status": "DeliverySourceStatus",
+        "statusReason": "DeliverySourceStatusReason"
+      }
+    },
+    "DeliverySourceConfiguration": {
+      "type": "map",
+      "value": "DeliverySourceConfigurationValue"
+    },
+    "DeliverySourceConfigurationNumericValue": {
+      "type": "double"
+    },
+    "DeliverySourceConfigurationSchema": {
+      "type": "structure",
+      "members": {
+        "keyName": "DeliverySourceConfigurationSchemaField",
+        "valueType": "DeliverySourceConfigurationSchemaValueType",
+        "defaultValue": "DeliverySourceConfigurationSchemaField",
+        "supportedValues": "DeliverySourceConfigurationSupportedValues",
+        "minValue": "DeliverySourceConfigurationNumericValue",
+        "maxValue": "DeliverySourceConfigurationNumericValue"
+      }
+    },
+    "DeliverySourceConfigurationSchemaField": {
+      "type": "string"
+    },
+    "DeliverySourceConfigurationSchemaValueType": {
+      "type": "string"
+    },
+    "DeliverySourceConfigurationSchemas": {
+      "type": "list",
+      "member": "DeliverySourceConfigurationSchema"
+    },
+    "DeliverySourceConfigurationSupportedValues": {
+      "type": "list",
+      "member": "DeliverySourceConfigurationSchemaField"
+    },
+    "DeliverySourceConfigurationValue": {
+      "type": "string"
+    },
+    "DeliverySourceName": {
+      "type": "string"
+    },
+    "DeliverySourceNames": {
+      "type": "list",
+      "member": "DeliverySourceName"
+    },
+    "DeliverySourceStatus": {
+      "type": "string"
+    },
+    "DeliverySourceStatusReason": {
+      "type": "string"
+    },
+    "DeliverySources": {
+      "type": "list",
+      "member": "DeliverySource"
+    },
+    "DeliverySuffixPath": {
+      "type": "string"
+    },
+    "Descending": {
+      "type": "boolean"
+    },
+    "DescribeAccountPoliciesRequest": {
+      "type": "structure",
+      "members": {
+        "policyType": "PolicyType",
+        "policyName": "PolicyName",
+        "accountIdentifiers": "AccountIds",
+        "nextToken": "NextToken"
+      }
+    },
+    "DescribeAccountPoliciesResponse": {
+      "type": "structure",
+      "members": {
+        "accountPolicies": "AccountPolicies",
+        "nextToken": "NextToken"
+      }
+    },
+    "DescribeConfigurationTemplatesRequest": {
+      "type": "structure",
+      "members": {
+        "service": "Service",
+        "logTypes": "LogTypes",
+        "resourceTypes": "ResourceTypes",
+        "deliveryDestinationTypes": "DeliveryDestinationTypes",
+        "nextToken": "NextToken",
+        "limit": "DescribeLimit"
+      }
+    },
+    "DescribeConfigurationTemplatesResponse": {
+      "type": "structure",
+      "members": {
+        "configurationTemplates": "ConfigurationTemplates",
+        "nextToken": "NextToken"
+      }
+    },
+    "DescribeDeliveriesRequest": {
+      "type": "structure",
+      "members": {
+        "nextToken": "NextToken",
+        "limit": "DescribeLimit",
+        "deliverySourceNames": "DeliverySourceNames"
+      }
+    },
+    "DescribeDeliveriesResponse": {
+      "type": "structure",
+      "members": {
+        "deliveries": "Deliveries",
+        "nextToken": "NextToken"
+      }
+    },
+    "DescribeDeliveryDestinationsRequest": {
+      "type": "structure",
+      "members": {
+        "nextToken": "NextToken",
+        "limit": "DescribeLimit",
+        "names": "DeliveryDestinationNames"
+      }
+    },
+    "DescribeDeliveryDestinationsResponse": {
+      "type": "structure",
+      "members": {
+        "deliveryDestinations": "DeliveryDestinations",
+        "nextToken": "NextToken"
+      }
+    },
+    "DescribeDeliverySourcesRequest": {
+      "type": "structure",
+      "members": {
+        "nextToken": "NextToken",
+        "limit": "DescribeLimit",
+        "resourceArns": "FilterResourceArns"
+      }
+    },
+    "DescribeDeliverySourcesResponse": {
+      "type": "structure",
+      "members": {
+        "deliverySources": "DeliverySources",
+        "nextToken": "NextToken"
+      }
+    },
+    "DescribeDestinationsRequest": {
+      "type": "structure",
+      "members": {
+        "DestinationNamePrefix": "DestinationName",
+        "nextToken": "NextToken",
+        "limit": "DescribeLimit"
+      }
+    },
+    "DescribeDestinationsResponse": {
+      "type": "structure",
+      "members": {
+        "destinations": "Destinations",
+        "nextToken": "NextToken"
+      }
+    },
+    "DescribeExportTasksRequest": {
+      "type": "structure",
+      "members": {
+        "taskId": "ExportTaskId",
+        "statusCode": "ExportTaskStatusCode",
+        "nextToken": "NextToken",
+        "limit": "DescribeLimit"
+      }
+    },
+    "DescribeExportTasksResponse": {
+      "type": "structure",
+      "members": {
+        "exportTasks": "ExportTasks",
+        "nextToken": "NextToken"
+      }
+    },
+    "DescribeFieldIndexesLogGroupIdentifiers": {
+      "type": "list",
+      "member": "LogGroupIdentifier"
+    },
+    "DescribeFieldIndexesRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupIdentifiers": "DescribeFieldIndexesLogGroupIdentifiers",
+        "indexCategories": "IndexCategories",
+        "nextToken": "NextToken"
+      }
+    },
+    "DescribeFieldIndexesResponse": {
+      "type": "structure",
+      "members": {
+        "fieldIndexes": "FieldIndexes",
+        "nextToken": "NextToken"
+      }
+    },
+    "DescribeImportTaskBatchesRequest": {
+      "type": "structure",
+      "members": {
+        "importId": "ImportId",
+        "batchImportStatus": "ImportStatusList",
+        "limit": "DescribeLimit",
+        "nextToken": "NextToken"
+      }
+    },
+    "DescribeImportTaskBatchesResponse": {
+      "type": "structure",
+      "members": {
+        "importSourceArn": "Arn",
+        "importId": "ImportId",
+        "importBatches": "ImportBatchList",
+        "nextToken": "NextToken"
+      }
+    },
+    "DescribeImportTasksRequest": {
+      "type": "structure",
+      "members": {
+        "importId": "ImportId",
+        "importStatus": "ImportStatus",
+        "importSourceArn": "Arn",
+        "limit": "DescribeLimit",
+        "nextToken": "NextToken"
+      }
+    },
+    "DescribeImportTasksResponse": {
+      "type": "structure",
+      "members": {
+        "imports": "ImportList",
+        "nextToken": "NextToken"
+      }
+    },
+    "DescribeIndexPoliciesLogGroupIdentifiers": {
+      "type": "list",
+      "member": "LogGroupIdentifier"
+    },
+    "DescribeIndexPoliciesRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupIdentifiers": "DescribeIndexPoliciesLogGroupIdentifiers",
+        "nextToken": "NextToken"
+      }
+    },
+    "DescribeIndexPoliciesResponse": {
+      "type": "structure",
+      "members": {
+        "indexPolicies": "IndexPolicies",
+        "nextToken": "NextToken"
+      }
+    },
+    "DescribeLimit": {
+      "type": "integer"
+    },
+    "DescribeLogGroupsLogGroupIdentifiers": {
+      "type": "list",
+      "member": "LogGroupIdentifier"
+    },
+    "DescribeLogGroupsRequest": {
+      "type": "structure",
+      "members": {
+        "accountIdentifiers": "AccountIds",
+        "logGroupNamePrefix": "LogGroupName",
+        "logGroupNamePattern": "LogGroupNamePattern",
+        "nextToken": "NextToken",
+        "limit": "DescribeLimit",
+        "includeLinkedAccounts": "IncludeLinkedAccounts",
+        "logGroupClass": "LogGroupClass",
+        "logGroupIdentifiers": "DescribeLogGroupsLogGroupIdentifiers"
+      }
+    },
+    "DescribeLogGroupsResponse": {
+      "type": "structure",
+      "members": {
+        "logGroups": "LogGroups",
+        "nextToken": "NextToken"
+      }
+    },
+    "DescribeLogStreamsRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupName": "LogGroupName",
+        "logGroupIdentifier": "LogGroupIdentifier",
+        "logStreamNamePrefix": "LogStreamName",
+        "orderBy": "OrderBy",
+        "descending": "Descending",
+        "nextToken": "NextToken",
+        "limit": "DescribeLimit"
+      }
+    },
+    "DescribeLogStreamsResponse": {
+      "type": "structure",
+      "members": {
+        "logStreams": "LogStreams",
+        "nextToken": "NextToken"
+      }
+    },
+    "DescribeLookupTablesMaxResults": {
+      "type": "integer"
+    },
+    "DescribeLookupTablesRequest": {
+      "type": "structure",
+      "members": {
+        "lookupTableNamePrefix": "LookupTableName",
+        "maxResults": "DescribeLookupTablesMaxResults",
+        "nextToken": "NextToken"
+      }
+    },
+    "DescribeLookupTablesResponse": {
+      "type": "structure",
+      "members": {
+        "lookupTables": "LookupTables",
+        "nextToken": "NextToken"
+      }
+    },
+    "DescribeMetricFiltersRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupName": "LogGroupName",
+        "filterNamePrefix": "FilterName",
+        "nextToken": "NextToken",
+        "limit": "DescribeLimit",
+        "metricName": "MetricName",
+        "metricNamespace": "MetricNamespace"
+      }
+    },
+    "DescribeMetricFiltersResponse": {
+      "type": "structure",
+      "members": {
+        "metricFilters": "MetricFilters",
+        "nextToken": "NextToken"
+      }
+    },
+    "DescribeQueriesMaxResults": {
+      "type": "integer"
+    },
+    "DescribeQueriesRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupName": "LogGroupName",
+        "status": "QueryStatus",
+        "maxResults": "DescribeQueriesMaxResults",
+        "nextToken": "NextToken",
+        "queryLanguage": "QueryLanguage"
+      }
+    },
+    "DescribeQueriesResponse": {
+      "type": "structure",
+      "members": {
+        "queries": "QueryInfoList",
+        "nextToken": "NextToken"
+      }
+    },
+    "DescribeQueryDefinitionsRequest": {
+      "type": "structure",
+      "members": {
+        "queryLanguage": "QueryLanguage",
+        "queryDefinitionNamePrefix": "QueryDefinitionName",
+        "maxResults": "QueryListMaxResults",
+        "nextToken": "NextToken"
+      }
+    },
+    "DescribeQueryDefinitionsResponse": {
+      "type": "structure",
+      "members": {
+        "queryDefinitions": "QueryDefinitionList",
+        "nextToken": "NextToken"
+      }
+    },
+    "DescribeResourcePoliciesRequest": {
+      "type": "structure",
+      "members": {
+        "nextToken": "NextToken",
+        "limit": "DescribeLimit",
+        "resourceArn": "Arn",
+        "policyScope": "PolicyScope"
+      }
+    },
+    "DescribeResourcePoliciesResponse": {
+      "type": "structure",
+      "members": {
+        "resourcePolicies": "ResourcePolicies",
+        "nextToken": "NextToken"
+      }
+    },
+    "DescribeSubscriptionFiltersRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupName": "LogGroupName",
+        "filterNamePrefix": "FilterName",
+        "nextToken": "NextToken",
+        "limit": "DescribeLimit"
+      }
+    },
+    "DescribeSubscriptionFiltersResponse": {
+      "type": "structure",
+      "members": {
+        "subscriptionFilters": "SubscriptionFilters",
+        "nextToken": "NextToken"
+      }
+    },
+    "Description": {
+      "type": "string"
+    },
+    "Destination": {
+      "type": "structure",
+      "members": {
+        "destinationName": "DestinationName",
+        "targetArn": "TargetArn",
+        "roleArn": "RoleArn",
+        "accessPolicy": "AccessPolicy",
+        "arn": "Arn",
+        "creationTime": "Timestamp"
+      }
+    },
+    "DestinationArn": {
+      "type": "string"
+    },
+    "DestinationConfiguration": {
+      "type": "structure",
+      "members": {
+        "s3Configuration": "S3Configuration",
+        "lookupTableConfiguration": "LookupTableConfiguration"
+      }
+    },
+    "DestinationField": {
+      "type": "string"
+    },
+    "DestinationName": {
+      "type": "string"
+    },
+    "Destinations": {
+      "type": "list",
+      "member": "Destination"
+    },
+    "DetectorKmsKeyArn": {
+      "type": "string"
+    },
+    "DetectorName": {
+      "type": "string"
+    },
+    "Dimensions": {
+      "type": "map",
+      "value": "DimensionsValue"
+    },
+    "DimensionsValue": {
+      "type": "string"
+    },
+    "DisassociateKmsKeyRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupName": "LogGroupName",
+        "resourceIdentifier": "ResourceIdentifier"
+      }
+    },
+    "DisassociateSourceFromS3TableIntegrationRequest": {
+      "type": "structure",
+      "members": {
+        "identifier": "S3TableIntegrationSourceIdentifier"
+      }
+    },
+    "DisassociateSourceFromS3TableIntegrationResponse": {
+      "type": "structure",
+      "members": {
+        "identifier": "S3TableIntegrationSourceIdentifier"
+      }
+    },
+    "Distribution": {
+      "type": "string"
+    },
+    "DryRun": {
+      "type": "boolean"
+    },
+    "DryRunCount": {
+      "type": "integer"
+    },
+    "DryRunResult": {
+      "type": "structure",
+      "members": {
+        "totalMatchedLogGroups": "DryRunCount",
+        "increasedRetentionLogGroupCount": "DryRunCount",
+        "decreasedRetentionLogGroupCount": "DryRunCount",
+        "unchangedRetentionLogGroupCount": "DryRunCount",
+        "failedAnalysisCount": "DryRunCount",
+        "topLogGroupsImpacted": "LogGroupImpacts"
+      }
+    },
+    "DynamicTokenPosition": {
+      "type": "integer"
+    },
+    "EmitSystemFields": {
+      "type": "list",
+      "member": "SystemField"
+    },
+    "EncryptionKey": {
+      "type": "string"
+    },
+    "EndTimeOffset": {
+      "type": "long"
+    },
+    "Entity": {
+      "type": "structure",
+      "members": {
+        "keyAttributes": "EntityKeyAttributes",
+        "attributes": "EntityAttributes"
+      }
+    },
+    "EntityAttributes": {
+      "type": "map",
+      "value": "EntityAttributesValue"
+    },
+    "EntityAttributesValue": {
+      "type": "string"
+    },
+    "EntityKeyAttributes": {
+      "type": "map",
+      "value": "EntityKeyAttributesValue"
+    },
+    "EntityKeyAttributesValue": {
+      "type": "string"
+    },
+    "EntityRejectionErrorType": {
+      "type": "string"
+    },
+    "Enumerations": {
+      "type": "map",
+      "value": "TokenValue"
+    },
+    "EpochMillis": {
+      "type": "long"
+    },
+    "ErrorMessage": {
+      "type": "string"
+    },
+    "EvaluationFrequency": {
+      "type": "string"
+    },
+    "EventId": {
+      "type": "string"
+    },
+    "EventMessage": {
+      "type": "string"
+    },
+    "EventNumber": {
+      "type": "long"
+    },
+    "EventSource": {
+      "type": "string"
+    },
+    "EventsLimit": {
+      "type": "integer"
+    },
+    "EventsLimitStartQuery": {
+      "type": "integer"
+    },
+    "ExecutionStatus": {
+      "type": "string"
+    },
+    "ExecutionStatusList": {
+      "type": "list",
+      "member": "ExecutionStatus"
+    },
+    "ExpectedRevisionId": {
+      "type": "string"
+    },
+    "ExportDestinationBucket": {
+      "type": "string"
+    },
+    "ExportDestinationPrefix": {
+      "type": "string"
+    },
+    "ExportTask": {
+      "type": "structure",
+      "members": {
+        "taskId": "ExportTaskId",
+        "taskName": "ExportTaskName",
+        "logGroupName": "LogGroupName",
+        "from": "Timestamp",
+        "to": "Timestamp",
+        "destination": "ExportDestinationBucket",
+        "destinationPrefix": "ExportDestinationPrefix",
+        "status": "ExportTaskStatus",
+        "executionInfo": "ExportTaskExecutionInfo"
+      }
+    },
+    "ExportTaskExecutionInfo": {
+      "type": "structure",
+      "members": {
+        "creationTime": "Timestamp",
+        "completionTime": "Timestamp"
+      }
+    },
+    "ExportTaskId": {
+      "type": "string"
+    },
+    "ExportTaskName": {
+      "type": "string"
+    },
+    "ExportTaskStatus": {
+      "type": "structure",
+      "members": {
+        "code": "ExportTaskStatusCode",
+        "message": "ExportTaskStatusMessage"
+      }
+    },
+    "ExportTaskStatusCode": {
+      "type": "string"
+    },
+    "ExportTaskStatusMessage": {
+      "type": "string"
+    },
+    "ExportTasks": {
+      "type": "list",
+      "member": "ExportTask"
+    },
+    "ExtractedValues": {
+      "type": "map",
+      "value": "Value"
+    },
+    "Field": {
+      "type": "string"
+    },
+    "FieldDelimiter": {
+      "type": "string"
+    },
+    "FieldHeader": {
+      "type": "string"
+    },
+    "FieldIndex": {
+      "type": "structure",
+      "members": {
+        "logGroupIdentifier": "LogGroupIdentifier",
+        "fieldIndexName": "FieldIndexName",
+        "lastScanTime": "Timestamp",
+        "firstEventTime": "Timestamp",
+        "lastEventTime": "Timestamp",
+        "type": "IndexType",
+        "indexCategory": "IndexCategory"
+      }
+    },
+    "FieldIndexName": {
+      "type": "string"
+    },
+    "FieldIndexNames": {
+      "type": "list",
+      "member": "FieldIndexName"
+    },
+    "FieldIndexes": {
+      "type": "list",
+      "member": "FieldIndex"
+    },
+    "FieldSelectionCriteria": {
+      "type": "string"
+    },
+    "FieldsData": {
+      "type": "structure",
+      "members": {
+        "data": "Data"
+      }
+    },
+    "FilterCount": {
+      "type": "integer"
+    },
+    "FilterLogEventsRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupName": "LogGroupName",
+        "logGroupIdentifier": "LogGroupIdentifier",
+        "logStreamNames": "InputLogStreamNames",
+        "logStreamNamePrefix": "LogStreamName",
+        "startTime": "Timestamp",
+        "endTime": "Timestamp",
+        "filterPattern": "FilterPattern",
+        "nextToken": "NextToken",
+        "limit": "EventsLimit",
+        "startFromHead": "StartFromHead",
+        "interleaved": "Interleaved",
+        "unmask": "Unmask"
+      }
+    },
+    "FilterLogEventsResponse": {
+      "type": "structure",
+      "members": {
+        "events": "FilteredLogEvents",
+        "searchedLogStreams": "SearchedLogStreams",
+        "nextToken": "NextToken"
+      }
+    },
+    "FilterName": {
+      "type": "string"
+    },
+    "FilterPattern": {
+      "type": "string"
+    },
+    "FilterResourceArns": {
+      "type": "list",
+      "member": "Arn"
+    },
+    "FilteredLogEvent": {
+      "type": "structure",
+      "members": {
+        "logStreamName": "LogStreamName",
+        "timestamp": "Timestamp",
+        "message": "EventMessage",
+        "ingestionTime": "Timestamp",
+        "eventId": "EventId"
+      }
+    },
+    "FilteredLogEvents": {
+      "type": "list",
+      "member": "FilteredLogEvent"
+    },
+    "Flatten": {
+      "type": "boolean"
+    },
+    "FlattenedElement": {
+      "type": "string"
+    },
+    "Force": {
+      "type": "boolean"
+    },
+    "ForceUpdate": {
+      "type": "boolean"
+    },
+    "FromKey": {
+      "type": "string"
+    },
+    "GetDataProtectionPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupIdentifier": "LogGroupIdentifier"
+      }
+    },
+    "GetDataProtectionPolicyResponse": {
+      "type": "structure",
+      "members": {
+        "logGroupIdentifier": "LogGroupIdentifier",
+        "policyDocument": "DataProtectionPolicyDocument",
+        "lastUpdatedTime": "Timestamp"
+      }
+    },
+    "GetDeliveryDestinationPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "deliveryDestinationName": "DeliveryDestinationName"
+      }
+    },
+    "GetDeliveryDestinationPolicyResponse": {
+      "type": "structure",
+      "members": {
+        "policy": "Policy"
+      }
+    },
+    "GetDeliveryDestinationRequest": {
+      "type": "structure",
+      "members": {
+        "name": "DeliveryDestinationName"
+      }
+    },
+    "GetDeliveryDestinationResponse": {
+      "type": "structure",
+      "members": {
+        "deliveryDestination": "DeliveryDestination"
+      }
+    },
+    "GetDeliveryRequest": {
+      "type": "structure",
+      "members": {
+        "id": "DeliveryId"
+      }
+    },
+    "GetDeliveryResponse": {
+      "type": "structure",
+      "members": {
+        "delivery": "Delivery"
+      }
+    },
+    "GetDeliverySourceRequest": {
+      "type": "structure",
+      "members": {
+        "name": "DeliverySourceName"
+      }
+    },
+    "GetDeliverySourceResponse": {
+      "type": "structure",
+      "members": {
+        "deliverySource": "DeliverySource"
+      }
+    },
+    "GetIntegrationRequest": {
+      "type": "structure",
+      "members": {
+        "integrationName": "IntegrationName"
+      }
+    },
+    "GetIntegrationResponse": {
+      "type": "structure",
+      "members": {
+        "integrationName": "IntegrationName",
+        "integrationType": "IntegrationType",
+        "integrationStatus": "IntegrationStatus",
+        "integrationDetails": "IntegrationDetails"
+      }
+    },
+    "GetLogAnomalyDetectorRequest": {
+      "type": "structure",
+      "members": {
+        "anomalyDetectorArn": "AnomalyDetectorArn"
+      }
+    },
+    "GetLogAnomalyDetectorResponse": {
+      "type": "structure",
+      "members": {
+        "detectorName": "DetectorName",
+        "logGroupArnList": "LogGroupArnList",
+        "evaluationFrequency": "EvaluationFrequency",
+        "filterPattern": "FilterPattern",
+        "anomalyDetectorStatus": "AnomalyDetectorStatus",
+        "kmsKeyId": "KmsKeyId",
+        "creationTimeStamp": "EpochMillis",
+        "lastModifiedTimeStamp": "EpochMillis",
+        "anomalyVisibilityTime": "AnomalyVisibilityTime"
+      }
+    },
+    "GetLogEventsRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupName": "LogGroupName",
+        "logGroupIdentifier": "LogGroupIdentifier",
+        "logStreamName": "LogStreamName",
+        "startTime": "Timestamp",
+        "endTime": "Timestamp",
+        "nextToken": "NextToken",
+        "limit": "EventsLimit",
+        "startFromHead": "StartFromHead",
+        "unmask": "Unmask"
+      }
+    },
+    "GetLogEventsResponse": {
+      "type": "structure",
+      "members": {
+        "events": "OutputLogEvents",
+        "nextForwardToken": "NextToken",
+        "nextBackwardToken": "NextToken"
+      }
+    },
+    "GetLogFieldsRequest": {
+      "type": "structure",
+      "members": {
+        "dataSourceName": "DataSourceName",
+        "dataSourceType": "DataSourceType"
+      }
+    },
+    "GetLogFieldsResponse": {
+      "type": "structure",
+      "members": {
+        "logFields": "LogFieldsList"
+      }
+    },
+    "GetLogGroupFieldsRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupName": "LogGroupName",
+        "time": "Timestamp",
+        "logGroupIdentifier": "LogGroupIdentifier"
+      }
+    },
+    "GetLogGroupFieldsResponse": {
+      "type": "structure",
+      "members": {
+        "logGroupFields": "LogGroupFieldList"
+      }
+    },
+    "GetLogObjectRequest": {
+      "type": "structure",
+      "members": {
+        "unmask": "Unmask",
+        "logObjectPointer": "LogObjectPointer"
+      }
+    },
+    "GetLogObjectResponse": {
+      "type": "structure",
+      "members": {
+        "fieldStream": "GetLogObjectResponseStream"
+      }
+    },
+    "GetLogObjectResponseStream": {
+      "type": "structure",
+      "members": {
+        "fields": "FieldsData",
+        "InternalStreamingException": "InternalStreamingException"
+      }
+    },
+    "GetLogRecordRequest": {
+      "type": "structure",
+      "members": {
+        "logRecordPointer": "LogRecordPointer",
+        "unmask": "Unmask"
+      }
+    },
+    "GetLogRecordResponse": {
+      "type": "structure",
+      "members": {
+        "logRecord": "LogRecord"
+      }
+    },
+    "GetLookupTableRequest": {
+      "type": "structure",
+      "members": {
+        "lookupTableArn": "Arn"
+      }
+    },
+    "GetLookupTableResponse": {
+      "type": "structure",
+      "members": {
+        "lookupTableArn": "Arn",
+        "lookupTableName": "LookupTableName",
+        "description": "LookupTableDescription",
+        "tableBody": "TableBody",
+        "sizeBytes": "StoredBytes",
+        "lastUpdatedTime": "Timestamp",
+        "kmsKeyId": "KmsKeyId"
+      }
+    },
+    "GetQueryResultsMaxItems": {
+      "type": "integer"
+    },
+    "GetQueryResultsNextToken": {
+      "type": "string"
+    },
+    "GetQueryResultsRequest": {
+      "type": "structure",
+      "members": {
+        "queryId": "QueryId",
+        "nextToken": "GetQueryResultsNextToken",
+        "maxItems": "GetQueryResultsMaxItems"
+      }
+    },
+    "GetQueryResultsResponse": {
+      "type": "structure",
+      "members": {
+        "queryLanguage": "QueryLanguage",
+        "results": "QueryResults",
+        "statistics": "QueryStatistics",
+        "status": "QueryStatus",
+        "encryptionKey": "EncryptionKey",
+        "nextToken": "GetQueryResultsNextToken"
+      }
+    },
+    "GetScheduledQueryHistoryMaxResults": {
+      "type": "integer"
+    },
+    "GetScheduledQueryHistoryRequest": {
+      "type": "structure",
+      "members": {
+        "identifier": "ScheduledQueryIdentifier",
+        "startTime": "Timestamp",
+        "endTime": "Timestamp",
+        "executionStatuses": "ExecutionStatusList",
+        "maxResults": "GetScheduledQueryHistoryMaxResults",
+        "nextToken": "NextToken"
+      }
+    },
+    "GetScheduledQueryHistoryResponse": {
+      "type": "structure",
+      "members": {
+        "name": "ScheduledQueryName",
+        "scheduledQueryArn": "Arn",
+        "triggerHistory": "TriggerHistoryRecordList",
+        "nextToken": "NextToken"
+      }
+    },
+    "GetScheduledQueryRequest": {
+      "type": "structure",
+      "members": {
+        "identifier": "ScheduledQueryIdentifier"
+      }
+    },
+    "GetScheduledQueryResponse": {
+      "type": "structure",
+      "members": {
+        "scheduledQueryArn": "Arn",
+        "name": "ScheduledQueryName",
+        "description": "ScheduledQueryDescription",
+        "queryLanguage": "QueryLanguage",
+        "queryString": "QueryString",
+        "logGroupIdentifiers": "ScheduledQueryLogGroupIdentifiers",
+        "scheduleExpression": "ScheduleExpression",
+        "timezone": "ScheduleTimezone",
+        "startTimeOffset": "StartTimeOffset",
+        "endTimeOffset": "EndTimeOffset",
+        "destinationConfiguration": "DestinationConfiguration",
+        "state": "ScheduledQueryState",
+        "scheduleType": "ScheduleType",
+        "lastTriggeredTime": "Timestamp",
+        "lastExecutionStatus": "ExecutionStatus",
+        "scheduleStartTime": "Timestamp",
+        "scheduleEndTime": "Timestamp",
+        "executionRoleArn": "RoleArn",
+        "creationTime": "Timestamp",
+        "lastUpdatedTime": "Timestamp"
+      }
+    },
+    "GetStorageTierPolicyRequest": {
+      "type": "structure",
+      "members": {}
+    },
+    "GetStorageTierPolicyResponse": {
+      "type": "structure",
+      "members": {
+        "storageTier": "StorageTier",
+        "lastUpdatedTime": "Timestamp"
+      }
+    },
+    "GetTransformerRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupIdentifier": "LogGroupIdentifier"
+      }
+    },
+    "GetTransformerResponse": {
+      "type": "structure",
+      "members": {
+        "logGroupIdentifier": "LogGroupIdentifier",
+        "creationTime": "Timestamp",
+        "lastModifiedTime": "Timestamp",
+        "transformerConfig": "Processors"
+      }
+    },
+    "Grok": {
+      "type": "structure",
+      "members": {
+        "source": "Source",
+        "match": "GrokMatch"
+      }
+    },
+    "GrokMatch": {
+      "type": "string"
+    },
+    "GroupingIdentifier": {
+      "type": "structure",
+      "members": {
+        "key": "GroupingIdentifierKey",
+        "value": "GroupingIdentifierValue"
+      }
+    },
+    "GroupingIdentifierKey": {
+      "type": "string"
+    },
+    "GroupingIdentifierValue": {
+      "type": "string"
+    },
+    "GroupingIdentifiers": {
+      "type": "list",
+      "member": "GroupingIdentifier"
+    },
+    "Histogram": {
+      "type": "map",
+      "value": "Count"
+    },
+    "Import": {
+      "type": "structure",
+      "members": {
+        "importId": "ImportId",
+        "importSourceArn": "Arn",
+        "importStatus": "ImportStatus",
+        "importDestinationArn": "Arn",
+        "importStatistics": "ImportStatistics",
+        "importFilter": "ImportFilter",
+        "creationTime": "Timestamp",
+        "lastUpdatedTime": "Timestamp",
+        "errorMessage": "ErrorMessage"
+      }
+    },
+    "ImportBatch": {
+      "type": "structure",
+      "members": {
+        "batchId": "BatchId",
+        "status": "ImportStatus",
+        "errorMessage": "ErrorMessage"
+      }
+    },
+    "ImportBatchList": {
+      "type": "list",
+      "member": "ImportBatch"
+    },
+    "ImportFilter": {
+      "type": "structure",
+      "members": {
+        "startEventTime": "Timestamp",
+        "endEventTime": "Timestamp"
+      }
+    },
+    "ImportId": {
+      "type": "string"
+    },
+    "ImportList": {
+      "type": "list",
+      "member": "Import"
+    },
+    "ImportStatistics": {
+      "type": "structure",
+      "members": {
+        "bytesImported": "StoredBytes"
+      }
+    },
+    "ImportStatus": {
+      "type": "string"
+    },
+    "ImportStatusList": {
+      "type": "list",
+      "member": "ImportStatus"
+    },
+    "IncludeLinkedAccounts": {
+      "type": "boolean"
+    },
+    "IndexCategories": {
+      "type": "list",
+      "member": "IndexCategory"
+    },
+    "IndexCategory": {
+      "type": "string"
+    },
+    "IndexPolicies": {
+      "type": "list",
+      "member": "IndexPolicy"
+    },
+    "IndexPolicy": {
+      "type": "structure",
+      "members": {
+        "logGroupIdentifier": "LogGroupIdentifier",
+        "lastUpdateTime": "Timestamp",
+        "policyDocument": "PolicyDocument",
+        "policyName": "PolicyName",
+        "source": "IndexSource"
+      }
+    },
+    "IndexSource": {
+      "type": "string"
+    },
+    "IndexType": {
+      "type": "string"
+    },
+    "InferredTokenName": {
+      "type": "string"
+    },
+    "InheritedProperties": {
+      "type": "list",
+      "member": "InheritedProperty"
+    },
+    "InheritedProperty": {
+      "type": "string"
+    },
+    "InputLogEvent": {
+      "type": "structure",
+      "members": {
+        "timestamp": "Timestamp",
+        "message": "EventMessage"
+      }
+    },
+    "InputLogEvents": {
+      "type": "list",
+      "member": "InputLogEvent"
+    },
+    "InputLogStreamNames": {
+      "type": "list",
+      "member": "LogStreamName"
+    },
+    "Integer": {
+      "type": "integer"
+    },
+    "IntegrationDetails": {
+      "type": "structure",
+      "members": {
+        "openSearchIntegrationDetails": "OpenSearchIntegrationDetails"
+      }
+    },
+    "IntegrationName": {
+      "type": "string"
+    },
+    "IntegrationNamePrefix": {
+      "type": "string"
+    },
+    "IntegrationStatus": {
+      "type": "string"
+    },
+    "IntegrationStatusMessage": {
+      "type": "string"
+    },
+    "IntegrationSummaries": {
+      "type": "list",
+      "member": "IntegrationSummary"
+    },
+    "IntegrationSummary": {
+      "type": "structure",
+      "members": {
+        "integrationName": "IntegrationName",
+        "integrationType": "IntegrationType",
+        "integrationStatus": "IntegrationStatus"
+      }
+    },
+    "IntegrationType": {
+      "type": "string"
+    },
+    "Interleaved": {
+      "type": "boolean"
+    },
+    "InternalStreamingException": {
+      "type": "structure",
+      "members": {
+        "message": "Message"
+      }
+    },
+    "IsSampled": {
+      "type": "boolean"
+    },
+    "Key": {
+      "type": "string"
+    },
+    "KeyPrefix": {
+      "type": "string"
+    },
+    "KeyValueDelimiter": {
+      "type": "string"
+    },
+    "KmsKeyId": {
+      "type": "string"
+    },
+    "ListAggregateLogGroupSummariesGroupBy": {
+      "type": "string"
+    },
+    "ListAggregateLogGroupSummariesRequest": {
+      "type": "structure",
+      "members": {
+        "accountIdentifiers": "AccountIds",
+        "includeLinkedAccounts": "IncludeLinkedAccounts",
+        "logGroupClass": "LogGroupClass",
+        "logGroupNamePattern": "LogGroupNameRegexPattern",
+        "dataSources": "DataSourceFilters",
+        "groupBy": "ListAggregateLogGroupSummariesGroupBy",
+        "nextToken": "NextToken",
+        "limit": "ListLogGroupsRequestLimit"
+      }
+    },
+    "ListAggregateLogGroupSummariesResponse": {
+      "type": "structure",
+      "members": {
+        "aggregateLogGroupSummaries": "AggregateLogGroupSummaries",
+        "nextToken": "NextToken"
+      }
+    },
+    "ListAnomaliesLimit": {
+      "type": "integer"
+    },
+    "ListAnomaliesRequest": {
+      "type": "structure",
+      "members": {
+        "anomalyDetectorArn": "AnomalyDetectorArn",
+        "suppressionState": "SuppressionState",
+        "limit": "ListAnomaliesLimit",
+        "nextToken": "NextToken"
+      }
+    },
+    "ListAnomaliesResponse": {
+      "type": "structure",
+      "members": {
+        "anomalies": "Anomalies",
+        "nextToken": "NextToken"
+      }
+    },
+    "ListIntegrationsRequest": {
+      "type": "structure",
+      "members": {
+        "integrationNamePrefix": "IntegrationNamePrefix",
+        "integrationType": "IntegrationType",
+        "integrationStatus": "IntegrationStatus"
+      }
+    },
+    "ListIntegrationsResponse": {
+      "type": "structure",
+      "members": {
+        "integrationSummaries": "IntegrationSummaries"
+      }
+    },
+    "ListLimit": {
+      "type": "integer"
+    },
+    "ListLogAnomalyDetectorsLimit": {
+      "type": "integer"
+    },
+    "ListLogAnomalyDetectorsRequest": {
+      "type": "structure",
+      "members": {
+        "filterLogGroupArn": "LogGroupArn",
+        "limit": "ListLogAnomalyDetectorsLimit",
+        "nextToken": "NextToken"
+      }
+    },
+    "ListLogAnomalyDetectorsResponse": {
+      "type": "structure",
+      "members": {
+        "anomalyDetectors": "AnomalyDetectors",
+        "nextToken": "NextToken"
+      }
+    },
+    "ListLogGroupsForQueryMaxResults": {
+      "type": "integer"
+    },
+    "ListLogGroupsForQueryRequest": {
+      "type": "structure",
+      "members": {
+        "queryId": "QueryId",
+        "nextToken": "NextToken",
+        "maxResults": "ListLogGroupsForQueryMaxResults"
+      }
+    },
+    "ListLogGroupsForQueryResponse": {
+      "type": "structure",
+      "members": {
+        "logGroupIdentifiers": "LogGroupIdentifiers",
+        "nextToken": "NextToken"
+      }
+    },
+    "ListLogGroupsRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupNamePattern": "LogGroupNameRegexPattern",
+        "logGroupClass": "LogGroupClass",
+        "includeLinkedAccounts": "IncludeLinkedAccounts",
+        "accountIdentifiers": "AccountIds",
+        "nextToken": "NextToken",
+        "limit": "ListLimit",
+        "dataSources": "DataSourceFilters",
+        "fieldIndexNames": "FieldIndexNames",
+        "logGroupTags": "TagFilters"
+      }
+    },
+    "ListLogGroupsRequestLimit": {
+      "type": "integer"
+    },
+    "ListLogGroupsResponse": {
+      "type": "structure",
+      "members": {
+        "logGroups": "LogGroupSummaries",
+        "nextToken": "NextToken"
+      }
+    },
+    "ListScheduledQueriesMaxResults": {
+      "type": "integer"
+    },
+    "ListScheduledQueriesRequest": {
+      "type": "structure",
+      "members": {
+        "maxResults": "ListScheduledQueriesMaxResults",
+        "nextToken": "NextToken",
+        "state": "ScheduledQueryState",
+        "scheduleType": "ScheduleType"
+      }
+    },
+    "ListScheduledQueriesResponse": {
+      "type": "structure",
+      "members": {
+        "nextToken": "NextToken",
+        "scheduledQueries": "ScheduledQuerySummaryList"
+      }
+    },
+    "ListSourcesForS3TableIntegrationMaxResults": {
+      "type": "integer"
+    },
+    "ListSourcesForS3TableIntegrationRequest": {
+      "type": "structure",
+      "members": {
+        "integrationArn": "Arn",
+        "maxResults": "ListSourcesForS3TableIntegrationMaxResults",
+        "nextToken": "NextToken"
+      }
+    },
+    "ListSourcesForS3TableIntegrationResponse": {
+      "type": "structure",
+      "members": {
+        "sources": "S3TableIntegrationSources",
+        "nextToken": "NextToken"
+      }
+    },
+    "ListSyslogConfigurationsMaxResults": {
+      "type": "integer"
+    },
+    "ListSyslogConfigurationsRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupIdentifier": "LogGroupIdentifier",
+        "vpcEndpointId": "VpcEndpointId",
+        "nextToken": "NextToken",
+        "maxResults": "ListSyslogConfigurationsMaxResults"
+      }
+    },
+    "ListSyslogConfigurationsResponse": {
+      "type": "structure",
+      "members": {
+        "syslogConfigurations": "SyslogConfigurations",
+        "nextToken": "NextToken"
+      }
+    },
+    "ListTagsForResourceRequest": {
+      "type": "structure",
+      "members": {
+        "resourceArn": "AmazonResourceName"
+      }
+    },
+    "ListTagsForResourceResponse": {
+      "type": "structure",
+      "members": {
+        "tags": "Tags"
+      }
+    },
+    "ListTagsLogGroupRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupName": "LogGroupName"
+      }
+    },
+    "ListTagsLogGroupResponse": {
+      "type": "structure",
+      "members": {
+        "tags": "Tags"
+      }
+    },
+    "ListToMap": {
+      "type": "structure",
+      "members": {
+        "source": "Source",
+        "key": "Key",
+        "valueKey": "ValueKey",
+        "target": "Target",
+        "flatten": "Flatten",
+        "flattenedElement": "FlattenedElement"
+      }
+    },
+    "LiveTailSessionLogEvent": {
+      "type": "structure",
+      "members": {
+        "logStreamName": "LogStreamName",
+        "logGroupIdentifier": "LogGroupIdentifier",
+        "message": "EventMessage",
+        "timestamp": "Timestamp",
+        "ingestionTime": "Timestamp"
+      }
+    },
+    "LiveTailSessionMetadata": {
+      "type": "structure",
+      "members": {
+        "sampled": "IsSampled"
+      }
+    },
+    "LiveTailSessionResults": {
+      "type": "list",
+      "member": "LiveTailSessionLogEvent"
+    },
+    "LiveTailSessionStart": {
+      "type": "structure",
+      "members": {
+        "requestId": "RequestId",
+        "sessionId": "SessionId",
+        "logGroupIdentifiers": "StartLiveTailLogGroupIdentifiers",
+        "logStreamNames": "InputLogStreamNames",
+        "logStreamNamePrefixes": "InputLogStreamNames",
+        "logEventFilterPattern": "FilterPattern"
+      }
+    },
+    "LiveTailSessionUpdate": {
+      "type": "structure",
+      "members": {
+        "sessionMetadata": "LiveTailSessionMetadata",
+        "sessionResults": "LiveTailSessionResults"
+      }
+    },
+    "Locale": {
+      "type": "string"
+    },
+    "LogEvent": {
+      "type": "structure",
+      "members": {
+        "timestamp": "Timestamp",
+        "message": "EventMessage"
+      }
+    },
+    "LogEventIndex": {
+      "type": "integer"
+    },
+    "LogFieldName": {
+      "type": "string"
+    },
+    "LogFieldType": {
+      "type": "structure",
+      "members": {
+        "type": "DataType",
+        "element": "LogFieldType",
+        "fields": "LogFieldsList"
+      }
+    },
+    "LogFieldsList": {
+      "type": "list",
+      "member": "LogFieldsListItem"
+    },
+    "LogFieldsListItem": {
+      "type": "structure",
+      "members": {
+        "logFieldName": "LogFieldName",
+        "logFieldType": "LogFieldType"
+      }
+    },
+    "LogGroup": {
+      "type": "structure",
+      "members": {
+        "logGroupName": "LogGroupName",
+        "creationTime": "Timestamp",
+        "retentionInDays": "Days",
+        "metricFilterCount": "FilterCount",
+        "arn": "Arn",
+        "storedBytes": "StoredBytes",
+        "kmsKeyId": "KmsKeyId",
+        "dataProtectionStatus": "DataProtectionStatus",
+        "inheritedProperties": "InheritedProperties",
+        "logGroupClass": "LogGroupClass",
+        "logGroupArn": "Arn",
+        "deletionProtectionEnabled": "DeletionProtectionEnabled",
+        "bearerTokenAuthenticationEnabled": "BearerTokenAuthenticationEnabled",
+        "retentionPolicyName": "PolicyName"
+      }
+    },
+    "LogGroupArn": {
+      "type": "string"
+    },
+    "LogGroupArnList": {
+      "type": "list",
+      "member": "LogGroupArn"
+    },
+    "LogGroupClass": {
+      "type": "string"
+    },
+    "LogGroupCount": {
+      "type": "integer"
+    },
+    "LogGroupField": {
+      "type": "structure",
+      "members": {
+        "name": "Field",
+        "percent": "Percentage"
+      }
+    },
+    "LogGroupFieldList": {
+      "type": "list",
+      "member": "LogGroupField"
+    },
+    "LogGroupIdentifier": {
+      "type": "string"
+    },
+    "LogGroupIdentifiers": {
+      "type": "list",
+      "member": "LogGroupIdentifier"
+    },
+    "LogGroupImpact": {
+      "type": "structure",
+      "members": {
+        "logGroupName": "LogGroupName",
+        "currentRetention": "RetentionValue",
+        "proposedRetention": "RetentionValue",
+        "storedBytes": "StoredBytes"
+      }
+    },
+    "LogGroupImpacts": {
+      "type": "list",
+      "member": "LogGroupImpact"
+    },
+    "LogGroupName": {
+      "type": "string"
+    },
+    "LogGroupNamePattern": {
+      "type": "string"
+    },
+    "LogGroupNameRegexPattern": {
+      "type": "string"
+    },
+    "LogGroupNames": {
+      "type": "list",
+      "member": "LogGroupName"
+    },
+    "LogGroupSummaries": {
+      "type": "list",
+      "member": "LogGroupSummary"
+    },
+    "LogGroupSummary": {
+      "type": "structure",
+      "members": {
+        "logGroupName": "LogGroupName",
+        "logGroupArn": "Arn",
+        "logGroupClass": "LogGroupClass"
+      }
+    },
+    "LogGroups": {
+      "type": "list",
+      "member": "LogGroup"
+    },
+    "LogObjectPointer": {
+      "type": "string"
+    },
+    "LogRecord": {
+      "type": "map",
+      "value": "Value"
+    },
+    "LogRecordPointer": {
+      "type": "string"
+    },
+    "LogSamples": {
+      "type": "list",
+      "member": "LogEvent"
+    },
+    "LogStream": {
+      "type": "structure",
+      "members": {
+        "logStreamName": "LogStreamName",
+        "creationTime": "Timestamp",
+        "firstEventTimestamp": "Timestamp",
+        "lastEventTimestamp": "Timestamp",
+        "lastIngestionTime": "Timestamp",
+        "uploadSequenceToken": "SequenceToken",
+        "arn": "Arn",
+        "storedBytes": "StoredBytes"
+      }
+    },
+    "LogStreamName": {
+      "type": "string"
+    },
+    "LogStreamSearchedCompletely": {
+      "type": "boolean"
+    },
+    "LogStreams": {
+      "type": "list",
+      "member": "LogStream"
+    },
+    "LogType": {
+      "type": "string"
+    },
+    "LogTypes": {
+      "type": "list",
+      "member": "LogType"
+    },
+    "LookupTable": {
+      "type": "structure",
+      "members": {
+        "lookupTableArn": "Arn",
+        "lookupTableName": "LookupTableName",
+        "description": "LookupTableDescription",
+        "tableFields": "TableFields",
+        "recordsCount": "RecordsCount",
+        "sizeBytes": "StoredBytes",
+        "lastUpdatedTime": "Timestamp",
+        "kmsKeyId": "KmsKeyId"
+      }
+    },
+    "LookupTableConfiguration": {
+      "type": "structure",
+      "members": {
+        "tableName": "LookupTableName",
+        "roleArn": "RoleArn",
+        "description": "LookupTableDescription",
+        "kmsKeyId": "KmsKeyId",
+        "tags": "Tags"
+      }
+    },
+    "LookupTableDescription": {
+      "type": "string"
+    },
+    "LookupTableName": {
+      "type": "string"
+    },
+    "LookupTables": {
+      "type": "list",
+      "member": "LookupTable"
+    },
+    "LowerCaseString": {
+      "type": "structure",
+      "members": {
+        "withKeys": "LowerCaseStringWithKeys"
+      }
+    },
+    "LowerCaseStringWithKeys": {
+      "type": "list",
+      "member": "WithKey"
+    },
+    "MappingVersion": {
+      "type": "string"
+    },
+    "MatchPattern": {
+      "type": "string"
+    },
+    "MatchPatterns": {
+      "type": "list",
+      "member": "MatchPattern"
+    },
+    "Message": {
+      "type": "string"
+    },
+    "MetricFilter": {
+      "type": "structure",
+      "members": {
+        "filterName": "FilterName",
+        "filterPattern": "FilterPattern",
+        "metricTransformations": "MetricTransformations",
+        "creationTime": "Timestamp",
+        "logGroupName": "LogGroupName",
+        "applyOnTransformedLogs": "ApplyOnTransformedLogs",
+        "fieldSelectionCriteria": "FieldSelectionCriteria",
+        "emitSystemFieldDimensions": "EmitSystemFields"
+      }
+    },
+    "MetricFilterMatchRecord": {
+      "type": "structure",
+      "members": {
+        "eventNumber": "EventNumber",
+        "eventMessage": "EventMessage",
+        "extractedValues": "ExtractedValues"
+      }
+    },
+    "MetricFilterMatches": {
+      "type": "list",
+      "member": "MetricFilterMatchRecord"
+    },
+    "MetricFilters": {
+      "type": "list",
+      "member": "MetricFilter"
+    },
+    "MetricName": {
+      "type": "string"
+    },
+    "MetricNamespace": {
+      "type": "string"
+    },
+    "MetricTransformation": {
+      "type": "structure",
+      "members": {
+        "metricName": "MetricName",
+        "metricNamespace": "MetricNamespace",
+        "metricValue": "MetricValue",
+        "defaultValue": "DefaultValue",
+        "dimensions": "Dimensions",
+        "unit": "StandardUnit"
+      }
+    },
+    "MetricTransformations": {
+      "type": "list",
+      "member": "MetricTransformation"
+    },
+    "MetricValue": {
+      "type": "string"
+    },
+    "MoveKeyEntries": {
+      "type": "list",
+      "member": "MoveKeyEntry"
+    },
+    "MoveKeyEntry": {
+      "type": "structure",
+      "members": {
+        "source": "Source",
+        "target": "Target",
+        "overwriteIfExists": "OverwriteIfExists"
+      }
+    },
+    "MoveKeys": {
+      "type": "structure",
+      "members": {
+        "entries": "MoveKeyEntries"
+      }
+    },
+    "NextToken": {
+      "type": "string"
+    },
+    "NonMatchValue": {
+      "type": "string"
+    },
+    "OCSFVersion": {
+      "type": "string"
+    },
+    "OpenSearchApplication": {
+      "type": "structure",
+      "members": {
+        "applicationEndpoint": "OpenSearchApplicationEndpoint",
+        "applicationArn": "Arn",
+        "applicationId": "OpenSearchApplicationId",
+        "status": "OpenSearchResourceStatus"
+      }
+    },
+    "OpenSearchApplicationEndpoint": {
+      "type": "string"
+    },
+    "OpenSearchApplicationId": {
+      "type": "string"
+    },
+    "OpenSearchCollection": {
+      "type": "structure",
+      "members": {
+        "collectionEndpoint": "OpenSearchCollectionEndpoint",
+        "collectionArn": "Arn",
+        "status": "OpenSearchResourceStatus"
+      }
+    },
+    "OpenSearchCollectionEndpoint": {
+      "type": "string"
+    },
+    "OpenSearchDataAccessPolicy": {
+      "type": "structure",
+      "members": {
+        "policyName": "OpenSearchPolicyName",
+        "status": "OpenSearchResourceStatus"
+      }
+    },
+    "OpenSearchDataSource": {
+      "type": "structure",
+      "members": {
+        "dataSourceName": "OpenSearchDataSourceName",
+        "status": "OpenSearchResourceStatus"
+      }
+    },
+    "OpenSearchDataSourceName": {
+      "type": "string"
+    },
+    "OpenSearchEncryptionPolicy": {
+      "type": "structure",
+      "members": {
+        "policyName": "OpenSearchPolicyName",
+        "status": "OpenSearchResourceStatus"
+      }
+    },
+    "OpenSearchIntegrationDetails": {
+      "type": "structure",
+      "members": {
+        "dataSource": "OpenSearchDataSource",
+        "application": "OpenSearchApplication",
+        "collection": "OpenSearchCollection",
+        "workspace": "OpenSearchWorkspace",
+        "encryptionPolicy": "OpenSearchEncryptionPolicy",
+        "networkPolicy": "OpenSearchNetworkPolicy",
+        "accessPolicy": "OpenSearchDataAccessPolicy",
+        "lifecyclePolicy": "OpenSearchLifecyclePolicy"
+      }
+    },
+    "OpenSearchLifecyclePolicy": {
+      "type": "structure",
+      "members": {
+        "policyName": "OpenSearchPolicyName",
+        "status": "OpenSearchResourceStatus"
+      }
+    },
+    "OpenSearchNetworkPolicy": {
+      "type": "structure",
+      "members": {
+        "policyName": "OpenSearchPolicyName",
+        "status": "OpenSearchResourceStatus"
+      }
+    },
+    "OpenSearchPolicyName": {
+      "type": "string"
+    },
+    "OpenSearchResourceConfig": {
+      "type": "structure",
+      "members": {
+        "kmsKeyArn": "Arn",
+        "dataSourceRoleArn": "Arn",
+        "dashboardViewerPrincipals": "DashboardViewerPrincipals",
+        "applicationArn": "Arn",
+        "retentionDays": "CollectionRetentionDays"
+      }
+    },
+    "OpenSearchResourceStatus": {
+      "type": "structure",
+      "members": {
+        "status": "OpenSearchResourceStatusType",
+        "statusMessage": "IntegrationStatusMessage"
+      }
+    },
+    "OpenSearchResourceStatusType": {
+      "type": "string"
+    },
+    "OpenSearchWorkspace": {
+      "type": "structure",
+      "members": {
+        "workspaceId": "OpenSearchWorkspaceId",
+        "status": "OpenSearchResourceStatus"
+      }
+    },
+    "OpenSearchWorkspaceId": {
+      "type": "string"
+    },
+    "OrderBy": {
+      "type": "string"
+    },
+    "OutputFormat": {
+      "type": "string"
+    },
+    "OutputFormats": {
+      "type": "list",
+      "member": "OutputFormat"
+    },
+    "OutputLogEvent": {
+      "type": "structure",
+      "members": {
+        "timestamp": "Timestamp",
+        "message": "EventMessage",
+        "ingestionTime": "Timestamp"
+      }
+    },
+    "OutputLogEvents": {
+      "type": "list",
+      "member": "OutputLogEvent"
+    },
+    "OverwriteIfExists": {
+      "type": "boolean"
+    },
+    "ParseCloudfront": {
+      "type": "structure",
+      "members": {
+        "source": "Source"
+      }
+    },
+    "ParseJSON": {
+      "type": "structure",
+      "members": {
+        "source": "Source",
+        "destination": "DestinationField"
+      }
+    },
+    "ParseKeyValue": {
+      "type": "structure",
+      "members": {
+        "source": "Source",
+        "destination": "DestinationField",
+        "fieldDelimiter": "ParserFieldDelimiter",
+        "keyValueDelimiter": "KeyValueDelimiter",
+        "keyPrefix": "KeyPrefix",
+        "nonMatchValue": "NonMatchValue",
+        "overwriteIfExists": "OverwriteIfExists"
+      }
+    },
+    "ParsePostgres": {
+      "type": "structure",
+      "members": {
+        "source": "Source"
+      }
+    },
+    "ParseRoute53": {
+      "type": "structure",
+      "members": {
+        "source": "Source"
+      }
+    },
+    "ParseToOCSF": {
+      "type": "structure",
+      "members": {
+        "source": "Source",
+        "eventSource": "EventSource",
+        "ocsfVersion": "OCSFVersion",
+        "mappingVersion": "MappingVersion"
+      }
+    },
+    "ParseVPC": {
+      "type": "structure",
+      "members": {
+        "source": "Source"
+      }
+    },
+    "ParseWAF": {
+      "type": "structure",
+      "members": {
+        "source": "Source"
+      }
+    },
+    "ParserFieldDelimiter": {
+      "type": "string"
+    },
+    "PatternId": {
+      "type": "string"
+    },
+    "PatternRegex": {
+      "type": "string"
+    },
+    "PatternString": {
+      "type": "string"
+    },
+    "PatternToken": {
+      "type": "structure",
+      "members": {
+        "dynamicTokenPosition": "DynamicTokenPosition",
+        "isDynamic": "Boolean",
+        "tokenString": "TokenString",
+        "enumerations": "Enumerations",
+        "inferredTokenName": "InferredTokenName"
+      }
+    },
+    "PatternTokens": {
+      "type": "list",
+      "member": "PatternToken"
+    },
+    "Percentage": {
+      "type": "integer"
+    },
+    "Policy": {
+      "type": "structure",
+      "members": {
+        "deliveryDestinationPolicy": "DeliveryDestinationPolicy"
+      }
+    },
+    "PolicyDocument": {
+      "type": "string"
+    },
+    "PolicyName": {
+      "type": "string"
+    },
+    "PolicyScope": {
+      "type": "string"
+    },
+    "PolicyType": {
+      "type": "string"
+    },
+    "Priority": {
+      "type": "string"
+    },
+    "Processor": {
+      "type": "structure",
+      "members": {
+        "addKeys": "AddKeys",
+        "copyValue": "CopyValue",
+        "csv": "CSV",
+        "dateTimeConverter": "DateTimeConverter",
+        "deleteKeys": "DeleteKeys",
+        "grok": "Grok",
+        "listToMap": "ListToMap",
+        "lowerCaseString": "LowerCaseString",
+        "moveKeys": "MoveKeys",
+        "parseCloudfront": "ParseCloudfront",
+        "parseJSON": "ParseJSON",
+        "parseKeyValue": "ParseKeyValue",
+        "parseRoute53": "ParseRoute53",
+        "parseToOCSF": "ParseToOCSF",
+        "parsePostgres": "ParsePostgres",
+        "parseVPC": "ParseVPC",
+        "parseWAF": "ParseWAF",
+        "renameKeys": "RenameKeys",
+        "splitString": "SplitString",
+        "substituteString": "SubstituteString",
+        "trimString": "TrimString",
+        "typeConverter": "TypeConverter",
+        "upperCaseString": "UpperCaseString"
+      }
+    },
+    "Processors": {
+      "type": "list",
+      "member": "Processor"
+    },
+    "PutAccountPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "policyName": "PolicyName",
+        "policyDocument": "AccountPolicyDocument",
+        "policyType": "PolicyType",
+        "scope": "Scope",
+        "selectionCriteria": "SelectionCriteria",
+        "dryRun": "DryRun"
+      }
+    },
+    "PutAccountPolicyResponse": {
+      "type": "structure",
+      "members": {
+        "accountPolicy": "AccountPolicy",
+        "dryRunResult": "DryRunResult"
+      }
+    },
+    "PutBearerTokenAuthenticationRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupIdentifier": "LogGroupIdentifier",
+        "bearerTokenAuthenticationEnabled": "BearerTokenAuthenticationEnabled"
+      }
+    },
+    "PutDataProtectionPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupIdentifier": "LogGroupIdentifier",
+        "policyDocument": "DataProtectionPolicyDocument"
+      }
+    },
+    "PutDataProtectionPolicyResponse": {
+      "type": "structure",
+      "members": {
+        "logGroupIdentifier": "LogGroupIdentifier",
+        "policyDocument": "DataProtectionPolicyDocument",
+        "lastUpdatedTime": "Timestamp"
+      }
+    },
+    "PutDeliveryDestinationPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "deliveryDestinationName": "DeliveryDestinationName",
+        "deliveryDestinationPolicy": "DeliveryDestinationPolicy"
+      }
+    },
+    "PutDeliveryDestinationPolicyResponse": {
+      "type": "structure",
+      "members": {
+        "policy": "Policy"
+      }
+    },
+    "PutDeliveryDestinationRequest": {
+      "type": "structure",
+      "members": {
+        "name": "DeliveryDestinationName",
+        "outputFormat": "OutputFormat",
+        "deliveryDestinationConfiguration": "DeliveryDestinationConfiguration",
+        "deliveryDestinationType": "DeliveryDestinationType",
+        "roleArn": "Arn",
+        "tags": "Tags"
+      }
+    },
+    "PutDeliveryDestinationResponse": {
+      "type": "structure",
+      "members": {
+        "deliveryDestination": "DeliveryDestination"
+      }
+    },
+    "PutDeliverySourceRequest": {
+      "type": "structure",
+      "members": {
+        "name": "DeliverySourceName",
+        "resourceArn": "Arn",
+        "logType": "LogType",
+        "tags": "Tags",
+        "deliverySourceConfiguration": "DeliverySourceConfiguration"
+      }
+    },
+    "PutDeliverySourceResponse": {
+      "type": "structure",
+      "members": {
+        "deliverySource": "DeliverySource"
+      }
+    },
+    "PutDestinationPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "destinationName": "DestinationName",
+        "accessPolicy": "AccessPolicy",
+        "forceUpdate": "ForceUpdate"
+      }
+    },
+    "PutDestinationRequest": {
+      "type": "structure",
+      "members": {
+        "destinationName": "DestinationName",
+        "targetArn": "TargetArn",
+        "roleArn": "RoleArn",
+        "tags": "Tags"
+      }
+    },
+    "PutDestinationResponse": {
+      "type": "structure",
+      "members": {
+        "destination": "Destination"
+      }
+    },
+    "PutIndexPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupIdentifier": "LogGroupIdentifier",
+        "policyDocument": "PolicyDocument"
+      }
+    },
+    "PutIndexPolicyResponse": {
+      "type": "structure",
+      "members": {
+        "indexPolicy": "IndexPolicy"
+      }
+    },
+    "PutIntegrationRequest": {
+      "type": "structure",
+      "members": {
+        "integrationName": "IntegrationName",
+        "resourceConfig": "ResourceConfig",
+        "integrationType": "IntegrationType"
+      }
+    },
+    "PutIntegrationResponse": {
+      "type": "structure",
+      "members": {
+        "integrationName": "IntegrationName",
+        "integrationStatus": "IntegrationStatus"
+      }
+    },
+    "PutLogEventsRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupName": "LogGroupName",
+        "logStreamName": "LogStreamName",
+        "logEvents": "InputLogEvents",
+        "sequenceToken": "SequenceToken",
+        "entity": "Entity"
+      }
+    },
+    "PutLogEventsResponse": {
+      "type": "structure",
+      "members": {
+        "nextSequenceToken": "SequenceToken",
+        "rejectedLogEventsInfo": "RejectedLogEventsInfo",
+        "rejectedEntityInfo": "RejectedEntityInfo"
+      }
+    },
+    "PutLogGroupDeletionProtectionRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupIdentifier": "LogGroupIdentifier",
+        "deletionProtectionEnabled": "DeletionProtectionEnabled"
+      }
+    },
+    "PutMetricFilterRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupName": "LogGroupName",
+        "filterName": "FilterName",
+        "filterPattern": "FilterPattern",
+        "metricTransformations": "MetricTransformations",
+        "applyOnTransformedLogs": "ApplyOnTransformedLogs",
+        "fieldSelectionCriteria": "FieldSelectionCriteria",
+        "emitSystemFieldDimensions": "EmitSystemFields"
+      }
+    },
+    "PutQueryDefinitionRequest": {
+      "type": "structure",
+      "members": {
+        "queryLanguage": "QueryLanguage",
+        "name": "QueryDefinitionName",
+        "queryDefinitionId": "QueryId",
+        "logGroupNames": "LogGroupNames",
+        "queryString": "QueryDefinitionString",
+        "clientToken": "ClientToken",
+        "parameters": "QueryParameterList"
+      }
+    },
+    "PutQueryDefinitionResponse": {
+      "type": "structure",
+      "members": {
+        "queryDefinitionId": "QueryId"
+      }
+    },
+    "PutResourcePolicyRequest": {
+      "type": "structure",
+      "members": {
+        "policyName": "PolicyName",
+        "policyDocument": "PolicyDocument",
+        "resourceArn": "Arn",
+        "expectedRevisionId": "ExpectedRevisionId"
+      }
+    },
+    "PutResourcePolicyResponse": {
+      "type": "structure",
+      "members": {
+        "resourcePolicy": "ResourcePolicy",
+        "revisionId": "ExpectedRevisionId"
+      }
+    },
+    "PutRetentionPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupName": "LogGroupName",
+        "retentionInDays": "Days"
+      }
+    },
+    "PutStorageTierPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "storageTier": "StorageTier"
+      }
+    },
+    "PutStorageTierPolicyResponse": {
+      "type": "structure",
+      "members": {
+        "storageTier": "StorageTier",
+        "lastUpdatedTime": "Timestamp"
+      }
+    },
+    "PutSubscriptionFilterRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupName": "LogGroupName",
+        "filterName": "FilterName",
+        "filterPattern": "FilterPattern",
+        "destinationArn": "DestinationArn",
+        "roleArn": "RoleArn",
+        "distribution": "Distribution",
+        "applyOnTransformedLogs": "ApplyOnTransformedLogs",
+        "fieldSelectionCriteria": "FieldSelectionCriteria",
+        "emitSystemFields": "EmitSystemFields"
+      }
+    },
+    "PutSyslogConfigurationRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupIdentifier": "LogGroupIdentifier",
+        "vpcEndpointId": "VpcEndpointId"
+      }
+    },
+    "PutTransformerRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupIdentifier": "LogGroupIdentifier",
+        "transformerConfig": "Processors"
+      }
+    },
+    "QueryDefinition": {
+      "type": "structure",
+      "members": {
+        "queryLanguage": "QueryLanguage",
+        "queryDefinitionId": "QueryId",
+        "name": "QueryDefinitionName",
+        "queryString": "QueryDefinitionString",
+        "lastModified": "Timestamp",
+        "logGroupNames": "LogGroupNames",
+        "parameters": "QueryParameterList"
+      }
+    },
+    "QueryDefinitionList": {
+      "type": "list",
+      "member": "QueryDefinition"
+    },
+    "QueryDefinitionName": {
+      "type": "string"
+    },
+    "QueryDefinitionString": {
+      "type": "string"
+    },
+    "QueryDuration": {
+      "type": "long"
+    },
+    "QueryId": {
+      "type": "string"
+    },
+    "QueryInfo": {
+      "type": "structure",
+      "members": {
+        "queryLanguage": "QueryLanguage",
+        "queryId": "QueryId",
+        "queryString": "QueryString",
+        "status": "QueryStatus",
+        "createTime": "Timestamp",
+        "logGroupName": "LogGroupName",
+        "queryDuration": "QueryDuration",
+        "bytesScanned": "BytesScannedValue",
+        "userIdentity": "UserIdentity"
+      }
+    },
+    "QueryInfoList": {
+      "type": "list",
+      "member": "QueryInfo"
+    },
+    "QueryLanguage": {
+      "type": "string"
+    },
+    "QueryListMaxResults": {
+      "type": "integer"
+    },
+    "QueryParameter": {
+      "type": "structure",
+      "members": {
+        "name": "QueryParameterName",
+        "defaultValue": "QueryParameterDefaultValue",
+        "description": "QueryParameterDescription"
+      }
+    },
+    "QueryParameterDefaultValue": {
+      "type": "string"
+    },
+    "QueryParameterDescription": {
+      "type": "string"
+    },
+    "QueryParameterList": {
+      "type": "list",
+      "member": "QueryParameter"
+    },
+    "QueryParameterName": {
+      "type": "string"
+    },
+    "QueryResults": {
+      "type": "list",
+      "member": "ResultRows"
+    },
+    "QueryStatistics": {
+      "type": "structure",
+      "members": {
+        "recordsMatched": "StatsValue",
+        "recordsScanned": "StatsValue",
+        "estimatedRecordsSkipped": "StatsValue",
+        "bytesScanned": "StatsValue",
+        "estimatedBytesSkipped": "StatsValue",
+        "logGroupsScanned": "StatsValue",
+        "resultCount": "StatsValue"
+      }
+    },
+    "QueryStatus": {
+      "type": "string"
+    },
+    "QueryString": {
+      "type": "string"
+    },
+    "QuoteCharacter": {
+      "type": "string"
+    },
+    "RecordField": {
+      "type": "structure",
+      "members": {
+        "name": "FieldHeader",
+        "mandatory": "Boolean"
+      }
+    },
+    "RecordFields": {
+      "type": "list",
+      "member": "FieldHeader"
+    },
+    "RecordsCount": {
+      "type": "long"
+    },
+    "RejectedEntityInfo": {
+      "type": "structure",
+      "members": {
+        "errorType": "EntityRejectionErrorType"
+      }
+    },
+    "RejectedLogEventsInfo": {
+      "type": "structure",
+      "members": {
+        "tooNewLogEventStartIndex": "LogEventIndex",
+        "tooOldLogEventEndIndex": "LogEventIndex",
+        "expiredLogEventEndIndex": "LogEventIndex"
+      }
+    },
+    "RenameKeyEntries": {
+      "type": "list",
+      "member": "RenameKeyEntry"
+    },
+    "RenameKeyEntry": {
+      "type": "structure",
+      "members": {
+        "key": "Key",
+        "renameTo": "RenameTo",
+        "overwriteIfExists": "OverwriteIfExists"
+      }
+    },
+    "RenameKeys": {
+      "type": "structure",
+      "members": {
+        "entries": "RenameKeyEntries"
+      }
+    },
+    "RenameTo": {
+      "type": "string"
+    },
+    "RequestId": {
+      "type": "string"
+    },
+    "ResourceArns": {
+      "type": "list",
+      "member": "Arn"
+    },
+    "ResourceConfig": {
+      "type": "structure",
+      "members": {
+        "openSearchResourceConfig": "OpenSearchResourceConfig"
+      }
+    },
+    "ResourceIdentifier": {
+      "type": "string"
+    },
+    "ResourcePolicies": {
+      "type": "list",
+      "member": "ResourcePolicy"
+    },
+    "ResourcePolicy": {
+      "type": "structure",
+      "members": {
+        "policyName": "PolicyName",
+        "policyDocument": "PolicyDocument",
+        "lastUpdatedTime": "Timestamp",
+        "policyScope": "PolicyScope",
+        "resourceArn": "Arn",
+        "revisionId": "ExpectedRevisionId"
+      }
+    },
+    "ResourceType": {
+      "type": "string"
+    },
+    "ResourceTypes": {
+      "type": "list",
+      "member": "ResourceType"
+    },
+    "ResultField": {
+      "type": "structure",
+      "members": {
+        "field": "Field",
+        "value": "Value"
+      }
+    },
+    "ResultRows": {
+      "type": "list",
+      "member": "ResultField"
+    },
+    "RetentionValue": {
+      "type": "string"
+    },
+    "RoleArn": {
+      "type": "string"
+    },
+    "S3Configuration": {
+      "type": "structure",
+      "members": {
+        "destinationIdentifier": "S3Uri",
+        "roleArn": "RoleArn",
+        "ownerAccountId": "AccountId",
+        "kmsKeyId": "KmsKeyId"
+      }
+    },
+    "S3DeliveryConfiguration": {
+      "type": "structure",
+      "members": {
+        "suffixPath": "DeliverySuffixPath",
+        "enableHiveCompatiblePath": "Boolean"
+      }
+    },
+    "S3TableIntegrationSource": {
+      "type": "structure",
+      "members": {
+        "identifier": "S3TableIntegrationSourceIdentifier",
+        "dataSource": "DataSource",
+        "status": "S3TableIntegrationSourceStatus",
+        "statusReason": "S3TableIntegrationSourceStatusReason",
+        "createdTimeStamp": "Timestamp",
+        "parentSourceIdentifier": "S3TableIntegrationSourceIdentifier"
+      }
+    },
+    "S3TableIntegrationSourceIdentifier": {
+      "type": "string"
+    },
+    "S3TableIntegrationSourceStatus": {
+      "type": "string"
+    },
+    "S3TableIntegrationSourceStatusReason": {
+      "type": "string"
+    },
+    "S3TableIntegrationSources": {
+      "type": "list",
+      "member": "S3TableIntegrationSource"
+    },
+    "S3TablesDatasourceName": {
+      "type": "string"
+    },
+    "S3TablesDatasourceType": {
+      "type": "string"
+    },
+    "S3TablesIntegration": {
+      "type": "structure",
+      "members": {
+        "datasourceName": "S3TablesDatasourceName",
+        "datasourceType": "S3TablesDatasourceType"
+      }
+    },
+    "S3Uri": {
+      "type": "string"
+    },
+    "ScheduleExpression": {
+      "type": "string"
+    },
+    "ScheduleTimezone": {
+      "type": "string"
+    },
+    "ScheduleType": {
+      "type": "string"
+    },
+    "ScheduledQueryDescription": {
+      "type": "string"
+    },
+    "ScheduledQueryDestination": {
+      "type": "structure",
+      "members": {
+        "destinationType": "ScheduledQueryDestinationType",
+        "destinationIdentifier": "String",
+        "status": "ActionStatus",
+        "processedIdentifier": "String",
+        "errorMessage": "String"
+      }
+    },
+    "ScheduledQueryDestinationList": {
+      "type": "list",
+      "member": "ScheduledQueryDestination"
+    },
+    "ScheduledQueryDestinationType": {
+      "type": "string"
+    },
+    "ScheduledQueryIdentifier": {
+      "type": "string"
+    },
+    "ScheduledQueryLogGroupIdentifiers": {
+      "type": "list",
+      "member": "LogGroupIdentifier"
+    },
+    "ScheduledQueryName": {
+      "type": "string"
+    },
+    "ScheduledQueryState": {
+      "type": "string"
+    },
+    "ScheduledQuerySummary": {
+      "type": "structure",
+      "members": {
+        "scheduledQueryArn": "Arn",
+        "name": "ScheduledQueryName",
+        "state": "ScheduledQueryState",
+        "scheduleType": "ScheduleType",
+        "lastTriggeredTime": "Timestamp",
+        "lastExecutionStatus": "ExecutionStatus",
+        "scheduleExpression": "ScheduleExpression",
+        "timezone": "ScheduleTimezone",
+        "destinationConfiguration": "DestinationConfiguration",
+        "creationTime": "Timestamp",
+        "lastUpdatedTime": "Timestamp"
+      }
+    },
+    "ScheduledQuerySummaryList": {
+      "type": "list",
+      "member": "ScheduledQuerySummary"
+    },
+    "Scope": {
+      "type": "string"
+    },
+    "SearchedLogStream": {
+      "type": "structure",
+      "members": {
+        "logStreamName": "LogStreamName",
+        "searchedCompletely": "LogStreamSearchedCompletely"
+      }
+    },
+    "SearchedLogStreams": {
+      "type": "list",
+      "member": "SearchedLogStream"
+    },
+    "SelectionCriteria": {
+      "type": "string"
+    },
+    "SequenceToken": {
+      "type": "string"
+    },
+    "Service": {
+      "type": "string"
+    },
+    "SessionId": {
+      "type": "string"
+    },
+    "SessionStreamingException": {
+      "type": "structure",
+      "members": {
+        "message": "Message"
+      }
+    },
+    "SessionTimeoutException": {
+      "type": "structure",
+      "members": {
+        "message": "Message"
+      }
+    },
+    "Source": {
+      "type": "string"
+    },
+    "SourceTimezone": {
+      "type": "string"
+    },
+    "SplitString": {
+      "type": "structure",
+      "members": {
+        "entries": "SplitStringEntries"
+      }
+    },
+    "SplitStringDelimiter": {
+      "type": "string"
+    },
+    "SplitStringEntries": {
+      "type": "list",
+      "member": "SplitStringEntry"
+    },
+    "SplitStringEntry": {
+      "type": "structure",
+      "members": {
+        "source": "Source",
+        "delimiter": "SplitStringDelimiter"
+      }
+    },
+    "StandardUnit": {
+      "type": "string"
+    },
+    "StartFromHead": {
+      "type": "boolean"
+    },
+    "StartLiveTailLogGroupIdentifiers": {
+      "type": "list",
+      "member": "LogGroupIdentifier"
+    },
+    "StartLiveTailRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupIdentifiers": "StartLiveTailLogGroupIdentifiers",
+        "logStreamNames": "InputLogStreamNames",
+        "logStreamNamePrefixes": "InputLogStreamNames",
+        "logEventFilterPattern": "FilterPattern"
+      }
+    },
+    "StartLiveTailResponse": {
+      "type": "structure",
+      "members": {
+        "responseStream": "StartLiveTailResponseStream"
+      }
+    },
+    "StartLiveTailResponseStream": {
+      "type": "structure",
+      "members": {
+        "sessionStart": "LiveTailSessionStart",
+        "sessionUpdate": "LiveTailSessionUpdate",
+        "SessionTimeoutException": "SessionTimeoutException",
+        "SessionStreamingException": "SessionStreamingException"
+      }
+    },
+    "StartQueryRequest": {
+      "type": "structure",
+      "members": {
+        "queryLanguage": "QueryLanguage",
+        "logGroupName": "LogGroupName",
+        "logGroupNames": "LogGroupNames",
+        "logGroupIdentifiers": "LogGroupIdentifiers",
+        "startTime": "Timestamp",
+        "endTime": "Timestamp",
+        "queryString": "QueryString",
+        "limit": "EventsLimitStartQuery"
+      }
+    },
+    "StartQueryResponse": {
+      "type": "structure",
+      "members": {
+        "queryId": "QueryId"
+      }
+    },
+    "StartTimeOffset": {
+      "type": "long"
+    },
+    "State": {
+      "type": "string"
+    },
+    "StatsValue": {
+      "type": "double"
+    },
+    "StopQueryRequest": {
+      "type": "structure",
+      "members": {
+        "queryId": "QueryId"
+      }
+    },
+    "StopQueryResponse": {
+      "type": "structure",
+      "members": {
+        "success": "Success"
+      }
+    },
+    "StorageTier": {
+      "type": "string"
+    },
+    "StoredBytes": {
+      "type": "long"
+    },
+    "String": {
+      "type": "string"
+    },
+    "SubscriptionFilter": {
+      "type": "structure",
+      "members": {
+        "filterName": "FilterName",
+        "logGroupName": "LogGroupName",
+        "filterPattern": "FilterPattern",
+        "destinationArn": "DestinationArn",
+        "roleArn": "RoleArn",
+        "distribution": "Distribution",
+        "applyOnTransformedLogs": "ApplyOnTransformedLogs",
+        "creationTime": "Timestamp",
+        "fieldSelectionCriteria": "FieldSelectionCriteria",
+        "emitSystemFields": "EmitSystemFields"
+      }
+    },
+    "SubscriptionFilters": {
+      "type": "list",
+      "member": "SubscriptionFilter"
+    },
+    "SubstituteString": {
+      "type": "structure",
+      "members": {
+        "entries": "SubstituteStringEntries"
+      }
+    },
+    "SubstituteStringEntries": {
+      "type": "list",
+      "member": "SubstituteStringEntry"
+    },
+    "SubstituteStringEntry": {
+      "type": "structure",
+      "members": {
+        "source": "Source",
+        "from": "FromKey",
+        "to": "ToKey"
+      }
+    },
+    "Success": {
+      "type": "boolean"
+    },
+    "SuppressionPeriod": {
+      "type": "structure",
+      "members": {
+        "value": "Integer",
+        "suppressionUnit": "SuppressionUnit"
+      }
+    },
+    "SuppressionState": {
+      "type": "string"
+    },
+    "SuppressionType": {
+      "type": "string"
+    },
+    "SuppressionUnit": {
+      "type": "string"
+    },
+    "SyslogConfiguration": {
+      "type": "structure",
+      "members": {
+        "logGroupArn": "LogGroupArn",
+        "sourceType": "SyslogSourceType",
+        "vpcEndpointId": "VpcEndpointId",
+        "createdAt": "Timestamp"
+      }
+    },
+    "SyslogConfigurations": {
+      "type": "list",
+      "member": "SyslogConfiguration"
+    },
+    "SyslogSourceType": {
+      "type": "string"
+    },
+    "SystemField": {
+      "type": "string"
+    },
+    "TableBody": {
+      "type": "string"
+    },
+    "TableFields": {
+      "type": "list",
+      "member": "String"
+    },
+    "TagFilter": {
+      "type": "structure",
+      "members": {
+        "key": "TagFilterKey",
+        "values": "TagFilterValues"
+      }
+    },
+    "TagFilterKey": {
+      "type": "string"
+    },
+    "TagFilterValue": {
+      "type": "string"
+    },
+    "TagFilterValues": {
+      "type": "list",
+      "member": "TagFilterValue"
+    },
+    "TagFilters": {
+      "type": "list",
+      "member": "TagFilter"
+    },
+    "TagKey": {
+      "type": "string"
+    },
+    "TagKeyList": {
+      "type": "list",
+      "member": "TagKey"
+    },
+    "TagList": {
+      "type": "list",
+      "member": "TagKey"
+    },
+    "TagLogGroupRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupName": "LogGroupName",
+        "tags": "Tags"
+      }
+    },
+    "TagResourceRequest": {
+      "type": "structure",
+      "members": {
+        "resourceArn": "AmazonResourceName",
+        "tags": "Tags"
+      }
+    },
+    "TagValue": {
+      "type": "string"
+    },
+    "Tags": {
+      "type": "map",
+      "value": "TagValue"
+    },
+    "Target": {
+      "type": "string"
+    },
+    "TargetArn": {
+      "type": "string"
+    },
+    "TargetFormat": {
+      "type": "string"
+    },
+    "TargetTimezone": {
+      "type": "string"
+    },
+    "TestEventMessages": {
+      "type": "list",
+      "member": "EventMessage"
+    },
+    "TestMetricFilterRequest": {
+      "type": "structure",
+      "members": {
+        "filterPattern": "FilterPattern",
+        "logEventMessages": "TestEventMessages"
+      }
+    },
+    "TestMetricFilterResponse": {
+      "type": "structure",
+      "members": {
+        "matches": "MetricFilterMatches"
+      }
+    },
+    "TestTransformerRequest": {
+      "type": "structure",
+      "members": {
+        "transformerConfig": "Processors",
+        "logEventMessages": "TestEventMessages"
+      }
+    },
+    "TestTransformerResponse": {
+      "type": "structure",
+      "members": {
+        "transformedLogs": "TransformedLogs"
+      }
+    },
+    "Timestamp": {
+      "type": "long"
+    },
+    "ToKey": {
+      "type": "string"
+    },
+    "TokenString": {
+      "type": "string"
+    },
+    "TokenValue": {
+      "type": "long"
+    },
+    "TransformedEventMessage": {
+      "type": "string"
+    },
+    "TransformedLogRecord": {
+      "type": "structure",
+      "members": {
+        "eventNumber": "EventNumber",
+        "eventMessage": "EventMessage",
+        "transformedEventMessage": "TransformedEventMessage"
+      }
+    },
+    "TransformedLogs": {
+      "type": "list",
+      "member": "TransformedLogRecord"
+    },
+    "TriggerHistoryRecord": {
+      "type": "structure",
+      "members": {
+        "queryId": "QueryId",
+        "executionStatus": "ExecutionStatus",
+        "triggeredTimestamp": "Timestamp",
+        "errorMessage": "String",
+        "destinations": "ScheduledQueryDestinationList"
+      }
+    },
+    "TriggerHistoryRecordList": {
+      "type": "list",
+      "member": "TriggerHistoryRecord"
+    },
+    "TrimString": {
+      "type": "structure",
+      "members": {
+        "withKeys": "TrimStringWithKeys"
+      }
+    },
+    "TrimStringWithKeys": {
+      "type": "list",
+      "member": "WithKey"
+    },
+    "Type": {
+      "type": "string"
+    },
+    "TypeConverter": {
+      "type": "structure",
+      "members": {
+        "entries": "TypeConverterEntries"
+      }
+    },
+    "TypeConverterEntries": {
+      "type": "list",
+      "member": "TypeConverterEntry"
+    },
+    "TypeConverterEntry": {
+      "type": "structure",
+      "members": {
+        "key": "Key",
+        "type": "Type"
+      }
+    },
+    "Unmask": {
+      "type": "boolean"
+    },
+    "UntagLogGroupRequest": {
+      "type": "structure",
+      "members": {
+        "logGroupName": "LogGroupName",
+        "tags": "TagList"
+      }
+    },
+    "UntagResourceRequest": {
+      "type": "structure",
+      "members": {
+        "resourceArn": "AmazonResourceName",
+        "tagKeys": "TagKeyList"
+      }
+    },
+    "UpdateAnomalyRequest": {
+      "type": "structure",
+      "members": {
+        "anomalyId": "AnomalyId",
+        "patternId": "PatternId",
+        "anomalyDetectorArn": "AnomalyDetectorArn",
+        "suppressionType": "SuppressionType",
+        "suppressionPeriod": "SuppressionPeriod",
+        "baseline": "Baseline"
+      }
+    },
+    "UpdateDeliveryConfigurationRequest": {
+      "type": "structure",
+      "members": {
+        "id": "DeliveryId",
+        "recordFields": "RecordFields",
+        "fieldDelimiter": "FieldDelimiter",
+        "s3DeliveryConfiguration": "S3DeliveryConfiguration"
+      }
+    },
+    "UpdateDeliveryConfigurationResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "UpdateLogAnomalyDetectorRequest": {
+      "type": "structure",
+      "members": {
+        "anomalyDetectorArn": "AnomalyDetectorArn",
+        "evaluationFrequency": "EvaluationFrequency",
+        "filterPattern": "FilterPattern",
+        "anomalyVisibilityTime": "AnomalyVisibilityTime",
+        "enabled": "Boolean"
+      }
+    },
+    "UpdateLookupTableRequest": {
+      "type": "structure",
+      "members": {
+        "lookupTableArn": "Arn",
+        "description": "LookupTableDescription",
+        "tableBody": "TableBody",
+        "queryId": "QueryId",
+        "kmsKeyId": "KmsKeyId"
+      }
+    },
+    "UpdateLookupTableResponse": {
+      "type": "structure",
+      "members": {
+        "lookupTableArn": "Arn",
+        "lastUpdatedTime": "Timestamp"
+      }
+    },
+    "UpdateScheduledQueryRequest": {
+      "type": "structure",
+      "members": {
+        "identifier": "ScheduledQueryIdentifier",
+        "description": "ScheduledQueryDescription",
+        "queryLanguage": "QueryLanguage",
+        "queryString": "QueryString",
+        "logGroupIdentifiers": "ScheduledQueryLogGroupIdentifiers",
+        "scheduleExpression": "ScheduleExpression",
+        "timezone": "ScheduleTimezone",
+        "startTimeOffset": "StartTimeOffset",
+        "endTimeOffset": "EndTimeOffset",
+        "destinationConfiguration": "DestinationConfiguration",
+        "scheduleStartTime": "Timestamp",
+        "scheduleEndTime": "Timestamp",
+        "executionRoleArn": "RoleArn",
+        "state": "ScheduledQueryState"
+      }
+    },
+    "UpdateScheduledQueryResponse": {
+      "type": "structure",
+      "members": {
+        "scheduledQueryArn": "Arn",
+        "name": "ScheduledQueryName",
+        "description": "ScheduledQueryDescription",
+        "queryLanguage": "QueryLanguage",
+        "queryString": "QueryString",
+        "logGroupIdentifiers": "ScheduledQueryLogGroupIdentifiers",
+        "scheduleExpression": "ScheduleExpression",
+        "timezone": "ScheduleTimezone",
+        "startTimeOffset": "StartTimeOffset",
+        "endTimeOffset": "EndTimeOffset",
+        "destinationConfiguration": "DestinationConfiguration",
+        "state": "ScheduledQueryState",
+        "scheduleType": "ScheduleType",
+        "lastTriggeredTime": "Timestamp",
+        "lastExecutionStatus": "ExecutionStatus",
+        "scheduleStartTime": "Timestamp",
+        "scheduleEndTime": "Timestamp",
+        "executionRoleArn": "RoleArn",
+        "creationTime": "Timestamp",
+        "lastUpdatedTime": "Timestamp"
+      }
+    },
+    "UpperCaseString": {
+      "type": "structure",
+      "members": {
+        "withKeys": "UpperCaseStringWithKeys"
+      }
+    },
+    "UpperCaseStringWithKeys": {
+      "type": "list",
+      "member": "WithKey"
+    },
+    "UserIdentity": {
+      "type": "string"
+    },
+    "Value": {
+      "type": "string"
+    },
+    "ValueKey": {
+      "type": "string"
+    },
+    "VpcEndpointId": {
+      "type": "string"
+    },
+    "WithKey": {
+      "type": "string"
+    }
+  },
+  "errors": {
+    "AccessDeniedException": "AccessDeniedException",
+    "ConflictException": "ConflictException",
+    "DataAlreadyAcceptedException": "DataAlreadyAcceptedException",
+    "InternalServerException": "InternalServerException",
+    "InternalStreamingException": "InternalStreamingException",
+    "InvalidOperationException": "InvalidOperationException",
+    "InvalidParameterException": "InvalidParameterException",
+    "InvalidSequenceTokenException": "InvalidSequenceTokenException",
+    "LimitExceededException": "LimitExceededException",
+    "MalformedQueryException": "MalformedQueryException",
+    "OperationAbortedException": "OperationAbortedException",
+    "ResourceAlreadyExistsException": "ResourceAlreadyExistsException",
+    "ResourceNotFoundException": "ResourceNotFoundException",
+    "ServiceQuotaExceededException": "ServiceQuotaExceededException",
+    "ServiceUnavailableException": "ServiceUnavailableException",
+    "SessionStreamingException": "SessionStreamingException",
+    "SessionTimeoutException": "SessionTimeoutException",
+    "ThrottlingException": "ThrottlingException",
+    "TooManyTagsException": "TooManyTagsException",
+    "UnrecognizedClientException": "UnrecognizedClientException",
+    "ValidationException": "ValidationException"
+  }
+}

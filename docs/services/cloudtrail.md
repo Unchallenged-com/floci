@@ -4,7 +4,7 @@
 **Endpoint:** `POST http://localhost:4566/`
 
 Floci emulates a CloudTrail trail's full life cycle and emits S3 data events, IAM API calls, SQS control plane calls,
-Secrets Manager and KMS API calls to the trail's destination bucket as gzipped JSON log files at the
+Secrets Manager, KMS and CloudWatch Logs API calls to the trail's destination bucket as gzipped JSON log files at the
 AWS-shaped key path:
 
 ```
@@ -229,6 +229,27 @@ Not recorded: the `keyMaterialId` of a cryptographic operation's `additionalEven
 `ReplicateKey` request also results in, the `DeleteKey` and `RotateKey`
 events KMS logs when it deletes or rotates a key on its own (Floci does neither), and KMS calls other services make
 internally for their own encryption (S3, Secrets Manager).
+
+## CloudWatch Logs Coverage
+
+The CloudWatch Logs calls CloudTrail records are recorded as management events, as the CloudWatch Logs guide
+[lists them](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/logging_cw_api_calls_cwl.html) (`CreateLogGroup`,
+`DeleteLogGroup`, `PutRetentionPolicy`, `PutSubscriptionFilter`, `DeleteSubscriptionFilter`, `CreateExportTask`,
+`PutResourcePolicy`, `GetLogEvents`, `FilterLogEvents`, `StartQuery` and the rest): one CloudWatch Logs ran, one it
+answered with an error, and, with `floci.services.iam.enforcement-enabled`, one IAM enforcement refused. A call the list
+leaves out, such as `PutLogEvents`, is not recorded.
+
+- `eventSource` is `logs.amazonaws.com`, and the record carries `"apiVersion": "20140328"`, as the guide's
+  `CreateExportTask` example does.
+- `readOnly` is `true` for the calls AWS's service reference
+  ([`logs.json`](https://servicereference.us-east-1.amazonaws.com/v1/logs/logs.json)) gives no mutating access level
+  (`logs-cloudtrail-events.json`, `make cloudtrail-events-sync`).
+- `requestParameters` and `responseElements` hold the members as botocore's model names and types them
+  (`logGroupName`, `"retentionInDays": 1`, `"taskId"`, `logs-cloudtrail-shapes.json`); `responseElements` is `null`
+  for a read-only call, for a call that answers nothing and for a failed one.
+- An error is recorded under its `__type` (`ResourceNotFoundException`); a call IAM enforcement refuses as `AccessDenied`
+  with `"requestParameters": null` and the message its refusal answers with. A call an
+  API Gateway integration makes is recorded too, without `invokedBy`.
 
 ## Management events and selectors
 

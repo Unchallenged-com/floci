@@ -15,6 +15,9 @@ carries, so it stays in SERVICES below, as the guide lists them:
   operations", followed by the entries its operations generate.
 - KMS (https://docs.aws.amazon.com/kms/latest/developerguide/logging-using-cloudtrail.html): "CloudTrail
   logs all AWS KMS operations", so every operation of botocore's KMS model.
+- CloudWatch Logs (https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/logging_cw_api_calls_cwl.html):
+  "CloudWatch Logs supports logging the following actions as events in CloudTrail log files", followed
+  by the list. `PutLogEvents` is not in it.
 
 Which of them are read-only is the access level AWS's Service Reference gives each action, read as
 `regen_iam_action_resources.py` reads IAM's: an action with none of the Write, Permissions
@@ -115,6 +118,33 @@ SERVICES: dict[str, Service] = {
         # "kms:ReEncryptTo permission on the destination KMS key"
         # (https://docs.aws.amazon.com/kms/latest/APIReference/API_ReEncrypt.html).
         reference_actions={"ReEncrypt": ("ReEncryptFrom", "ReEncryptTo")},
+    ),
+    "logs": Service(
+        guide="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/logging_cw_api_calls_cwl.html",
+        management_events=(
+            "AssociateKmsKey", "CancelExportTask", "CreateDelivery", "CreateExportTask", "CreateLogAnomalyDetector",
+            "CreateLogGroup", "CreateLogStream", "DeleteAccountPolicy", "DeleteDataProtectionPolicy",
+            "DeleteDelivery", "DeleteDeliveryDestination", "DeleteDeliveryDestinationPolicy", "DeleteDeliverySource",
+            "DeleteDestination", "DeleteIndexPolicy", "DeleteIntegration", "DeleteLogAnomalyDetector",
+            "DeleteLogGroup", "DeleteLogStream", "DeleteMetricFilter", "DeleteQueryDefinition",
+            "DeleteResourcePolicy", "DeleteRetentionPolicy", "DeleteSubscriptionFilter", "DeleteTransformer",
+            "DescribeAccountPolicies", "DescribeConfigurationTemplates", "DescribeDeliveries",
+            "DescribeDeliveryDestinations", "DescribeDeliverySources", "DescribeDestinations", "DescribeExportTasks",
+            "DescribeFieldIndexes", "DescribeIndexPolicies", "DescribeLogGroups", "DescribeLogStreams",
+            "DescribeMetricFilters", "DescribeQueries", "DescribeQueryDefinitions", "DescribeResourcePolicies",
+            "DescribeSubscriptionFilters", "DisassociateKmsKey", "FilterLogEvents", "GetDataProtectionPolicy",
+            "GetDelivery", "GetDeliveryDestination", "GetDeliveryDestinationPolicy", "GetDeliverySource",
+            "GetIntegration", "GetLogAnomalyDetector", "GetLogEvents", "GetLogGroupFields", "GetLogRecord",
+            "GetQueryResults", "GetTransformer", "ListAnomalies", "ListIntegrations", "ListLogAnomalyDetectors",
+            "ListLogGroups", "ListLogGroupsForQuery", "ListTagsForResource", "ListTagsLogGroup", "PutAccountPolicy",
+            "PutDataProtectionPolicy", "PutDeliveryDestination", "PutDeliveryDestinationPolicy", "PutDeliverySource",
+            "PutDestination", "PutDestinationPolicy", "PutIndexPolicy", "PutIntegration", "PutMetricFilter",
+            "PutQueryDefinition", "PutResourcePolicy", "PutRetentionPolicy", "PutSubscriptionFilter",
+            "PutTransformer", "StartLiveTail", "StartQuery", "StopQuery", "TagResource", "TestMetricFilter",
+            "TestTransformer", "UntagResource", "UpdateAnomaly", "UpdateDeliveryConfiguration",
+            "UpdateLogAnomalyDetector",
+        ),
+        read_only_anchors={"DescribeLogGroups": True, "DeleteLogGroup": False},
     ),
     "secretsmanager": Service(
         guide="https://docs.aws.amazon.com/secretsmanager/latest/userguide/cloudtrail_log_entries.html",

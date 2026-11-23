@@ -499,14 +499,25 @@ public class CloudTrailService implements StoredResourceArns, Resettable {
      * leader Region" (botocore's CloudTrail model, {@code IncludeGlobalServiceEvents}).
      * {@code userIdentity} is the caller as {@link #userIdentity} read it before the call ran, for a call
      * that can remove the key it was signed with; when null it is read from {@code accessKeyId} here.
-     * {@code additionalEventData} and {@code resources} are left out of the record when null.
+     * {@code additionalEventData}, {@code resources} and {@code apiVersion} are left out of the record when null.
      */
     public record ManagementEventInput(String eventSource, String eventName, String region, String accessKeyId,
                                        ObjectNode requestParameters, ObjectNode responseElements,
                                        boolean readOnly, String sourceIp, String userAgent, String requestId,
                                        String errorCode, String errorMessage, boolean globalService,
                                        ObjectNode userIdentity, ObjectNode additionalEventData,
-                                       ArrayNode resources) {
+                                       ArrayNode resources, String apiVersion) {
+
+        /** A call whose record carries no {@code apiVersion}. */
+        public ManagementEventInput(String eventSource, String eventName, String region, String accessKeyId,
+                                    ObjectNode requestParameters, ObjectNode responseElements, boolean readOnly,
+                                    String sourceIp, String userAgent, String requestId, String errorCode,
+                                    String errorMessage, boolean globalService, ObjectNode userIdentity,
+                                    ObjectNode additionalEventData, ArrayNode resources) {
+            this(eventSource, eventName, region, accessKeyId, requestParameters, responseElements, readOnly,
+                    sourceIp, userAgent, requestId, errorCode, errorMessage, globalService, userIdentity,
+                    additionalEventData, resources, null);
+        }
 
         /**
          * A call to a Regional service, read as its caller's when it is recorded, whose record carries no
@@ -545,6 +556,9 @@ public class CloudTrailService implements StoredResourceArns, Resettable {
             record.put("awsRegion", region);
             record.put("recipientAccountId", regionResolver.getAccountId());
             record.put("eventType", "AwsApiCall");
+            if (in.apiVersion() != null) {
+                record.put("apiVersion", in.apiVersion());
+            }
             record.put("eventCategory", "Management");
             record.put("managementEvent", true);
             record.put("readOnly", in.readOnly());
