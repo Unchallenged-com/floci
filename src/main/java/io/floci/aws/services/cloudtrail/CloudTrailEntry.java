@@ -24,14 +24,18 @@ public record CloudTrailEntry(
         Long stopLoggingTime,
         Map<String, String> tags,
         Long latestDeliveryTime,
-        String latestDeliveryError) {
+        String latestDeliveryError,
+        Long latestCloudWatchLogsDeliveryTime,
+        String latestCloudWatchLogsDeliveryError,
+        Long latestNotificationTime,
+        String latestNotificationError) {
 
     public CloudTrailEntry(Trail trail, List<EventSelector> selectors,
                            List<AdvancedEventSelector> advancedSelectors, boolean logging,
                            Long startLoggingTime, Long stopLoggingTime,
                            Map<String, String> tags) {
         this(trail, selectors, advancedSelectors, logging, startLoggingTime, stopLoggingTime,
-                tags, null, null);
+                tags, null, null, null, null, null, null);
     }
 
     // Not Map.copyOf: AWS allows a tag with a null value (AddTags omitting "Value"),
@@ -43,7 +47,8 @@ public record CloudTrailEntry(
     public CloudTrailEntry withTrail(Trail updated) {
         return new CloudTrailEntry(updated, selectors, advancedSelectors, logging,
                 startLoggingTime, stopLoggingTime, tags,
-                latestDeliveryTime, latestDeliveryError);
+                latestDeliveryTime, latestDeliveryError, latestCloudWatchLogsDeliveryTime,
+                latestCloudWatchLogsDeliveryError, latestNotificationTime, latestNotificationError);
     }
 
     /** Sets basic selectors, clearing any advanced selectors — a trail holds one kind or the other. */
@@ -51,7 +56,8 @@ public record CloudTrailEntry(
         Trail updatedTrail = withHasCustomSelectors(hasCustomSelectors);
         return new CloudTrailEntry(updatedTrail, updated, List.of(), logging,
                 startLoggingTime, stopLoggingTime, tags,
-                latestDeliveryTime, latestDeliveryError);
+                latestDeliveryTime, latestDeliveryError, latestCloudWatchLogsDeliveryTime,
+                latestCloudWatchLogsDeliveryError, latestNotificationTime, latestNotificationError);
     }
 
     /** Sets advanced selectors, clearing any basic selectors — a trail holds one kind or the other. */
@@ -59,35 +65,59 @@ public record CloudTrailEntry(
         Trail updatedTrail = withHasCustomSelectors(hasCustomSelectors);
         return new CloudTrailEntry(updatedTrail, List.of(), updated, logging,
                 startLoggingTime, stopLoggingTime, tags,
-                latestDeliveryTime, latestDeliveryError);
+                latestDeliveryTime, latestDeliveryError, latestCloudWatchLogsDeliveryTime,
+                latestCloudWatchLogsDeliveryError, latestNotificationTime, latestNotificationError);
     }
 
     public CloudTrailEntry withTags(Map<String, String> updated) {
         return new CloudTrailEntry(trail, selectors, advancedSelectors, logging,
                 startLoggingTime, stopLoggingTime, updated,
-                latestDeliveryTime, latestDeliveryError);
+                latestDeliveryTime, latestDeliveryError, latestCloudWatchLogsDeliveryTime,
+                latestCloudWatchLogsDeliveryError, latestNotificationTime, latestNotificationError);
     }
 
     public CloudTrailEntry startLogging(long time) {
         return new CloudTrailEntry(trail, selectors, advancedSelectors, true, time,
                 stopLoggingTime, tags,
-                latestDeliveryTime, latestDeliveryError);
+                latestDeliveryTime, latestDeliveryError, latestCloudWatchLogsDeliveryTime,
+                latestCloudWatchLogsDeliveryError, latestNotificationTime, latestNotificationError);
     }
 
     public CloudTrailEntry stopLogging(long time) {
         return new CloudTrailEntry(trail, selectors, advancedSelectors, false, startLoggingTime,
                 time, tags,
-                latestDeliveryTime, latestDeliveryError);
+                latestDeliveryTime, latestDeliveryError, latestCloudWatchLogsDeliveryTime,
+                latestCloudWatchLogsDeliveryError, latestNotificationTime, latestNotificationError);
     }
 
     public CloudTrailEntry withDeliveryFailure(String error) {
         return new CloudTrailEntry(trail, selectors, advancedSelectors, logging,
-                startLoggingTime, stopLoggingTime, tags, latestDeliveryTime, error);
+                startLoggingTime, stopLoggingTime, tags, latestDeliveryTime, error, latestCloudWatchLogsDeliveryTime,
+                latestCloudWatchLogsDeliveryError, latestNotificationTime, latestNotificationError);
     }
 
     public CloudTrailEntry withDeliverySuccess(long time) {
         return new CloudTrailEntry(trail, selectors, advancedSelectors, logging,
-                startLoggingTime, stopLoggingTime, tags, time, null);
+                startLoggingTime, stopLoggingTime, tags, time, null, latestCloudWatchLogsDeliveryTime,
+                latestCloudWatchLogsDeliveryError, latestNotificationTime, latestNotificationError);
+    }
+
+    /**
+     * The outcome of a CloudWatch Logs delivery: its time when it succeeded, else its error, which stays until a
+     * delivery succeeds, as {@code GetTrailStatus} reports them.
+     */
+    public CloudTrailEntry withCloudWatchLogsDelivery(Long time, String error) {
+        return new CloudTrailEntry(trail, selectors, advancedSelectors, logging, startLoggingTime, stopLoggingTime,
+                tags, latestDeliveryTime, latestDeliveryError,
+                error == null ? time : latestCloudWatchLogsDeliveryTime, error, latestNotificationTime,
+                latestNotificationError);
+    }
+
+    /** As {@link #withCloudWatchLogsDelivery}, for an SNS notification. */
+    public CloudTrailEntry withNotification(Long time, String error) {
+        return new CloudTrailEntry(trail, selectors, advancedSelectors, logging, startLoggingTime, stopLoggingTime,
+                tags, latestDeliveryTime, latestDeliveryError, latestCloudWatchLogsDeliveryTime,
+                latestCloudWatchLogsDeliveryError, error == null ? time : latestNotificationTime, error);
     }
 
     private Trail withHasCustomSelectors(boolean hasCustomSelectors) {

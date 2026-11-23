@@ -36,7 +36,8 @@ import java.util.zip.GZIPOutputStream;
 /**
  * Periodically drains queued CloudTrail records from {@link CloudTrailService}
  * and writes them as gzipped JSON log files into each trail's destination
- * S3 bucket, using AWS's documented key layout:
+ * S3 bucket, then to its log group and its topic ({@link CloudTrailLogDestinations}),
+ * using AWS's documented key layout:
  *
  * <pre>{@code
  * ${prefix}AWSLogs/${accountId}/CloudTrail/${region}/yyyy/MM/dd/
@@ -63,6 +64,7 @@ public class CloudTrailLogWriter {
     private final S3Service s3Service;
     private final RegionResolver regionResolver;
     private final ObjectMapper mapper;
+    private final CloudTrailLogDestinations destinations;
     private final SecureRandom rng = new SecureRandom();
     private final ConcurrentHashMap<CloudTrailService.TrailKey, FlushLock> flushLocks = new ConcurrentHashMap<>();
 
@@ -73,12 +75,14 @@ public class CloudTrailLogWriter {
                                CloudTrailService cloudTrailService,
                                S3Service s3Service,
                                RegionResolver regionResolver,
-                               ObjectMapper mapper) {
+                               ObjectMapper mapper,
+                               CloudTrailLogDestinations destinations) {
         this.config = config;
         this.cloudTrailService = cloudTrailService;
         this.s3Service = s3Service;
         this.regionResolver = regionResolver;
         this.mapper = mapper;
+        this.destinations = destinations;
     }
 
     @PostConstruct
@@ -204,6 +208,12 @@ public class CloudTrailLogWriter {
             LOG.warnv(e, "CloudTrail delivery success status update failed for trail {0}", key.trailName());
         }
         cloudTrailService.completeDelivery(key);
+        try {
+            destinations.delivered(key, trail, records, objectKey);
+        } catch (RuntimeException e) {
+            LOG.warnv(e, "CloudTrail log group or topic delivery failed for trail {0} "
+                    + "(write already succeeded, records not re-queued)", key.trailName());
+        }
 
         // The write above already succeeded and durably delivered the records:
         // from here on, records must never be re-queued. Doing so on a failure

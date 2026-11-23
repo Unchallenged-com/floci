@@ -246,6 +246,19 @@ public class CloudTrailJsonHandler {
         if (status.latestDeliveryError() != null) {
             resp.put("LatestDeliveryError", status.latestDeliveryError());
         }
+        if (status.latestCloudWatchLogsDeliveryTime() != null) {
+            resp.put("LatestCloudWatchLogsDeliveryTime",
+                    EpochSeconds.fromMillis(status.latestCloudWatchLogsDeliveryTime()));
+        }
+        if (status.latestCloudWatchLogsDeliveryError() != null) {
+            resp.put("LatestCloudWatchLogsDeliveryError", status.latestCloudWatchLogsDeliveryError());
+        }
+        if (status.latestNotificationTime() != null) {
+            resp.put("LatestNotificationTime", EpochSeconds.fromMillis(status.latestNotificationTime()));
+        }
+        if (status.latestNotificationError() != null) {
+            resp.put("LatestNotificationError", status.latestNotificationError());
+        }
         if (status.stopLoggingTime() != null) {
             resp.put("StopLoggingTime", EpochSeconds.fromMillis(status.stopLoggingTime()));
         }

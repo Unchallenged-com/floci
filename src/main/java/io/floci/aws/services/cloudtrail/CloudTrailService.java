@@ -152,8 +152,7 @@ public class CloudTrailService implements StoredResourceArns, Resettable {
                 includeGlobalServiceEvents, isMultiRegionTrail, region,
                 enableLogFileValidation, false, false, isOrganizationTrail,
                 blankToNull(kmsKeyId), blankToNull(cloudWatchLogsLogGroupArn), blankToNull(cloudWatchLogsRoleArn));
-        store.put(key, new CloudTrailEntry(trail, List.of(), List.of(), false, null, null,
-                initialTags, null, null));
+        store.put(key, new CloudTrailEntry(trail, List.of(), List.of(), false, null, null, initialTags));
         return trail;
     }
 
@@ -352,8 +351,9 @@ public class CloudTrailService implements StoredResourceArns, Resettable {
         Trail trail = findTrailOrThrow(region, trailNameOrArn);
         return store.get(regionKey(trail.homeRegion(), trail.name()))
                 .map(e -> new TrailStatus(e.logging(), e.startLoggingTime(), e.stopLoggingTime(),
-                        e.latestDeliveryTime(), e.latestDeliveryError()))
-                .orElse(new TrailStatus(false, null, null, null, null));
+                        e.latestDeliveryTime(), e.latestDeliveryError(), e.latestCloudWatchLogsDeliveryTime(),
+                        e.latestCloudWatchLogsDeliveryError(), e.latestNotificationTime(), e.latestNotificationError()))
+                .orElse(new TrailStatus(false, null, null));
     }
 
     // --- Tagging ---
@@ -734,6 +734,16 @@ public class CloudTrailService implements StoredResourceArns, Resettable {
 
     public void recordDeliverySuccess(TrailKey key, long time) {
         updateDeliveryStatus(key, entry -> entry.withDeliverySuccess(time));
+    }
+
+    /** Records a delivery to the trail's CloudWatch Logs log group: its time, or the error that stopped it. */
+    public void recordCloudWatchLogsDelivery(TrailKey key, long time, String error) {
+        updateDeliveryStatus(key, entry -> entry.withCloudWatchLogsDelivery(time, error));
+    }
+
+    /** Records a notification to the trail's SNS topic: its time, or the error that stopped it. */
+    public void recordNotification(TrailKey key, long time, String error) {
+        updateDeliveryStatus(key, entry -> entry.withNotification(time, error));
     }
 
     private void updateDeliveryStatus(TrailKey key, Function<CloudTrailEntry, CloudTrailEntry> update) {
@@ -1304,9 +1314,11 @@ public class CloudTrailService implements StoredResourceArns, Resettable {
     }
 
     public record TrailStatus(boolean logging, Long startLoggingTime, Long stopLoggingTime,
-                              Long latestDeliveryTime, String latestDeliveryError) {
+                              Long latestDeliveryTime, String latestDeliveryError,
+                              Long latestCloudWatchLogsDeliveryTime, String latestCloudWatchLogsDeliveryError,
+                              Long latestNotificationTime, String latestNotificationError) {
         public TrailStatus(boolean logging, Long startLoggingTime, Long stopLoggingTime) {
-            this(logging, startLoggingTime, stopLoggingTime, null, null);
+            this(logging, startLoggingTime, stopLoggingTime, null, null, null, null, null, null);
         }
     }
 

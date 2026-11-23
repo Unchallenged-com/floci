@@ -64,7 +64,7 @@ loopback address.
 
 ## Encryption and CloudWatch Logs settings
 
-`CreateTrail` and `UpdateTrail` record `KmsKeyId`, `CloudWatchLogsLogGroupArn` and `CloudWatchLogsRoleArn`, and `DescribeTrails` returns them, so a Terraform `aws_cloudtrail` with encryption or log delivery reads back what it declared. `UpdateTrail` with an empty value clears one, as on AWS. A log group without a role is refused with `InvalidCloudWatchLogsRoleArnException`, and a role without a log group with `InvalidCloudWatchLogsLogGroupArnException`. The settings are recorded only: log files are not encrypted, events are not delivered to the log group, and `KmsKeyId` is stored as sent (an alias is not resolved to the key ARN, and an unknown key is not refused).
+`CreateTrail` and `UpdateTrail` record `KmsKeyId`, `CloudWatchLogsLogGroupArn` and `CloudWatchLogsRoleArn`, and `DescribeTrails` returns them, so a Terraform `aws_cloudtrail` with encryption or log delivery reads back what it declared. `UpdateTrail` with an empty value clears one, as on AWS. A log group without a role is refused with `InvalidCloudWatchLogsRoleArnException`, and a role without a log group with `InvalidCloudWatchLogsLogGroupArnException`. Log files are not encrypted, and `KmsKeyId` is stored as sent (an alias is not resolved to the key ARN, and an unknown key is not refused); the log group and the topic receive what the trail delivers ([CloudWatch Logs and SNS delivery](#cloudwatch-logs-and-sns-delivery)).
 
 ## S3 Hook Coverage
 
@@ -340,6 +340,27 @@ trails select it:
 - Delivery runs in the background on two workers with a bounded queue of 256 events, so a slow target never holds the
   call. It is best effort: a full queue drops the event, and an emulator reset discards queued events and waits up to
   30 seconds for active deliveries before storage is cleared.
+
+## CloudWatch Logs and SNS delivery
+
+Each log file a trail writes to its bucket is also sent to the trail's log group and its topic, when it names them:
+
+- **CloudWatch Logs**
+  ([CloudTrail User Guide](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/send-cloudtrail-events-to-cloudwatch-logs.html)):
+  each record is one event of the stream `<account_ID>_CloudTrail_<trail_region>`, created when missing, which a
+  multi-Region trail's records from every Region share. The event's message is the record and its timestamp the time
+  of delivery. CloudTrail writes them as the trail's `CloudWatchLogsRoleArn`: with IAM enforcement on, the role must
+  trust `cloudtrail.amazonaws.com` and allow `logs:CreateLogStream` and `logs:PutLogEvents` on the stream. A record over
+  256 KB is not sent. The log group's metric filters and subscription filters see the events as any others.
+- **SNS**
+  ([CloudTrail User Guide](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/configure-sns-notifications-for-cloudtrail.html)):
+  one notification for each log file, whose `Message` is `{"s3Bucket": "<bucket>", "s3ObjectKey": ["AWSLogs/..."]}`, to
+  the topic `SnsTopicName` names, by its name in the trail's Region or by its ARN. With IAM enforcement on, the topic's
+  policy must allow `cloudtrail.amazonaws.com` to publish.
+- `GetTrailStatus` reports each one's latest delivery as `LatestCloudWatchLogsDeliveryTime` and
+  `LatestNotificationTime`, and a delivery that failed or was refused as `LatestCloudWatchLogsDeliveryError` and
+  `LatestNotificationError` (`AccessDeniedException: ...`, `AuthorizationError: ...`, or the error the service answered),
+  until a delivery succeeds.
 
 ## Management events and selectors
 
