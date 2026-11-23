@@ -7,6 +7,7 @@ import io.floci.aws.core.common.RegionResolver;
 import io.floci.aws.core.storage.AccountAwareStorageBackend;
 import io.floci.aws.core.storage.StorageFactory;
 import io.floci.aws.services.cloudformation.model.StackResource;
+import io.floci.aws.services.cloudtrail.CloudTrailEventBridgeDelivery;
 import io.floci.aws.services.cloudtrail.CloudTrailService;
 import io.floci.aws.services.cloudtrail.model.EventSelector;
 import io.floci.aws.services.cloudtrail.model.Trail;
@@ -185,7 +186,8 @@ class CloudTrailCfnProvisionerTest {
         when(storageFactory.create(anyString(), anyString(), any()))
                 .thenReturn(AccountAwareStorageBackend.inMemory("111122223333"));
         return new CloudTrailService(storageFactory, new RegionResolver("us-east-1", "111122223333"),
-                mock(IamService.class), new ObjectMapper());
+                mock(IamService.class), new ObjectMapper(),
+                mock(CloudTrailEventBridgeDelivery.class));
     }
 
     private StackResource deployTrail(CloudTrailService real, String properties) throws Exception {

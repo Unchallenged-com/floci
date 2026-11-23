@@ -184,9 +184,7 @@ enforcement refused.
   enforcement refuses is recorded as `AccessDenied` with `"requestParameters": null` and the message its refusal
   answers with.
 
-A successful `PutSecretValue` or `UpdateSecret` a trail records also reaches EventBridge's default bus in the
-request's account and region. See [Secrets Manager event delivery](secrets-manager.md#secret-write-events) for
-prerequisites, the secret-specific event pattern, and the limits of this coverage.
+Its records reach EventBridge as every other record does ([EventBridge delivery](#eventbridge-delivery)).
 
 A call another service makes to Secrets Manager for the caller, such as an API Gateway integration or a Step Functions
 task, is recorded too, without the `invokedBy` that names that service on AWS. A timestamp in `responseElements`
@@ -319,6 +317,29 @@ guide gives without a version where records of its neighbors carry one.
 - A failed call keeps its members, under its error's type (`ResourceNotFoundException`); a call IAM enforcement refuses
   is recorded as `AccessDenied` with `"requestParameters": null`.
 - `Invoke` is a data event, not recorded here.
+
+## EventBridge delivery
+
+"CloudTrail sends the following types of events to the default EventBridge event bus", the first of them
+`AWS API Call via CloudTrail`, and "To record events with one of the CloudTrail `detail-type` values, you must enable
+a CloudTrail trail with logging"
+([EventBridge User Guide](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-service-event-cloudtrail.html)).
+Every record a logging trail selects, management or data event, is also put on the default bus once, however many
+trails select it:
+
+- `source` is `aws.<service>` for the record's `<service>.amazonaws.com` (`aws.lambda`, `aws.iam`), `detail-type`
+  follows the record's `eventType` (`AWS API Call via CloudTrail` for `AwsApiCall`), `account` and `region` are the
+  record's, `resources` is `[]`, and `detail` is the record, as the Amazon EBS User Guide's `detachVolume` example
+  (2024) shows one.
+- A global service's record is logged in US East (N. Virginia), so an IAM call reaches the default bus there, whatever
+  Region it was signed for.
+- A record over 256 KB is not sent: "CloudTrail does not send these events to CloudWatch Logs or EventBridge".
+- A rule in the default `ENABLED` state matches write management events and data events; a read-only management event
+  is matched only by a rule in the `ENABLED_WITH_ALL_CLOUDTRAIL_MANAGEMENT_EVENTS` state, on the default bus or on a
+  bus a rule forwards it to.
+- Delivery runs in the background on two workers with a bounded queue of 256 events, so a slow target never holds the
+  call. It is best effort: a full queue drops the event, and an emulator reset discards queued events and waits up to
+  30 seconds for active deliveries before storage is cleared.
 
 ## Management events and selectors
 

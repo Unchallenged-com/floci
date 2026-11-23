@@ -52,7 +52,8 @@ class CloudTrailServiceTest {
         when(storageFactory.create(anyString(), anyString(), any()))
                 .thenReturn(AccountAwareStorageBackend.inMemory(ACCOUNT));
         service = new CloudTrailService(storageFactory, new RegionResolver(REGION, ACCOUNT),
-                mock(IamService.class), new ObjectMapper());
+                mock(IamService.class), new ObjectMapper(),
+                mock(CloudTrailEventBridgeDelivery.class));
     }
 
     private Trail trailWithPrefix(String name, String prefix) {
@@ -87,7 +88,8 @@ class CloudTrailServiceTest {
         InMemoryStorage<String, CloudTrailEntry> raw = new InMemoryStorage<>();
         CloudTrailService legacyState = new CloudTrailService(
                 new InMemoryStorageFactory(ACCOUNT).withStore("cloudtrail-trails.json", raw),
-                new RegionResolver(REGION, ACCOUNT), mock(IamService.class), new ObjectMapper());
+                new RegionResolver(REGION, ACCOUNT), mock(IamService.class), new ObjectMapper(),
+                mock(CloudTrailEventBridgeDelivery.class));
         String arn = legacyState.createTrail(REGION, "legacy", "trail-bucket", null, TOPIC, true, false, false, false,
                 Map.of("team", "data")).trailArn();
         raw.put(REGION + ":legacy", raw.get(ACCOUNT + "/" + REGION + ":legacy").orElseThrow());

@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.floci.aws.config.EmulatorConfig;
 import io.floci.aws.core.common.Resettable;
 import io.floci.aws.services.eventbridge.model.Rule;
-import io.floci.aws.services.eventbridge.model.RuleState;
 import io.floci.aws.services.eventbridge.model.Target;
 import io.vertx.core.Vertx;
 import jakarta.annotation.PreDestroy;
@@ -170,7 +169,7 @@ public class RuleScheduler implements Resettable {
             return;
         }
 
-        if (data.rule.getState() != RuleState.ENABLED) {
+        if (!data.rule.getState().isEnabled()) {
             LOG.debugv("Rule {0} is disabled, skipping tick", data.rule.getName());
             return;
         }

@@ -1,4 +1,4 @@
-package io.floci.aws.services.secretsmanager;
+package io.floci.aws.services.cloudtrail;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -27,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
-class SecretsManagerEventPublisherResetTest {
+class CloudTrailEventBridgeDeliveryResetTest {
     private static final String ACCOUNT = "661100000003";
     private static final String REGION = "us-east-1";
     private static final String ARN = "arn:aws:secretsmanager:us-east-1:661100000003:secret:example";
@@ -35,11 +35,11 @@ class SecretsManagerEventPublisherResetTest {
     private final EventBridgeService events = mock(EventBridgeService.class);
     private final StorageFactory storage = mock(StorageFactory.class);
     private final Deque<Runnable> queued = new ArrayDeque<>();
-    private SecretsManagerEventPublisher publisher;
+    private CloudTrailEventBridgeDelivery publisher;
 
     @BeforeEach
     void setUp() {
-        publisher = new SecretsManagerEventPublisher(events, queued::addLast);
+        publisher = new CloudTrailEventBridgeDelivery(events, queued::addLast);
     }
 
     @AfterEach
@@ -59,12 +59,12 @@ class SecretsManagerEventPublisherResetTest {
         write("after-reset");
         queued.removeFirst().run();
         verify(events).publishServiceEvent(eq("aws.secretsmanager"), eq("AWS API Call via CloudTrail"),
-                contains("after-reset"), eq(ARN), eq(REGION));
+                contains("after-reset"), isNull(), eq(REGION));
     }
 
     @Test
     void resetDrainsActiveDeliveriesBeforeWipeDiscardsQueuedEventsAndReusesWorkers() throws Exception {
-        publisher = new SecretsManagerEventPublisher(events);
+        publisher = new CloudTrailEventBridgeDelivery(events);
         CountDownLatch active = new CountDownLatch(2);
         CountDownLatch release = new CountDownLatch(1);
         CountDownLatch fresh = new CountDownLatch(1);
@@ -80,7 +80,7 @@ class SecretsManagerEventPublisherResetTest {
                 fresh.countDown();
             }
             return null;
-        }).when(events).publishServiceEvent(anyString(), anyString(), anyString(), anyString(), anyString());
+        }).when(events).publishServiceEvent(anyString(), anyString(), anyString(), any(), anyString());
         doAnswer(call -> { stored.clear(); return null; }).when(storage).clearAll();
         ExecutorService resets = Executors.newSingleThreadExecutor();
         try {
@@ -100,7 +100,7 @@ class SecretsManagerEventPublisherResetTest {
             write("after-reset");
             assertTrue(fresh.await(5, TimeUnit.SECONDS), "the same publisher must deliver new events after reset");
             assertEquals(List.of("after-reset"), stored);
-            verify(events, times(3)).publishServiceEvent(anyString(), anyString(), anyString(), anyString(), anyString());
+            verify(events, times(3)).publishServiceEvent(anyString(), anyString(), anyString(), any(), anyString());
         } finally {
             release.countDown();
             resets.shutdownNow();
@@ -128,7 +128,7 @@ class SecretsManagerEventPublisherResetTest {
             reset.get(5, TimeUnit.SECONDS);
             write("after-reset");
             queued.removeFirst().run();
-            verify(events).publishServiceEvent(anyString(), anyString(), contains("after-reset"), eq(ARN), eq(REGION));
+            verify(events).publishServiceEvent(anyString(), anyString(), contains("after-reset"), isNull(), eq(REGION));
         } finally {
             finishWipe.countDown();
             resets.shutdownNow();
@@ -147,12 +147,13 @@ class SecretsManagerEventPublisherResetTest {
         verifyNoInteractions(events);
         write("after-failed-reset");
         queued.removeFirst().run();
-        verify(events).publishServiceEvent(anyString(), anyString(), contains("after-failed-reset"), eq(ARN), eq(REGION));
+        verify(events).publishServiceEvent(anyString(), anyString(), contains("after-failed-reset"), isNull(),
+                eq(REGION));
     }
 
     @Test
     void interruptedDrainRefusesTheWipeAndRestoresPublication() throws Exception {
-        publisher = new SecretsManagerEventPublisher(events);
+        publisher = new CloudTrailEventBridgeDelivery(events);
         CountDownLatch active = new CountDownLatch(1);
         CountDownLatch release = new CountDownLatch(1);
         CountDownLatch fresh = new CountDownLatch(1);
@@ -164,7 +165,7 @@ class SecretsManagerEventPublisherResetTest {
                 fresh.countDown();
             }
             return null;
-        }).when(events).publishServiceEvent(anyString(), anyString(), anyString(), anyString(), anyString());
+        }).when(events).publishServiceEvent(anyString(), anyString(), anyString(), any(), anyString());
         try {
             write("active-before-reset");
             assertTrue(active.await(5, TimeUnit.SECONDS));
@@ -195,9 +196,10 @@ class SecretsManagerEventPublisherResetTest {
 
     private void write(String id) {
         ObjectNode record = mapper.createObjectNode().put("recipientAccountId", ACCOUNT).put("awsRegion", REGION)
-                .put("eventID", id);
+                .put("eventID", id).put("eventName", "PutSecretValue")
+                .put("eventSource", "secretsmanager.amazonaws.com").put("eventType", "AwsApiCall");
         record.putObject("responseElements").put("arn", ARN);
-        publisher.secretWritten("PutSecretValue", record);
+        publisher.deliver(record);
     }
 
     @SuppressWarnings("unchecked")

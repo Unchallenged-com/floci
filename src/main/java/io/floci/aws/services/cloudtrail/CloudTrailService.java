@@ -65,6 +65,7 @@ public class CloudTrailService implements StoredResourceArns, Resettable {
     private final RegionResolver regionResolver;
     private final IamService iamService;
     private final ObjectMapper mapper;
+    private final CloudTrailEventBridgeDelivery eventBridge;
 
     /** Per-trail pending record buffers: ephemeral, never persisted. */
     private final ConcurrentHashMap<PendingTrailKey, PendingRecordBuffer> pendingRecordsByTrail =
@@ -83,12 +84,13 @@ public class CloudTrailService implements StoredResourceArns, Resettable {
 
     @Inject
     public CloudTrailService(StorageFactory storageFactory, RegionResolver regionResolver,
-                             IamService iamService, ObjectMapper mapper) {
+                             IamService iamService, ObjectMapper mapper, CloudTrailEventBridgeDelivery eventBridge) {
         this.store = storageFactory.create("cloudtrail", "cloudtrail-trails.json",
                 new TypeReference<Map<String, CloudTrailEntry>>() {});
         this.regionResolver = regionResolver;
         this.iamService = iamService;
         this.mapper = mapper;
+        this.eventBridge = eventBridge;
     }
 
     // --- Control plane ---
@@ -541,7 +543,8 @@ public class CloudTrailService implements StoredResourceArns, Resettable {
 
     /**
      * Records one management call in the account's event history and returns the event only when
-     * a logging trail also selects it.
+     * a logging trail also selects it, putting it on EventBridge's default bus too
+     * ({@link CloudTrailEventBridgeDelivery}).
      */
     public Optional<ObjectNode> emitManagementEvent(ManagementEventInput in) {
         try {
@@ -598,6 +601,7 @@ public class CloudTrailService implements StoredResourceArns, Resettable {
             for (MatchedTrail trail : matched) {
                 append(new TrailKey(trail.region(), trail.trail().name(), region), record.deepCopy());
             }
+            eventBridge.deliver(record.deepCopy());
             return Optional.of(record);
         } catch (RuntimeException e) {
             LOG.warnv(e, "Failed to record CloudTrail management event {0}", in.eventName());
@@ -637,6 +641,7 @@ public class CloudTrailService implements StoredResourceArns, Resettable {
                 return;
             }
             ObjectNode record = buildS3Record(in, region);
+            record.put("recipientAccountId", regionResolver.getAccountId());
             for (MatchedTrail mt : matched) {
                 ObjectNode copy = record.deepCopy();
                 copy.put("recipientAccountId", regionResolver.getAccountId());
@@ -648,6 +653,7 @@ public class CloudTrailService implements StoredResourceArns, Resettable {
                             in.eventName(), mt.trail().name());
                 }
             }
+            eventBridge.deliver(record.deepCopy());
         } catch (Exception e) {
             // Never let emission take down an S3 op.
             LOG.warnv(e, "Failed to emit CloudTrail event for {0} {1}/{2}",

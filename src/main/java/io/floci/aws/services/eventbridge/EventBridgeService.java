@@ -1199,8 +1199,10 @@ public class EventBridgeService implements ResourceProvider, StoredResourceArns 
             String rulePrefix = ruleKeyPrefix(region, effectiveBus);
             List<Rule> candidateRules = accountScan(ruleStore, accountId, k -> isRuleKeyOfBus(k, rulePrefix));
 
+            boolean readOnlyCloudTrailManagementEvent = readOnlyCloudTrailManagementEvent(entry);
             for (Rule rule : candidateRules) {
-                if (!effectiveBus.equals(rule.getEventBusName()) || rule.getState() != RuleState.ENABLED) {
+                if (!effectiveBus.equals(rule.getEventBusName())
+                        || !rule.getState().matches(readOnlyCloudTrailManagementEvent)) {
                     continue;
                 }
                 // A rule without an event pattern is a schedule rule: it never matches put events.
@@ -1331,6 +1333,28 @@ public class EventBridgeService implements ResourceProvider, StoredResourceArns 
                     }
                 }
             }
+        }
+    }
+
+    /**
+     * Whether {@code entry} is a read-only management event CloudTrail delivered, which only a rule in the
+     * {@code ENABLED_WITH_ALL_CLOUDTRAIL_MANAGEMENT_EVENTS} state matches: "Read-only management events — Matched
+     * only by rules with state set to {@code ENABLED_WITH_ALL_CLOUDTRAIL_MANAGEMENT_EVENTS}"
+     * (https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-service-event-cloudtrail.html). Its
+     * {@code detail-type} is one CloudTrail sends ({@code AWS API Call via CloudTrail}), and its {@code detail},
+     * the record, a read-only management event.
+     */
+    private boolean readOnlyCloudTrailManagementEvent(Map<String, Object> entry) {
+        if (!(entry.get("DetailType") instanceof String detailType) || !detailType.endsWith(" via CloudTrail")
+                || !(entry.get("Detail") instanceof String detail)) {
+            return false;
+        }
+        try {
+            JsonNode record = objectMapper.readTree(detail);
+            return record.path("readOnly").asBoolean(false)
+                    && "Management".equals(record.path("eventCategory").asText());
+        } catch (IOException e) {
+            return false;
         }
     }
 
@@ -1640,7 +1664,7 @@ public class EventBridgeService implements ResourceProvider, StoredResourceArns 
 
     private boolean isRuleEnabled(String ruleStoreKey) {
         return ruleStore.get(ruleStoreKey)
-                .map(r -> r.getState() == RuleState.ENABLED)
+                .map(r -> r.getState().isEnabled())
                 .orElse(false);
     }
 
@@ -2586,7 +2610,7 @@ public class EventBridgeService implements ResourceProvider, StoredResourceArns 
 
     private void startSchedulerIfNeeded(Rule rule) {
         if (ruleScheduler != null
-                && rule.getState() == RuleState.ENABLED
+                && rule.getState().isEnabled()
                 && rule.getScheduleExpression() != null
                 && !rule.getScheduleExpression().isBlank()) {
             String region = rule.getRegion() != null ? rule.getRegion() : regionResolver.getDefaultRegion();

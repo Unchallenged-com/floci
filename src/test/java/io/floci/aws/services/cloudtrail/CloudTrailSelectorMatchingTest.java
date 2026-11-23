@@ -268,6 +268,7 @@ class CloudTrailSelectorMatchingTest {
         when(storageFactory.create(anyString(), anyString(), any()))
                 .thenReturn(AccountAwareStorageBackend.inMemory(ACCOUNT));
         return new CloudTrailService(storageFactory, new RegionResolver(defaultRegion, ACCOUNT),
-                mock(IamService.class), new ObjectMapper());
+                mock(IamService.class), new ObjectMapper(),
+                mock(CloudTrailEventBridgeDelivery.class));
     }
 }

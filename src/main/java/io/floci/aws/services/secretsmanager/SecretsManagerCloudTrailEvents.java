@@ -20,7 +20,6 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
 import org.jboss.logging.Logger;
 
-import java.util.Optional;
 
 /**
  * Records Secrets Manager's calls as CloudTrail management events: "AWS Secrets Manager writes
@@ -73,15 +72,12 @@ public class SecretsManagerCloudTrailEvents implements ManagementEventSource {
         this.mapper = mapper;
     }
 
-    /**
-     * Records the call {@code response} answered, or that failed with {@code error} when it is set,
-     * and returns the record when a logging trail selected it.
-     */
-    Optional<ObjectNode> record(String action, JsonNode request, String region, String authorization,
-                                Response response, AwsException error) {
+    /** Records the call {@code response} answered, or that failed with {@code error} when it is set. */
+    void record(String action, JsonNode request, String region, String authorization, Response response,
+                AwsException error) {
         CloudTrailEventCatalog catalog = CloudTrailEventCatalog.of(SERVICE);
         if (!catalog.isManagementEvent(action)) {
-            return Optional.empty();
+            return;
         }
         try {
             CloudTrailShapes shapes = CloudTrailShapes.of(SERVICE);
@@ -94,13 +90,12 @@ public class SecretsManagerCloudTrailEvents implements ManagementEventSource {
             boolean succeeded = errorCode == null && response != null && response.getStatus() < 400;
             ObjectNode result = succeeded && !catalog.isReadOnly(action) && response.getEntity() != null
                     ? withSecretArn(shapes.result(action, mapper.valueToTree(response.getEntity()))) : null;
-            return cloudTrail.emitManagementEvent(event(action, shapes.requestParameters(action, request),
+            cloudTrail.emitManagementEvent(event(action, shapes.requestParameters(action, request),
                     accounts.extractAccessKeyId(authorization), region, request(currentRequest.getCurrent()), result,
                     errorCode, errorMessage));
         } catch (RuntimeException e) {
             // The call is answered either way; a record that could not be written is logged, not raised.
             LOG.warnv(e, "Failed to record CloudTrail call {0}", action);
-            return Optional.empty();
         }
     }
 

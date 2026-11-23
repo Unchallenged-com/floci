@@ -166,10 +166,9 @@ suffix when present. These checks do not verify resource existence or permission
 
 EventBridge includes a default event bus (`default`) that accepts events from AWS services. Custom buses are for your own application events.
 
-Secrets Manager `PutSecretValue` and `UpdateSecret` calls publish `AWS API Call via CloudTrail`
-events here when a logging CloudTrail trail selects management writes. See
-[secret write events](secrets-manager.md#secret-write-events) for the required trail configuration
-and a pattern matching `detail.responseElements.arn`.
+Every call a logging CloudTrail trail records reaches this bus as `AWS API Call via CloudTrail`
+([CloudTrail's EventBridge delivery](cloudtrail.md#eventbridge-delivery)). A rule in the `ENABLED` state matches the
+write calls; a rule in the `ENABLED_WITH_ALL_CLOUDTRAIL_MANAGEMENT_EVENTS` state also matches the read-only ones.
 
 ```bash
 # List rules on the default bus

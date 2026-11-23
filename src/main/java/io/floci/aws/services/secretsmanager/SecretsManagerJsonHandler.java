@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.StreamSupport;
 
@@ -38,18 +37,15 @@ public class SecretsManagerJsonHandler {
     private final SecretsManagerService service;
     private final ObjectMapper objectMapper;
     private final IamEnforcementFilter iamEnforcementFilter;
-    private final SecretsManagerEventPublisher eventPublisher;
     private final SecretsManagerCloudTrailEvents cloudTrailEvents;
 
     @Inject
     public SecretsManagerJsonHandler(SecretsManagerService service, ObjectMapper objectMapper,
                                      IamEnforcementFilter iamEnforcementFilter,
-                                     SecretsManagerEventPublisher eventPublisher,
                                      SecretsManagerCloudTrailEvents cloudTrailEvents) {
         this.service = service;
         this.objectMapper = objectMapper;
         this.iamEnforcementFilter = iamEnforcementFilter;
-        this.eventPublisher = eventPublisher;
         this.cloudTrailEvents = cloudTrailEvents;
     }
 
@@ -71,8 +67,7 @@ public class SecretsManagerJsonHandler {
      * @param authorization the caller's credential as {@link IamEnforcementFilter#requestAuthorization}
      *                      reads it, used where an operation authorizes the caller for a second
      *                      resource
-     * The call is recorded in CloudTrail ({@link SecretsManagerCloudTrailEvents}), and a successful
-     * {@code PutSecretValue} or {@code UpdateSecret} a trail recorded also reaches EventBridge.
+     * The call is recorded in CloudTrail ({@link SecretsManagerCloudTrailEvents}).
      */
     public Response handle(String action, JsonNode request, String region, String authorization) {
         Response response;
@@ -82,10 +77,7 @@ public class SecretsManagerJsonHandler {
             cloudTrailEvents.record(action, request, region, authorization, null, e);
             throw e;
         }
-        Optional<ObjectNode> record = cloudTrailEvents.record(action, request, region, authorization, response, null);
-        if (response.getStatus() == 200 && ("PutSecretValue".equals(action) || "UpdateSecret".equals(action))) {
-            record.ifPresent(written -> eventPublisher.secretWritten(action, written));
-        }
+        cloudTrailEvents.record(action, request, region, authorization, response, null);
         return response;
     }
 

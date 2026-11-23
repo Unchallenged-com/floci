@@ -25,13 +25,15 @@ class CloudTrailManagementEventTest {
     private static final String ACCOUNT = "661100000002";
     private static final String SOURCE = "secretsmanager.amazonaws.com";
     private static final ObjectMapper MAPPER = new ObjectMapper();
+    private final CloudTrailEventBridgeDelivery delivery = mock(CloudTrailEventBridgeDelivery.class);
     private CloudTrailService service;
 
     @BeforeEach
     void setUp() {
         StorageFactory factory = mock(StorageFactory.class);
         when(factory.create(anyString(), anyString(), any())).thenReturn(AccountAwareStorageBackend.inMemory(ACCOUNT));
-        service = new CloudTrailService(factory, new RegionResolver(REGION, ACCOUNT), mock(IamService.class), MAPPER);
+        service = new CloudTrailService(factory, new RegionResolver(REGION, ACCOUNT), mock(IamService.class), MAPPER,
+                delivery);
     }
 
     private void trail(boolean multiRegion) {
@@ -43,6 +45,20 @@ class CloudTrailManagementEventTest {
         return new CloudTrailService.ManagementEventInput(SOURCE, "PutSecretValue", region, "test",
                 MAPPER.createObjectNode().put("secretId", "example"),
                 MAPPER.createObjectNode().put("arn", "arn:aws:secretsmanager:" + region + ":" + ACCOUNT + ":secret:example"));
+    }
+
+    @Test
+    void aRecordReachesEventBridgeOnceWhenALoggingTrailSelectsIt() {
+        service.emitManagementEvent(event(REGION));
+        trail(false);
+        service.createTrail(REGION, "second-trail", "example-audit-logs", null, null, false, false, false, false);
+        service.emitManagementEvent(event(REGION));
+        verifyNoInteractions(delivery);
+        service.startLogging(REGION, "management-trail");
+        service.startLogging(REGION, "second-trail");
+        ObjectNode record = service.emitManagementEvent(event(REGION)).orElseThrow();
+        verify(delivery, times(1)).deliver(argThat(delivered ->
+                delivered.path("eventID").asText().equals(record.path("eventID").asText())));
     }
 
     @Test
