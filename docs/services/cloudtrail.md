@@ -335,6 +335,28 @@ not recorded here.
 - A failed call keeps its members, under the code it answered (`ResourceNotFound`); a call IAM enforcement refuses is
   recorded as `AccessDenied` with `"requestParameters": null`.
 
+## RDS Coverage
+
+"All Amazon RDS actions are logged by CloudTrail"
+([Amazon RDS User Guide](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/logging-using-cloudtrail.html)).
+Floci records every call of the RDS API (`rds-cloudtrail-events.json`) under its own name, and Neptune and DocumentDB
+calls with them, since they are "logged as calls made to the Amazon RDS API"
+([Neptune](https://docs.aws.amazon.com/neptune/latest/userguide/cloudtrail.html),
+[DocumentDB](https://docs.aws.amazon.com/documentdb/latest/developerguide/logging-with-cloudtrail.html)).
+The RDS Data API is a service of its own, not recorded here.
+
+- `eventSource` is `rds.amazonaws.com`. `requestParameters` are the request's members with a lower first letter,
+  typed as botocore's RDS model types them, a list as a JSON array (`"valuesToAdd": ["123456789012"]`,
+  `"allocatedStorage": 20`).
+- `responseElements` is the answer in the same form, its one structure written as its own members
+  (`"dBInstanceArn"` at the top, not under `"dBInstance"`), a timestamp as `"Oct 10, 2024 3:17:35 PM"`; `null` for a
+  read-only call (`Describe*`, `ListTagsForResource`, `DownloadDBLogFilePortion`) and a failed one.
+- A member botocore's model marks sensitive (`masterUserPassword`, `tdeCredentialPassword`, `preSignedUrl`) is written
+  `"HIDDEN_DUE_TO_SECURITY_REASONS"`, in the request and in the answer's `pendingModifiedValues` alike.
+- A failed call keeps its members, under the name of the error shape botocore's RDS model gives the code it answered
+  (`DBInstanceNotFound` is recorded as `DBInstanceNotFoundFault`); a code the model does not declare is kept as
+  answered. A call IAM enforcement refuses is recorded as `AccessDenied` with `"requestParameters": null`.
+
 ## EventBridge delivery
 
 "CloudTrail sends the following types of events to the default EventBridge event bus", the first of them

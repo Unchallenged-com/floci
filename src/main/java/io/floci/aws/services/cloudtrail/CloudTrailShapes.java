@@ -32,8 +32,10 @@ import java.util.regex.Pattern;
  * {@code sensitive}, and the code each modeled error answers with ({@code errors}). A
  * member is named with a lower first letter ({@code userName}, {@code tags: [{"key", "value"}]}),
  * a number, a boolean or a timestamp is written as one because its shape says so, and a sensitive
- * member is left out. A Query request ({@code IAM}) is read from its form parameters and its XML
- * result, a JSON one ({@code SQS}) from its body and its result, a map keeping its keys as sent.
+ * member is left out, or written as the text a service's records give it ({@link QueryStyle}). A
+ * list the model names the members of is read from a Query request under that name
+ * ({@code ValuesToAdd.AttributeValue.1}). A Query request ({@code IAM}) is read from its form
+ * parameters and its XML result, a JSON one ({@code SQS}) from its body and its result, a map keeping its keys as sent.
  * {@code make aws-data-check} fails when a file is stale against the pinned botocore.
  *
  * <p>A missing or malformed resource is a build defect, not a runtime condition, so loading fails
@@ -84,11 +86,16 @@ public final class CloudTrailShapes {
      * an operation the model does not carry and for a request that carries none of its members.
      */
     public ObjectNode requestParameters(String operation, MultivaluedMap<String, String> params) {
+        return requestParameters(operation, params, QueryStyle.AS_SENT);
+    }
+
+    /** As {@link #requestParameters(String, MultivaluedMap)}, written in {@code style}. */
+    public ObjectNode requestParameters(String operation, MultivaluedMap<String, String> params, QueryStyle style) {
         JsonNode input = shapes.path(operations.path(operation).asText(""));
         if (!input.has("members")) {
             return null;
         }
-        ObjectNode read = readStructure(input, "", params);
+        ObjectNode read = readStructure(input, "", params, style);
         return read.isEmpty() ? null : read;
     }
 
@@ -97,6 +104,11 @@ public final class CloudTrailShapes {
      * for an operation whose result the model does not wrap and for a result that carries nothing.
      */
     public ObjectNode result(String operation, String xml) {
+        return result(operation, xml, QueryStyle.AS_SENT);
+    }
+
+    /** As {@link #result(String, String)}, written in {@code style}. */
+    public ObjectNode result(String operation, String xml, QueryStyle style) {
         JsonNode entry = results.path(operation);
         String wrapper = entry.path("resultWrapper").asText("");
         if (wrapper.isEmpty()) {
@@ -106,8 +118,29 @@ public final class CloudTrailShapes {
         if (result == null) {
             return null;
         }
-        JsonNode read = readElement(entry.path("shape").asText(), result);
+        String output = entry.path("shape").asText();
+        JsonNode read = readElement(output, result, style);
+        if (style.loneStructureUnwrapped()) {
+            JsonNode members = shapes.path(output).path("members");
+            if (members.size() == 1) {
+                Map.Entry<String, JsonNode> lone = members.properties().iterator().next();
+                if ("structure".equals(shapes.path(lone.getValue().asText()).path("type").asText())) {
+                    read = read == null ? null : read.get(lowerFirst(lone.getKey()));
+                }
+            }
+        }
         return read instanceof ObjectNode object && !object.isEmpty() ? object : null;
+    }
+
+    /**
+     * How a service's CloudTrail records write the members of a Query call, where they differ from the
+     * call as sent: {@code sensitiveValue}, when set, writes a member the model marks sensitive as that
+     * text rather than leaving it out, and {@code loneStructureUnwrapped} writes a result whose one member
+     * is a structure as that structure's own members.
+     */
+    public record QueryStyle(String sensitiveValue, boolean loneStructureUnwrapped) {
+        /** The members as the call carried them, without the sensitive ones. */
+        public static final QueryStyle AS_SENT = new QueryStyle(null, false);
     }
 
     /**
@@ -346,10 +379,11 @@ public final class CloudTrailShapes {
         };
     }
 
-    private ObjectNode readStructure(JsonNode structure, String prefix, MultivaluedMap<String, String> params) {
+    private ObjectNode readStructure(JsonNode structure, String prefix, MultivaluedMap<String, String> params,
+                                     QueryStyle style) {
         ObjectNode read = MAPPER.createObjectNode();
         for (Map.Entry<String, JsonNode> member : structure.path("members").properties()) {
-            JsonNode value = readParameter(member.getValue().asText(), prefix + member.getKey(), params);
+            JsonNode value = readParameter(member.getValue().asText(), prefix + member.getKey(), params, style);
             if (value != null) {
                 read.set(lowerFirst(member.getKey()), value);
             }
@@ -357,27 +391,33 @@ public final class CloudTrailShapes {
         return read;
     }
 
-    private JsonNode readParameter(String shapeName, String param, MultivaluedMap<String, String> params) {
+    private JsonNode readParameter(String shapeName, String param, MultivaluedMap<String, String> params,
+                                   QueryStyle style) {
         JsonNode shape = shapes.path(shapeName);
         if (shape.path("sensitive").asBoolean()) {
-            return null;
+            boolean sent = params.containsKey(param)
+                    || params.keySet().stream().anyMatch(key -> key.startsWith(param + "."));
+            return style.sensitiveValue() == null || !sent ? null
+                    : MAPPER.getNodeFactory().textNode(style.sensitiveValue());
         }
         return switch (shape.path("type").asText()) {
             case "structure" -> {
                 if (params.keySet().stream().noneMatch(key -> key.startsWith(param + "."))) {
                     yield null;
                 }
-                ObjectNode read = readStructure(shape, param + ".", params);
+                ObjectNode read = readStructure(shape, param + ".", params, style);
                 yield read.isEmpty() ? null : read;
             }
             case "list" -> {
-                List<AwsQueryLists.IndexedMember> members = AwsQueryLists.members(params, param, null);
+                // A list the model names the members of is numbered under that name (ValuesToAdd.AttributeValue.1).
+                List<AwsQueryLists.IndexedMember> members = AwsQueryLists.members(params, param,
+                        shape.path("memberName").asText(null));
                 if (members.isEmpty()) {
                     yield null;
                 }
                 ArrayNode read = MAPPER.createArrayNode();
                 for (AwsQueryLists.IndexedMember member : members) {
-                    JsonNode value = readParameter(shape.path("member").asText(), member.prefix(), params);
+                    JsonNode value = readParameter(shape.path("member").asText(), member.prefix(), params, style);
                     if (value != null) {
                         read.add(value);
                     }
@@ -393,7 +433,8 @@ public final class CloudTrailShapes {
                 for (AwsQueryLists.IndexedMember entry : entries) {
                     String key = params.getFirst(entry.prefix() + ".key");
                     if (key != null) {
-                        JsonNode value = readParameter(shape.path("value").asText(), entry.prefix() + ".value", params);
+                        JsonNode value = readParameter(shape.path("value").asText(), entry.prefix() + ".value", params,
+                                style);
                         read.set(key, value == null ? MAPPER.nullNode() : value);
                     }
                 }
@@ -403,10 +444,10 @@ public final class CloudTrailShapes {
         };
     }
 
-    private JsonNode readElement(String shapeName, XmlParser.XmlElement element) {
+    private JsonNode readElement(String shapeName, XmlParser.XmlElement element, QueryStyle style) {
         JsonNode shape = shapes.path(shapeName);
         if (shape.path("sensitive").asBoolean()) {
-            return null;
+            return style.sensitiveValue() == null ? null : MAPPER.getNodeFactory().textNode(style.sensitiveValue());
         }
         return switch (shape.path("type").asText()) {
             case "structure" -> {
@@ -414,7 +455,7 @@ public final class CloudTrailShapes {
                 JsonNode members = shape.path("members");
                 for (XmlParser.XmlElement child : element.children()) {
                     JsonNode member = members.path(child.name());
-                    JsonNode value = member.isTextual() ? readElement(member.asText(), child) : null;
+                    JsonNode value = member.isTextual() ? readElement(member.asText(), child, style) : null;
                     if (value != null) {
                         read.set(lowerFirst(child.name()), value);
                     }
@@ -424,7 +465,7 @@ public final class CloudTrailShapes {
             case "list" -> {
                 ArrayNode read = MAPPER.createArrayNode();
                 for (XmlParser.XmlElement child : element.children()) {
-                    JsonNode value = readElement(shape.path("member").asText(), child);
+                    JsonNode value = readElement(shape.path("member").asText(), child, style);
                     if (value != null) {
                         read.add(value);
                     }
@@ -437,7 +478,8 @@ public final class CloudTrailShapes {
                     XmlParser.XmlElement key = entry.child("key");
                     XmlParser.XmlElement value = entry.child("value");
                     if (key != null) {
-                        JsonNode entryValue = value == null ? null : readElement(shape.path("value").asText(), value);
+                        JsonNode entryValue = value == null ? null : readElement(shape.path("value").asText(), value,
+                                style);
                         read.set(key.text(), entryValue == null ? MAPPER.nullNode() : entryValue);
                     }
                 }

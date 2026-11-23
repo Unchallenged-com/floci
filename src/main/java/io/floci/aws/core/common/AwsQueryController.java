@@ -16,6 +16,7 @@ import io.floci.aws.services.iam.IamQueryHandler;
 import io.floci.aws.services.iam.StsQueryHandler;
 import io.floci.aws.services.neptune.NeptuneQueryHandler;
 import io.floci.aws.services.neptune.NeptuneService;
+import io.floci.aws.services.rds.RdsCloudTrailEvents;
 import io.floci.aws.services.rds.RdsQueryHandler;
 import io.floci.aws.services.rds.RdsService;
 import io.floci.aws.services.redshift.RedshiftQueryHandler;
@@ -72,6 +73,7 @@ public class AwsQueryController {
     private final DocDbQueryHandler docDbQueryHandler;
     private final DocDbService docDbService;
     private final RdsService rdsService;
+    private final RdsCloudTrailEvents rdsCloudTrailEvents;
     /** ARNs already reported as held by both services, so the warning is logged once each. */
     private final Set<String> reportedArnCollisions = ConcurrentHashMap.newKeySet();
     private final SqsQueryHandler sqsQueryHandler;
@@ -100,6 +102,7 @@ public class AwsQueryController {
                               DocDbQueryHandler docDbQueryHandler,
                               DocDbService docDbService,
                               RdsService rdsService,
+                              RdsCloudTrailEvents rdsCloudTrailEvents,
                               SqsQueryHandler sqsQueryHandler, SnsQueryHandler snsQueryHandler,
                               SesQueryHandler sesQueryHandler,
                               IamQueryHandler iamQueryHandler, StsQueryHandler stsQueryHandler,
@@ -122,6 +125,7 @@ public class AwsQueryController {
         this.docDbQueryHandler = docDbQueryHandler;
         this.docDbService = docDbService;
         this.rdsService = rdsService;
+        this.rdsCloudTrailEvents = rdsCloudTrailEvents;
         this.sqsQueryHandler = sqsQueryHandler;
         this.snsQueryHandler = snsQueryHandler;
         this.sesQueryHandler = sesQueryHandler;
@@ -167,7 +171,11 @@ public class AwsQueryController {
         String region = regionResolver.resolveRegionFromAuth(authorization);
 
         try {
-            return dispatchToHandler(service, action, formParams, authorization, region);
+            // A Neptune or DocumentDB call is an RDS API call, which CloudTrail records as one.
+            return RdsCloudTrailEvents.SCOPES.contains(service)
+                    ? rdsCloudTrailEvents.recorded(action, formParams, region, authorization,
+                            () -> dispatchToHandler(service, action, formParams, authorization, region))
+                    : dispatchToHandler(service, action, formParams, authorization, region);
         } catch (AwsException e) {
             // Handlers that don't render their own error XML would otherwise reach
             // AwsExceptionMapper, which emits JSON — the same JSON-on-the-XML-wire defect.

@@ -87,7 +87,8 @@ def record_check(member_traits: set[str]) -> Callable[[str, dict], None]:
 def build(model: dict, provenance: str, generator: str, outputs: bool = False, required: bool = False,
           results: bool = False, sensitive: bool = False, errors: bool = False,
           check: Callable[[str, dict], None] | None = None, subset: tuple[str, ...] | None = None,
-          xml_names: bool = False, located: bool = False, ambiguous_errors_dropped: bool = False) -> dict:
+          xml_names: bool = False, located: bool = False, ambiguous_errors_dropped: bool = False,
+          list_member_names: bool = False) -> dict:
     """The input shape of every operation and every shape reachable from one, reduced to its type and
     the shapes of its members, list elements or map values.
 
@@ -102,7 +103,10 @@ def build(model: dict, provenance: str, generator: str, outputs: bool = False, r
     `located` keeps the members a REST model binds to the URI, the query string or a header, which a
     record writes as members all the same (Lambda's `"functionName"`), and gives the structure
     `locations`: each such member's `location` and the name it has there. `ambiguous_errors_dropped`
-    leaves out of `errors` a code two error shapes answer, rather than stopping."""
+    leaves out of `errors` a code two error shapes answer, rather than stopping. `list_member_names`
+    gives a list whose model names its members (`locationName`) that name as `memberName`, under which a
+    Query request numbers them (`ValuesToAdd.AttributeValue.1`) rather than in the generic
+    `ValuesToAdd.member.1` form."""
     shapes = model["shapes"]
     kept: dict[str, dict] = {}
 
@@ -132,6 +136,8 @@ def build(model: dict, provenance: str, generator: str, outputs: bool = False, r
                 keep(spec["shape"])
         elif kind == "list":
             entry["member"] = shape["member"]["shape"]
+            if list_member_names and "locationName" in shape["member"]:
+                entry["memberName"] = shape["member"]["locationName"]
             keep(shape["member"]["shape"])
         elif kind == "map":
             entry["value"] = shape["value"]["shape"]
@@ -261,7 +267,8 @@ def main(argv: list[str] | None, *, script: str, model: Path, output: Path,
          prepare: Callable[[dict], dict] | None = None,
          results: bool = False, sensitive: bool = False, errors: bool = False,
          check: Callable[[str, dict], None] | None = None, subset: tuple[str, ...] | None = None,
-         xml_names: bool = False, located: bool = False, ambiguous_errors_dropped: bool = False) -> int:
+         xml_names: bool = False, located: bool = False, ambiguous_errors_dropped: bool = False,
+         list_member_names: bool = False) -> int:
     """Drives one generator: parse the flags, read the model, write or check the vendored file.
 
     `operations` picks the constraints flavour, keeping those operations' declared constraints
@@ -277,8 +284,8 @@ def main(argv: list[str] | None, *, script: str, model: Path, output: Path,
     it vendors in part: IAM reduces a paged request to its paging members, the rest of it keeping
     the reading it has today.
 
-    `results`, `sensitive`, `errors`, `check`, `subset`, `xml_names`, `located` and
-    `ambiguous_errors_dropped` are `build`'s, for a generator
+    `results`, `sensitive`, `errors`, `check`, `subset`, `xml_names`, `located`,
+    `ambiguous_errors_dropped` and `list_member_names` are `build`'s, for a generator
     that keeps every operation's member types."""
     parser = argparse.ArgumentParser(description=description, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--check", action="store_true", help="exit 1 when the vendored file differs from a fresh generation")
@@ -297,7 +304,8 @@ def main(argv: list[str] | None, *, script: str, model: Path, output: Path,
                    else build(loaded, provenance, generator, outputs, required,
                               results=results, sensitive=sensitive, errors=errors, check=check,
                               subset=subset, xml_names=xml_names, located=located,
-                              ambiguous_errors_dropped=ambiguous_errors_dropped))
+                              ambiguous_errors_dropped=ambiguous_errors_dropped,
+                              list_member_names=list_member_names))
 
     if args.check:
         current = args.output.read_text(encoding="utf-8") if args.output.exists() else ""

@@ -25,6 +25,9 @@ carries, so it stays in SERVICES below, as the guide lists them:
   supports logging the following actions as events in CloudTrail log files", followed by the list, whose
   `DeleteAlarmActions` is no CloudWatch action: records of `DeleteAlarms` (2024) show it is that call.
   `PutMetricData`, `GetMetricData` and the other metric calls are data events.
+- RDS (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/logging-using-cloudtrail.html): "All Amazon
+  RDS actions are logged by CloudTrail", so every operation of botocore's RDS model. Neptune and DocumentDB
+  calls are "logged as calls made to the Amazon RDS API" (their guides' CloudTrail pages), under these names.
 - Lambda (https://docs.aws.amazon.com/lambda/latest/dg/logging-using-cloudtrail.html): "Lambda supports
   logging the following actions as management events in CloudTrail log files", followed by the list.
   A record names most of them with the API version they are served under (`CreateFunction20150331`),
@@ -258,6 +261,61 @@ SERVICES: dict[str, Service] = {
             "UpdateLogAnomalyDetector",
         ),
         read_only_anchors={"DescribeLogGroups": True, "DeleteLogGroup": False},
+    ),
+    "rds": Service(
+        guide="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/logging-using-cloudtrail.html",
+        # Every operation of botocore's RDS model but DescribeServerlessV2PlatformVersions, which the
+        # Service Reference does not publish, so no access level says whether it is read-only.
+        management_events=(
+            "AddRoleToDBCluster", "AddRoleToDBInstance", "AddSourceIdentifierToSubscription", "AddTagsToResource",
+            "ApplyPendingMaintenanceAction", "AuthorizeDBSecurityGroupIngress", "BacktrackDBCluster",
+            "CancelDBCapacityReservation", "CancelExportTask", "CopyDBClusterParameterGroup", "CopyDBClusterSnapshot",
+            "CopyDBParameterGroup", "CopyDBSnapshot", "CopyOptionGroup", "CreateBlueGreenDeployment",
+            "CreateCustomDBEngineVersion", "CreateDBCapacityReservation", "CreateDBCluster", "CreateDBClusterEndpoint",
+            "CreateDBClusterParameterGroup", "CreateDBClusterSnapshot", "CreateDBInstance",
+            "CreateDBInstanceReadReplica", "CreateDBParameterGroup", "CreateDBProxy", "CreateDBProxyEndpoint",
+            "CreateDBSecurityGroup", "CreateDBShardGroup", "CreateDBSnapshot", "CreateDBSubnetGroup",
+            "CreateEventSubscription", "CreateGlobalCluster", "CreateIntegration", "CreateOptionGroup",
+            "CreateTenantDatabase", "DeleteBlueGreenDeployment", "DeleteCustomDBEngineVersion", "DeleteDBCluster",
+            "DeleteDBClusterAutomatedBackup", "DeleteDBClusterEndpoint", "DeleteDBClusterParameterGroup",
+            "DeleteDBClusterSnapshot", "DeleteDBInstance", "DeleteDBInstanceAutomatedBackup", "DeleteDBParameterGroup",
+            "DeleteDBProxy", "DeleteDBProxyEndpoint", "DeleteDBSecurityGroup", "DeleteDBShardGroup", "DeleteDBSnapshot",
+            "DeleteDBSubnetGroup", "DeleteEventSubscription", "DeleteGlobalCluster", "DeleteIntegration",
+            "DeleteOptionGroup", "DeleteTenantDatabase", "DeregisterDBProxyTargets", "DescribeAccountAttributes",
+            "DescribeBlueGreenDeployments", "DescribeCertificates", "DescribeDBCapacityReservations",
+            "DescribeDBClusterAutomatedBackups", "DescribeDBClusterBacktracks", "DescribeDBClusterEndpoints",
+            "DescribeDBClusterParameterGroups", "DescribeDBClusterParameters", "DescribeDBClusterSnapshotAttributes",
+            "DescribeDBClusterSnapshots", "DescribeDBClusters", "DescribeDBEngineVersions",
+            "DescribeDBInstanceAutomatedBackups", "DescribeDBInstances", "DescribeDBLogFiles",
+            "DescribeDBMajorEngineVersions", "DescribeDBParameterGroups", "DescribeDBParameters", "DescribeDBProxies",
+            "DescribeDBProxyEndpoints", "DescribeDBProxyTargetGroups", "DescribeDBProxyTargets",
+            "DescribeDBRecommendations", "DescribeDBSecurityGroups", "DescribeDBShardGroups",
+            "DescribeDBSnapshotAttributes", "DescribeDBSnapshotTenantDatabases", "DescribeDBSnapshots",
+            "DescribeDBSubnetGroups", "DescribeEngineDefaultClusterParameters", "DescribeEngineDefaultParameters",
+            "DescribeEventCategories", "DescribeEventSubscriptions", "DescribeEvents", "DescribeExportTasks",
+            "DescribeGlobalClusters", "DescribeIntegrations", "DescribeOptionGroupOptions", "DescribeOptionGroups",
+            "DescribeOrderableDBInstanceOptions", "DescribePendingMaintenanceActions", "DescribeReservedDBInstances",
+            "DescribeReservedDBInstancesOfferings", "DescribeSourceRegions", "DescribeTenantDatabases",
+            "DescribeValidDBInstanceModifications", "DisableHttpEndpoint", "DownloadDBLogFilePortion",
+            "EnableHttpEndpoint", "FailoverDBCluster", "FailoverGlobalCluster", "ListTagsForResource",
+            "ModifyActivityStream", "ModifyCertificates", "ModifyCurrentDBClusterCapacity",
+            "ModifyCustomDBEngineVersion", "ModifyDBCapacityReservation", "ModifyDBCluster", "ModifyDBClusterEndpoint",
+            "ModifyDBClusterParameterGroup", "ModifyDBClusterSnapshotAttribute", "ModifyDBInstance",
+            "ModifyDBParameterGroup", "ModifyDBProxy", "ModifyDBProxyEndpoint", "ModifyDBProxyTargetGroup",
+            "ModifyDBRecommendation", "ModifyDBShardGroup", "ModifyDBSnapshot", "ModifyDBSnapshotAttribute",
+            "ModifyDBSubnetGroup", "ModifyEventSubscription", "ModifyGlobalCluster", "ModifyIntegration",
+            "ModifyOptionGroup", "ModifyTenantDatabase", "PromoteReadReplica", "PromoteReadReplicaDBCluster",
+            "PurchaseReservedDBInstancesOffering", "RebootDBCluster", "RebootDBInstance", "RebootDBShardGroup",
+            "RegisterDBProxyTargets", "RemoveFromGlobalCluster", "RemoveRoleFromDBCluster", "RemoveRoleFromDBInstance",
+            "RemoveSourceIdentifierFromSubscription", "RemoveTagsFromResource", "ResetDBClusterParameterGroup",
+            "ResetDBParameterGroup", "RestoreDBClusterFromS3", "RestoreDBClusterFromSnapshot",
+            "RestoreDBClusterToPointInTime", "RestoreDBInstanceFromDBSnapshot", "RestoreDBInstanceFromS3",
+            "RestoreDBInstanceToPointInTime", "RevokeDBSecurityGroupIngress", "StartActivityStream", "StartDBCluster",
+            "StartDBInstance", "StartDBInstanceAutomatedBackupsReplication", "StartExportTask", "StopActivityStream",
+            "StopDBCluster", "StopDBInstance", "StopDBInstanceAutomatedBackupsReplication",
+            "SwitchoverBlueGreenDeployment", "SwitchoverGlobalCluster", "SwitchoverReadReplica",
+        ),
+        read_only_anchors={"DescribeDBInstances": True, "DownloadDBLogFilePortion": True, "DeleteDBInstance": False},
     ),
     "secretsmanager": Service(
         guide="https://docs.aws.amazon.com/secretsmanager/latest/userguide/cloudtrail_log_entries.html",
