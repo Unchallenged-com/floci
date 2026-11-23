@@ -69,3 +69,23 @@ def test_a_management_event_the_reference_does_not_publish_fails_verification():
                           ("ListMessageMoveTasks", READ))
     assert any("PurgeQueue" in problem
                for problem in r.verify_against("sqs", r.build("sqs", SQS_REFERENCE, "test"), published))
+
+
+def test_a_call_the_guide_shows_read_only_is_read_only_whatever_its_access_level():
+    kms = r.SERVICES["kms"]
+    published = reference(*[(action, READ if name.startswith(("List", "Describe", "Get")) else WRITE)
+                            for name in kms.management_events
+                            for action in kms.reference_actions.get(name, (name,))])
+    document = r.build("kms", published, "test")
+    assert "Decrypt" in document["readOnlyActions"]
+    assert "GenerateRandom" in document["readOnlyActions"]
+    assert "ScheduleKeyDeletion" not in document["readOnlyActions"]
+    assert r.validate("kms", document) == []
+    assert r.verify_against("kms", document, published) == []
+
+
+def test_a_call_authorized_under_other_actions_is_verified_against_them():
+    kms = r.SERVICES["kms"]
+    published = reference(*[(name, WRITE) for name in kms.management_events])
+    document = r.build("kms", published, "test")
+    assert any("'ReEncrypt'" in problem for problem in r.verify_against("kms", document, published))

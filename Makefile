@@ -63,9 +63,9 @@
 # src/main/resources/aws/iam-paginators.json, what each paged IAM list pages by, is generated
 # from botocore's IAM model and paginators by tools/aws/regen_iam_paginators.py.
 # src/main/resources/aws/<service>-cloudtrail-shapes.json, how a CloudTrail record names and types an
-# IAM, SQS or Secrets Manager call's members and errors, is generated from botocore's model of the
-# service by tools/aws/regen_<service>_cloudtrail_shapes.py.
-# src/main/resources/aws/<service>-cloudtrail-events.json, which SQS and Secrets Manager calls
+# IAM, SQS, Secrets Manager or KMS call's members and errors, is generated from botocore's model of
+# the service by tools/aws/regen_<service>_cloudtrail_shapes.py.
+# src/main/resources/aws/<service>-cloudtrail-events.json, which SQS, Secrets Manager and KMS calls
 # CloudTrail records as management events and which of them are read-only, is generated from each
 # service guide's list and AWS's service reference by tools/aws/regen_cloudtrail_events.py.
 
@@ -332,6 +332,7 @@ aws-data-sync-botocore: ## Regenerate only the AWS data derived from botocore, s
 	$(PYTHON) tools/aws/regen_iam_cloudtrail_shapes.py
 	$(PYTHON) tools/aws/regen_sqs_cloudtrail_shapes.py
 	$(PYTHON) tools/aws/regen_secretsmanager_cloudtrail_shapes.py
+	$(PYTHON) tools/aws/regen_kms_cloudtrail_shapes.py
 
 aws-data-check: aws-data-check-botocore ## CI gate: the vendored AWS data must match a fresh generation
 	@$(PYTHON) tools/aws/regen_partitions.py --check || { \
@@ -550,6 +551,12 @@ aws-data-check-botocore: ## The AWS data derived from botocore must match a fres
 		echo "       Run 'make aws-data-sync' and commit the result."; \
 		exit 1; \
 	}
+	@$(PYTHON) tools/aws/regen_kms_cloudtrail_shapes.py --check || { \
+		echo ""; \
+		echo "error: src/main/resources/aws/kms-cloudtrail-shapes.json is out of date."; \
+		echo "       Run 'make aws-data-sync' and commit the result."; \
+		exit 1; \
+	}
 	@$(MAKE) --no-print-directory iam-passed-roles-check
 	@$(MAKE) --no-print-directory iam-passed-network-connectors-check
 	@$(MAKE) --no-print-directory iam-tag-on-create-check
@@ -649,7 +656,7 @@ IAM_NAMESPACES_PATHS := src/main/resources/aws/iam-service-namespaces.json \
 IAM_ACTION_RESOURCES_PATHS := src/main/resources/aws/iam-action-resources.json \
 	tools/aws/regen_iam_action_resources.py tools/aws/test_regen_iam_action_resources.py
 CLOUDTRAIL_EVENTS_PATHS := src/main/resources/aws/sqs-cloudtrail-events.json \
-	src/main/resources/aws/secretsmanager-cloudtrail-events.json \
+	src/main/resources/aws/secretsmanager-cloudtrail-events.json src/main/resources/aws/kms-cloudtrail-events.json \
 	tools/aws/regen_cloudtrail_events.py tools/aws/test_regen_cloudtrail_events.py \
 	tools/aws/regen_iam_action_resources.py
 IAM_AUTHORIZED_ACTIONS_PATHS := src/main/resources/aws/iam-authorized-actions.json \

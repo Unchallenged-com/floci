@@ -78,6 +78,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 @Execution(ExecutionMode.CONCURRENT)
 class KmsServiceTest {
@@ -308,7 +309,7 @@ class KmsServiceTest {
 
         ObjectMapper objectMapper = new ObjectMapper();
         KmsJsonHandler handler = new KmsJsonHandler(kmsService, objectMapper,
-                new RegionResolver("us-east-1", "000000000000"));
+                new RegionResolver("us-east-1", "000000000000"), mock(KmsCloudTrailEvents.class));
         ObjectNode request = objectMapper.createObjectNode();
         request.put("KeyId", replica.getKeyId());
 

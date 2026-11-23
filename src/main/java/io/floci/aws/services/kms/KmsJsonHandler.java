@@ -33,12 +33,15 @@ public class KmsJsonHandler {
     private final KmsService service;
     private final ObjectMapper objectMapper;
     private final RegionResolver regionResolver;
+    private final KmsCloudTrailEvents cloudTrailEvents;
 
     @Inject
-    public KmsJsonHandler(KmsService service, ObjectMapper objectMapper, RegionResolver regionResolver) {
+    public KmsJsonHandler(KmsService service, ObjectMapper objectMapper, RegionResolver regionResolver,
+                          KmsCloudTrailEvents cloudTrailEvents) {
         this.service = service;
         this.objectMapper = objectMapper;
         this.regionResolver = regionResolver;
+        this.cloudTrailEvents = cloudTrailEvents;
     }
 
     private static final Set<String> KEY_ID_OPERATIONS = Set.of(
@@ -66,7 +69,24 @@ public class KmsJsonHandler {
             "GenerateDataKeyWithoutPlaintext", "GenerateDataKeyPair", "GenerateDataKeyPairWithoutPlaintext",
             "Sign", "Verify", "GenerateMac", "VerifyMac");
 
+    /**
+     * Handles a call, and records it in CloudTrail ({@link KmsCloudTrailEvents}) as the caller the
+     * request was signed by.
+     */
     public Response handle(String action, JsonNode request, String region) {
+        String keyArn = cloudTrailEvents.keyNamed(action, request, region);
+        Response response;
+        try {
+            response = dispatch(action, request, region);
+        } catch (AwsException e) {
+            cloudTrailEvents.record(action, request, region, keyArn, null, e);
+            throw e;
+        }
+        cloudTrailEvents.record(action, request, region, keyArn, response, null);
+        return response;
+    }
+
+    private Response dispatch(String action, JsonNode request, String region) {
         boolean dryRun = DRY_RUN_OPERATIONS.contains(action) && dryRun(request);
         if (KEY_ID_OPERATIONS.contains(action)) {
             validateKeyIdMember(request, "KeyId");

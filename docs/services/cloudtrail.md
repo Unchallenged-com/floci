@@ -3,8 +3,8 @@
 **Protocol:** JSON 1.1 (`X-Amz-Target: com.amazonaws.cloudtrail.v20131101.CloudTrail_20131101.*`)
 **Endpoint:** `POST http://localhost:4566/`
 
-Floci emulates a CloudTrail trail's full life cycle and emits S3 data events, IAM API calls, SQS control plane calls
-and Secrets Manager API calls to the trail's destination bucket as gzipped JSON log files at the
+Floci emulates a CloudTrail trail's full life cycle and emits S3 data events, IAM API calls, SQS control plane calls,
+Secrets Manager and KMS API calls to the trail's destination bucket as gzipped JSON log files at the
 AWS-shaped key path:
 
 ```
@@ -194,6 +194,41 @@ task, is recorded too, without the `invokedBy` that names that service on AWS. A
 
 Not recorded: the service events Secrets Manager logs for rotation, replication and version deletion
 (`RotationSucceeded`, `StartSecretVersionDelete`, ...).
+
+## KMS Coverage
+
+Every KMS call is recorded as a management event, as CloudTrail
+["logs all AWS KMS operations, including read-only operations, ... operations that manage KMS keys, ... and cryptographic operations"](https://docs.aws.amazon.com/kms/latest/developerguide/logging-using-cloudtrail.html):
+one KMS ran, one it answered with an error, and, with `floci.services.iam.enforcement-enabled`, one IAM enforcement
+refused. Each record follows the guide's examples of that operation (`ct-<operation>.html`).
+
+- `eventSource` is `kms.amazonaws.com`. `readOnly` is `true` for the reads AWS's service reference
+  ([`kms.json`](https://servicereference.us-east-1.amazonaws.com/v1/kms/kms.json)) gives no mutating access level and for
+  the [cryptographic operations](https://docs.aws.amazon.com/kms/latest/developerguide/kms-cryptography.html#cryptographic-operations)
+  (`Encrypt`, `Decrypt`, `ReEncrypt`, `GenerateDataKey*`, `Sign`, `Verify`, `GenerateMac`, `VerifyMac`,
+  `GenerateRandom`, `DeriveSharedSecret`), which the guide's examples record read-only
+  (`kms-cloudtrail-events.json`, `make cloudtrail-events-sync`).
+- `requestParameters` and `responseElements` hold the members with a lower first letter, typed as botocore's KMS
+  model types them (`kms-cloudtrail-shapes.json`), without plaintext and without any binary member ("The ciphertext in
+  the request and the plaintext in the response are omitted"), and a timestamp is written as the guide's examples write
+  one (`"creationDate": "Aug 10, 2022, 10:38:27 PM"`). A `Decrypt` record always carries the key it used as `keyId`
+  and its `encryptionAlgorithm`.
+- `responseElements` is `null` for a read-only call, the cryptographic operations included, and carries the key's ARN
+  as `keyId` for `CreateAlias`, `CreateGrant`, `DeleteAlias`, `DisableKey`, `EnableKey`, `EnableKeyRotation`,
+  `ImportKeyMaterial`, `TagResource`, `UntagResource`, `UpdateAlias` and `UpdatePrimaryRegion`, as KMS does "even when
+  the AWS KMS API operation doesn't return the key ARN". A `CreateGrant` record carries the grant's ID, not its token.
+- `resources` lists the keys the call used as `AWS::KMS::Key`: the source and then the destination key of a
+  `ReEncrypt`, the key then its alias for `CreateAlias`, the alias then its key for `UpdateAlias` and `DeleteAlias`,
+  the primary key (not the replica) for `ReplicateKey`, and none (`[]`) for a call that uses no key, such as
+  `ListAliases` or `GenerateRandom`.
+- An error is recorded under its `__type` (`NotFoundException`); a call IAM enforcement refuses as `AccessDenied`
+  with `"requestParameters": null` and the message its refusal answers with. A call
+  another service makes to KMS through its API for the caller is recorded too, without `invokedBy`.
+
+Not recorded: the `keyMaterialId` of a cryptographic operation's `additionalEventData`, the `CreateKey` entry a
+`ReplicateKey` request also results in, the `DeleteKey` and `RotateKey`
+events KMS logs when it deletes or rotates a key on its own (Floci does neither), and KMS calls other services make
+internally for their own encryption (S3, Secrets Manager).
 
 ## Management events and selectors
 

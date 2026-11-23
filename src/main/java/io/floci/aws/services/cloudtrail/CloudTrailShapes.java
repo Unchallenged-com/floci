@@ -121,7 +121,12 @@ public final class CloudTrailShapes {
      * its members.
      */
     public ObjectNode requestParameters(String operation, JsonNode request) {
-        return readJsonStructure(operations.path(operation).asText(""), request);
+        return requestParameters(operation, request, JsonStyle.AS_SENT);
+    }
+
+    /** As {@link #requestParameters(String, JsonNode)}, written in {@code style}. */
+    public ObjectNode requestParameters(String operation, JsonNode request, JsonStyle style) {
+        return readJsonStructure(operations.path(operation).asText(""), request, style);
     }
 
     /**
@@ -129,23 +134,41 @@ public final class CloudTrailShapes {
      * for an operation without a result and for a result that carries nothing.
      */
     public ObjectNode result(String operation, JsonNode result) {
-        return readJsonStructure(results.path(operation).path("shape").asText(""), result);
+        return result(operation, result, JsonStyle.AS_SENT);
     }
 
-    private ObjectNode readJsonStructure(String shapeName, JsonNode value) {
+    /** As {@link #result(String, JsonNode)}, written in {@code style}. */
+    public ObjectNode result(String operation, JsonNode result, JsonStyle style) {
+        return readJsonStructure(results.path(operation).path("shape").asText(""), result, style);
+    }
+
+    /**
+     * How a service's CloudTrail records write the members of a JSON call, where they differ from
+     * the call as sent: {@code omitBlobs} leaves out every binary member (KMS records no ciphertext,
+     * import token or signature), and {@code timestamps}, when set, writes a timestamp member in that
+     * format rather than as the epoch seconds sent.
+     */
+    public record JsonStyle(boolean omitBlobs, DateTimeFormatter timestamps) {
+        /** The members as the call carried them. */
+        public static final JsonStyle AS_SENT = new JsonStyle(false, null);
+    }
+
+    private ObjectNode readJsonStructure(String shapeName, JsonNode value, JsonStyle style) {
         if (shapeName.isEmpty() || value == null || !value.isObject()) {
             return null;
         }
-        JsonNode read = readJson(shapeName, value);
+        JsonNode read = readJson(shapeName, value, style);
         return read instanceof ObjectNode object && !object.isEmpty() ? object : null;
     }
 
-    private JsonNode readJson(String shapeName, JsonNode value) {
+    private JsonNode readJson(String shapeName, JsonNode value, JsonStyle style) {
         JsonNode shape = shapes.path(shapeName);
         if (value == null || value.isNull() || shape.path("sensitive").asBoolean()) {
             return null;
         }
         return switch (shape.path("type").asText()) {
+            case "blob" -> style.omitBlobs() ? null : value;
+            case "timestamp" -> style.timestamps() == null ? value : jsonTimestamp(value, style.timestamps());
             case "structure" -> {
                 if (!value.isObject()) {
                     yield null;
@@ -154,8 +177,8 @@ public final class CloudTrailShapes {
                 JsonNode members = shape.path("members");
                 for (Map.Entry<String, JsonNode> member : value.properties()) {
                     JsonNode memberShape = members.path(member.getKey());
-                    JsonNode memberValue = memberShape.isTextual() ? readJson(memberShape.asText(), member.getValue())
-                            : null;
+                    JsonNode memberValue = memberShape.isTextual()
+                            ? readJson(memberShape.asText(), member.getValue(), style) : null;
                     if (memberValue != null) {
                         read.set(lowerFirst(member.getKey()), memberValue);
                     }
@@ -168,7 +191,7 @@ public final class CloudTrailShapes {
                 }
                 ArrayNode read = MAPPER.createArrayNode();
                 for (JsonNode element : value) {
-                    JsonNode elementValue = readJson(shape.path("member").asText(), element);
+                    JsonNode elementValue = readJson(shape.path("member").asText(), element, style);
                     if (elementValue != null) {
                         read.add(elementValue);
                     }
@@ -181,7 +204,7 @@ public final class CloudTrailShapes {
                 }
                 ObjectNode read = MAPPER.createObjectNode();
                 for (Map.Entry<String, JsonNode> entry : value.properties()) {
-                    JsonNode entryValue = readJson(shape.path("value").asText(), entry.getValue());
+                    JsonNode entryValue = readJson(shape.path("value").asText(), entry.getValue(), style);
                     read.set(entry.getKey(), entryValue == null ? MAPPER.nullNode() : entryValue);
                 }
                 yield read;
@@ -332,6 +355,18 @@ public final class CloudTrailShapes {
             }
         }
         return MAPPER.getNodeFactory().textNode(value);
+    }
+
+    /** A JSON timestamp (epoch seconds, or an ISO 8601 string) in {@code format}; kept as sent otherwise. */
+    private static JsonNode jsonTimestamp(JsonNode value, DateTimeFormatter format) {
+        try {
+            Instant instant = value.isNumber()
+                    ? Instant.ofEpochMilli(Math.round(value.asDouble() * 1000))
+                    : Instant.parse(value.asText());
+            return MAPPER.getNodeFactory().textNode(format.format(instant));
+        } catch (DateTimeParseException expected) {
+            return value;
+        }
     }
 
     private static String lowerFirst(String name) {

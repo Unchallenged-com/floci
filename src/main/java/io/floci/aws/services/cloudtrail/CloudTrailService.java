@@ -499,27 +499,32 @@ public class CloudTrailService implements StoredResourceArns, Resettable {
      * leader Region" (botocore's CloudTrail model, {@code IncludeGlobalServiceEvents}).
      * {@code userIdentity} is the caller as {@link #userIdentity} read it before the call ran, for a call
      * that can remove the key it was signed with; when null it is read from {@code accessKeyId} here.
+     * {@code additionalEventData} and {@code resources} are left out of the record when null.
      */
     public record ManagementEventInput(String eventSource, String eventName, String region, String accessKeyId,
                                        ObjectNode requestParameters, ObjectNode responseElements,
                                        boolean readOnly, String sourceIp, String userAgent, String requestId,
                                        String errorCode, String errorMessage, boolean globalService,
-                                       ObjectNode userIdentity) {
+                                       ObjectNode userIdentity, ObjectNode additionalEventData,
+                                       ArrayNode resources) {
 
-        /** A call to a Regional service, read as its caller's when it is recorded. */
+        /**
+         * A call to a Regional service, read as its caller's when it is recorded, whose record carries no
+         * {@code additionalEventData} or {@code resources}.
+         */
         public ManagementEventInput(String eventSource, String eventName, String region, String accessKeyId,
                                     ObjectNode requestParameters, ObjectNode responseElements, boolean readOnly,
                                     String sourceIp, String userAgent, String requestId, String errorCode,
                                     String errorMessage) {
             this(eventSource, eventName, region, accessKeyId, requestParameters, responseElements, readOnly,
-                    sourceIp, userAgent, requestId, errorCode, errorMessage, false, null);
+                    sourceIp, userAgent, requestId, errorCode, errorMessage, false, null, null, null);
         }
 
         /** A successful write, from a caller whose address and agent are not known. */
         public ManagementEventInput(String eventSource, String eventName, String region, String accessKeyId,
                                     ObjectNode requestParameters, ObjectNode responseElements) {
             this(eventSource, eventName, region, accessKeyId, requestParameters, responseElements, false,
-                    null, null, null, null, null, false, null);
+                    null, null, null, null, null);
         }
     }
 
@@ -563,6 +568,12 @@ public class CloudTrailService implements StoredResourceArns, Resettable {
                     ? mapper.nullNode() : in.requestParameters().deepCopy());
             record.set("responseElements", in.responseElements() == null
                     ? mapper.nullNode() : in.responseElements().deepCopy());
+            if (in.additionalEventData() != null) {
+                record.set("additionalEventData", in.additionalEventData().deepCopy());
+            }
+            if (in.resources() != null) {
+                record.set("resources", in.resources().deepCopy());
+            }
             eventHistory.record(regionResolver.getAccountId(), region, eventTime, record);
             List<MatchedTrail> matched = trailsMatching(region, entry ->
                     (!in.globalService() || entry.trail().includeGlobalServiceEvents())

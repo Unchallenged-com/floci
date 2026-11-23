@@ -1,0 +1,1593 @@
+{
+  "_source": {
+    "generator": "tools/aws/regen_kms_cloudtrail_shapes.py",
+    "botocore": "botocore 1.44.9 (installed package)"
+  },
+  "operations": {
+    "CancelKeyDeletion": "CancelKeyDeletionRequest",
+    "ConnectCustomKeyStore": "ConnectCustomKeyStoreRequest",
+    "CreateAlias": "CreateAliasRequest",
+    "CreateCustomKeyStore": "CreateCustomKeyStoreRequest",
+    "CreateGrant": "CreateGrantRequest",
+    "CreateKey": "CreateKeyRequest",
+    "Decapsulate": "DecapsulateRequest",
+    "Decrypt": "DecryptRequest",
+    "DeleteAlias": "DeleteAliasRequest",
+    "DeleteCustomKeyStore": "DeleteCustomKeyStoreRequest",
+    "DeleteImportedKeyMaterial": "DeleteImportedKeyMaterialRequest",
+    "DeriveSharedSecret": "DeriveSharedSecretRequest",
+    "DescribeCustomKeyStores": "DescribeCustomKeyStoresRequest",
+    "DescribeKey": "DescribeKeyRequest",
+    "DisableKey": "DisableKeyRequest",
+    "DisableKeyRotation": "DisableKeyRotationRequest",
+    "DisconnectCustomKeyStore": "DisconnectCustomKeyStoreRequest",
+    "EnableKey": "EnableKeyRequest",
+    "EnableKeyRotation": "EnableKeyRotationRequest",
+    "Encapsulate": "EncapsulateRequest",
+    "Encrypt": "EncryptRequest",
+    "GenerateDataKey": "GenerateDataKeyRequest",
+    "GenerateDataKeyPair": "GenerateDataKeyPairRequest",
+    "GenerateDataKeyPairWithoutPlaintext": "GenerateDataKeyPairWithoutPlaintextRequest",
+    "GenerateDataKeyWithoutPlaintext": "GenerateDataKeyWithoutPlaintextRequest",
+    "GenerateMac": "GenerateMacRequest",
+    "GenerateRandom": "GenerateRandomRequest",
+    "GetKeyLastUsage": "GetKeyLastUsageRequest",
+    "GetKeyPolicy": "GetKeyPolicyRequest",
+    "GetKeyRotationStatus": "GetKeyRotationStatusRequest",
+    "GetParametersForImport": "GetParametersForImportRequest",
+    "GetPublicKey": "GetPublicKeyRequest",
+    "ImportKeyMaterial": "ImportKeyMaterialRequest",
+    "ListAliases": "ListAliasesRequest",
+    "ListGrants": "ListGrantsRequest",
+    "ListKeyPolicies": "ListKeyPoliciesRequest",
+    "ListKeyRotations": "ListKeyRotationsRequest",
+    "ListKeys": "ListKeysRequest",
+    "ListResourceTags": "ListResourceTagsRequest",
+    "ListRetirableGrants": "ListRetirableGrantsRequest",
+    "PutKeyPolicy": "PutKeyPolicyRequest",
+    "ReEncrypt": "ReEncryptRequest",
+    "ReplicateKey": "ReplicateKeyRequest",
+    "RetireGrant": "RetireGrantRequest",
+    "RevokeGrant": "RevokeGrantRequest",
+    "RotateKeyOnDemand": "RotateKeyOnDemandRequest",
+    "ScheduleKeyDeletion": "ScheduleKeyDeletionRequest",
+    "Sign": "SignRequest",
+    "TagResource": "TagResourceRequest",
+    "UntagResource": "UntagResourceRequest",
+    "UpdateAlias": "UpdateAliasRequest",
+    "UpdateCustomKeyStore": "UpdateCustomKeyStoreRequest",
+    "UpdateKeyDescription": "UpdateKeyDescriptionRequest",
+    "UpdatePrimaryRegion": "UpdatePrimaryRegionRequest",
+    "Verify": "VerifyRequest",
+    "VerifyMac": "VerifyMacRequest"
+  },
+  "results": {
+    "CancelKeyDeletion": {
+      "shape": "CancelKeyDeletionResponse",
+      "resultWrapper": null
+    },
+    "ConnectCustomKeyStore": {
+      "shape": "ConnectCustomKeyStoreResponse",
+      "resultWrapper": null
+    },
+    "CreateCustomKeyStore": {
+      "shape": "CreateCustomKeyStoreResponse",
+      "resultWrapper": null
+    },
+    "CreateGrant": {
+      "shape": "CreateGrantResponse",
+      "resultWrapper": null
+    },
+    "CreateKey": {
+      "shape": "CreateKeyResponse",
+      "resultWrapper": null
+    },
+    "Decapsulate": {
+      "shape": "DecapsulateResponse",
+      "resultWrapper": null
+    },
+    "Decrypt": {
+      "shape": "DecryptResponse",
+      "resultWrapper": null
+    },
+    "DeleteCustomKeyStore": {
+      "shape": "DeleteCustomKeyStoreResponse",
+      "resultWrapper": null
+    },
+    "DeleteImportedKeyMaterial": {
+      "shape": "DeleteImportedKeyMaterialResponse",
+      "resultWrapper": null
+    },
+    "DeriveSharedSecret": {
+      "shape": "DeriveSharedSecretResponse",
+      "resultWrapper": null
+    },
+    "DescribeCustomKeyStores": {
+      "shape": "DescribeCustomKeyStoresResponse",
+      "resultWrapper": null
+    },
+    "DescribeKey": {
+      "shape": "DescribeKeyResponse",
+      "resultWrapper": null
+    },
+    "DisconnectCustomKeyStore": {
+      "shape": "DisconnectCustomKeyStoreResponse",
+      "resultWrapper": null
+    },
+    "Encapsulate": {
+      "shape": "EncapsulateResponse",
+      "resultWrapper": null
+    },
+    "Encrypt": {
+      "shape": "EncryptResponse",
+      "resultWrapper": null
+    },
+    "GenerateDataKey": {
+      "shape": "GenerateDataKeyResponse",
+      "resultWrapper": null
+    },
+    "GenerateDataKeyPair": {
+      "shape": "GenerateDataKeyPairResponse",
+      "resultWrapper": null
+    },
+    "GenerateDataKeyPairWithoutPlaintext": {
+      "shape": "GenerateDataKeyPairWithoutPlaintextResponse",
+      "resultWrapper": null
+    },
+    "GenerateDataKeyWithoutPlaintext": {
+      "shape": "GenerateDataKeyWithoutPlaintextResponse",
+      "resultWrapper": null
+    },
+    "GenerateMac": {
+      "shape": "GenerateMacResponse",
+      "resultWrapper": null
+    },
+    "GenerateRandom": {
+      "shape": "GenerateRandomResponse",
+      "resultWrapper": null
+    },
+    "GetKeyLastUsage": {
+      "shape": "GetKeyLastUsageResponse",
+      "resultWrapper": null
+    },
+    "GetKeyPolicy": {
+      "shape": "GetKeyPolicyResponse",
+      "resultWrapper": null
+    },
+    "GetKeyRotationStatus": {
+      "shape": "GetKeyRotationStatusResponse",
+      "resultWrapper": null
+    },
+    "GetParametersForImport": {
+      "shape": "GetParametersForImportResponse",
+      "resultWrapper": null
+    },
+    "GetPublicKey": {
+      "shape": "GetPublicKeyResponse",
+      "resultWrapper": null
+    },
+    "ImportKeyMaterial": {
+      "shape": "ImportKeyMaterialResponse",
+      "resultWrapper": null
+    },
+    "ListAliases": {
+      "shape": "ListAliasesResponse",
+      "resultWrapper": null
+    },
+    "ListGrants": {
+      "shape": "ListGrantsResponse",
+      "resultWrapper": null
+    },
+    "ListKeyPolicies": {
+      "shape": "ListKeyPoliciesResponse",
+      "resultWrapper": null
+    },
+    "ListKeyRotations": {
+      "shape": "ListKeyRotationsResponse",
+      "resultWrapper": null
+    },
+    "ListKeys": {
+      "shape": "ListKeysResponse",
+      "resultWrapper": null
+    },
+    "ListResourceTags": {
+      "shape": "ListResourceTagsResponse",
+      "resultWrapper": null
+    },
+    "ListRetirableGrants": {
+      "shape": "ListGrantsResponse",
+      "resultWrapper": null
+    },
+    "ReEncrypt": {
+      "shape": "ReEncryptResponse",
+      "resultWrapper": null
+    },
+    "ReplicateKey": {
+      "shape": "ReplicateKeyResponse",
+      "resultWrapper": null
+    },
+    "RotateKeyOnDemand": {
+      "shape": "RotateKeyOnDemandResponse",
+      "resultWrapper": null
+    },
+    "ScheduleKeyDeletion": {
+      "shape": "ScheduleKeyDeletionResponse",
+      "resultWrapper": null
+    },
+    "Sign": {
+      "shape": "SignResponse",
+      "resultWrapper": null
+    },
+    "UpdateCustomKeyStore": {
+      "shape": "UpdateCustomKeyStoreResponse",
+      "resultWrapper": null
+    },
+    "Verify": {
+      "shape": "VerifyResponse",
+      "resultWrapper": null
+    },
+    "VerifyMac": {
+      "shape": "VerifyMacResponse",
+      "resultWrapper": null
+    }
+  },
+  "shapes": {
+    "AWSAccountIdType": {
+      "type": "string"
+    },
+    "AccountIdType": {
+      "type": "string"
+    },
+    "AlgorithmSpec": {
+      "type": "string"
+    },
+    "AliasList": {
+      "type": "list",
+      "member": "AliasListEntry"
+    },
+    "AliasListEntry": {
+      "type": "structure",
+      "members": {
+        "AliasName": "AliasNameType",
+        "AliasArn": "ArnType",
+        "TargetKeyId": "KeyIdType",
+        "CreationDate": "DateType",
+        "LastUpdatedDate": "DateType"
+      }
+    },
+    "AliasNameType": {
+      "type": "string"
+    },
+    "ArnType": {
+      "type": "string"
+    },
+    "AttestationDocumentType": {
+      "type": "blob"
+    },
+    "BackingKeyIdResponseType": {
+      "type": "string"
+    },
+    "BackingKeyIdType": {
+      "type": "string"
+    },
+    "BooleanType": {
+      "type": "boolean"
+    },
+    "CancelKeyDeletionRequest": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType"
+      }
+    },
+    "CancelKeyDeletionResponse": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType"
+      }
+    },
+    "CiphertextType": {
+      "type": "blob"
+    },
+    "CloudHsmClusterIdType": {
+      "type": "string"
+    },
+    "CloudTrailEventIdType": {
+      "type": "string"
+    },
+    "ConnectCustomKeyStoreRequest": {
+      "type": "structure",
+      "members": {
+        "CustomKeyStoreId": "CustomKeyStoreIdType"
+      }
+    },
+    "ConnectCustomKeyStoreResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "ConnectionErrorCodeType": {
+      "type": "string"
+    },
+    "ConnectionStateType": {
+      "type": "string"
+    },
+    "CreateAliasRequest": {
+      "type": "structure",
+      "members": {
+        "AliasName": "AliasNameType",
+        "TargetKeyId": "KeyIdType"
+      }
+    },
+    "CreateCustomKeyStoreRequest": {
+      "type": "structure",
+      "members": {
+        "CustomKeyStoreName": "CustomKeyStoreNameType",
+        "CloudHsmClusterId": "CloudHsmClusterIdType",
+        "TrustAnchorCertificate": "TrustAnchorCertificateType",
+        "KeyStorePassword": "KeyStorePasswordType",
+        "CustomKeyStoreType": "CustomKeyStoreType",
+        "XksProxyUriEndpoint": "XksProxyUriEndpointType",
+        "XksProxyUriPath": "XksProxyUriPathType",
+        "XksProxyVpcEndpointServiceName": "XksProxyVpcEndpointServiceNameType",
+        "XksProxyVpcEndpointServiceOwner": "AccountIdType",
+        "XksProxyAuthenticationCredential": "XksProxyAuthenticationCredentialType",
+        "XksProxyConnectivity": "XksProxyConnectivityType"
+      }
+    },
+    "CreateCustomKeyStoreResponse": {
+      "type": "structure",
+      "members": {
+        "CustomKeyStoreId": "CustomKeyStoreIdType"
+      }
+    },
+    "CreateGrantRequest": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "GranteePrincipal": "PrincipalIdType",
+        "RetiringPrincipal": "PrincipalIdType",
+        "Operations": "GrantOperationList",
+        "Constraints": "GrantConstraints",
+        "GrantTokens": "GrantTokenList",
+        "Name": "GrantNameType",
+        "DryRun": "NullableBooleanType",
+        "GranteeServicePrincipal": "ServicePrincipalType",
+        "RetiringServicePrincipal": "ServicePrincipalType"
+      }
+    },
+    "CreateGrantResponse": {
+      "type": "structure",
+      "members": {
+        "GrantToken": "GrantTokenType",
+        "GrantId": "GrantIdType"
+      }
+    },
+    "CreateKeyRequest": {
+      "type": "structure",
+      "members": {
+        "Policy": "PolicyType",
+        "Description": "DescriptionType",
+        "KeyUsage": "KeyUsageType",
+        "CustomerMasterKeySpec": "CustomerMasterKeySpec",
+        "KeySpec": "KeySpec",
+        "Origin": "OriginType",
+        "CustomKeyStoreId": "CustomKeyStoreIdType",
+        "BypassPolicyLockoutSafetyCheck": "BooleanType",
+        "Tags": "TagList",
+        "MultiRegion": "NullableBooleanType",
+        "XksKeyId": "XksKeyIdType"
+      }
+    },
+    "CreateKeyResponse": {
+      "type": "structure",
+      "members": {
+        "KeyMetadata": "KeyMetadata"
+      }
+    },
+    "CustomKeyStoreIdType": {
+      "type": "string"
+    },
+    "CustomKeyStoreNameType": {
+      "type": "string"
+    },
+    "CustomKeyStoreType": {
+      "type": "string"
+    },
+    "CustomKeyStoresList": {
+      "type": "list",
+      "member": "CustomKeyStoresListEntry"
+    },
+    "CustomKeyStoresListEntry": {
+      "type": "structure",
+      "members": {
+        "CustomKeyStoreId": "CustomKeyStoreIdType",
+        "CustomKeyStoreName": "CustomKeyStoreNameType",
+        "CloudHsmClusterId": "CloudHsmClusterIdType",
+        "TrustAnchorCertificate": "TrustAnchorCertificateType",
+        "ConnectionState": "ConnectionStateType",
+        "ConnectionErrorCode": "ConnectionErrorCodeType",
+        "CreationDate": "DateType",
+        "CustomKeyStoreType": "CustomKeyStoreType",
+        "XksProxyConfiguration": "XksProxyConfigurationType"
+      }
+    },
+    "CustomerMasterKeySpec": {
+      "type": "string"
+    },
+    "DataKeyPairSpec": {
+      "type": "string"
+    },
+    "DataKeySpec": {
+      "type": "string"
+    },
+    "DateType": {
+      "type": "timestamp"
+    },
+    "DecapsulateRequest": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "SharedSecretCiphertextBlob": "CiphertextType",
+        "EncapsulationAlgorithm": "EncapsulationAlgorithmSpec",
+        "GrantTokens": "GrantTokenList",
+        "DryRun": "NullableBooleanType"
+      }
+    },
+    "DecapsulateResponse": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "SharedSecret": "PlaintextType",
+        "EncapsulationAlgorithm": "EncapsulationAlgorithmSpec"
+      }
+    },
+    "DecryptRequest": {
+      "type": "structure",
+      "members": {
+        "CiphertextBlob": "CiphertextType",
+        "EncryptionContext": "EncryptionContextType",
+        "GrantTokens": "GrantTokenList",
+        "KeyId": "KeyIdType",
+        "EncryptionAlgorithm": "EncryptionAlgorithmSpec",
+        "Recipient": "RecipientInfo",
+        "DryRun": "NullableBooleanType",
+        "DryRunModifiers": "DryRunModifierList"
+      }
+    },
+    "DecryptResponse": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "Plaintext": "PlaintextType",
+        "EncryptionAlgorithm": "EncryptionAlgorithmSpec",
+        "CiphertextForRecipient": "CiphertextType",
+        "KeyMaterialId": "BackingKeyIdType"
+      }
+    },
+    "DeleteAliasRequest": {
+      "type": "structure",
+      "members": {
+        "AliasName": "AliasNameType"
+      }
+    },
+    "DeleteCustomKeyStoreRequest": {
+      "type": "structure",
+      "members": {
+        "CustomKeyStoreId": "CustomKeyStoreIdType"
+      }
+    },
+    "DeleteCustomKeyStoreResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "DeleteImportedKeyMaterialRequest": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "KeyMaterialId": "BackingKeyIdType"
+      }
+    },
+    "DeleteImportedKeyMaterialResponse": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "KeyMaterialId": "BackingKeyIdResponseType"
+      }
+    },
+    "DeriveSharedSecretRequest": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "KeyAgreementAlgorithm": "KeyAgreementAlgorithmSpec",
+        "PublicKey": "PublicKeyType",
+        "GrantTokens": "GrantTokenList",
+        "DryRun": "NullableBooleanType",
+        "Recipient": "RecipientInfo"
+      }
+    },
+    "DeriveSharedSecretResponse": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "SharedSecret": "PlaintextType",
+        "CiphertextForRecipient": "CiphertextType",
+        "KeyAgreementAlgorithm": "KeyAgreementAlgorithmSpec",
+        "KeyOrigin": "OriginType"
+      }
+    },
+    "DescribeCustomKeyStoresRequest": {
+      "type": "structure",
+      "members": {
+        "CustomKeyStoreId": "CustomKeyStoreIdType",
+        "CustomKeyStoreName": "CustomKeyStoreNameType",
+        "Limit": "LimitType",
+        "Marker": "MarkerType"
+      }
+    },
+    "DescribeCustomKeyStoresResponse": {
+      "type": "structure",
+      "members": {
+        "CustomKeyStores": "CustomKeyStoresList",
+        "NextMarker": "MarkerType",
+        "Truncated": "BooleanType"
+      }
+    },
+    "DescribeKeyRequest": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "GrantTokens": "GrantTokenList"
+      }
+    },
+    "DescribeKeyResponse": {
+      "type": "structure",
+      "members": {
+        "KeyMetadata": "KeyMetadata"
+      }
+    },
+    "DescriptionType": {
+      "type": "string"
+    },
+    "DisableKeyRequest": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType"
+      }
+    },
+    "DisableKeyRotationRequest": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType"
+      }
+    },
+    "DisconnectCustomKeyStoreRequest": {
+      "type": "structure",
+      "members": {
+        "CustomKeyStoreId": "CustomKeyStoreIdType"
+      }
+    },
+    "DisconnectCustomKeyStoreResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "DryRunModifierList": {
+      "type": "list",
+      "member": "DryRunModifierType"
+    },
+    "DryRunModifierType": {
+      "type": "string"
+    },
+    "EnableKeyRequest": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType"
+      }
+    },
+    "EnableKeyRotationRequest": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "RotationPeriodInDays": "RotationPeriodInDaysType"
+      }
+    },
+    "EncapsulateRequest": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "EncapsulationAlgorithm": "EncapsulationAlgorithmSpec",
+        "GrantTokens": "GrantTokenList",
+        "DryRun": "NullableBooleanType"
+      }
+    },
+    "EncapsulateResponse": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "SharedSecret": "PlaintextType",
+        "SharedSecretCiphertextBlob": "CiphertextType",
+        "EncapsulationAlgorithm": "EncapsulationAlgorithmSpec"
+      }
+    },
+    "EncapsulationAlgorithmSpec": {
+      "type": "string"
+    },
+    "EncapsulationAlgorithmSpecList": {
+      "type": "list",
+      "member": "EncapsulationAlgorithmSpec"
+    },
+    "EncryptRequest": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "Plaintext": "PlaintextType",
+        "EncryptionContext": "EncryptionContextType",
+        "GrantTokens": "GrantTokenList",
+        "EncryptionAlgorithm": "EncryptionAlgorithmSpec",
+        "DryRun": "NullableBooleanType"
+      }
+    },
+    "EncryptResponse": {
+      "type": "structure",
+      "members": {
+        "CiphertextBlob": "CiphertextType",
+        "KeyId": "KeyIdType",
+        "EncryptionAlgorithm": "EncryptionAlgorithmSpec"
+      }
+    },
+    "EncryptionAlgorithmSpec": {
+      "type": "string"
+    },
+    "EncryptionAlgorithmSpecList": {
+      "type": "list",
+      "member": "EncryptionAlgorithmSpec"
+    },
+    "EncryptionContextType": {
+      "type": "map",
+      "value": "EncryptionContextValue"
+    },
+    "EncryptionContextValue": {
+      "type": "string"
+    },
+    "ExpirationModelType": {
+      "type": "string"
+    },
+    "GenerateDataKeyPairRequest": {
+      "type": "structure",
+      "members": {
+        "EncryptionContext": "EncryptionContextType",
+        "KeyId": "KeyIdType",
+        "KeyPairSpec": "DataKeyPairSpec",
+        "GrantTokens": "GrantTokenList",
+        "Recipient": "RecipientInfo",
+        "DryRun": "NullableBooleanType"
+      }
+    },
+    "GenerateDataKeyPairResponse": {
+      "type": "structure",
+      "members": {
+        "PrivateKeyCiphertextBlob": "CiphertextType",
+        "PrivateKeyPlaintext": "PlaintextType",
+        "PublicKey": "PublicKeyType",
+        "KeyId": "KeyIdType",
+        "KeyPairSpec": "DataKeyPairSpec",
+        "CiphertextForRecipient": "CiphertextType",
+        "KeyMaterialId": "BackingKeyIdType"
+      }
+    },
+    "GenerateDataKeyPairWithoutPlaintextRequest": {
+      "type": "structure",
+      "members": {
+        "EncryptionContext": "EncryptionContextType",
+        "KeyId": "KeyIdType",
+        "KeyPairSpec": "DataKeyPairSpec",
+        "GrantTokens": "GrantTokenList",
+        "DryRun": "NullableBooleanType"
+      }
+    },
+    "GenerateDataKeyPairWithoutPlaintextResponse": {
+      "type": "structure",
+      "members": {
+        "PrivateKeyCiphertextBlob": "CiphertextType",
+        "PublicKey": "PublicKeyType",
+        "KeyId": "KeyIdType",
+        "KeyPairSpec": "DataKeyPairSpec",
+        "KeyMaterialId": "BackingKeyIdType"
+      }
+    },
+    "GenerateDataKeyRequest": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "EncryptionContext": "EncryptionContextType",
+        "NumberOfBytes": "NumberOfBytesType",
+        "KeySpec": "DataKeySpec",
+        "GrantTokens": "GrantTokenList",
+        "Recipient": "RecipientInfo",
+        "DryRun": "NullableBooleanType"
+      }
+    },
+    "GenerateDataKeyResponse": {
+      "type": "structure",
+      "members": {
+        "CiphertextBlob": "CiphertextType",
+        "Plaintext": "PlaintextType",
+        "KeyId": "KeyIdType",
+        "CiphertextForRecipient": "CiphertextType",
+        "KeyMaterialId": "BackingKeyIdType"
+      }
+    },
+    "GenerateDataKeyWithoutPlaintextRequest": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "EncryptionContext": "EncryptionContextType",
+        "KeySpec": "DataKeySpec",
+        "NumberOfBytes": "NumberOfBytesType",
+        "GrantTokens": "GrantTokenList",
+        "DryRun": "NullableBooleanType"
+      }
+    },
+    "GenerateDataKeyWithoutPlaintextResponse": {
+      "type": "structure",
+      "members": {
+        "CiphertextBlob": "CiphertextType",
+        "KeyId": "KeyIdType",
+        "KeyMaterialId": "BackingKeyIdType"
+      }
+    },
+    "GenerateMacRequest": {
+      "type": "structure",
+      "members": {
+        "Message": "PlaintextType",
+        "KeyId": "KeyIdType",
+        "MacAlgorithm": "MacAlgorithmSpec",
+        "GrantTokens": "GrantTokenList",
+        "DryRun": "NullableBooleanType"
+      }
+    },
+    "GenerateMacResponse": {
+      "type": "structure",
+      "members": {
+        "Mac": "CiphertextType",
+        "MacAlgorithm": "MacAlgorithmSpec",
+        "KeyId": "KeyIdType"
+      }
+    },
+    "GenerateRandomRequest": {
+      "type": "structure",
+      "members": {
+        "NumberOfBytes": "NumberOfBytesType",
+        "CustomKeyStoreId": "CustomKeyStoreIdType",
+        "Recipient": "RecipientInfo"
+      }
+    },
+    "GenerateRandomResponse": {
+      "type": "structure",
+      "members": {
+        "Plaintext": "PlaintextType",
+        "CiphertextForRecipient": "CiphertextType"
+      }
+    },
+    "GetKeyLastUsageRequest": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType"
+      }
+    },
+    "GetKeyLastUsageResponse": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "KeyLastUsage": "KeyLastUsageData",
+        "TrackingStartDate": "DateType",
+        "KeyCreationDate": "DateType"
+      }
+    },
+    "GetKeyPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "PolicyName": "PolicyNameType"
+      }
+    },
+    "GetKeyPolicyResponse": {
+      "type": "structure",
+      "members": {
+        "Policy": "PolicyType",
+        "PolicyName": "PolicyNameType"
+      }
+    },
+    "GetKeyRotationStatusRequest": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType"
+      }
+    },
+    "GetKeyRotationStatusResponse": {
+      "type": "structure",
+      "members": {
+        "KeyRotationEnabled": "BooleanType",
+        "KeyId": "KeyIdType",
+        "RotationPeriodInDays": "RotationPeriodInDaysType",
+        "NextRotationDate": "DateType",
+        "OnDemandRotationStartDate": "DateType"
+      }
+    },
+    "GetParametersForImportRequest": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "WrappingAlgorithm": "AlgorithmSpec",
+        "WrappingKeySpec": "WrappingKeySpec"
+      }
+    },
+    "GetParametersForImportResponse": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "ImportToken": "CiphertextType",
+        "PublicKey": "PlaintextType",
+        "ParametersValidTo": "DateType"
+      }
+    },
+    "GetPublicKeyRequest": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "GrantTokens": "GrantTokenList"
+      }
+    },
+    "GetPublicKeyResponse": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "PublicKey": "PublicKeyType",
+        "CustomerMasterKeySpec": "CustomerMasterKeySpec",
+        "KeySpec": "KeySpec",
+        "KeyUsage": "KeyUsageType",
+        "EncryptionAlgorithms": "EncryptionAlgorithmSpecList",
+        "SigningAlgorithms": "SigningAlgorithmSpecList",
+        "KeyAgreementAlgorithms": "KeyAgreementAlgorithmSpecList",
+        "EncapsulationAlgorithms": "EncapsulationAlgorithmSpecList"
+      }
+    },
+    "GrantConstraintSourceArnType": {
+      "type": "string"
+    },
+    "GrantConstraints": {
+      "type": "structure",
+      "members": {
+        "EncryptionContextSubset": "EncryptionContextType",
+        "EncryptionContextEquals": "EncryptionContextType",
+        "SourceArn": "GrantConstraintSourceArnType"
+      }
+    },
+    "GrantIdType": {
+      "type": "string"
+    },
+    "GrantList": {
+      "type": "list",
+      "member": "GrantListEntry"
+    },
+    "GrantListEntry": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "GrantId": "GrantIdType",
+        "Name": "GrantNameType",
+        "CreationDate": "DateType",
+        "GranteePrincipal": "PrincipalIdType",
+        "RetiringPrincipal": "PrincipalIdType",
+        "IssuingAccount": "PrincipalIdType",
+        "Operations": "GrantOperationList",
+        "Constraints": "GrantConstraints",
+        "GranteeServicePrincipal": "ServicePrincipalType",
+        "RetiringServicePrincipal": "ServicePrincipalType"
+      }
+    },
+    "GrantNameType": {
+      "type": "string"
+    },
+    "GrantOperation": {
+      "type": "string"
+    },
+    "GrantOperationList": {
+      "type": "list",
+      "member": "GrantOperation"
+    },
+    "GrantTokenList": {
+      "type": "list",
+      "member": "GrantTokenType"
+    },
+    "GrantTokenType": {
+      "type": "string"
+    },
+    "ImportKeyMaterialRequest": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "ImportToken": "CiphertextType",
+        "EncryptedKeyMaterial": "CiphertextType",
+        "ValidTo": "DateType",
+        "ExpirationModel": "ExpirationModelType",
+        "ImportType": "ImportType",
+        "KeyMaterialDescription": "KeyMaterialDescriptionType",
+        "KeyMaterialId": "BackingKeyIdType"
+      }
+    },
+    "ImportKeyMaterialResponse": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "KeyMaterialId": "BackingKeyIdType"
+      }
+    },
+    "ImportState": {
+      "type": "string"
+    },
+    "ImportType": {
+      "type": "string"
+    },
+    "IncludeKeyMaterial": {
+      "type": "string"
+    },
+    "KeyAgreementAlgorithmSpec": {
+      "type": "string"
+    },
+    "KeyAgreementAlgorithmSpecList": {
+      "type": "list",
+      "member": "KeyAgreementAlgorithmSpec"
+    },
+    "KeyEncryptionMechanism": {
+      "type": "string"
+    },
+    "KeyIdType": {
+      "type": "string"
+    },
+    "KeyLastUsageData": {
+      "type": "structure",
+      "members": {
+        "Operation": "KeyLastUsageTrackingOperation",
+        "Timestamp": "DateType",
+        "CloudTrailEventId": "CloudTrailEventIdType",
+        "KmsRequestId": "KmsRequestIdType"
+      }
+    },
+    "KeyLastUsageTrackingOperation": {
+      "type": "string"
+    },
+    "KeyList": {
+      "type": "list",
+      "member": "KeyListEntry"
+    },
+    "KeyListEntry": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "KeyArn": "ArnType"
+      }
+    },
+    "KeyManagerType": {
+      "type": "string"
+    },
+    "KeyMaterialDescriptionType": {
+      "type": "string"
+    },
+    "KeyMaterialState": {
+      "type": "string"
+    },
+    "KeyMetadata": {
+      "type": "structure",
+      "members": {
+        "AWSAccountId": "AWSAccountIdType",
+        "KeyId": "KeyIdType",
+        "Arn": "ArnType",
+        "CreationDate": "DateType",
+        "Enabled": "BooleanType",
+        "Description": "DescriptionType",
+        "KeyUsage": "KeyUsageType",
+        "KeyState": "KeyState",
+        "DeletionDate": "DateType",
+        "ValidTo": "DateType",
+        "Origin": "OriginType",
+        "CustomKeyStoreId": "CustomKeyStoreIdType",
+        "CloudHsmClusterId": "CloudHsmClusterIdType",
+        "ExpirationModel": "ExpirationModelType",
+        "KeyManager": "KeyManagerType",
+        "CustomerMasterKeySpec": "CustomerMasterKeySpec",
+        "KeySpec": "KeySpec",
+        "EncryptionAlgorithms": "EncryptionAlgorithmSpecList",
+        "SigningAlgorithms": "SigningAlgorithmSpecList",
+        "KeyAgreementAlgorithms": "KeyAgreementAlgorithmSpecList",
+        "EncapsulationAlgorithms": "EncapsulationAlgorithmSpecList",
+        "MultiRegion": "NullableBooleanType",
+        "MultiRegionConfiguration": "MultiRegionConfiguration",
+        "PendingDeletionWindowInDays": "PendingWindowInDaysType",
+        "MacAlgorithms": "MacAlgorithmSpecList",
+        "XksKeyConfiguration": "XksKeyConfigurationType",
+        "CurrentKeyMaterialId": "BackingKeyIdType"
+      }
+    },
+    "KeySpec": {
+      "type": "string"
+    },
+    "KeyState": {
+      "type": "string"
+    },
+    "KeyStorePasswordType": {
+      "type": "string",
+      "sensitive": true
+    },
+    "KeyUsageType": {
+      "type": "string"
+    },
+    "KmsRequestIdType": {
+      "type": "string"
+    },
+    "LimitType": {
+      "type": "integer"
+    },
+    "ListAliasesRequest": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "Limit": "LimitType",
+        "Marker": "MarkerType"
+      }
+    },
+    "ListAliasesResponse": {
+      "type": "structure",
+      "members": {
+        "Aliases": "AliasList",
+        "NextMarker": "MarkerType",
+        "Truncated": "BooleanType"
+      }
+    },
+    "ListGrantsRequest": {
+      "type": "structure",
+      "members": {
+        "Limit": "LimitType",
+        "Marker": "MarkerType",
+        "KeyId": "KeyIdType",
+        "GrantId": "GrantIdType",
+        "GranteePrincipal": "PrincipalIdType",
+        "GranteeServicePrincipal": "ServicePrincipalType"
+      }
+    },
+    "ListGrantsResponse": {
+      "type": "structure",
+      "members": {
+        "Grants": "GrantList",
+        "NextMarker": "MarkerType",
+        "Truncated": "BooleanType"
+      }
+    },
+    "ListKeyPoliciesRequest": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "Limit": "LimitType",
+        "Marker": "MarkerType"
+      }
+    },
+    "ListKeyPoliciesResponse": {
+      "type": "structure",
+      "members": {
+        "PolicyNames": "PolicyNameList",
+        "NextMarker": "MarkerType",
+        "Truncated": "BooleanType"
+      }
+    },
+    "ListKeyRotationsRequest": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "IncludeKeyMaterial": "IncludeKeyMaterial",
+        "Limit": "LimitType",
+        "Marker": "MarkerType"
+      }
+    },
+    "ListKeyRotationsResponse": {
+      "type": "structure",
+      "members": {
+        "Rotations": "RotationsList",
+        "NextMarker": "MarkerType",
+        "Truncated": "BooleanType"
+      }
+    },
+    "ListKeysRequest": {
+      "type": "structure",
+      "members": {
+        "Limit": "LimitType",
+        "Marker": "MarkerType",
+        "ResourceOwners": "ResourceOwnersList"
+      }
+    },
+    "ListKeysResponse": {
+      "type": "structure",
+      "members": {
+        "Keys": "KeyList",
+        "NextMarker": "MarkerType",
+        "Truncated": "BooleanType"
+      }
+    },
+    "ListResourceTagsRequest": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "Limit": "LimitType",
+        "Marker": "MarkerType"
+      }
+    },
+    "ListResourceTagsResponse": {
+      "type": "structure",
+      "members": {
+        "Tags": "TagList",
+        "NextMarker": "MarkerType",
+        "Truncated": "BooleanType"
+      }
+    },
+    "ListRetirableGrantsRequest": {
+      "type": "structure",
+      "members": {
+        "Limit": "LimitType",
+        "Marker": "MarkerType",
+        "RetiringPrincipal": "PrincipalIdType",
+        "RetiringServicePrincipal": "ServicePrincipalType"
+      }
+    },
+    "MacAlgorithmSpec": {
+      "type": "string"
+    },
+    "MacAlgorithmSpecList": {
+      "type": "list",
+      "member": "MacAlgorithmSpec"
+    },
+    "MarkerType": {
+      "type": "string"
+    },
+    "MessageType": {
+      "type": "string"
+    },
+    "MultiRegionConfiguration": {
+      "type": "structure",
+      "members": {
+        "MultiRegionKeyType": "MultiRegionKeyType",
+        "PrimaryKey": "MultiRegionKey",
+        "ReplicaKeys": "MultiRegionKeyList"
+      }
+    },
+    "MultiRegionKey": {
+      "type": "structure",
+      "members": {
+        "Arn": "ArnType",
+        "Region": "RegionType"
+      }
+    },
+    "MultiRegionKeyList": {
+      "type": "list",
+      "member": "MultiRegionKey"
+    },
+    "MultiRegionKeyType": {
+      "type": "string"
+    },
+    "NullableBooleanType": {
+      "type": "boolean"
+    },
+    "NumberOfBytesType": {
+      "type": "integer"
+    },
+    "OriginType": {
+      "type": "string"
+    },
+    "PendingWindowInDaysType": {
+      "type": "integer"
+    },
+    "PlaintextType": {
+      "type": "blob",
+      "sensitive": true
+    },
+    "PolicyNameList": {
+      "type": "list",
+      "member": "PolicyNameType"
+    },
+    "PolicyNameType": {
+      "type": "string"
+    },
+    "PolicyType": {
+      "type": "string"
+    },
+    "PrincipalIdType": {
+      "type": "string"
+    },
+    "PublicKeyType": {
+      "type": "blob"
+    },
+    "PutKeyPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "PolicyName": "PolicyNameType",
+        "Policy": "PolicyType",
+        "BypassPolicyLockoutSafetyCheck": "BooleanType"
+      }
+    },
+    "ReEncryptRequest": {
+      "type": "structure",
+      "members": {
+        "CiphertextBlob": "CiphertextType",
+        "SourceEncryptionContext": "EncryptionContextType",
+        "SourceKeyId": "KeyIdType",
+        "DestinationKeyId": "KeyIdType",
+        "DestinationEncryptionContext": "EncryptionContextType",
+        "SourceEncryptionAlgorithm": "EncryptionAlgorithmSpec",
+        "DestinationEncryptionAlgorithm": "EncryptionAlgorithmSpec",
+        "GrantTokens": "GrantTokenList",
+        "DryRun": "NullableBooleanType",
+        "DryRunModifiers": "DryRunModifierList"
+      }
+    },
+    "ReEncryptResponse": {
+      "type": "structure",
+      "members": {
+        "CiphertextBlob": "CiphertextType",
+        "SourceKeyId": "KeyIdType",
+        "KeyId": "KeyIdType",
+        "SourceEncryptionAlgorithm": "EncryptionAlgorithmSpec",
+        "DestinationEncryptionAlgorithm": "EncryptionAlgorithmSpec",
+        "SourceKeyMaterialId": "BackingKeyIdType",
+        "DestinationKeyMaterialId": "BackingKeyIdType"
+      }
+    },
+    "RecipientInfo": {
+      "type": "structure",
+      "members": {
+        "KeyEncryptionAlgorithm": "KeyEncryptionMechanism",
+        "AttestationDocument": "AttestationDocumentType"
+      }
+    },
+    "RegionType": {
+      "type": "string"
+    },
+    "ReplicateKeyRequest": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "ReplicaRegion": "RegionType",
+        "Policy": "PolicyType",
+        "BypassPolicyLockoutSafetyCheck": "BooleanType",
+        "Description": "DescriptionType",
+        "Tags": "TagList"
+      }
+    },
+    "ReplicateKeyResponse": {
+      "type": "structure",
+      "members": {
+        "ReplicaKeyMetadata": "KeyMetadata",
+        "ReplicaPolicy": "PolicyType",
+        "ReplicaTags": "TagList"
+      }
+    },
+    "ResourceOwnerType": {
+      "type": "string"
+    },
+    "ResourceOwnersList": {
+      "type": "list",
+      "member": "ResourceOwnerType"
+    },
+    "RetireGrantRequest": {
+      "type": "structure",
+      "members": {
+        "GrantToken": "GrantTokenType",
+        "KeyId": "KeyIdType",
+        "GrantId": "GrantIdType",
+        "DryRun": "NullableBooleanType"
+      }
+    },
+    "RevokeGrantRequest": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "GrantId": "GrantIdType",
+        "DryRun": "NullableBooleanType"
+      }
+    },
+    "RotateKeyOnDemandRequest": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType"
+      }
+    },
+    "RotateKeyOnDemandResponse": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType"
+      }
+    },
+    "RotationPeriodInDaysType": {
+      "type": "integer"
+    },
+    "RotationType": {
+      "type": "string"
+    },
+    "RotationsList": {
+      "type": "list",
+      "member": "RotationsListEntry"
+    },
+    "RotationsListEntry": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "KeyMaterialId": "BackingKeyIdType",
+        "KeyMaterialDescription": "KeyMaterialDescriptionType",
+        "ImportState": "ImportState",
+        "KeyMaterialState": "KeyMaterialState",
+        "ExpirationModel": "ExpirationModelType",
+        "ValidTo": "DateType",
+        "RotationDate": "DateType",
+        "RotationType": "RotationType"
+      }
+    },
+    "ScheduleKeyDeletionRequest": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "PendingWindowInDays": "PendingWindowInDaysType"
+      }
+    },
+    "ScheduleKeyDeletionResponse": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "DeletionDate": "DateType",
+        "KeyState": "KeyState",
+        "PendingWindowInDays": "PendingWindowInDaysType"
+      }
+    },
+    "ServicePrincipalType": {
+      "type": "string"
+    },
+    "SignRequest": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "Message": "PlaintextType",
+        "MessageType": "MessageType",
+        "GrantTokens": "GrantTokenList",
+        "SigningAlgorithm": "SigningAlgorithmSpec",
+        "DryRun": "NullableBooleanType"
+      }
+    },
+    "SignResponse": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "Signature": "CiphertextType",
+        "SigningAlgorithm": "SigningAlgorithmSpec"
+      }
+    },
+    "SigningAlgorithmSpec": {
+      "type": "string"
+    },
+    "SigningAlgorithmSpecList": {
+      "type": "list",
+      "member": "SigningAlgorithmSpec"
+    },
+    "Tag": {
+      "type": "structure",
+      "members": {
+        "TagKey": "TagKeyType",
+        "TagValue": "TagValueType"
+      }
+    },
+    "TagKeyList": {
+      "type": "list",
+      "member": "TagKeyType"
+    },
+    "TagKeyType": {
+      "type": "string"
+    },
+    "TagList": {
+      "type": "list",
+      "member": "Tag"
+    },
+    "TagResourceRequest": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "Tags": "TagList"
+      }
+    },
+    "TagValueType": {
+      "type": "string"
+    },
+    "TrustAnchorCertificateType": {
+      "type": "string"
+    },
+    "UntagResourceRequest": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "TagKeys": "TagKeyList"
+      }
+    },
+    "UpdateAliasRequest": {
+      "type": "structure",
+      "members": {
+        "AliasName": "AliasNameType",
+        "TargetKeyId": "KeyIdType"
+      }
+    },
+    "UpdateCustomKeyStoreRequest": {
+      "type": "structure",
+      "members": {
+        "CustomKeyStoreId": "CustomKeyStoreIdType",
+        "NewCustomKeyStoreName": "CustomKeyStoreNameType",
+        "KeyStorePassword": "KeyStorePasswordType",
+        "CloudHsmClusterId": "CloudHsmClusterIdType",
+        "XksProxyUriEndpoint": "XksProxyUriEndpointType",
+        "XksProxyUriPath": "XksProxyUriPathType",
+        "XksProxyVpcEndpointServiceName": "XksProxyVpcEndpointServiceNameType",
+        "XksProxyVpcEndpointServiceOwner": "AccountIdType",
+        "XksProxyAuthenticationCredential": "XksProxyAuthenticationCredentialType",
+        "XksProxyConnectivity": "XksProxyConnectivityType"
+      }
+    },
+    "UpdateCustomKeyStoreResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "UpdateKeyDescriptionRequest": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "Description": "DescriptionType"
+      }
+    },
+    "UpdatePrimaryRegionRequest": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "PrimaryRegion": "RegionType"
+      }
+    },
+    "VerifyMacRequest": {
+      "type": "structure",
+      "members": {
+        "Message": "PlaintextType",
+        "KeyId": "KeyIdType",
+        "MacAlgorithm": "MacAlgorithmSpec",
+        "Mac": "CiphertextType",
+        "GrantTokens": "GrantTokenList",
+        "DryRun": "NullableBooleanType"
+      }
+    },
+    "VerifyMacResponse": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "MacValid": "BooleanType",
+        "MacAlgorithm": "MacAlgorithmSpec"
+      }
+    },
+    "VerifyRequest": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "Message": "PlaintextType",
+        "MessageType": "MessageType",
+        "Signature": "CiphertextType",
+        "SigningAlgorithm": "SigningAlgorithmSpec",
+        "GrantTokens": "GrantTokenList",
+        "DryRun": "NullableBooleanType"
+      }
+    },
+    "VerifyResponse": {
+      "type": "structure",
+      "members": {
+        "KeyId": "KeyIdType",
+        "SignatureValid": "BooleanType",
+        "SigningAlgorithm": "SigningAlgorithmSpec"
+      }
+    },
+    "WrappingKeySpec": {
+      "type": "string"
+    },
+    "XksKeyConfigurationType": {
+      "type": "structure",
+      "members": {
+        "Id": "XksKeyIdType"
+      }
+    },
+    "XksKeyIdType": {
+      "type": "string"
+    },
+    "XksProxyAuthenticationAccessKeyIdType": {
+      "type": "string",
+      "sensitive": true
+    },
+    "XksProxyAuthenticationCredentialType": {
+      "type": "structure",
+      "members": {
+        "AccessKeyId": "XksProxyAuthenticationAccessKeyIdType",
+        "RawSecretAccessKey": "XksProxyAuthenticationRawSecretAccessKeyType"
+      }
+    },
+    "XksProxyAuthenticationRawSecretAccessKeyType": {
+      "type": "string",
+      "sensitive": true
+    },
+    "XksProxyConfigurationType": {
+      "type": "structure",
+      "members": {
+        "Connectivity": "XksProxyConnectivityType",
+        "AccessKeyId": "XksProxyAuthenticationAccessKeyIdType",
+        "UriEndpoint": "XksProxyUriEndpointType",
+        "UriPath": "XksProxyUriPathType",
+        "VpcEndpointServiceName": "XksProxyVpcEndpointServiceNameType",
+        "VpcEndpointServiceOwner": "AccountIdType"
+      }
+    },
+    "XksProxyConnectivityType": {
+      "type": "string"
+    },
+    "XksProxyUriEndpointType": {
+      "type": "string"
+    },
+    "XksProxyUriPathType": {
+      "type": "string"
+    },
+    "XksProxyVpcEndpointServiceNameType": {
+      "type": "string"
+    }
+  },
+  "errors": {
+    "AlreadyExistsException": "AlreadyExistsException",
+    "CloudHsmClusterInUseException": "CloudHsmClusterInUseException",
+    "CloudHsmClusterInvalidConfigurationException": "CloudHsmClusterInvalidConfigurationException",
+    "CloudHsmClusterNotActiveException": "CloudHsmClusterNotActiveException",
+    "CloudHsmClusterNotFoundException": "CloudHsmClusterNotFoundException",
+    "CloudHsmClusterNotRelatedException": "CloudHsmClusterNotRelatedException",
+    "ConflictException": "ConflictException",
+    "CustomKeyStoreHasCMKsException": "CustomKeyStoreHasCMKsException",
+    "CustomKeyStoreInvalidStateException": "CustomKeyStoreInvalidStateException",
+    "CustomKeyStoreNameInUseException": "CustomKeyStoreNameInUseException",
+    "CustomKeyStoreNotFoundException": "CustomKeyStoreNotFoundException",
+    "DependencyTimeoutException": "DependencyTimeoutException",
+    "DisabledException": "DisabledException",
+    "DryRunOperationException": "DryRunOperationException",
+    "ExpiredImportTokenException": "ExpiredImportTokenException",
+    "IncorrectKeyException": "IncorrectKeyException",
+    "IncorrectKeyMaterialException": "IncorrectKeyMaterialException",
+    "IncorrectTrustAnchorException": "IncorrectTrustAnchorException",
+    "InvalidAliasNameException": "InvalidAliasNameException",
+    "InvalidArnException": "InvalidArnException",
+    "InvalidCiphertextException": "InvalidCiphertextException",
+    "InvalidGrantIdException": "InvalidGrantIdException",
+    "InvalidGrantTokenException": "InvalidGrantTokenException",
+    "InvalidImportTokenException": "InvalidImportTokenException",
+    "InvalidKeyUsageException": "InvalidKeyUsageException",
+    "InvalidMarkerException": "InvalidMarkerException",
+    "KMSInternalException": "KMSInternalException",
+    "KMSInvalidMacException": "KMSInvalidMacException",
+    "KMSInvalidSignatureException": "KMSInvalidSignatureException",
+    "KMSInvalidStateException": "KMSInvalidStateException",
+    "KeyUnavailableException": "KeyUnavailableException",
+    "LimitExceededException": "LimitExceededException",
+    "MalformedPolicyDocumentException": "MalformedPolicyDocumentException",
+    "NotFoundException": "NotFoundException",
+    "TagException": "TagException",
+    "UnsupportedOperationException": "UnsupportedOperationException",
+    "XksKeyAlreadyInUseException": "XksKeyAlreadyInUseException",
+    "XksKeyInvalidConfigurationException": "XksKeyInvalidConfigurationException",
+    "XksKeyNotFoundException": "XksKeyNotFoundException",
+    "XksProxyIncorrectAuthenticationCredentialException": "XksProxyIncorrectAuthenticationCredentialException",
+    "XksProxyInvalidConfigurationException": "XksProxyInvalidConfigurationException",
+    "XksProxyInvalidResponseException": "XksProxyInvalidResponseException",
+    "XksProxyUriEndpointInUseException": "XksProxyUriEndpointInUseException",
+    "XksProxyUriInUseException": "XksProxyUriInUseException",
+    "XksProxyUriUnreachableException": "XksProxyUriUnreachableException",
+    "XksProxyVpcEndpointServiceInUseException": "XksProxyVpcEndpointServiceInUseException",
+    "XksProxyVpcEndpointServiceInvalidConfigurationException": "XksProxyVpcEndpointServiceInvalidConfigurationException",
+    "XksProxyVpcEndpointServiceNotFoundException": "XksProxyVpcEndpointServiceNotFoundException"
+  }
+}

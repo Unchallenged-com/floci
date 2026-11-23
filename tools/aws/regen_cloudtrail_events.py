@@ -13,12 +13,17 @@ carries, so it stays in SERVICES below, as the guide lists them:
 - Secrets Manager (https://docs.aws.amazon.com/secretsmanager/latest/userguide/cloudtrail_log_entries.html):
   "AWS Secrets Manager writes entries to your AWS CloudTrail log for all Secrets Manager
   operations", followed by the entries its operations generate.
+- KMS (https://docs.aws.amazon.com/kms/latest/developerguide/logging-using-cloudtrail.html): "CloudTrail
+  logs all AWS KMS operations", so every operation of botocore's KMS model.
 
 Which of them are read-only is the access level AWS's Service Reference gives each action, read as
 `regen_iam_action_resources.py` reads IAM's: an action with none of the Write, Permissions
 management or Tagging properties is one CloudTrail "considers ... read-only"
 (https://servicereference.us-east-1.amazonaws.com/v1/<service>/<service>.json). That endpoint is
-live, so a fresh generation can differ from a vendored file only when AWS changes an access level:
+live, so a fresh generation can differ from a vendored file only when AWS changes an access level.
+A service guide can also show calls read-only whose access level is Write: KMS's cryptographic
+operations, which its log entry examples record with `"readOnly": true`. SERVICES lists those.
+
 
 - `--check` is offline and structural: each file lists exactly its service's management events,
   sorted, its read-only actions are among them, and the anchors SERVICES gives (a read that is
@@ -38,7 +43,7 @@ import argparse
 import json
 import sys
 import urllib.request
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -58,6 +63,10 @@ class Service:
     management_events: tuple[str, ...]
     # Read-only or not, whichever way the reference says, for a read and a write the file must carry.
     read_only_anchors: dict[str, bool]
+    # Calls the guide shows read-only although the reference gives them a mutating access level.
+    read_only_operations: tuple[str, ...] = ()
+    # Calls the reference authorizes under other action names, rather than their own.
+    reference_actions: dict[str, tuple[str, ...]] = field(default_factory=dict)
 
 
 SERVICES: dict[str, Service] = {
@@ -77,6 +86,35 @@ SERVICES: dict[str, Service] = {
             "UntagQueue",
         ),
         read_only_anchors={"ListMessageMoveTasks": True, "DeleteQueue": False},
+    ),
+    "kms": Service(
+        guide="https://docs.aws.amazon.com/kms/latest/developerguide/logging-using-cloudtrail.html",
+        management_events=(
+            "CancelKeyDeletion", "ConnectCustomKeyStore", "CreateAlias", "CreateCustomKeyStore", "CreateGrant",
+            "CreateKey", "Decrypt", "DeleteAlias", "DeleteCustomKeyStore", "DeleteImportedKeyMaterial",
+            "DeriveSharedSecret", "DescribeCustomKeyStores", "DescribeKey", "DisableKey", "DisableKeyRotation",
+            "DisconnectCustomKeyStore", "EnableKey", "EnableKeyRotation", "Encrypt", "GenerateDataKey",
+            "GenerateDataKeyPair", "GenerateDataKeyPairWithoutPlaintext", "GenerateDataKeyWithoutPlaintext",
+            "GenerateMac", "GenerateRandom", "GetKeyLastUsage", "GetKeyPolicy", "GetKeyRotationStatus",
+            "GetParametersForImport", "GetPublicKey", "ImportKeyMaterial", "ListAliases", "ListGrants",
+            "ListKeyPolicies", "ListKeyRotations", "ListKeys", "ListResourceTags", "ListRetirableGrants",
+            "PutKeyPolicy", "ReEncrypt", "ReplicateKey", "RetireGrant", "RevokeGrant", "RotateKeyOnDemand",
+            "ScheduleKeyDeletion", "Sign", "TagResource", "UntagResource", "UpdateAlias", "UpdateCustomKeyStore",
+            "UpdateKeyDescription", "UpdatePrimaryRegion", "Verify", "VerifyMac",
+        ),
+        read_only_anchors={"Decrypt": True, "ListAliases": True, "ScheduleKeyDeletion": False},
+        # The cryptographic operations (https://docs.aws.amazon.com/kms/latest/developerguide/
+        # kms-cryptography.html#cryptographic-operations), which the log entry examples record
+        # read-only (ct-decrypt.html, ct-encrypt.html, ct-reencrypt.html, ct-sign.html, ...).
+        read_only_operations=(
+            "Decrypt", "DeriveSharedSecret", "Encrypt", "GenerateDataKey", "GenerateDataKeyPair",
+            "GenerateDataKeyPairWithoutPlaintext", "GenerateDataKeyWithoutPlaintext", "GenerateMac",
+            "GenerateRandom", "ReEncrypt", "Sign", "Verify", "VerifyMac",
+        ),
+        # Its required permissions are "kms:ReEncryptFrom permission on the source KMS key" and
+        # "kms:ReEncryptTo permission on the destination KMS key"
+        # (https://docs.aws.amazon.com/kms/latest/APIReference/API_ReEncrypt.html).
+        reference_actions={"ReEncrypt": ("ReEncryptFrom", "ReEncryptTo")},
     ),
     "secretsmanager": Service(
         guide="https://docs.aws.amazon.com/secretsmanager/latest/userguide/cloudtrail_log_entries.html",
@@ -127,7 +165,7 @@ def fetch_reference(service: str, source: Path | None) -> tuple[dict, str]:
 
 def build(service: str, reference: dict, provenance: str) -> dict:
     spec = SERVICES[service]
-    read_only = set(read_only_actions_from(reference))
+    read_only = set(read_only_actions_from(reference)) | set(spec.read_only_operations)
     return {
         "_source": {
             "generator": "tools/aws/regen_cloudtrail_events.py",
@@ -169,8 +207,9 @@ def validate(service: str, document: dict) -> list[str]:
 def verify_against(service: str, document: dict, reference: dict) -> list[str]:
     """What the vendored file claims and the reference does not say."""
     published = {action.get("Name") for action in reference.get("Actions", [])}
-    problems = [f"{name!r} is not a {service} action AWS publishes"
-                for name in SERVICES[service].management_events if name not in published]
+    spec = SERVICES[service]
+    problems = [f"{name!r} is not a {service} action AWS publishes" for name in spec.management_events
+                if not any(action in published for action in spec.reference_actions.get(name, (name,)))]
     expected = build(service, reference, "")["readOnlyActions"]
     if document.get("readOnlyActions") != expected:
         problems.append(f"readOnlyActions is {document.get('readOnlyActions')}, the reference gives {expected}")
