@@ -3,7 +3,7 @@
 **Protocol:** JSON 1.1 (`X-Amz-Target: com.amazonaws.cloudtrail.v20131101.CloudTrail_20131101.*`)
 **Endpoint:** `POST http://localhost:4566/`
 
-Floci emulates a CloudTrail trail's full life cycle and emits S3 data and management events, IAM API calls
+Floci emulates a CloudTrail trail's full life cycle and emits S3 data and management events, IAM and STS API calls
 and selected Secrets Manager management writes to the trail's destination bucket as gzipped JSON log files at the
 AWS-shaped key path:
 
@@ -147,6 +147,39 @@ refused.
 
 How each member is typed, which members are sensitive and each error's shape name are read from
 `iam-cloudtrail-shapes.json`, which `make aws-data-sync` generates from the pinned botocore.
+
+## STS Coverage
+
+Every STS API call is recorded as a management event, as CloudTrail
+["logs all authenticated API requests to IAM and AWS STS API operations"](https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html):
+one STS ran, one STS refused, and, with `floci.services.iam.enforcement-enabled`, one IAM enforcement refused.
+
+- `eventSource` is `sts.amazonaws.com`. A request to a Regional endpoint is recorded in the Region it was signed for,
+  and reaches the trails of that Region whatever their `IncludeGlobalServiceEvents`. A request whose `Host` is the
+  partition's global endpoint (`sts.amazonaws.com`) is recorded in that endpoint's signing Region (`us-east-1` in
+  `aws`) as a global service event, which only a trail with `IncludeGlobalServiceEvents` records: "AWS CloudTrail
+  logs for requests made to the AWS STS global endpoint will be sent to the US East (N. Virginia) Region".
+- `readOnly` and `responseElements` follow the
+  [IAM User Guide's table](https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html#cloudtrail-integration_signin-tempcreds):
+  `AssumeRole`, `AssumeRoleWithSAML` and `AssumeRoleWithWebIdentity` are read-only and carry the call's result;
+  `AssumeRoot`, `GetFederationToken` and `GetSessionToken` are not read-only and carry it too. `GetWebIdentityToken`
+  is not read-only and carries no result, the token being a bearer credential. Any other call (`GetCallerIdentity`,
+  `GetAccessKeyInfo`, `DecodeAuthorizationMessage`) is read-only with `"responseElements": null`.
+- `requestParameters` and `responseElements` hold the request's members and the call's result, named with a lower
+  first letter and typed as botocore's STS model types them (`"durationSeconds": 900`,
+  `tags: [{"key": ..., "value": ...}]`, `"sessionTokenSize": 1428`). A member the model marks sensitive (the SAML
+  assertion, the web identity token, a trade-in token, `secretAccessKey`) is left out, and so is the MFA code
+  (`tokenCode`), which the guide's records leave out beside the `serialNumber` they keep. A credential's `expiration`
+  is written as the guide's records write it (`Feb 12, 2025, 11:16:48 PM`).
+- `AssumeRole`, `AssumeRoleWithSAML` and `AssumeRoleWithWebIdentity` carry the role in `resources`
+  (`AWS::IAM::Role`), and `AssumeRoleWithSAML` the SAML provider too.
+- `AssumeRoleWithSAML` and `AssumeRoleWithWebIdentity` name their caller as a `SAMLUser` or a `WebIdentityUser`. They
+  are recorded once STS accepted the assertion or the token; the guide says some non-authenticated STS requests "might
+  not be logged".
+- An error is recorded under the code STS answered with. A refused call (`AccessDenied`) is recorded with its message
+  and request ID, `"requestParameters": null` and no `resources`; any other error keeps the request's members.
+- `sourceIPAddress` is the address the request came from and `userAgent` its `User-Agent`. Like every management
+  event, an STS call also reaches the account's event history, whether or not a trail records it.
 
 ## Management Write Coverage
 

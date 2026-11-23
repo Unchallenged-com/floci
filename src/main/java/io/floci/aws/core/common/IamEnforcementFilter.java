@@ -23,6 +23,7 @@ import io.floci.aws.services.iam.ResourceArnBuilder;
 import io.floci.aws.services.iam.ResourcePolicyProvider;
 import io.floci.aws.services.iam.ResourcePolicyProviders;
 import io.floci.aws.services.iam.ScpProvider;
+import io.floci.aws.services.iam.StsCloudTrailEvents;
 import io.floci.aws.services.iam.model.CallerContext;
 import io.floci.aws.services.iam.model.IamRole;
 import io.floci.aws.services.s3.S3CloudTrailEvents;
@@ -1772,17 +1773,20 @@ public class IamEnforcementFilter implements ContainerRequestFilter {
     }
 
     /**
-     * Refuses the request with {@code refusal}, recording an IAM API call as the CloudTrail management event
-     * IAM records for the calls it runs, with the code, message and request ID the refusal answers with.
+     * Refuses the request with {@code refusal}, recording an IAM or STS API call as the CloudTrail management
+     * event that service records for the calls it runs, with the code, message and request ID the refusal
+     * answers with.
      */
     private void abortIamAware(ContainerRequestContext ctx, Response refusal, String akid, String action,
                                String credentialScope, String region) {
-        if ("iam".equals(credentialScope)) {
+        boolean sts = "sts".equals(credentialScope);
+        if ("iam".equals(credentialScope) || sts) {
             try {
                 MultivaluedMap<String, String> params = new MultivaluedHashMap<>();
                 IamConditionContextResolver.formParameters(ctx).forEach(params::putSingle);
-                CloudTrailService.ManagementEventInput event = IamCloudTrailEvents.denied(params, akid, region,
-                        currentVertxRequest.getCurrent(), refusal);
+                CloudTrailService.ManagementEventInput event = sts
+                        ? StsCloudTrailEvents.denied(params, akid, region, currentVertxRequest.getCurrent(), refusal)
+                        : IamCloudTrailEvents.denied(params, akid, region, currentVertxRequest.getCurrent(), refusal);
                 if (event != null) {
                     cloudTrailService.emitManagementEvent(event);
                 }

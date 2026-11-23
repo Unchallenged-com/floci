@@ -12,6 +12,7 @@ import io.floci.aws.services.elasticbeanstalk.ElasticBeanstalkQueryHandler;
 import io.floci.aws.services.elb.ElbClassicQueryHandler;
 import io.floci.aws.services.elbv2.ElbV2QueryHandler;
 import io.floci.aws.services.iam.IamQueryHandler;
+import io.floci.aws.services.iam.StsCloudTrailEvents;
 import io.floci.aws.services.iam.StsQueryHandler;
 import io.floci.aws.services.neptune.NeptuneQueryHandler;
 import io.floci.aws.services.neptune.NeptuneService;
@@ -78,6 +79,7 @@ public class AwsQueryController {
     private final SesQueryHandler sesQueryHandler;
     private final IamQueryHandler iamQueryHandler;
     private final StsQueryHandler stsQueryHandler;
+    private final StsCloudTrailEvents stsCloudTrailEvents;
     private final CloudWatchMetricsQueryHandler cloudWatchMetricsQueryHandler;
     private final CognitoJsonHandler cognitoJsonHandler;
     private final Ec2QueryHandler ec2QueryHandler;
@@ -101,6 +103,7 @@ public class AwsQueryController {
                               SqsQueryHandler sqsQueryHandler, SnsQueryHandler snsQueryHandler,
                               SesQueryHandler sesQueryHandler,
                               IamQueryHandler iamQueryHandler, StsQueryHandler stsQueryHandler,
+                              StsCloudTrailEvents stsCloudTrailEvents,
                               CloudWatchMetricsQueryHandler cloudWatchMetricsQueryHandler,
                               CognitoJsonHandler cognitoJsonHandler,
                               Ec2QueryHandler ec2QueryHandler,
@@ -124,6 +127,7 @@ public class AwsQueryController {
         this.sesQueryHandler = sesQueryHandler;
         this.iamQueryHandler = iamQueryHandler;
         this.stsQueryHandler = stsQueryHandler;
+        this.stsCloudTrailEvents = stsCloudTrailEvents;
         this.cloudWatchMetricsQueryHandler = cloudWatchMetricsQueryHandler;
         this.cognitoJsonHandler = cognitoJsonHandler;
         this.ec2QueryHandler = ec2QueryHandler;
@@ -162,21 +166,28 @@ public class AwsQueryController {
 
         String region = regionResolver.resolveRegionFromAuth(authorization);
 
+        Response response;
         try {
-            return dispatchToHandler(service, action, formParams, authorization, region);
+            response = dispatchToHandler(service, action, formParams, authorization, region);
         } catch (AwsException e) {
             // Handlers that don't render their own error XML would otherwise reach
             // AwsExceptionMapper, which emits JSON — the same JSON-on-the-XML-wire defect.
             // The declared code and status must survive; only the encoding changes.
-            return xmlErrorResponse(e.getErrorCode(), e.getMessage(), e.getHttpStatus(),
+            response = xmlErrorResponse(e.getErrorCode(), e.getMessage(), e.getHttpStatus(),
                     e.getHttpStatus() >= 500 ? "Receiver" : "Sender");
         } catch (Exception e) {
             // A handler bug (e.g. an NPE) must never leak Quarkus's JSON error page onto
             // the Query/XML wire — SDK parsers fail before they can surface anything useful.
             LOG.errorv(e, "Unhandled error dispatching Query action {0} for service {1}", action, service);
-            return xmlErrorResponse("InternalFailure",
+            response = xmlErrorResponse("InternalFailure",
                     "Unexpected error: " + AwsErrorMessages.describe(e), 500, "Receiver");
         }
+        if ("sts".equals(service)) {
+            // Recorded here rather than in the handler: STS answers some refusals by throwing,
+            // and the record names the answer the caller got.
+            stsCloudTrailEvents.record(action, formParams, authorization, response);
+        }
+        return response;
     }
 
     private Response dispatchToHandler(String service, String action,

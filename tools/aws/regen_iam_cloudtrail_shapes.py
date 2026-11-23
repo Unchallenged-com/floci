@@ -36,23 +36,11 @@ from request_shapes import REPO_ROOT
 OUTPUT = REPO_ROOT / "src/main/resources/aws/iam-cloudtrail-shapes.json"
 MODEL = Path("iam/2010-05-08")
 
-# The shape types `IamCloudTrailShapes` reads, and the member traits it reads beside the shape a
-# member names. Any other is one it would pass over or misread, so the generation stops rather than
-# vendoring it.
-TYPES = {"structure", "list", "map", "string", "integer", "long", "boolean", "timestamp", "blob",
-         "double", "float"}
+# The member traits `CloudTrailShapes` reads beside the shape a member names. Any other, or a shape
+# type the record does not read, is one it would pass over or misread, so the generation stops
+# rather than vendoring it.
 MEMBER_TRAITS = {"shape", "documentation"}
-
-
-def readable(name: str, shape: dict) -> None:
-    """Raises for a shape the record cannot read: a type it does not know, or a member trait, such as
-    a `locationName`, that would rename the member on the wire."""
-    if shape["type"] not in TYPES:
-        raise ValueError(f"{name} is a {shape['type']}, which the record does not read")
-    for member, spec in shape.get("members", {}).items():
-        extra = set(spec) - MEMBER_TRAITS
-        if extra:
-            raise ValueError(f"{name}.{member} carries {sorted(extra)}, which the record does not read")
+readable = request_shapes.record_check(MEMBER_TRAITS)
 
 
 def main(argv: list[str] | None = None) -> int:

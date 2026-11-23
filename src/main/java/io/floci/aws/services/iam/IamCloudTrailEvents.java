@@ -9,6 +9,7 @@ import io.floci.aws.core.common.RequestSourceAddress;
 import io.floci.aws.core.common.ServicePrincipals;
 import io.floci.aws.core.common.XmlParser;
 import io.floci.aws.services.cloudtrail.CloudTrailService;
+import io.floci.aws.services.cloudtrail.CloudTrailShapes;
 import io.quarkus.vertx.http.runtime.CurrentVertxRequest;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.ext.web.RoutingContext;
@@ -33,7 +34,7 @@ import java.util.Optional;
  * CloudTrail redacts the responseElements information", and the call's result otherwise. Which
  * call is read-only is AWS's Service Reference's access level ({@link IamActionResources#isReadOnly});
  * how each member is named and typed, which members are left out as sensitive, and the name each
- * error is recorded under are botocore's IAM model ({@link IamCloudTrailShapes}).
+ * error is recorded under are botocore's IAM model ({@link CloudTrailShapes}).
  *
  * <p>A call IAM enforcement refuses carries the code, the message and the request ID its refusal
  * answered with, so the record and the response match, and {@code "requestParameters": null}, as AWS
@@ -83,7 +84,7 @@ public class IamCloudTrailEvents {
         // A read-only call's result is left out: "When logging a read-only event, CloudTrail redacts
         // the responseElements information".
         ObjectNode result = answer.errorCode() == null && !IamActionResources.isReadOnly(action)
-                ? IamCloudTrailShapes.get().result(action, xml) : null;
+                ? CloudTrailShapes.of("iam").result(action, xml) : null;
         cloudTrail.emitManagementEvent(event(action, params, accounts.extractAccessKeyId(authorization), caller,
                 requestContext.getRegion(), request(currentRequest.getCurrent()), result, answer));
     }
@@ -105,7 +106,7 @@ public class IamCloudTrailEvents {
     }
 
     /** The request ID a Query response answered with, and for a failed one its error's code and message. */
-    private record Answer(String requestId, String errorCode, String errorMessage) {
+    record Answer(String requestId, String errorCode, String errorMessage) {
 
         static Answer of(String xml, boolean failed) {
             String code = failed ? XmlParser.extractFirst(xml, "Code", null) : null;
@@ -124,7 +125,7 @@ public class IamCloudTrailEvents {
                                                                 Answer answer) {
         String sourceIp = request == null ? null : RequestSourceAddress.of(request);
         String userAgent = request == null ? null : request.getHeader("User-Agent");
-        IamCloudTrailShapes shapes = IamCloudTrailShapes.get();
+        CloudTrailShapes shapes = CloudTrailShapes.of("iam");
         // IAM's events are recorded in the Region IAM's global endpoint signs for in the request's
         // partition, and as a global service's, which only a trail including global service events records.
         Optional<AwsPartition.GlobalEndpoint> iam = AwsPartitions.forRegionOrCommercial(region).globalEndpoint("iam");

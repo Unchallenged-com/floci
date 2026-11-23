@@ -1,4 +1,4 @@
-package io.floci.aws.services.iam;
+package io.floci.aws.services.cloudtrail;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.ws.rs.core.MultivaluedHashMap;
@@ -11,9 +11,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.nullValue;
 
-class IamCloudTrailShapesTest {
+class CloudTrailShapesTest {
 
-    private static final IamCloudTrailShapes SHAPES = IamCloudTrailShapes.get();
+    private static final CloudTrailShapes SHAPES = CloudTrailShapes.of("iam");
 
     private static MultivaluedMap<String, String> params(String... pairs) {
         MultivaluedMap<String, String> params = new MultivaluedHashMap<>();

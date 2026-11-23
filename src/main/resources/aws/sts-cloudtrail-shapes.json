@@ -1,0 +1,570 @@
+{
+  "_source": {
+    "generator": "tools/aws/regen_sts_cloudtrail_shapes.py",
+    "botocore": "botocore 1.44.9 (installed package)"
+  },
+  "operations": {
+    "AssumeRole": "AssumeRoleRequest",
+    "AssumeRoleWithSAML": "AssumeRoleWithSAMLRequest",
+    "AssumeRoleWithWebIdentity": "AssumeRoleWithWebIdentityRequest",
+    "AssumeRoot": "AssumeRootRequest",
+    "DecodeAuthorizationMessage": "DecodeAuthorizationMessageRequest",
+    "GetAccessKeyInfo": "GetAccessKeyInfoRequest",
+    "GetCallerIdentity": "GetCallerIdentityRequest",
+    "GetDelegatedAccessToken": "GetDelegatedAccessTokenRequest",
+    "GetFederationToken": "GetFederationTokenRequest",
+    "GetScopedCredentials": "GetScopedCredentialsRequest",
+    "GetSessionToken": "GetSessionTokenRequest",
+    "GetWebIdentityToken": "GetWebIdentityTokenRequest"
+  },
+  "results": {
+    "AssumeRole": {
+      "shape": "AssumeRoleResponse",
+      "resultWrapper": "AssumeRoleResult"
+    },
+    "AssumeRoleWithSAML": {
+      "shape": "AssumeRoleWithSAMLResponse",
+      "resultWrapper": "AssumeRoleWithSAMLResult"
+    },
+    "AssumeRoleWithWebIdentity": {
+      "shape": "AssumeRoleWithWebIdentityResponse",
+      "resultWrapper": "AssumeRoleWithWebIdentityResult"
+    },
+    "AssumeRoot": {
+      "shape": "AssumeRootResponse",
+      "resultWrapper": "AssumeRootResult"
+    },
+    "DecodeAuthorizationMessage": {
+      "shape": "DecodeAuthorizationMessageResponse",
+      "resultWrapper": "DecodeAuthorizationMessageResult"
+    },
+    "GetAccessKeyInfo": {
+      "shape": "GetAccessKeyInfoResponse",
+      "resultWrapper": "GetAccessKeyInfoResult"
+    },
+    "GetCallerIdentity": {
+      "shape": "GetCallerIdentityResponse",
+      "resultWrapper": "GetCallerIdentityResult"
+    },
+    "GetDelegatedAccessToken": {
+      "shape": "GetDelegatedAccessTokenResponse",
+      "resultWrapper": "GetDelegatedAccessTokenResult"
+    },
+    "GetFederationToken": {
+      "shape": "GetFederationTokenResponse",
+      "resultWrapper": "GetFederationTokenResult"
+    },
+    "GetScopedCredentials": {
+      "shape": "GetScopedCredentialsResponse",
+      "resultWrapper": "GetScopedCredentialsResult"
+    },
+    "GetSessionToken": {
+      "shape": "GetSessionTokenResponse",
+      "resultWrapper": "GetSessionTokenResult"
+    },
+    "GetWebIdentityToken": {
+      "shape": "GetWebIdentityTokenResponse",
+      "resultWrapper": "GetWebIdentityTokenResult"
+    }
+  },
+  "shapes": {
+    "AssumeRoleRequest": {
+      "type": "structure",
+      "members": {
+        "RoleArn": "arnType",
+        "RoleSessionName": "roleSessionNameType",
+        "PolicyArns": "policyDescriptorListType",
+        "Policy": "unrestrictedSessionPolicyDocumentType",
+        "DurationSeconds": "roleDurationSecondsType",
+        "Tags": "tagListType",
+        "TransitiveTagKeys": "tagKeyListType",
+        "ExternalId": "externalIdType",
+        "SerialNumber": "serialNumberType",
+        "TokenCode": "tokenCodeType",
+        "SourceIdentity": "sourceIdentityType",
+        "ProvidedContexts": "ProvidedContextsListType",
+        "MinimumSessionTokenSize": "minimumSessionTokenSizeType"
+      }
+    },
+    "AssumeRoleResponse": {
+      "type": "structure",
+      "members": {
+        "Credentials": "Credentials",
+        "AssumedRoleUser": "AssumedRoleUser",
+        "PackedPolicySize": "nonNegativeIntegerType",
+        "SourceIdentity": "sourceIdentityType",
+        "SessionTokenUtilization": "sessionTokenUtilizationType",
+        "SessionTokenSize": "sessionTokenSizeType"
+      }
+    },
+    "AssumeRoleWithSAMLRequest": {
+      "type": "structure",
+      "members": {
+        "RoleArn": "arnType",
+        "PrincipalArn": "arnType",
+        "SAMLAssertion": "SAMLAssertionType",
+        "PolicyArns": "policyDescriptorListType",
+        "Policy": "sessionPolicyDocumentType",
+        "DurationSeconds": "roleDurationSecondsType",
+        "MinimumSessionTokenSize": "minimumSessionTokenSizeType"
+      }
+    },
+    "AssumeRoleWithSAMLResponse": {
+      "type": "structure",
+      "members": {
+        "Credentials": "Credentials",
+        "AssumedRoleUser": "AssumedRoleUser",
+        "PackedPolicySize": "nonNegativeIntegerType",
+        "Subject": "Subject",
+        "SubjectType": "SubjectType",
+        "Issuer": "Issuer",
+        "Audience": "Audience",
+        "NameQualifier": "NameQualifier",
+        "SourceIdentity": "sourceIdentityType",
+        "SessionTokenUtilization": "sessionTokenUtilizationType",
+        "SessionTokenSize": "sessionTokenSizeType",
+        "TrustedIdentityPropagationContext": "TrustedIdentityPropagationContext"
+      }
+    },
+    "AssumeRoleWithWebIdentityRequest": {
+      "type": "structure",
+      "members": {
+        "RoleArn": "arnType",
+        "RoleSessionName": "roleSessionNameType",
+        "WebIdentityToken": "clientTokenType",
+        "ProviderId": "urlType",
+        "PolicyArns": "policyDescriptorListType",
+        "Policy": "sessionPolicyDocumentType",
+        "DurationSeconds": "roleDurationSecondsType",
+        "MinimumSessionTokenSize": "minimumSessionTokenSizeType"
+      }
+    },
+    "AssumeRoleWithWebIdentityResponse": {
+      "type": "structure",
+      "members": {
+        "Credentials": "Credentials",
+        "SubjectFromWebIdentityToken": "webIdentitySubjectType",
+        "AssumedRoleUser": "AssumedRoleUser",
+        "PackedPolicySize": "nonNegativeIntegerType",
+        "Provider": "Issuer",
+        "Audience": "Audience",
+        "SourceIdentity": "sourceIdentityType",
+        "SessionTokenUtilization": "sessionTokenUtilizationType",
+        "SessionTokenSize": "sessionTokenSizeType",
+        "TrustedIdentityPropagationContext": "TrustedIdentityPropagationContext"
+      }
+    },
+    "AssumeRootRequest": {
+      "type": "structure",
+      "members": {
+        "TargetPrincipal": "TargetPrincipalType",
+        "TaskPolicyArn": "PolicyDescriptorType",
+        "DurationSeconds": "RootDurationSecondsType",
+        "MinimumSessionTokenSize": "minimumSessionTokenSizeType"
+      }
+    },
+    "AssumeRootResponse": {
+      "type": "structure",
+      "members": {
+        "Credentials": "Credentials",
+        "SourceIdentity": "sourceIdentityType",
+        "SessionTokenUtilization": "sessionTokenUtilizationType",
+        "SessionTokenSize": "sessionTokenSizeType"
+      }
+    },
+    "AssumedRoleUser": {
+      "type": "structure",
+      "members": {
+        "AssumedRoleId": "assumedRoleIdType",
+        "Arn": "arnType"
+      }
+    },
+    "Audience": {
+      "type": "string"
+    },
+    "Credentials": {
+      "type": "structure",
+      "members": {
+        "AccessKeyId": "accessKeyIdType",
+        "SecretAccessKey": "accessKeySecretType",
+        "SessionToken": "tokenType",
+        "Expiration": "dateType"
+      }
+    },
+    "DecodeAuthorizationMessageRequest": {
+      "type": "structure",
+      "members": {
+        "EncodedMessage": "encodedMessageType"
+      }
+    },
+    "DecodeAuthorizationMessageResponse": {
+      "type": "structure",
+      "members": {
+        "DecodedMessage": "decodedMessageType"
+      }
+    },
+    "FederatedUser": {
+      "type": "structure",
+      "members": {
+        "FederatedUserId": "federatedIdType",
+        "Arn": "arnType"
+      }
+    },
+    "GetAccessKeyInfoRequest": {
+      "type": "structure",
+      "members": {
+        "AccessKeyId": "accessKeyIdType"
+      }
+    },
+    "GetAccessKeyInfoResponse": {
+      "type": "structure",
+      "members": {
+        "Account": "accountType"
+      }
+    },
+    "GetCallerIdentityRequest": {
+      "type": "structure",
+      "members": {}
+    },
+    "GetCallerIdentityResponse": {
+      "type": "structure",
+      "members": {
+        "UserId": "userIdType",
+        "Account": "accountType",
+        "Arn": "arnType"
+      }
+    },
+    "GetDelegatedAccessTokenRequest": {
+      "type": "structure",
+      "members": {
+        "TradeInToken": "tradeInTokenType"
+      }
+    },
+    "GetDelegatedAccessTokenResponse": {
+      "type": "structure",
+      "members": {
+        "Credentials": "Credentials",
+        "PackedPolicySize": "nonNegativeIntegerType",
+        "AssumedPrincipal": "arnType"
+      }
+    },
+    "GetFederationTokenRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "userNameType",
+        "Policy": "sessionPolicyDocumentType",
+        "PolicyArns": "policyDescriptorListType",
+        "DurationSeconds": "durationSecondsType",
+        "Tags": "tagListType",
+        "MinimumSessionTokenSize": "minimumSessionTokenSizeType"
+      }
+    },
+    "GetFederationTokenResponse": {
+      "type": "structure",
+      "members": {
+        "Credentials": "Credentials",
+        "FederatedUser": "FederatedUser",
+        "PackedPolicySize": "nonNegativeIntegerType",
+        "SessionTokenUtilization": "sessionTokenUtilizationType",
+        "SessionTokenSize": "sessionTokenSizeType"
+      }
+    },
+    "GetScopedCredentialsRequest": {
+      "type": "structure",
+      "members": {
+        "Policy": "sessionPolicyDocumentType",
+        "DurationSeconds": "scopedCredentialDurationSecondsType",
+        "MinimumSessionTokenSize": "minimumSessionTokenSizeType",
+        "ScopedSessionDescription": "scopedSessionDescriptionType"
+      }
+    },
+    "GetScopedCredentialsResponse": {
+      "type": "structure",
+      "members": {
+        "Credentials": "Credentials",
+        "SessionInfo": "ScopedSession",
+        "SessionTokenUtilization": "sessionTokenUtilizationType",
+        "SessionTokenSize": "sessionTokenSizeType",
+        "ScopedPoliciesCount": "scopedPoliciesCountType",
+        "SourceIdentity": "sourceIdentityType"
+      }
+    },
+    "GetSessionTokenRequest": {
+      "type": "structure",
+      "members": {
+        "DurationSeconds": "durationSecondsType",
+        "SerialNumber": "serialNumberType",
+        "TokenCode": "tokenCodeType",
+        "MinimumSessionTokenSize": "minimumSessionTokenSizeType"
+      }
+    },
+    "GetSessionTokenResponse": {
+      "type": "structure",
+      "members": {
+        "Credentials": "Credentials",
+        "SessionTokenUtilization": "sessionTokenUtilizationType",
+        "SessionTokenSize": "sessionTokenSizeType"
+      }
+    },
+    "GetWebIdentityTokenRequest": {
+      "type": "structure",
+      "members": {
+        "Audience": "webIdentityTokenAudienceListType",
+        "DurationSeconds": "webIdentityTokenDurationSecondsType",
+        "SigningAlgorithm": "jwtAlgorithmType",
+        "Scope": "webIdentityTokenScopeType",
+        "SubjectMode": "webIdentityTokenSubjectModeType",
+        "Tags": "tagListType"
+      }
+    },
+    "GetWebIdentityTokenResponse": {
+      "type": "structure",
+      "members": {
+        "WebIdentityToken": "webIdentityTokenType",
+        "Expiration": "dateType"
+      }
+    },
+    "Issuer": {
+      "type": "string"
+    },
+    "NameQualifier": {
+      "type": "string"
+    },
+    "OriginIdentity": {
+      "type": "structure",
+      "members": {
+        "Subject": "originIdentitySubjectType",
+        "SubjectType": "originIdentitySubjectTypeType",
+        "Issuer": "originIdentityIssuerType",
+        "FederatedProviderArn": "arnType"
+      }
+    },
+    "PolicyDescriptorType": {
+      "type": "structure",
+      "members": {
+        "arn": "arnType"
+      }
+    },
+    "ProvidedContext": {
+      "type": "structure",
+      "members": {
+        "ProviderArn": "arnType",
+        "ContextAssertion": "contextAssertionType"
+      }
+    },
+    "ProvidedContextsListType": {
+      "type": "list",
+      "member": "ProvidedContext"
+    },
+    "RootDurationSecondsType": {
+      "type": "integer"
+    },
+    "SAMLAssertionType": {
+      "type": "string",
+      "sensitive": true
+    },
+    "ScopedSession": {
+      "type": "structure",
+      "members": {
+        "ScopedSessionId": "scopedSessionIdType",
+        "Arn": "arnType"
+      }
+    },
+    "Subject": {
+      "type": "string"
+    },
+    "SubjectType": {
+      "type": "string"
+    },
+    "Tag": {
+      "type": "structure",
+      "members": {
+        "Key": "tagKeyType",
+        "Value": "tagValueType"
+      }
+    },
+    "TargetPrincipalType": {
+      "type": "string"
+    },
+    "TransactionContext": {
+      "type": "structure",
+      "members": {
+        "IdentityProvider": "transactionContextIdentityProviderMapType"
+      }
+    },
+    "TrustedIdentityPropagationContext": {
+      "type": "structure",
+      "sensitive": true,
+      "members": {
+        "OriginIdentity": "OriginIdentity",
+        "TransactionContext": "TransactionContext"
+      }
+    },
+    "accessKeyIdType": {
+      "type": "string"
+    },
+    "accessKeySecretType": {
+      "type": "string",
+      "sensitive": true
+    },
+    "accountType": {
+      "type": "string"
+    },
+    "arnType": {
+      "type": "string"
+    },
+    "assumedRoleIdType": {
+      "type": "string"
+    },
+    "clientTokenType": {
+      "type": "string",
+      "sensitive": true
+    },
+    "contextAssertionType": {
+      "type": "string"
+    },
+    "dateType": {
+      "type": "timestamp"
+    },
+    "decodedMessageType": {
+      "type": "string"
+    },
+    "durationSecondsType": {
+      "type": "integer"
+    },
+    "encodedMessageType": {
+      "type": "string"
+    },
+    "externalIdType": {
+      "type": "string"
+    },
+    "federatedIdType": {
+      "type": "string"
+    },
+    "jwtAlgorithmType": {
+      "type": "string"
+    },
+    "minimumSessionTokenSizeType": {
+      "type": "integer"
+    },
+    "nonNegativeIntegerType": {
+      "type": "integer"
+    },
+    "originIdentityIssuerType": {
+      "type": "string",
+      "sensitive": true
+    },
+    "originIdentitySubjectType": {
+      "type": "string",
+      "sensitive": true
+    },
+    "originIdentitySubjectTypeType": {
+      "type": "string",
+      "sensitive": true
+    },
+    "policyDescriptorListType": {
+      "type": "list",
+      "member": "PolicyDescriptorType"
+    },
+    "roleDurationSecondsType": {
+      "type": "integer"
+    },
+    "roleSessionNameType": {
+      "type": "string"
+    },
+    "scopedCredentialDurationSecondsType": {
+      "type": "integer"
+    },
+    "scopedPoliciesCountType": {
+      "type": "integer"
+    },
+    "scopedSessionDescriptionType": {
+      "type": "string"
+    },
+    "scopedSessionIdType": {
+      "type": "string"
+    },
+    "serialNumberType": {
+      "type": "string"
+    },
+    "sessionPolicyDocumentType": {
+      "type": "string"
+    },
+    "sessionTokenSizeType": {
+      "type": "integer"
+    },
+    "sessionTokenUtilizationType": {
+      "type": "integer"
+    },
+    "sourceIdentityType": {
+      "type": "string"
+    },
+    "tagKeyListType": {
+      "type": "list",
+      "member": "tagKeyType"
+    },
+    "tagKeyType": {
+      "type": "string"
+    },
+    "tagListType": {
+      "type": "list",
+      "member": "Tag"
+    },
+    "tagValueType": {
+      "type": "string"
+    },
+    "tokenCodeType": {
+      "type": "string"
+    },
+    "tokenType": {
+      "type": "string"
+    },
+    "tradeInTokenType": {
+      "type": "string",
+      "sensitive": true
+    },
+    "transactionContextIdentityProviderMapType": {
+      "type": "map",
+      "value": "transactionContextValueType"
+    },
+    "transactionContextValueType": {
+      "type": "string",
+      "sensitive": true
+    },
+    "unrestrictedSessionPolicyDocumentType": {
+      "type": "string"
+    },
+    "urlType": {
+      "type": "string"
+    },
+    "userIdType": {
+      "type": "string"
+    },
+    "userNameType": {
+      "type": "string"
+    },
+    "webIdentitySubjectType": {
+      "type": "string"
+    },
+    "webIdentityTokenAudienceListType": {
+      "type": "list",
+      "member": "webIdentityTokenAudienceStringType"
+    },
+    "webIdentityTokenAudienceStringType": {
+      "type": "string"
+    },
+    "webIdentityTokenDurationSecondsType": {
+      "type": "integer"
+    },
+    "webIdentityTokenScopeType": {
+      "type": "string"
+    },
+    "webIdentityTokenSubjectModeType": {
+      "type": "string"
+    },
+    "webIdentityTokenType": {
+      "type": "string",
+      "sensitive": true
+    }
+  }
+}
