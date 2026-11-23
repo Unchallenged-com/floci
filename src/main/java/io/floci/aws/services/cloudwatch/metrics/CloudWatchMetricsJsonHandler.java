@@ -72,19 +72,34 @@ public class CloudWatchMetricsJsonHandler {
     private final CloudWatchDashboardsService dashboardsService;
     private final CloudWatchMetricStreamsService metricStreamsService;
     private final ObjectMapper objectMapper;
+    private final CloudWatchCloudTrailEvents cloudTrailEvents;
+
+    public CloudWatchMetricsJsonHandler(CloudWatchMetricsService metricsService,
+                                        CloudWatchDashboardsService dashboardsService,
+                                        CloudWatchMetricStreamsService metricStreamsService,
+                                        ObjectMapper objectMapper) {
+        this(metricsService, dashboardsService, metricStreamsService, objectMapper, null);
+    }
 
     @Inject
     public CloudWatchMetricsJsonHandler(CloudWatchMetricsService metricsService,
                                         CloudWatchDashboardsService dashboardsService,
                                         CloudWatchMetricStreamsService metricStreamsService,
-                                        ObjectMapper objectMapper) {
+                                        ObjectMapper objectMapper, CloudWatchCloudTrailEvents cloudTrailEvents) {
         this.metricsService = metricsService;
         this.dashboardsService = dashboardsService;
         this.metricStreamsService = metricStreamsService;
         this.objectMapper = objectMapper;
+        this.cloudTrailEvents = cloudTrailEvents;
     }
 
+    /** Serves a JSON or CBOR call, which CloudTrail records ({@link CloudWatchCloudTrailEvents}). */
     public Response handle(String action, JsonNode request, String region) {
+        return cloudTrailEvents == null ? dispatch(action, request, region)
+                : cloudTrailEvents.recordedJson(action, request, region, () -> dispatch(action, request, region));
+    }
+
+    private Response dispatch(String action, JsonNode request, String region) {
         String normalizedAction = action.substring(0, 1).toUpperCase() + action.substring(1);
         return switch (normalizedAction) {
             case "PutMetricData" -> handlePutMetricData(request, region);

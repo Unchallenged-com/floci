@@ -1,0 +1,1667 @@
+{
+  "_source": {
+    "generator": "tools/aws/regen_cloudwatch_cloudtrail_shapes.py",
+    "botocore": "botocore 1.44.9 (installed package)"
+  },
+  "operations": {
+    "DeleteAlarms": "DeleteAlarmsInput",
+    "DeleteAnomalyDetector": "DeleteAnomalyDetectorInput",
+    "DeleteDashboards": "DeleteDashboardsInput",
+    "DeleteInsightRules": "DeleteInsightRulesInput",
+    "DeleteMetricDataQueryDefinition": "DeleteMetricDataQueryDefinitionInput",
+    "DeleteMetricStream": "DeleteMetricStreamInput",
+    "DescribeAlarmHistory": "DescribeAlarmHistoryInput",
+    "DescribeAlarms": "DescribeAlarmsInput",
+    "DescribeAlarmsForMetric": "DescribeAlarmsForMetricInput",
+    "DescribeAnomalyDetectors": "DescribeAnomalyDetectorsInput",
+    "DescribeInsightRules": "DescribeInsightRulesInput",
+    "DisableAlarmActions": "DisableAlarmActionsInput",
+    "DisableInsightRules": "DisableInsightRulesInput",
+    "EnableAlarmActions": "EnableAlarmActionsInput",
+    "EnableInsightRules": "EnableInsightRulesInput",
+    "GetDashboard": "GetDashboardInput",
+    "GetInsightRuleReport": "GetInsightRuleReportInput",
+    "GetMetricDataQueryDefinition": "GetMetricDataQueryDefinitionInput",
+    "GetMetricStream": "GetMetricStreamInput",
+    "ListDashboards": "ListDashboardsInput",
+    "ListManagedInsightRules": "ListManagedInsightRulesInput",
+    "ListMetricDataQueryDefinitions": "ListMetricDataQueryDefinitionsInput",
+    "ListMetricStreams": "ListMetricStreamsInput",
+    "ListTagsForResource": "ListTagsForResourceInput",
+    "PutAnomalyDetector": "PutAnomalyDetectorInput",
+    "PutCompositeAlarm": "PutCompositeAlarmInput",
+    "PutDashboard": "PutDashboardInput",
+    "PutInsightRule": "PutInsightRuleInput",
+    "PutLogAlarm": "PutLogAlarmInput",
+    "PutManagedInsightRules": "PutManagedInsightRulesInput",
+    "PutMetricAlarm": "PutMetricAlarmInput",
+    "PutMetricDataQueryDefinition": "PutMetricDataQueryDefinitionInput",
+    "PutMetricStream": "PutMetricStreamInput",
+    "SetAlarmState": "SetAlarmStateInput",
+    "StartMetricStreams": "StartMetricStreamsInput",
+    "StopMetricStreams": "StopMetricStreamsInput",
+    "TagResource": "TagResourceInput",
+    "UntagResource": "UntagResourceInput"
+  },
+  "results": {
+    "DeleteAnomalyDetector": {
+      "shape": "DeleteAnomalyDetectorOutput",
+      "resultWrapper": "DeleteAnomalyDetectorResult"
+    },
+    "DeleteDashboards": {
+      "shape": "DeleteDashboardsOutput",
+      "resultWrapper": "DeleteDashboardsResult"
+    },
+    "DeleteInsightRules": {
+      "shape": "DeleteInsightRulesOutput",
+      "resultWrapper": "DeleteInsightRulesResult"
+    },
+    "DeleteMetricDataQueryDefinition": {
+      "shape": "DeleteMetricDataQueryDefinitionOutput",
+      "resultWrapper": "DeleteMetricDataQueryDefinitionResult"
+    },
+    "DeleteMetricStream": {
+      "shape": "DeleteMetricStreamOutput",
+      "resultWrapper": "DeleteMetricStreamResult"
+    },
+    "DescribeAlarmHistory": {
+      "shape": "DescribeAlarmHistoryOutput",
+      "resultWrapper": "DescribeAlarmHistoryResult"
+    },
+    "DescribeAlarms": {
+      "shape": "DescribeAlarmsOutput",
+      "resultWrapper": "DescribeAlarmsResult"
+    },
+    "DescribeAlarmsForMetric": {
+      "shape": "DescribeAlarmsForMetricOutput",
+      "resultWrapper": "DescribeAlarmsForMetricResult"
+    },
+    "DescribeAnomalyDetectors": {
+      "shape": "DescribeAnomalyDetectorsOutput",
+      "resultWrapper": "DescribeAnomalyDetectorsResult"
+    },
+    "DescribeInsightRules": {
+      "shape": "DescribeInsightRulesOutput",
+      "resultWrapper": "DescribeInsightRulesResult"
+    },
+    "DisableInsightRules": {
+      "shape": "DisableInsightRulesOutput",
+      "resultWrapper": "DisableInsightRulesResult"
+    },
+    "EnableInsightRules": {
+      "shape": "EnableInsightRulesOutput",
+      "resultWrapper": "EnableInsightRulesResult"
+    },
+    "GetDashboard": {
+      "shape": "GetDashboardOutput",
+      "resultWrapper": "GetDashboardResult"
+    },
+    "GetInsightRuleReport": {
+      "shape": "GetInsightRuleReportOutput",
+      "resultWrapper": "GetInsightRuleReportResult"
+    },
+    "GetMetricDataQueryDefinition": {
+      "shape": "GetMetricDataQueryDefinitionOutput",
+      "resultWrapper": "GetMetricDataQueryDefinitionResult"
+    },
+    "GetMetricStream": {
+      "shape": "GetMetricStreamOutput",
+      "resultWrapper": "GetMetricStreamResult"
+    },
+    "ListDashboards": {
+      "shape": "ListDashboardsOutput",
+      "resultWrapper": "ListDashboardsResult"
+    },
+    "ListManagedInsightRules": {
+      "shape": "ListManagedInsightRulesOutput",
+      "resultWrapper": "ListManagedInsightRulesResult"
+    },
+    "ListMetricDataQueryDefinitions": {
+      "shape": "ListMetricDataQueryDefinitionsOutput",
+      "resultWrapper": "ListMetricDataQueryDefinitionsResult"
+    },
+    "ListMetricStreams": {
+      "shape": "ListMetricStreamsOutput",
+      "resultWrapper": "ListMetricStreamsResult"
+    },
+    "ListTagsForResource": {
+      "shape": "ListTagsForResourceOutput",
+      "resultWrapper": "ListTagsForResourceResult"
+    },
+    "PutAnomalyDetector": {
+      "shape": "PutAnomalyDetectorOutput",
+      "resultWrapper": "PutAnomalyDetectorResult"
+    },
+    "PutDashboard": {
+      "shape": "PutDashboardOutput",
+      "resultWrapper": "PutDashboardResult"
+    },
+    "PutInsightRule": {
+      "shape": "PutInsightRuleOutput",
+      "resultWrapper": "PutInsightRuleResult"
+    },
+    "PutManagedInsightRules": {
+      "shape": "PutManagedInsightRulesOutput",
+      "resultWrapper": "PutManagedInsightRulesResult"
+    },
+    "PutMetricDataQueryDefinition": {
+      "shape": "PutMetricDataQueryDefinitionOutput",
+      "resultWrapper": "PutMetricDataQueryDefinitionResult"
+    },
+    "PutMetricStream": {
+      "shape": "PutMetricStreamOutput",
+      "resultWrapper": "PutMetricStreamResult"
+    },
+    "StartMetricStreams": {
+      "shape": "StartMetricStreamsOutput",
+      "resultWrapper": "StartMetricStreamsResult"
+    },
+    "StopMetricStreams": {
+      "shape": "StopMetricStreamsOutput",
+      "resultWrapper": "StopMetricStreamsResult"
+    },
+    "TagResource": {
+      "shape": "TagResourceOutput",
+      "resultWrapper": "TagResourceResult"
+    },
+    "UntagResource": {
+      "shape": "UntagResourceOutput",
+      "resultWrapper": "UntagResourceResult"
+    }
+  },
+  "shapes": {
+    "AccountId": {
+      "type": "string"
+    },
+    "ActionConfiguration": {
+      "type": "structure",
+      "members": {
+        "AlarmTagsPropagation": "AlarmTagsPropagation"
+      }
+    },
+    "ActionLogLineCount": {
+      "type": "integer"
+    },
+    "ActionLogLineRoleArn": {
+      "type": "string"
+    },
+    "ActionPrefix": {
+      "type": "string"
+    },
+    "ActionsEnabled": {
+      "type": "boolean"
+    },
+    "ActionsSuppressedBy": {
+      "type": "string"
+    },
+    "ActionsSuppressedReason": {
+      "type": "string"
+    },
+    "AggregationExpression": {
+      "type": "string"
+    },
+    "AlarmArn": {
+      "type": "string"
+    },
+    "AlarmDescription": {
+      "type": "string"
+    },
+    "AlarmHistoryItem": {
+      "type": "structure",
+      "members": {
+        "AlarmName": "AlarmName",
+        "AlarmContributorId": "ContributorId",
+        "AlarmType": "AlarmType",
+        "Timestamp": "Timestamp",
+        "HistoryItemType": "HistoryItemType",
+        "HistorySummary": "HistorySummary",
+        "HistoryData": "HistoryData",
+        "AlarmContributorAttributes": "ContributorAttributes"
+      }
+    },
+    "AlarmHistoryItems": {
+      "type": "list",
+      "member": "AlarmHistoryItem"
+    },
+    "AlarmName": {
+      "type": "string"
+    },
+    "AlarmNamePrefix": {
+      "type": "string"
+    },
+    "AlarmNames": {
+      "type": "list",
+      "member": "AlarmName"
+    },
+    "AlarmPromQLCriteria": {
+      "type": "structure",
+      "members": {
+        "Query": "Query",
+        "PendingPeriod": "PendingPeriod",
+        "RecoveryPeriod": "RecoveryPeriod"
+      }
+    },
+    "AlarmRule": {
+      "type": "string"
+    },
+    "AlarmTagsPropagation": {
+      "type": "structure",
+      "members": {
+        "Enabled": "AlarmTagsPropagationEnabled",
+        "IncludedTagKeys": "AlarmTagsPropagationTagKeys",
+        "ExcludedTagKeys": "AlarmTagsPropagationTagKeys"
+      }
+    },
+    "AlarmTagsPropagationEnabled": {
+      "type": "boolean"
+    },
+    "AlarmTagsPropagationTagKey": {
+      "type": "string"
+    },
+    "AlarmTagsPropagationTagKeys": {
+      "type": "list",
+      "member": "AlarmTagsPropagationTagKey"
+    },
+    "AlarmType": {
+      "type": "string"
+    },
+    "AlarmTypes": {
+      "type": "list",
+      "member": "AlarmType"
+    },
+    "AmazonResourceName": {
+      "type": "string"
+    },
+    "AnomalyDetector": {
+      "type": "structure",
+      "members": {
+        "AnomalyDetectorId": "AnomalyDetectorId",
+        "Namespace": "Namespace",
+        "MetricName": "MetricName",
+        "Dimensions": "Dimensions",
+        "Stat": "AnomalyDetectorMetricStat",
+        "Configuration": "AnomalyDetectorConfiguration",
+        "StateValue": "AnomalyDetectorStateValue",
+        "MetricCharacteristics": "MetricCharacteristics",
+        "SingleMetricAnomalyDetector": "SingleMetricAnomalyDetector",
+        "MetricMathAnomalyDetector": "MetricMathAnomalyDetector"
+      }
+    },
+    "AnomalyDetectorAdaptationSpeed": {
+      "type": "string"
+    },
+    "AnomalyDetectorConfiguration": {
+      "type": "structure",
+      "members": {
+        "ExcludedTimeRanges": "AnomalyDetectorExcludedTimeRanges",
+        "MetricTimezone": "AnomalyDetectorMetricTimezone",
+        "AdaptationSpeed": "AnomalyDetectorAdaptationSpeed",
+        "OutlierFilteringStrength": "AnomalyDetectorOutlierFilteringStrength"
+      }
+    },
+    "AnomalyDetectorExcludedTimeRanges": {
+      "type": "list",
+      "member": "Range"
+    },
+    "AnomalyDetectorId": {
+      "type": "string"
+    },
+    "AnomalyDetectorIds": {
+      "type": "list",
+      "member": "AnomalyDetectorId"
+    },
+    "AnomalyDetectorMetricStat": {
+      "type": "string"
+    },
+    "AnomalyDetectorMetricTimezone": {
+      "type": "string"
+    },
+    "AnomalyDetectorOutlierFilteringStrength": {
+      "type": "string"
+    },
+    "AnomalyDetectorStateValue": {
+      "type": "string"
+    },
+    "AnomalyDetectorType": {
+      "type": "string"
+    },
+    "AnomalyDetectorTypes": {
+      "type": "list",
+      "member": "AnomalyDetectorType"
+    },
+    "AnomalyDetectors": {
+      "type": "list",
+      "member": "AnomalyDetector"
+    },
+    "AttributeValue": {
+      "type": "string"
+    },
+    "BatchFailures": {
+      "type": "list",
+      "member": "PartialFailure"
+    },
+    "ComparisonOperator": {
+      "type": "string"
+    },
+    "CompositeAlarm": {
+      "type": "structure",
+      "members": {
+        "ActionsEnabled": "ActionsEnabled",
+        "AlarmActions": "ResourceList",
+        "AlarmArn": "AlarmArn",
+        "AlarmConfigurationUpdatedTimestamp": "Timestamp",
+        "AlarmDescription": "AlarmDescription",
+        "AlarmName": "AlarmName",
+        "AlarmRule": "AlarmRule",
+        "InsufficientDataActions": "ResourceList",
+        "OKActions": "ResourceList",
+        "StateReason": "StateReason",
+        "StateReasonData": "StateReasonData",
+        "StateUpdatedTimestamp": "Timestamp",
+        "StateValue": "StateValue",
+        "StateTransitionedTimestamp": "Timestamp",
+        "ActionsSuppressedBy": "ActionsSuppressedBy",
+        "ActionsSuppressedReason": "ActionsSuppressedReason",
+        "ActionsSuppressor": "AlarmArn",
+        "ActionsSuppressorWaitPeriod": "SuppressorPeriod",
+        "ActionsSuppressorExtensionPeriod": "SuppressorPeriod",
+        "ActionConfiguration": "ActionConfiguration"
+      }
+    },
+    "CompositeAlarms": {
+      "type": "list",
+      "member": "CompositeAlarm"
+    },
+    "ContributorAttributes": {
+      "type": "map",
+      "value": "AttributeValue"
+    },
+    "ContributorId": {
+      "type": "string"
+    },
+    "DashboardArn": {
+      "type": "string"
+    },
+    "DashboardBody": {
+      "type": "string"
+    },
+    "DashboardEntries": {
+      "type": "list",
+      "member": "DashboardEntry"
+    },
+    "DashboardEntry": {
+      "type": "structure",
+      "members": {
+        "DashboardName": "DashboardName",
+        "DashboardArn": "DashboardArn",
+        "LastModified": "LastModified",
+        "Size": "Size"
+      }
+    },
+    "DashboardName": {
+      "type": "string"
+    },
+    "DashboardNamePrefix": {
+      "type": "string"
+    },
+    "DashboardNames": {
+      "type": "list",
+      "member": "DashboardName"
+    },
+    "DashboardValidationMessage": {
+      "type": "structure",
+      "members": {
+        "DataPath": "DataPath",
+        "Message": "Message"
+      }
+    },
+    "DashboardValidationMessages": {
+      "type": "list",
+      "member": "DashboardValidationMessage"
+    },
+    "DataPath": {
+      "type": "string"
+    },
+    "DatapointsToAlarm": {
+      "type": "integer"
+    },
+    "DefinitionId": {
+      "type": "string"
+    },
+    "DefinitionPath": {
+      "type": "string"
+    },
+    "DeleteAlarmsInput": {
+      "type": "structure",
+      "members": {
+        "AlarmNames": "AlarmNames"
+      }
+    },
+    "DeleteAnomalyDetectorInput": {
+      "type": "structure",
+      "members": {
+        "AnomalyDetectorId": "AnomalyDetectorId",
+        "Namespace": "Namespace",
+        "MetricName": "MetricName",
+        "Dimensions": "Dimensions",
+        "Stat": "AnomalyDetectorMetricStat",
+        "SingleMetricAnomalyDetector": "SingleMetricAnomalyDetector",
+        "MetricMathAnomalyDetector": "MetricMathAnomalyDetector"
+      }
+    },
+    "DeleteAnomalyDetectorOutput": {
+      "type": "structure",
+      "members": {}
+    },
+    "DeleteDashboardsInput": {
+      "type": "structure",
+      "members": {
+        "DashboardNames": "DashboardNames"
+      }
+    },
+    "DeleteDashboardsOutput": {
+      "type": "structure",
+      "members": {}
+    },
+    "DeleteInsightRulesInput": {
+      "type": "structure",
+      "members": {
+        "RuleNames": "InsightRuleNames"
+      }
+    },
+    "DeleteInsightRulesOutput": {
+      "type": "structure",
+      "members": {
+        "Failures": "BatchFailures"
+      }
+    },
+    "DeleteMetricDataQueryDefinitionInput": {
+      "type": "structure",
+      "members": {
+        "Id": "DefinitionId"
+      }
+    },
+    "DeleteMetricDataQueryDefinitionOutput": {
+      "type": "structure",
+      "members": {}
+    },
+    "DeleteMetricStreamInput": {
+      "type": "structure",
+      "members": {
+        "Name": "MetricStreamName"
+      }
+    },
+    "DeleteMetricStreamOutput": {
+      "type": "structure",
+      "members": {}
+    },
+    "DescribeAlarmHistoryInput": {
+      "type": "structure",
+      "members": {
+        "AlarmName": "AlarmName",
+        "AlarmContributorId": "ContributorId",
+        "AlarmTypes": "AlarmTypes",
+        "HistoryItemType": "HistoryItemType",
+        "StartDate": "Timestamp",
+        "EndDate": "Timestamp",
+        "MaxRecords": "MaxRecords",
+        "NextToken": "NextToken",
+        "ScanBy": "ScanBy"
+      }
+    },
+    "DescribeAlarmHistoryOutput": {
+      "type": "structure",
+      "members": {
+        "AlarmHistoryItems": "AlarmHistoryItems",
+        "NextToken": "NextToken"
+      }
+    },
+    "DescribeAlarmsForMetricInput": {
+      "type": "structure",
+      "members": {
+        "MetricName": "MetricName",
+        "Namespace": "Namespace",
+        "Statistic": "Statistic",
+        "ExtendedStatistic": "ExtendedStatistic",
+        "Dimensions": "Dimensions",
+        "Period": "Period",
+        "Unit": "StandardUnit"
+      }
+    },
+    "DescribeAlarmsForMetricOutput": {
+      "type": "structure",
+      "members": {
+        "MetricAlarms": "MetricAlarms"
+      }
+    },
+    "DescribeAlarmsInput": {
+      "type": "structure",
+      "members": {
+        "AlarmNames": "AlarmNames",
+        "AlarmNamePrefix": "AlarmNamePrefix",
+        "AlarmTypes": "AlarmTypes",
+        "ChildrenOfAlarmName": "AlarmName",
+        "ParentsOfAlarmName": "AlarmName",
+        "StateValue": "StateValue",
+        "ActionPrefix": "ActionPrefix",
+        "MaxRecords": "MaxRecords",
+        "NextToken": "NextToken"
+      }
+    },
+    "DescribeAlarmsOutput": {
+      "type": "structure",
+      "members": {
+        "CompositeAlarms": "CompositeAlarms",
+        "MetricAlarms": "MetricAlarms",
+        "LogAlarms": "LogAlarms",
+        "NextToken": "NextToken"
+      }
+    },
+    "DescribeAnomalyDetectorsInput": {
+      "type": "structure",
+      "members": {
+        "AnomalyDetectorIds": "AnomalyDetectorIds",
+        "NextToken": "NextToken",
+        "MaxResults": "MaxReturnedResultsCount",
+        "Namespace": "Namespace",
+        "MetricName": "MetricName",
+        "Dimensions": "Dimensions",
+        "AnomalyDetectorTypes": "AnomalyDetectorTypes"
+      }
+    },
+    "DescribeAnomalyDetectorsOutput": {
+      "type": "structure",
+      "members": {
+        "AnomalyDetectors": "AnomalyDetectors",
+        "NextToken": "NextToken"
+      }
+    },
+    "DescribeInsightRulesInput": {
+      "type": "structure",
+      "members": {
+        "NextToken": "NextToken",
+        "MaxResults": "InsightRuleMaxResults"
+      }
+    },
+    "DescribeInsightRulesOutput": {
+      "type": "structure",
+      "members": {
+        "NextToken": "NextToken",
+        "InsightRules": "InsightRules"
+      }
+    },
+    "Dimension": {
+      "type": "structure",
+      "members": {
+        "Name": "DimensionName",
+        "Value": "DimensionValue"
+      }
+    },
+    "DimensionName": {
+      "type": "string"
+    },
+    "DimensionValue": {
+      "type": "string"
+    },
+    "Dimensions": {
+      "type": "list",
+      "member": "Dimension"
+    },
+    "DisableAlarmActionsInput": {
+      "type": "structure",
+      "members": {
+        "AlarmNames": "AlarmNames"
+      }
+    },
+    "DisableInsightRulesInput": {
+      "type": "structure",
+      "members": {
+        "RuleNames": "InsightRuleNames"
+      }
+    },
+    "DisableInsightRulesOutput": {
+      "type": "structure",
+      "members": {
+        "Failures": "BatchFailures"
+      }
+    },
+    "EnableAlarmActionsInput": {
+      "type": "structure",
+      "members": {
+        "AlarmNames": "AlarmNames"
+      }
+    },
+    "EnableInsightRulesInput": {
+      "type": "structure",
+      "members": {
+        "RuleNames": "InsightRuleNames"
+      }
+    },
+    "EnableInsightRulesOutput": {
+      "type": "structure",
+      "members": {
+        "Failures": "BatchFailures"
+      }
+    },
+    "EndTimeOffset": {
+      "type": "long"
+    },
+    "EvaluateLowSampleCountPercentile": {
+      "type": "string"
+    },
+    "EvaluationCriteria": {
+      "type": "structure",
+      "members": {
+        "PromQLCriteria": "AlarmPromQLCriteria"
+      }
+    },
+    "EvaluationInterval": {
+      "type": "integer"
+    },
+    "EvaluationPeriods": {
+      "type": "integer"
+    },
+    "EvaluationState": {
+      "type": "string"
+    },
+    "EvaluationWindow": {
+      "type": "structure",
+      "members": {
+        "WallClockWindow": "WallClockWindow",
+        "SlidingWindow": "SlidingWindow"
+      }
+    },
+    "ExceptionType": {
+      "type": "string"
+    },
+    "ExtendedStatistic": {
+      "type": "string"
+    },
+    "FailureCode": {
+      "type": "string"
+    },
+    "FailureDescription": {
+      "type": "string"
+    },
+    "FailureResource": {
+      "type": "string"
+    },
+    "GetDashboardInput": {
+      "type": "structure",
+      "members": {
+        "DashboardName": "DashboardName"
+      }
+    },
+    "GetDashboardOutput": {
+      "type": "structure",
+      "members": {
+        "DashboardArn": "DashboardArn",
+        "DashboardBody": "DashboardBody",
+        "DashboardName": "DashboardName"
+      }
+    },
+    "GetInsightRuleReportInput": {
+      "type": "structure",
+      "members": {
+        "RuleName": "InsightRuleName",
+        "StartTime": "Timestamp",
+        "EndTime": "Timestamp",
+        "Period": "Period",
+        "MaxContributorCount": "InsightRuleUnboundInteger",
+        "Metrics": "InsightRuleMetricList",
+        "OrderBy": "InsightRuleOrderBy"
+      }
+    },
+    "GetInsightRuleReportOutput": {
+      "type": "structure",
+      "members": {
+        "KeyLabels": "InsightRuleContributorKeyLabels",
+        "AggregationStatistic": "InsightRuleAggregationStatistic",
+        "AggregateValue": "InsightRuleUnboundDouble",
+        "ApproximateUniqueCount": "InsightRuleUnboundLong",
+        "Contributors": "InsightRuleContributors",
+        "MetricDatapoints": "InsightRuleMetricDatapoints"
+      }
+    },
+    "GetMetricDataQueryDefinitionInput": {
+      "type": "structure",
+      "members": {
+        "Id": "DefinitionId"
+      }
+    },
+    "GetMetricDataQueryDefinitionOutput": {
+      "type": "structure",
+      "members": {
+        "Id": "DefinitionId",
+        "Arn": "AmazonResourceName",
+        "Path": "DefinitionPath",
+        "Expression": "MetricExpressionString",
+        "Type": "QueryType",
+        "CreatedAt": "Timestamp",
+        "UpdatedAt": "Timestamp"
+      }
+    },
+    "GetMetricStreamInput": {
+      "type": "structure",
+      "members": {
+        "Name": "MetricStreamName"
+      }
+    },
+    "GetMetricStreamOutput": {
+      "type": "structure",
+      "members": {
+        "Arn": "AmazonResourceName",
+        "Name": "MetricStreamName",
+        "IncludeFilters": "MetricStreamFilters",
+        "ExcludeFilters": "MetricStreamFilters",
+        "FirehoseArn": "AmazonResourceName",
+        "RoleArn": "AmazonResourceName",
+        "State": "MetricStreamState",
+        "CreationDate": "Timestamp",
+        "LastUpdateDate": "Timestamp",
+        "OutputFormat": "MetricStreamOutputFormat",
+        "StatisticsConfigurations": "MetricStreamStatisticsConfigurations",
+        "IncludeLinkedAccountsMetrics": "IncludeLinkedAccountsMetrics"
+      }
+    },
+    "HistoryData": {
+      "type": "string"
+    },
+    "HistoryItemType": {
+      "type": "string"
+    },
+    "HistorySummary": {
+      "type": "string"
+    },
+    "IncludeLinkedAccountsMetrics": {
+      "type": "boolean"
+    },
+    "InsightRule": {
+      "type": "structure",
+      "members": {
+        "Name": "InsightRuleName",
+        "State": "InsightRuleState",
+        "Schema": "InsightRuleSchema",
+        "Definition": "InsightRuleDefinition",
+        "ManagedRule": "InsightRuleIsManaged",
+        "ApplyOnTransformedLogs": "InsightRuleOnTransformedLogs"
+      }
+    },
+    "InsightRuleAggregationStatistic": {
+      "type": "string"
+    },
+    "InsightRuleContributor": {
+      "type": "structure",
+      "members": {
+        "Keys": "InsightRuleContributorKeys",
+        "ApproximateAggregateValue": "InsightRuleUnboundDouble",
+        "Datapoints": "InsightRuleContributorDatapoints"
+      }
+    },
+    "InsightRuleContributorDatapoint": {
+      "type": "structure",
+      "members": {
+        "Timestamp": "Timestamp",
+        "ApproximateValue": "InsightRuleUnboundDouble"
+      }
+    },
+    "InsightRuleContributorDatapoints": {
+      "type": "list",
+      "member": "InsightRuleContributorDatapoint"
+    },
+    "InsightRuleContributorKey": {
+      "type": "string"
+    },
+    "InsightRuleContributorKeyLabel": {
+      "type": "string"
+    },
+    "InsightRuleContributorKeyLabels": {
+      "type": "list",
+      "member": "InsightRuleContributorKeyLabel"
+    },
+    "InsightRuleContributorKeys": {
+      "type": "list",
+      "member": "InsightRuleContributorKey"
+    },
+    "InsightRuleContributors": {
+      "type": "list",
+      "member": "InsightRuleContributor"
+    },
+    "InsightRuleDefinition": {
+      "type": "string"
+    },
+    "InsightRuleIsManaged": {
+      "type": "boolean"
+    },
+    "InsightRuleMaxResults": {
+      "type": "integer"
+    },
+    "InsightRuleMetricDatapoint": {
+      "type": "structure",
+      "members": {
+        "Timestamp": "Timestamp",
+        "UniqueContributors": "InsightRuleUnboundDouble",
+        "MaxContributorValue": "InsightRuleUnboundDouble",
+        "SampleCount": "InsightRuleUnboundDouble",
+        "Average": "InsightRuleUnboundDouble",
+        "Sum": "InsightRuleUnboundDouble",
+        "Minimum": "InsightRuleUnboundDouble",
+        "Maximum": "InsightRuleUnboundDouble"
+      }
+    },
+    "InsightRuleMetricDatapoints": {
+      "type": "list",
+      "member": "InsightRuleMetricDatapoint"
+    },
+    "InsightRuleMetricList": {
+      "type": "list",
+      "member": "InsightRuleMetricName"
+    },
+    "InsightRuleMetricName": {
+      "type": "string"
+    },
+    "InsightRuleName": {
+      "type": "string"
+    },
+    "InsightRuleNames": {
+      "type": "list",
+      "member": "InsightRuleName"
+    },
+    "InsightRuleOnTransformedLogs": {
+      "type": "boolean"
+    },
+    "InsightRuleOrderBy": {
+      "type": "string"
+    },
+    "InsightRuleSchema": {
+      "type": "string"
+    },
+    "InsightRuleState": {
+      "type": "string"
+    },
+    "InsightRuleUnboundDouble": {
+      "type": "double"
+    },
+    "InsightRuleUnboundInteger": {
+      "type": "integer"
+    },
+    "InsightRuleUnboundLong": {
+      "type": "long"
+    },
+    "InsightRules": {
+      "type": "list",
+      "member": "InsightRule"
+    },
+    "LastModified": {
+      "type": "timestamp"
+    },
+    "ListDashboardsInput": {
+      "type": "structure",
+      "members": {
+        "DashboardNamePrefix": "DashboardNamePrefix",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListDashboardsOutput": {
+      "type": "structure",
+      "members": {
+        "DashboardEntries": "DashboardEntries",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListManagedInsightRulesInput": {
+      "type": "structure",
+      "members": {
+        "ResourceARN": "AmazonResourceName",
+        "NextToken": "NextToken",
+        "MaxResults": "InsightRuleMaxResults"
+      }
+    },
+    "ListManagedInsightRulesOutput": {
+      "type": "structure",
+      "members": {
+        "ManagedRules": "ManagedRuleDescriptions",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListMetricDataQueryDefinitionsInput": {
+      "type": "structure",
+      "members": {
+        "MaxResults": "MaxResults",
+        "NextToken": "MetricDataQueryDefinitionNextToken"
+      }
+    },
+    "ListMetricDataQueryDefinitionsOutput": {
+      "type": "structure",
+      "members": {
+        "Items": "MetricDataQueryDefinitionSummaries",
+        "NextToken": "MetricDataQueryDefinitionNextToken"
+      }
+    },
+    "ListMetricStreamsInput": {
+      "type": "structure",
+      "members": {
+        "NextToken": "NextToken",
+        "MaxResults": "ListMetricStreamsMaxResults"
+      }
+    },
+    "ListMetricStreamsMaxResults": {
+      "type": "integer"
+    },
+    "ListMetricStreamsOutput": {
+      "type": "structure",
+      "members": {
+        "NextToken": "NextToken",
+        "Entries": "MetricStreamEntries"
+      }
+    },
+    "ListTagsForResourceInput": {
+      "type": "structure",
+      "members": {
+        "ResourceARN": "AmazonResourceName"
+      }
+    },
+    "ListTagsForResourceOutput": {
+      "type": "structure",
+      "members": {
+        "Tags": "TagList"
+      }
+    },
+    "LogAlarm": {
+      "type": "structure",
+      "members": {
+        "AlarmName": "AlarmName",
+        "AlarmArn": "AlarmArn",
+        "AlarmDescription": "AlarmDescription",
+        "AlarmConfigurationUpdatedTimestamp": "Timestamp",
+        "ActionsEnabled": "ActionsEnabled",
+        "OKActions": "ResourceList",
+        "AlarmActions": "ResourceList",
+        "InsufficientDataActions": "ResourceList",
+        "StateValue": "StateValue",
+        "StateReason": "StateReason",
+        "StateReasonData": "StateReasonData",
+        "StateUpdatedTimestamp": "Timestamp",
+        "ScheduledQueryConfiguration": "ScheduledQueryConfiguration",
+        "QueryResultsToEvaluate": "QueryResultsToEvaluate",
+        "QueryResultsToAlarm": "QueryResultsToAlarm",
+        "Threshold": "Threshold",
+        "ComparisonOperator": "ComparisonOperator",
+        "TreatMissingData": "TreatMissingData",
+        "StateTransitionedTimestamp": "Timestamp",
+        "EvaluationState": "EvaluationState",
+        "ActionLogLineCount": "ActionLogLineCount",
+        "ActionLogLineRoleArn": "ActionLogLineRoleArn",
+        "WarmUpConfiguration": "WarmUpConfiguration",
+        "ActionConfiguration": "ActionConfiguration"
+      }
+    },
+    "LogAlarms": {
+      "type": "list",
+      "member": "LogAlarm"
+    },
+    "LogGroupIdentifiers": {
+      "type": "list",
+      "member": "AmazonResourceName"
+    },
+    "ManagedRule": {
+      "type": "structure",
+      "members": {
+        "TemplateName": "TemplateName",
+        "ResourceARN": "AmazonResourceName",
+        "Tags": "TagList"
+      }
+    },
+    "ManagedRuleDescription": {
+      "type": "structure",
+      "members": {
+        "TemplateName": "TemplateName",
+        "ResourceARN": "AmazonResourceName",
+        "RuleState": "ManagedRuleState"
+      }
+    },
+    "ManagedRuleDescriptions": {
+      "type": "list",
+      "member": "ManagedRuleDescription"
+    },
+    "ManagedRuleState": {
+      "type": "structure",
+      "members": {
+        "RuleName": "InsightRuleName",
+        "State": "InsightRuleState"
+      }
+    },
+    "ManagedRules": {
+      "type": "list",
+      "member": "ManagedRule"
+    },
+    "MaxRecords": {
+      "type": "integer"
+    },
+    "MaxResults": {
+      "type": "integer"
+    },
+    "MaxReturnedResultsCount": {
+      "type": "integer"
+    },
+    "Message": {
+      "type": "string"
+    },
+    "Metric": {
+      "type": "structure",
+      "members": {
+        "Namespace": "Namespace",
+        "MetricName": "MetricName",
+        "Dimensions": "Dimensions"
+      }
+    },
+    "MetricAlarm": {
+      "type": "structure",
+      "members": {
+        "AlarmName": "AlarmName",
+        "AlarmArn": "AlarmArn",
+        "AlarmDescription": "AlarmDescription",
+        "AlarmConfigurationUpdatedTimestamp": "Timestamp",
+        "ActionsEnabled": "ActionsEnabled",
+        "OKActions": "ResourceList",
+        "AlarmActions": "ResourceList",
+        "InsufficientDataActions": "ResourceList",
+        "StateValue": "StateValue",
+        "StateReason": "StateReason",
+        "StateReasonData": "StateReasonData",
+        "StateUpdatedTimestamp": "Timestamp",
+        "MetricName": "MetricName",
+        "Namespace": "Namespace",
+        "Statistic": "Statistic",
+        "ExtendedStatistic": "ExtendedStatistic",
+        "Dimensions": "Dimensions",
+        "Period": "Period",
+        "Unit": "StandardUnit",
+        "EvaluationPeriods": "EvaluationPeriods",
+        "DatapointsToAlarm": "DatapointsToAlarm",
+        "Threshold": "Threshold",
+        "ComparisonOperator": "ComparisonOperator",
+        "TreatMissingData": "TreatMissingData",
+        "EvaluateLowSampleCountPercentile": "EvaluateLowSampleCountPercentile",
+        "Metrics": "MetricDataQueries",
+        "ThresholdMetricId": "MetricId",
+        "EvaluationState": "EvaluationState",
+        "StateTransitionedTimestamp": "Timestamp",
+        "EvaluationWindow": "EvaluationWindow",
+        "WarmUpConfiguration": "WarmUpConfiguration",
+        "EvaluationCriteria": "EvaluationCriteria",
+        "EvaluationInterval": "EvaluationInterval",
+        "ActionConfiguration": "ActionConfiguration"
+      }
+    },
+    "MetricAlarms": {
+      "type": "list",
+      "member": "MetricAlarm"
+    },
+    "MetricCharacteristics": {
+      "type": "structure",
+      "members": {
+        "PeriodicSpikes": "PeriodicSpikes"
+      }
+    },
+    "MetricDataQueries": {
+      "type": "list",
+      "member": "MetricDataQuery"
+    },
+    "MetricDataQuery": {
+      "type": "structure",
+      "members": {
+        "Id": "MetricId",
+        "MetricStat": "MetricStat",
+        "Expression": "MetricExpression",
+        "Label": "MetricLabel",
+        "ReturnData": "ReturnData",
+        "Period": "Period",
+        "AccountId": "AccountId"
+      }
+    },
+    "MetricDataQueryDefinitionNextToken": {
+      "type": "string"
+    },
+    "MetricDataQueryDefinitionSummaries": {
+      "type": "list",
+      "member": "MetricDataQueryDefinitionSummary"
+    },
+    "MetricDataQueryDefinitionSummary": {
+      "type": "structure",
+      "members": {
+        "Id": "DefinitionId",
+        "Path": "DefinitionPath",
+        "Type": "QueryType",
+        "UpdatedAt": "Timestamp"
+      }
+    },
+    "MetricExpression": {
+      "type": "string"
+    },
+    "MetricExpressionString": {
+      "type": "string",
+      "sensitive": true
+    },
+    "MetricId": {
+      "type": "string"
+    },
+    "MetricLabel": {
+      "type": "string"
+    },
+    "MetricMathAnomalyDetector": {
+      "type": "structure",
+      "members": {
+        "MetricDataQueries": "MetricDataQueries"
+      }
+    },
+    "MetricName": {
+      "type": "string"
+    },
+    "MetricStat": {
+      "type": "structure",
+      "members": {
+        "Metric": "Metric",
+        "Period": "Period",
+        "Stat": "Stat",
+        "Unit": "StandardUnit"
+      }
+    },
+    "MetricStreamEntries": {
+      "type": "list",
+      "member": "MetricStreamEntry"
+    },
+    "MetricStreamEntry": {
+      "type": "structure",
+      "members": {
+        "Arn": "AmazonResourceName",
+        "CreationDate": "Timestamp",
+        "LastUpdateDate": "Timestamp",
+        "Name": "MetricStreamName",
+        "FirehoseArn": "AmazonResourceName",
+        "State": "MetricStreamState",
+        "OutputFormat": "MetricStreamOutputFormat"
+      }
+    },
+    "MetricStreamFilter": {
+      "type": "structure",
+      "members": {
+        "Namespace": "Namespace",
+        "MetricNames": "MetricStreamFilterMetricNames"
+      }
+    },
+    "MetricStreamFilterMetricNames": {
+      "type": "list",
+      "member": "MetricName"
+    },
+    "MetricStreamFilters": {
+      "type": "list",
+      "member": "MetricStreamFilter"
+    },
+    "MetricStreamName": {
+      "type": "string"
+    },
+    "MetricStreamNames": {
+      "type": "list",
+      "member": "MetricStreamName"
+    },
+    "MetricStreamOutputFormat": {
+      "type": "string"
+    },
+    "MetricStreamState": {
+      "type": "string"
+    },
+    "MetricStreamStatistic": {
+      "type": "string"
+    },
+    "MetricStreamStatisticsAdditionalStatistics": {
+      "type": "list",
+      "member": "MetricStreamStatistic"
+    },
+    "MetricStreamStatisticsConfiguration": {
+      "type": "structure",
+      "members": {
+        "IncludeMetrics": "MetricStreamStatisticsIncludeMetrics",
+        "AdditionalStatistics": "MetricStreamStatisticsAdditionalStatistics"
+      }
+    },
+    "MetricStreamStatisticsConfigurations": {
+      "type": "list",
+      "member": "MetricStreamStatisticsConfiguration"
+    },
+    "MetricStreamStatisticsIncludeMetrics": {
+      "type": "list",
+      "member": "MetricStreamStatisticsMetric"
+    },
+    "MetricStreamStatisticsMetric": {
+      "type": "structure",
+      "members": {
+        "Namespace": "Namespace",
+        "MetricName": "MetricName"
+      }
+    },
+    "Namespace": {
+      "type": "string"
+    },
+    "NextToken": {
+      "type": "string"
+    },
+    "OnlyStartEvaluatingAfterWarmUpPeriodEnds": {
+      "type": "boolean"
+    },
+    "PartialFailure": {
+      "type": "structure",
+      "members": {
+        "FailureResource": "FailureResource",
+        "ExceptionType": "ExceptionType",
+        "FailureCode": "FailureCode",
+        "FailureDescription": "FailureDescription"
+      }
+    },
+    "PendingPeriod": {
+      "type": "integer"
+    },
+    "Period": {
+      "type": "integer"
+    },
+    "PeriodicSpikes": {
+      "type": "boolean"
+    },
+    "PutAnomalyDetectorInput": {
+      "type": "structure",
+      "members": {
+        "Namespace": "Namespace",
+        "MetricName": "MetricName",
+        "Dimensions": "Dimensions",
+        "Stat": "AnomalyDetectorMetricStat",
+        "Configuration": "AnomalyDetectorConfiguration",
+        "MetricCharacteristics": "MetricCharacteristics",
+        "SingleMetricAnomalyDetector": "SingleMetricAnomalyDetector",
+        "MetricMathAnomalyDetector": "MetricMathAnomalyDetector"
+      }
+    },
+    "PutAnomalyDetectorOutput": {
+      "type": "structure",
+      "members": {
+        "AnomalyDetectorId": "AnomalyDetectorId"
+      }
+    },
+    "PutCompositeAlarmInput": {
+      "type": "structure",
+      "members": {
+        "ActionsEnabled": "ActionsEnabled",
+        "AlarmActions": "ResourceList",
+        "AlarmDescription": "AlarmDescription",
+        "AlarmName": "AlarmName",
+        "AlarmRule": "AlarmRule",
+        "InsufficientDataActions": "ResourceList",
+        "OKActions": "ResourceList",
+        "Tags": "TagList",
+        "ActionsSuppressor": "AlarmArn",
+        "ActionsSuppressorWaitPeriod": "SuppressorPeriod",
+        "ActionsSuppressorExtensionPeriod": "SuppressorPeriod",
+        "ActionConfiguration": "ActionConfiguration"
+      }
+    },
+    "PutDashboardInput": {
+      "type": "structure",
+      "members": {
+        "DashboardName": "DashboardName",
+        "DashboardBody": "DashboardBody",
+        "Tags": "TagList"
+      }
+    },
+    "PutDashboardOutput": {
+      "type": "structure",
+      "members": {
+        "DashboardValidationMessages": "DashboardValidationMessages"
+      }
+    },
+    "PutInsightRuleInput": {
+      "type": "structure",
+      "members": {
+        "RuleName": "InsightRuleName",
+        "RuleState": "InsightRuleState",
+        "RuleDefinition": "InsightRuleDefinition",
+        "Tags": "TagList",
+        "ApplyOnTransformedLogs": "InsightRuleOnTransformedLogs"
+      }
+    },
+    "PutInsightRuleOutput": {
+      "type": "structure",
+      "members": {}
+    },
+    "PutLogAlarmInput": {
+      "type": "structure",
+      "members": {
+        "AlarmName": "AlarmName",
+        "AlarmDescription": "AlarmDescription",
+        "ScheduledQueryConfiguration": "ScheduledQueryConfiguration",
+        "ActionLogLineCount": "ActionLogLineCount",
+        "ActionLogLineRoleArn": "ActionLogLineRoleArn",
+        "ActionsEnabled": "ActionsEnabled",
+        "OKActions": "ResourceList",
+        "AlarmActions": "ResourceList",
+        "InsufficientDataActions": "ResourceList",
+        "QueryResultsToEvaluate": "QueryResultsToEvaluate",
+        "QueryResultsToAlarm": "QueryResultsToAlarm",
+        "Threshold": "Threshold",
+        "ComparisonOperator": "ComparisonOperator",
+        "TreatMissingData": "TreatMissingData",
+        "Tags": "TagList",
+        "WarmUpConfiguration": "WarmUpConfiguration",
+        "ActionConfiguration": "ActionConfiguration"
+      }
+    },
+    "PutManagedInsightRulesInput": {
+      "type": "structure",
+      "members": {
+        "ManagedRules": "ManagedRules"
+      }
+    },
+    "PutManagedInsightRulesOutput": {
+      "type": "structure",
+      "members": {
+        "Failures": "BatchFailures"
+      }
+    },
+    "PutMetricAlarmInput": {
+      "type": "structure",
+      "members": {
+        "AlarmName": "AlarmName",
+        "AlarmDescription": "AlarmDescription",
+        "ActionsEnabled": "ActionsEnabled",
+        "OKActions": "ResourceList",
+        "AlarmActions": "ResourceList",
+        "InsufficientDataActions": "ResourceList",
+        "MetricName": "MetricName",
+        "Namespace": "Namespace",
+        "Statistic": "Statistic",
+        "ExtendedStatistic": "ExtendedStatistic",
+        "Dimensions": "Dimensions",
+        "Period": "Period",
+        "Unit": "StandardUnit",
+        "EvaluationPeriods": "EvaluationPeriods",
+        "DatapointsToAlarm": "DatapointsToAlarm",
+        "Threshold": "Threshold",
+        "ComparisonOperator": "ComparisonOperator",
+        "TreatMissingData": "TreatMissingData",
+        "EvaluateLowSampleCountPercentile": "EvaluateLowSampleCountPercentile",
+        "Metrics": "MetricDataQueries",
+        "Tags": "TagList",
+        "ThresholdMetricId": "MetricId",
+        "EvaluationWindow": "EvaluationWindow",
+        "WarmUpConfiguration": "WarmUpConfiguration",
+        "EvaluationCriteria": "EvaluationCriteria",
+        "EvaluationInterval": "EvaluationInterval",
+        "ActionConfiguration": "ActionConfiguration"
+      }
+    },
+    "PutMetricDataQueryDefinitionInput": {
+      "type": "structure",
+      "members": {
+        "Id": "DefinitionId",
+        "Path": "DefinitionPath",
+        "Expression": "MetricExpressionString",
+        "Type": "QueryType",
+        "Tags": "TagList"
+      }
+    },
+    "PutMetricDataQueryDefinitionOutput": {
+      "type": "structure",
+      "members": {
+        "Id": "DefinitionId",
+        "Arn": "AmazonResourceName",
+        "Path": "DefinitionPath",
+        "Expression": "MetricExpressionString",
+        "Type": "QueryType",
+        "CreatedAt": "Timestamp",
+        "UpdatedAt": "Timestamp"
+      }
+    },
+    "PutMetricStreamInput": {
+      "type": "structure",
+      "members": {
+        "Name": "MetricStreamName",
+        "IncludeFilters": "MetricStreamFilters",
+        "ExcludeFilters": "MetricStreamFilters",
+        "FirehoseArn": "AmazonResourceName",
+        "RoleArn": "AmazonResourceName",
+        "OutputFormat": "MetricStreamOutputFormat",
+        "Tags": "TagList",
+        "StatisticsConfigurations": "MetricStreamStatisticsConfigurations",
+        "IncludeLinkedAccountsMetrics": "IncludeLinkedAccountsMetrics"
+      }
+    },
+    "PutMetricStreamOutput": {
+      "type": "structure",
+      "members": {
+        "Arn": "AmazonResourceName"
+      }
+    },
+    "Query": {
+      "type": "string"
+    },
+    "QueryResultsToAlarm": {
+      "type": "integer"
+    },
+    "QueryResultsToEvaluate": {
+      "type": "integer"
+    },
+    "QueryString": {
+      "type": "string"
+    },
+    "QueryType": {
+      "type": "string"
+    },
+    "Range": {
+      "type": "structure",
+      "members": {
+        "StartTime": "Timestamp",
+        "EndTime": "Timestamp"
+      }
+    },
+    "RecoveryPeriod": {
+      "type": "integer"
+    },
+    "ResourceList": {
+      "type": "list",
+      "member": "ResourceName"
+    },
+    "ResourceName": {
+      "type": "string"
+    },
+    "ReturnData": {
+      "type": "boolean"
+    },
+    "ScanBy": {
+      "type": "string"
+    },
+    "ScheduleConfiguration": {
+      "type": "structure",
+      "members": {
+        "ScheduleExpression": "ScheduleExpression",
+        "StartTimeOffset": "StartTimeOffset",
+        "EndTimeOffset": "EndTimeOffset"
+      }
+    },
+    "ScheduleExpression": {
+      "type": "string"
+    },
+    "ScheduledQueryConfiguration": {
+      "type": "structure",
+      "members": {
+        "QueryString": "QueryString",
+        "LogGroupIdentifiers": "LogGroupIdentifiers",
+        "QueryARN": "AmazonResourceName",
+        "ScheduledQueryRoleARN": "AmazonResourceName",
+        "ScheduleConfiguration": "ScheduleConfiguration",
+        "AggregationExpression": "AggregationExpression",
+        "Tags": "TagList"
+      }
+    },
+    "SetAlarmStateInput": {
+      "type": "structure",
+      "members": {
+        "AlarmName": "AlarmName",
+        "StateValue": "StateValue",
+        "StateReason": "StateReason",
+        "StateReasonData": "StateReasonData"
+      }
+    },
+    "SingleMetricAnomalyDetector": {
+      "type": "structure",
+      "members": {
+        "AccountId": "AccountId",
+        "Namespace": "Namespace",
+        "MetricName": "MetricName",
+        "Dimensions": "Dimensions",
+        "Stat": "AnomalyDetectorMetricStat"
+      }
+    },
+    "Size": {
+      "type": "long"
+    },
+    "SlidingWindow": {
+      "type": "structure",
+      "members": {}
+    },
+    "StandardUnit": {
+      "type": "string"
+    },
+    "StartMetricStreamsInput": {
+      "type": "structure",
+      "members": {
+        "Names": "MetricStreamNames"
+      }
+    },
+    "StartMetricStreamsOutput": {
+      "type": "structure",
+      "members": {}
+    },
+    "StartTimeOffset": {
+      "type": "long"
+    },
+    "Stat": {
+      "type": "string"
+    },
+    "StateReason": {
+      "type": "string"
+    },
+    "StateReasonData": {
+      "type": "string"
+    },
+    "StateValue": {
+      "type": "string"
+    },
+    "Statistic": {
+      "type": "string"
+    },
+    "StopMetricStreamsInput": {
+      "type": "structure",
+      "members": {
+        "Names": "MetricStreamNames"
+      }
+    },
+    "StopMetricStreamsOutput": {
+      "type": "structure",
+      "members": {}
+    },
+    "SuppressorPeriod": {
+      "type": "integer"
+    },
+    "Tag": {
+      "type": "structure",
+      "members": {
+        "Key": "TagKey",
+        "Value": "TagValue"
+      }
+    },
+    "TagKey": {
+      "type": "string"
+    },
+    "TagKeyList": {
+      "type": "list",
+      "member": "TagKey"
+    },
+    "TagList": {
+      "type": "list",
+      "member": "Tag"
+    },
+    "TagResourceInput": {
+      "type": "structure",
+      "members": {
+        "ResourceARN": "AmazonResourceName",
+        "Tags": "TagList"
+      }
+    },
+    "TagResourceOutput": {
+      "type": "structure",
+      "members": {}
+    },
+    "TagValue": {
+      "type": "string"
+    },
+    "TemplateName": {
+      "type": "string"
+    },
+    "Threshold": {
+      "type": "double"
+    },
+    "Timestamp": {
+      "type": "timestamp"
+    },
+    "Timezone": {
+      "type": "string"
+    },
+    "TreatMissingData": {
+      "type": "string"
+    },
+    "UntagResourceInput": {
+      "type": "structure",
+      "members": {
+        "ResourceARN": "AmazonResourceName",
+        "TagKeys": "TagKeyList"
+      }
+    },
+    "UntagResourceOutput": {
+      "type": "structure",
+      "members": {}
+    },
+    "WallClockWindow": {
+      "type": "structure",
+      "members": {
+        "Timezone": "Timezone"
+      }
+    },
+    "WarmUpConfiguration": {
+      "type": "structure",
+      "members": {
+        "WarmUpPeriodDurationInMinutes": "WarmUpPeriodDurationInMinutes",
+        "OnlyStartEvaluatingAfterWarmUpPeriodEnds": "OnlyStartEvaluatingAfterWarmUpPeriodEnds"
+      }
+    },
+    "WarmUpPeriodDurationInMinutes": {
+      "type": "integer"
+    }
+  },
+  "errors": {
+    "ConcurrentModificationException": "ConcurrentModificationException",
+    "ConflictException": "ConflictException",
+    "InternalServiceError": "InternalServiceFault",
+    "InvalidFormat": "InvalidFormatFault",
+    "InvalidNextToken": "InvalidNextToken",
+    "InvalidParameterCombination": "InvalidParameterCombinationException",
+    "InvalidParameterInput": "DashboardInvalidInputError",
+    "InvalidParameterValue": "InvalidParameterValueException",
+    "KmsAccessDeniedException": "KmsAccessDeniedException",
+    "KmsKeyDisabledException": "KmsKeyDisabledException",
+    "KmsKeyNotFoundException": "KmsKeyNotFoundException",
+    "LimitExceeded": "LimitExceededFault",
+    "LimitExceededException": "LimitExceededException",
+    "MissingParameter": "MissingRequiredParameterException",
+    "ResourceConflict": "ResourceConflict",
+    "ResourceNotFoundException": "ResourceNotFoundException",
+    "ValidationError": "ValidationException"
+  }
+}

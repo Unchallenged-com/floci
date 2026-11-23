@@ -318,6 +318,23 @@ guide gives without a version where records of its neighbors carry one.
   is recorded as `AccessDenied` with `"requestParameters": null`.
 - `Invoke` is a data event, not recorded here.
 
+## CloudWatch Coverage
+
+"CloudWatch supports logging the following actions as events in CloudTrail log files"
+([CloudWatch User Guide](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/logging_cw_api_calls.html)).
+Floci records those calls (`cloudwatch-cloudtrail-events.json`) under their own names, with `DeleteAlarms` for the
+guide's `DeleteAlarmActions`, which is no CloudWatch action, whether they are made over the Query protocol, JSON or
+CBOR. The metric calls (`PutMetricData`, `GetMetricData`, `GetMetricStatistics`, `ListMetrics`) are data events and are
+not recorded here.
+
+- `eventSource` is `monitoring.amazonaws.com`. `requestParameters` are the request's members with a lower first letter,
+  typed as botocore's CloudWatch model types them, a list as a JSON array (`"alarmNames": ["cpu-mon"]`,
+  `"threshold": 80.0`), read from a Query form or a JSON body alike.
+- `responseElements` is the answer in the same form; `null` for a read-only call (`DescribeAlarms`), a call that answers
+  nothing (`PutMetricAlarm`, `DeleteAlarms`, `SetAlarmState`) and a failed one.
+- A failed call keeps its members, under the code it answered (`ResourceNotFound`); a call IAM enforcement refuses is
+  recorded as `AccessDenied` with `"requestParameters": null`.
+
 ## EventBridge delivery
 
 "CloudTrail sends the following types of events to the default EventBridge event bus", the first of them

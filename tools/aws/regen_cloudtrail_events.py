@@ -21,6 +21,10 @@ carries, so it stays in SERVICES below, as the guide lists them:
 - EC2 (https://docs.aws.amazon.com/AWSEC2/latest/APIReference/using-cloudtrail.html): every EC2 API call
   is a management event, but an EC2 record's members follow EC2's own schema rather than botocore's,
   so Floci records only the calls whose record a recent capture shows (Ec2CloudTrailEvents).
+- CloudWatch (https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/logging_cw_api_calls.html): "CloudWatch
+  supports logging the following actions as events in CloudTrail log files", followed by the list, whose
+  `DeleteAlarmActions` is no CloudWatch action: records of `DeleteAlarms` (2024) show it is that call.
+  `PutMetricData`, `GetMetricData` and the other metric calls are data events.
 - Lambda (https://docs.aws.amazon.com/lambda/latest/dg/logging-using-cloudtrail.html): "Lambda supports
   logging the following actions as management events in CloudTrail log files", followed by the list.
   A record names most of them with the API version they are served under (`CreateFunction20150331`),
@@ -99,6 +103,24 @@ SERVICES: dict[str, Service] = {
             "UntagQueue",
         ),
         read_only_anchors={"ListMessageMoveTasks": True, "DeleteQueue": False},
+    ),
+    "cloudwatch": Service(
+        guide="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/logging_cw_api_calls.html",
+        # The guide's list, with DeleteAlarms for its DeleteAlarmActions, which is no CloudWatch action:
+        # DeleteAlarms is recorded as a management event (2024 records of a call and of a refusal).
+        management_events=(
+            "DeleteAlarms", "DeleteAnomalyDetector", "DeleteDashboards", "DeleteInsightRules",
+            "DeleteMetricDataQueryDefinition", "DeleteMetricStream", "DescribeAlarmHistory", "DescribeAlarms",
+            "DescribeAlarmsForMetric", "DescribeAnomalyDetectors", "DescribeInsightRules",
+            "DisableAlarmActions", "DisableInsightRules", "EnableAlarmActions", "EnableInsightRules",
+            "GetDashboard", "GetInsightRuleReport", "GetMetricDataQueryDefinition", "GetMetricStream",
+            "ListDashboards", "ListManagedInsightRules", "ListMetricDataQueryDefinitions", "ListMetricStreams",
+            "ListTagsForResource", "PutAnomalyDetector", "PutCompositeAlarm", "PutDashboard", "PutInsightRule",
+            "PutLogAlarm", "PutManagedInsightRules", "PutMetricAlarm", "PutMetricDataQueryDefinition",
+            "PutMetricStream", "SetAlarmState", "StartMetricStreams", "StopMetricStreams", "TagResource",
+            "UntagResource",
+        ),
+        read_only_anchors={"DescribeAlarms": True, "DeleteAlarms": False},
     ),
     "ec2": Service(
         guide="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/using-cloudtrail.html",

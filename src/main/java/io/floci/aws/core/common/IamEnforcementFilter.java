@@ -1758,8 +1758,8 @@ public class IamEnforcementFilter implements ContainerRequestFilter {
      * Refuses the request with {@code refusal}, recording the call as the CloudTrail management event its
      * service records for the calls it runs, with the code, message and request ID the refusal answers with.
      * The operation is the one the request names, in its {@code X-Amz-Target} or its Query {@code Action},
-     * or a REST request's route; the service's {@link ManagementEventSource} says whether, and how, it is
-     * recorded.
+     * an RPC v2 CBOR request's path, or a REST request's route; the service's {@link ManagementEventSource}
+     * says whether, and how, it is recorded.
      */
     private void abortRecorded(ContainerRequestContext ctx, Response refusal, String akid, String action,
                                String credentialScope, String region) {
@@ -1772,6 +1772,11 @@ public class IamEnforcementFilter implements ContainerRequestFilter {
                     String operation = IamActionRegistry.targetOperation(ctx);
                     if (operation == null) {
                         operation = IamConditionContextResolver.formParameters(ctx).get("Action");
+                    }
+                    if (operation == null
+                            && ctx.getProperty(AwsProtocolClaimFilter.CLAIM_PROPERTY) instanceof ProtocolClaim claim) {
+                        // An RPC v2 CBOR request names its operation in its path, which its claim carries.
+                        operation = claim.operation();
                     }
                     if (operation == null) {
                         operation = IamActionRegistry.routedOperation(credentialScope, ctx);

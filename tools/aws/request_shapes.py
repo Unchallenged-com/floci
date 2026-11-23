@@ -41,15 +41,23 @@ def load_model(data: Path, model: Path) -> dict:
     return load_json_model(source)
 
 
-def errors_from(model: dict) -> dict[str, str]:
-    """Every error the model declares, from the code the service answers it with to its shape's name."""
+def errors_from(model: dict, ambiguous_dropped: bool = False) -> dict[str, str]:
+    """Every error the model declares, from the code the service answers it with to its shape's name.
+
+    A code two shapes answer stops the generation, or, with `ambiguous_dropped`, is left out, for a
+    reader that then keeps the code as answered."""
     found: dict[str, str] = {}
+    ambiguous: set[str] = set()
     for name, shape in model["shapes"].items():
         if not shape.get("exception"):
             continue
         code = shape.get("error", {}).get("code", name)
-        if code in found:
-            raise ValueError(f"{found[code]} and {name} both answer {code}")
+        if code in found or code in ambiguous:
+            if not ambiguous_dropped:
+                raise ValueError(f"{found[code]} and {name} both answer {code}")
+            found.pop(code, None)
+            ambiguous.add(code)
+            continue
         found[code] = name
     return dict(sorted(found.items()))
 
@@ -79,7 +87,7 @@ def record_check(member_traits: set[str]) -> Callable[[str, dict], None]:
 def build(model: dict, provenance: str, generator: str, outputs: bool = False, required: bool = False,
           results: bool = False, sensitive: bool = False, errors: bool = False,
           check: Callable[[str, dict], None] | None = None, subset: tuple[str, ...] | None = None,
-          xml_names: bool = False, located: bool = False) -> dict:
+          xml_names: bool = False, located: bool = False, ambiguous_errors_dropped: bool = False) -> dict:
     """The input shape of every operation and every shape reachable from one, reduced to its type and
     the shapes of its members, list elements or map values.
 
@@ -93,7 +101,8 @@ def build(model: dict, provenance: str, generator: str, outputs: bool = False, r
     requests it reads some other way: `operations` then names each input shape without vendoring it.
     `located` keeps the members a REST model binds to the URI, the query string or a header, which a
     record writes as members all the same (Lambda's `"functionName"`), and gives the structure
-    `locations`: each such member's `location` and the name it has there."""
+    `locations`: each such member's `location` and the name it has there. `ambiguous_errors_dropped`
+    leaves out of `errors` a code two error shapes answer, rather than stopping."""
     shapes = model["shapes"]
     kept: dict[str, dict] = {}
 
@@ -154,7 +163,7 @@ def build(model: dict, provenance: str, generator: str, outputs: bool = False, r
         document["results"] = wrapped
     document["shapes"] = dict(sorted(kept.items()))
     if errors:
-        document["errors"] = errors_from(model)
+        document["errors"] = errors_from(model, ambiguous_errors_dropped)
     return document
 
 
@@ -252,7 +261,7 @@ def main(argv: list[str] | None, *, script: str, model: Path, output: Path,
          prepare: Callable[[dict], dict] | None = None,
          results: bool = False, sensitive: bool = False, errors: bool = False,
          check: Callable[[str, dict], None] | None = None, subset: tuple[str, ...] | None = None,
-         xml_names: bool = False, located: bool = False) -> int:
+         xml_names: bool = False, located: bool = False, ambiguous_errors_dropped: bool = False) -> int:
     """Drives one generator: parse the flags, read the model, write or check the vendored file.
 
     `operations` picks the constraints flavour, keeping those operations' declared constraints
@@ -268,7 +277,8 @@ def main(argv: list[str] | None, *, script: str, model: Path, output: Path,
     it vendors in part: IAM reduces a paged request to its paging members, the rest of it keeping
     the reading it has today.
 
-    `results`, `sensitive`, `errors`, `check`, `subset`, `xml_names` and `located` are `build`'s, for a generator
+    `results`, `sensitive`, `errors`, `check`, `subset`, `xml_names`, `located` and
+    `ambiguous_errors_dropped` are `build`'s, for a generator
     that keeps every operation's member types."""
     parser = argparse.ArgumentParser(description=description, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--check", action="store_true", help="exit 1 when the vendored file differs from a fresh generation")
@@ -286,7 +296,8 @@ def main(argv: list[str] | None, *, script: str, model: Path, output: Path,
     fresh = render(build_constraints(loaded, operations, provenance, generator) if operations is not None
                    else build(loaded, provenance, generator, outputs, required,
                               results=results, sensitive=sensitive, errors=errors, check=check,
-                              subset=subset, xml_names=xml_names, located=located))
+                              subset=subset, xml_names=xml_names, located=located,
+                              ambiguous_errors_dropped=ambiguous_errors_dropped))
 
     if args.check:
         current = args.output.read_text(encoding="utf-8") if args.output.exists() else ""

@@ -55,17 +55,32 @@ public class CloudWatchMetricsQueryHandler {
     private CloudWatchMetricsService metricsService;
     private final CloudWatchDashboardsService dashboardsService;
     private final CloudWatchMetricStreamsService metricStreamsService;
+    private final CloudWatchCloudTrailEvents cloudTrailEvents;
+
+    public CloudWatchMetricsQueryHandler(CloudWatchMetricsService metricsService,
+                                         CloudWatchDashboardsService dashboardsService,
+                                         CloudWatchMetricStreamsService metricStreamsService) {
+        this(metricsService, dashboardsService, metricStreamsService, null);
+    }
 
     @Inject
     public CloudWatchMetricsQueryHandler(CloudWatchMetricsService metricsService,
                                          CloudWatchDashboardsService dashboardsService,
-                                         CloudWatchMetricStreamsService metricStreamsService) {
+                                         CloudWatchMetricStreamsService metricStreamsService,
+                                         CloudWatchCloudTrailEvents cloudTrailEvents) {
         this.metricsService = metricsService;
         this.dashboardsService = dashboardsService;
         this.metricStreamsService = metricStreamsService;
+        this.cloudTrailEvents = cloudTrailEvents;
     }
 
+    /** Serves a Query call, which CloudTrail records ({@link CloudWatchCloudTrailEvents}). */
     public Response handle(String action, MultivaluedMap<String, String> params, String region) {
+        return cloudTrailEvents == null ? dispatch(action, params, region)
+                : cloudTrailEvents.recordedQuery(action, params, region, () -> dispatch(action, params, region));
+    }
+
+    private Response dispatch(String action, MultivaluedMap<String, String> params, String region) {
         String normalizedAction = action.substring(0, 1).toUpperCase() + action.substring(1);
         return switch (normalizedAction) {
             case "PutMetricData" -> handlePutMetricData(params, region);
