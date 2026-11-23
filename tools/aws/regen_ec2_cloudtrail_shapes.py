@@ -7,7 +7,7 @@ CloudTrail records EC2's API calls, and `Ec2CloudTrailEvents` writes each record
 its result shape, every shape they reach with its type and the `sensitive` flag, and every error
 EC2 models, from the code it answers with to its shape's name.
 
-EC2's model is too large to vendor whole, and Floci records only the EC2 calls a recent record shows,
+EC2's model is too large to vendor whole, and Floci records only the EC2 calls a record shows,
 so only those operations' shapes are vendored (`OPERATIONS`).
 
 An EC2 record names a result's members as its XML does (`instancesSet`, `item`), which the model
@@ -38,9 +38,14 @@ MODEL = Path("ec2/2016-11-15")
 
 # The EC2 calls Ec2CloudTrailEvents records, whose shapes are vendored.
 OPERATIONS = (
-    "AuthorizeSecurityGroupEgress", "AuthorizeSecurityGroupIngress", "DeleteFlowLogs", "DeleteNetworkAcl",
-    "DeleteNetworkAclEntry", "GetPasswordData", "ModifyImageAttribute", "ModifyInstanceAttribute",
-    "ModifySnapshotAttribute", "RunInstances", "StartInstances", "StopInstances", "TerminateInstances",
+    "AttachVolume", "AuthorizeSecurityGroupEgress", "AuthorizeSecurityGroupIngress", "CopyImage",
+    "CopySnapshot", "CreateFlowLogs", "CreateImage", "CreateKeyPair", "CreateNetworkAcl",
+    "CreateNetworkAclEntry", "CreateSecurityGroup", "CreateSnapshot", "CreateVolume", "DeleteFlowLogs",
+    "DeleteNetworkAcl", "DeleteNetworkAclEntry", "DeleteSecurityGroup", "DeleteSnapshot", "DeleteVolume",
+    "DeregisterImage", "DetachVolume", "GetPasswordData", "ImportKeyPair", "ModifyImageAttribute",
+    "ModifyInstanceAttribute", "ModifySecurityGroupRules", "ModifySnapshotAttribute",
+    "ReplaceNetworkAclEntry", "RevokeSecurityGroupEgress", "RevokeSecurityGroupIngress", "RunInstances",
+    "StartInstances", "StopInstances", "TerminateInstances",
 )
 
 MEMBER_TRAITS = {"shape", "documentation", "locationName", "queryName", "deprecated", "deprecatedMessage", "box", "idempotencyToken"}

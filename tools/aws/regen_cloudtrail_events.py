@@ -96,9 +96,15 @@ SERVICES: dict[str, Service] = {
     "ec2": Service(
         guide="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/using-cloudtrail.html",
         management_events=(
-            "AuthorizeSecurityGroupEgress", "AuthorizeSecurityGroupIngress", "DeleteFlowLogs", "DeleteNetworkAcl",
-            "DeleteNetworkAclEntry", "GetPasswordData", "ModifyImageAttribute", "ModifyInstanceAttribute",
-            "ModifySnapshotAttribute", "RunInstances", "StartInstances", "StopInstances", "TerminateInstances",
+            "AttachVolume", "AuthorizeSecurityGroupEgress", "AuthorizeSecurityGroupIngress", "CopyImage",
+            "CopySnapshot", "CreateFlowLogs", "CreateImage", "CreateKeyPair", "CreateNetworkAcl",
+            "CreateNetworkAclEntry", "CreateSecurityGroup", "CreateSnapshot", "CreateVolume", "DeleteFlowLogs",
+            "DeleteNetworkAcl", "DeleteNetworkAclEntry", "DeleteSecurityGroup", "DeleteSnapshot",
+            "DeleteVolume", "DeregisterImage", "DetachVolume", "GetPasswordData", "ImportKeyPair",
+            "ModifyImageAttribute", "ModifyInstanceAttribute", "ModifySecurityGroupRules",
+            "ModifySnapshotAttribute", "ReplaceNetworkAclEntry", "RevokeSecurityGroupEgress",
+            "RevokeSecurityGroupIngress", "RunInstances", "StartInstances", "StopInstances",
+            "TerminateInstances",
         ),
         read_only_anchors={"GetPasswordData": True, "TerminateInstances": False},
     ),

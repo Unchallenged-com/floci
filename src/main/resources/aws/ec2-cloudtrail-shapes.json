@@ -4,21 +4,46 @@
     "botocore": "botocore 1.44.9 (installed package)"
   },
   "operations": {
+    "AttachVolume": "AttachVolumeRequest",
     "AuthorizeSecurityGroupEgress": "AuthorizeSecurityGroupEgressRequest",
     "AuthorizeSecurityGroupIngress": "AuthorizeSecurityGroupIngressRequest",
+    "CopyImage": "CopyImageRequest",
+    "CopySnapshot": "CopySnapshotRequest",
+    "CreateFlowLogs": "CreateFlowLogsRequest",
+    "CreateImage": "CreateImageRequest",
+    "CreateKeyPair": "CreateKeyPairRequest",
+    "CreateNetworkAcl": "CreateNetworkAclRequest",
+    "CreateNetworkAclEntry": "CreateNetworkAclEntryRequest",
+    "CreateSecurityGroup": "CreateSecurityGroupRequest",
+    "CreateSnapshot": "CreateSnapshotRequest",
+    "CreateVolume": "CreateVolumeRequest",
     "DeleteFlowLogs": "DeleteFlowLogsRequest",
     "DeleteNetworkAcl": "DeleteNetworkAclRequest",
     "DeleteNetworkAclEntry": "DeleteNetworkAclEntryRequest",
+    "DeleteSecurityGroup": "DeleteSecurityGroupRequest",
+    "DeleteSnapshot": "DeleteSnapshotRequest",
+    "DeleteVolume": "DeleteVolumeRequest",
+    "DeregisterImage": "DeregisterImageRequest",
+    "DetachVolume": "DetachVolumeRequest",
     "GetPasswordData": "GetPasswordDataRequest",
+    "ImportKeyPair": "ImportKeyPairRequest",
     "ModifyImageAttribute": "ModifyImageAttributeRequest",
     "ModifyInstanceAttribute": "ModifyInstanceAttributeRequest",
+    "ModifySecurityGroupRules": "ModifySecurityGroupRulesRequest",
     "ModifySnapshotAttribute": "ModifySnapshotAttributeRequest",
+    "ReplaceNetworkAclEntry": "ReplaceNetworkAclEntryRequest",
+    "RevokeSecurityGroupEgress": "RevokeSecurityGroupEgressRequest",
+    "RevokeSecurityGroupIngress": "RevokeSecurityGroupIngressRequest",
     "RunInstances": "RunInstancesRequest",
     "StartInstances": "StartInstancesRequest",
     "StopInstances": "StopInstancesRequest",
     "TerminateInstances": "TerminateInstancesRequest"
   },
   "results": {
+    "AttachVolume": {
+      "shape": "VolumeAttachment",
+      "resultWrapper": null
+    },
     "AuthorizeSecurityGroupEgress": {
       "shape": "AuthorizeSecurityGroupEgressResult",
       "resultWrapper": null
@@ -27,12 +52,76 @@
       "shape": "AuthorizeSecurityGroupIngressResult",
       "resultWrapper": null
     },
+    "CopyImage": {
+      "shape": "CopyImageResult",
+      "resultWrapper": null
+    },
+    "CopySnapshot": {
+      "shape": "CopySnapshotResult",
+      "resultWrapper": null
+    },
+    "CreateFlowLogs": {
+      "shape": "CreateFlowLogsResult",
+      "resultWrapper": null
+    },
+    "CreateImage": {
+      "shape": "CreateImageResult",
+      "resultWrapper": null
+    },
+    "CreateKeyPair": {
+      "shape": "KeyPair",
+      "resultWrapper": null
+    },
+    "CreateNetworkAcl": {
+      "shape": "CreateNetworkAclResult",
+      "resultWrapper": null
+    },
+    "CreateSecurityGroup": {
+      "shape": "CreateSecurityGroupResult",
+      "resultWrapper": null
+    },
+    "CreateSnapshot": {
+      "shape": "Snapshot",
+      "resultWrapper": null
+    },
+    "CreateVolume": {
+      "shape": "Volume",
+      "resultWrapper": null
+    },
     "DeleteFlowLogs": {
       "shape": "DeleteFlowLogsResult",
       "resultWrapper": null
     },
+    "DeleteSecurityGroup": {
+      "shape": "DeleteSecurityGroupResult",
+      "resultWrapper": null
+    },
+    "DeregisterImage": {
+      "shape": "DeregisterImageResult",
+      "resultWrapper": null
+    },
+    "DetachVolume": {
+      "shape": "VolumeAttachment",
+      "resultWrapper": null
+    },
     "GetPasswordData": {
       "shape": "GetPasswordDataResult",
+      "resultWrapper": null
+    },
+    "ImportKeyPair": {
+      "shape": "ImportKeyPairResult",
+      "resultWrapper": null
+    },
+    "ModifySecurityGroupRules": {
+      "shape": "ModifySecurityGroupRulesResult",
+      "resultWrapper": null
+    },
+    "RevokeSecurityGroupEgress": {
+      "shape": "RevokeSecurityGroupEgressResult",
+      "resultWrapper": null
+    },
+    "RevokeSecurityGroupIngress": {
+      "shape": "RevokeSecurityGroupIngressResult",
       "resultWrapper": null
     },
     "RunInstances": {
@@ -58,6 +147,16 @@
     },
     "ArchitectureValues": {
       "type": "string"
+    },
+    "AssociatedKmsKey": {
+      "type": "structure",
+      "members": {
+        "kmsKeyId": "String"
+      }
+    },
+    "AssociatedKmsKeySet": {
+      "type": "list",
+      "member": "AssociatedKmsKey"
     },
     "AttachmentStatus": {
       "type": "string"
@@ -110,6 +209,19 @@
         "udpTimeout": "Integer"
       }
     },
+    "CopyImageResult": {
+      "type": "structure",
+      "members": {
+        "imageId": "String"
+      }
+    },
+    "CopySnapshotResult": {
+      "type": "structure",
+      "members": {
+        "tagSet": "TagList",
+        "snapshotId": "String"
+      }
+    },
     "CpuOptions": {
       "type": "structure",
       "members": {
@@ -119,6 +231,35 @@
         "nestedVirtualization": "NestedVirtualizationSpecification"
       }
     },
+    "CreateFlowLogsResult": {
+      "type": "structure",
+      "members": {
+        "clientToken": "String",
+        "flowLogIdSet": "ValueStringList",
+        "unsuccessful": "UnsuccessfulItemSet"
+      }
+    },
+    "CreateImageResult": {
+      "type": "structure",
+      "members": {
+        "imageId": "String"
+      }
+    },
+    "CreateNetworkAclResult": {
+      "type": "structure",
+      "members": {
+        "networkAcl": "NetworkAcl",
+        "clientToken": "String"
+      }
+    },
+    "CreateSecurityGroupResult": {
+      "type": "structure",
+      "members": {
+        "groupId": "String",
+        "tagSet": "TagList",
+        "securityGroupArn": "String"
+      }
+    },
     "DateTime": {
       "type": "timestamp"
     },
@@ -126,6 +267,31 @@
       "type": "structure",
       "members": {
         "unsuccessful": "UnsuccessfulItemSet"
+      }
+    },
+    "DeleteSecurityGroupResult": {
+      "type": "structure",
+      "members": {
+        "return": "Boolean",
+        "groupId": "SecurityGroupId"
+      }
+    },
+    "DeleteSnapshotResultSet": {
+      "type": "list",
+      "member": "DeleteSnapshotReturnCode"
+    },
+    "DeleteSnapshotReturnCode": {
+      "type": "structure",
+      "members": {
+        "snapshotId": "SnapshotId",
+        "returnCode": "SnapshotReturnCodes"
+      }
+    },
+    "DeregisterImageResult": {
+      "type": "structure",
+      "members": {
+        "return": "Boolean",
+        "deleteSnapshotResultSet": "DeleteSnapshotResultSet"
       }
     },
     "DeviceType": {
@@ -218,6 +384,22 @@
       "members": {
         "arn": "String",
         "id": "String"
+      }
+    },
+    "IcmpTypeCode": {
+      "type": "structure",
+      "members": {
+        "code": "Integer",
+        "type": "Integer"
+      }
+    },
+    "ImportKeyPairResult": {
+      "type": "structure",
+      "members": {
+        "keyFingerprint": "String",
+        "keyName": "String",
+        "keyPairId": "String",
+        "tagSet": "TagList"
       }
     },
     "Instance": {
@@ -529,6 +711,54 @@
     "Integer": {
       "type": "integer"
     },
+    "IpPermission": {
+      "type": "structure",
+      "members": {
+        "ipProtocol": "String",
+        "fromPort": "Integer",
+        "toPort": "Integer",
+        "groups": "UserIdGroupPairList",
+        "ipRanges": "IpRangeList",
+        "ipv6Ranges": "Ipv6RangeList",
+        "prefixListIds": "PrefixListIdList"
+      }
+    },
+    "IpPermissionList": {
+      "type": "list",
+      "member": "IpPermission"
+    },
+    "IpRange": {
+      "type": "structure",
+      "members": {
+        "description": "String",
+        "cidrIp": "String"
+      }
+    },
+    "IpRangeList": {
+      "type": "list",
+      "member": "IpRange"
+    },
+    "Ipv6Range": {
+      "type": "structure",
+      "members": {
+        "description": "String",
+        "cidrIpv6": "String"
+      }
+    },
+    "Ipv6RangeList": {
+      "type": "list",
+      "member": "Ipv6Range"
+    },
+    "KeyPair": {
+      "type": "structure",
+      "members": {
+        "keyPairId": "String",
+        "tagSet": "TagList",
+        "keyName": "String",
+        "keyFingerprint": "String",
+        "keyMaterial": "SensitiveUserData"
+      }
+    },
     "LicenseConfiguration": {
       "type": "structure",
       "members": {
@@ -539,6 +769,9 @@
       "type": "list",
       "member": "LicenseConfiguration"
     },
+    "Long": {
+      "type": "long"
+    },
     "MetricCategoryId": {
       "type": "string"
     },
@@ -548,6 +781,12 @@
     },
     "MillisecondDateTime": {
       "type": "timestamp"
+    },
+    "ModifySecurityGroupRulesResult": {
+      "type": "structure",
+      "members": {
+        "return": "Boolean"
+      }
     },
     "Monitoring": {
       "type": "structure",
@@ -561,6 +800,47 @@
     },
     "NestedVirtualizationSpecification": {
       "type": "string"
+    },
+    "NetworkAcl": {
+      "type": "structure",
+      "members": {
+        "associationSet": "NetworkAclAssociationList",
+        "entrySet": "NetworkAclEntryList",
+        "default": "Boolean",
+        "networkAclId": "String",
+        "tagSet": "TagList",
+        "vpcId": "String",
+        "ownerId": "String"
+      }
+    },
+    "NetworkAclAssociation": {
+      "type": "structure",
+      "members": {
+        "networkAclAssociationId": "String",
+        "networkAclId": "String",
+        "subnetId": "String"
+      }
+    },
+    "NetworkAclAssociationList": {
+      "type": "list",
+      "member": "NetworkAclAssociation"
+    },
+    "NetworkAclEntry": {
+      "type": "structure",
+      "members": {
+        "cidrBlock": "String",
+        "egress": "Boolean",
+        "icmpTypeCode": "IcmpTypeCode",
+        "ipv6CidrBlock": "String",
+        "portRange": "PortRange",
+        "protocol": "String",
+        "ruleAction": "RuleAction",
+        "ruleNumber": "Integer"
+      }
+    },
+    "NetworkAclEntryList": {
+      "type": "list",
+      "member": "NetworkAclEntry"
     },
     "NetworkInterfaceStatus": {
       "type": "string"
@@ -600,6 +880,24 @@
     },
     "PlatformValues": {
       "type": "string"
+    },
+    "PortRange": {
+      "type": "structure",
+      "members": {
+        "from": "Integer",
+        "to": "Integer"
+      }
+    },
+    "PrefixListId": {
+      "type": "structure",
+      "members": {
+        "description": "String",
+        "prefixListId": "String"
+      }
+    },
+    "PrefixListIdList": {
+      "type": "list",
+      "member": "PrefixListId"
     },
     "PrefixListResourceId": {
       "type": "string"
@@ -646,6 +944,48 @@
         "instancesSet": "InstanceList"
       }
     },
+    "RevokeSecurityGroupEgressResult": {
+      "type": "structure",
+      "members": {
+        "return": "Boolean",
+        "unknownIpPermissionSet": "IpPermissionList",
+        "revokedSecurityGroupRuleSet": "RevokedSecurityGroupRuleList"
+      }
+    },
+    "RevokeSecurityGroupIngressResult": {
+      "type": "structure",
+      "members": {
+        "return": "Boolean",
+        "unknownIpPermissionSet": "IpPermissionList",
+        "revokedSecurityGroupRuleSet": "RevokedSecurityGroupRuleList"
+      }
+    },
+    "RevokedSecurityGroupRule": {
+      "type": "structure",
+      "members": {
+        "securityGroupRuleId": "SecurityGroupRuleId",
+        "groupId": "SecurityGroupId",
+        "isEgress": "Boolean",
+        "ipProtocol": "String",
+        "fromPort": "Integer",
+        "toPort": "Integer",
+        "cidrIpv4": "String",
+        "cidrIpv6": "String",
+        "prefixListId": "PrefixListResourceId",
+        "referencedGroupId": "SecurityGroupId",
+        "description": "String"
+      }
+    },
+    "RevokedSecurityGroupRuleList": {
+      "type": "list",
+      "member": "RevokedSecurityGroupRule"
+    },
+    "RuleAction": {
+      "type": "string"
+    },
+    "SSEType": {
+      "type": "string"
+    },
     "SecondaryInterfaceId": {
       "type": "string"
     },
@@ -690,6 +1030,51 @@
       "type": "list",
       "member": "SecurityGroupRule"
     },
+    "SensitiveUserData": {
+      "type": "string",
+      "sensitive": true
+    },
+    "Snapshot": {
+      "type": "structure",
+      "members": {
+        "ownerAlias": "String",
+        "outpostArn": "String",
+        "tagSet": "TagList",
+        "storageTier": "StorageTier",
+        "restoreExpiryTime": "MillisecondDateTime",
+        "sseType": "SSEType",
+        "availabilityZone": "String",
+        "transferType": "TransferType",
+        "completionDurationMinutes": "SnapshotCompletionDurationMinutesResponse",
+        "completionTime": "MillisecondDateTime",
+        "fullSnapshotSizeInBytes": "Long",
+        "associatedKmsKeySet": "AssociatedKmsKeySet",
+        "snapshotId": "String",
+        "volumeId": "String",
+        "status": "SnapshotState",
+        "statusMessage": "String",
+        "startTime": "DateTime",
+        "progress": "String",
+        "ownerId": "String",
+        "description": "String",
+        "volumeSize": "Integer",
+        "encrypted": "Boolean",
+        "kmsKeyId": "String",
+        "dataEncryptionKeyId": "String"
+      }
+    },
+    "SnapshotCompletionDurationMinutesResponse": {
+      "type": "integer"
+    },
+    "SnapshotId": {
+      "type": "string"
+    },
+    "SnapshotReturnCodes": {
+      "type": "string"
+    },
+    "SnapshotState": {
+      "type": "string"
+    },
     "StartInstancesResult": {
       "type": "structure",
       "members": {
@@ -708,6 +1093,9 @@
       "members": {
         "instancesSet": "InstanceStateChangeList"
       }
+    },
+    "StorageTier": {
+      "type": "string"
     },
     "String": {
       "type": "string"
@@ -732,6 +1120,9 @@
         "instancesSet": "InstanceStateChangeList"
       }
     },
+    "TransferType": {
+      "type": "string"
+    },
     "UnsuccessfulItem": {
       "type": "structure",
       "members": {
@@ -750,7 +1141,82 @@
       "type": "list",
       "member": "UnsuccessfulItem"
     },
+    "UserIdGroupPair": {
+      "type": "structure",
+      "members": {
+        "description": "String",
+        "userId": "String",
+        "groupName": "String",
+        "groupId": "String",
+        "vpcId": "String",
+        "vpcPeeringConnectionId": "String",
+        "peeringStatus": "String"
+      }
+    },
+    "UserIdGroupPairList": {
+      "type": "list",
+      "member": "UserIdGroupPair"
+    },
+    "ValueStringList": {
+      "type": "list",
+      "member": "String"
+    },
     "VirtualizationType": {
+      "type": "string"
+    },
+    "Volume": {
+      "type": "structure",
+      "members": {
+        "availabilityZoneId": "String",
+        "outpostArn": "String",
+        "sourceVolumeId": "String",
+        "iops": "Integer",
+        "tagSet": "TagList",
+        "volumeType": "VolumeType",
+        "fastRestored": "Boolean",
+        "multiAttachEnabled": "Boolean",
+        "throughput": "Integer",
+        "sseType": "SSEType",
+        "operator": "OperatorResponse",
+        "volumeInitializationRate": "Integer",
+        "volumeArn": "String",
+        "ownerId": "String",
+        "volumeId": "String",
+        "size": "Integer",
+        "snapshotId": "String",
+        "availabilityZone": "String",
+        "status": "VolumeState",
+        "createTime": "DateTime",
+        "attachmentSet": "VolumeAttachmentList",
+        "encrypted": "Boolean",
+        "kmsKeyId": "String"
+      }
+    },
+    "VolumeAttachment": {
+      "type": "structure",
+      "members": {
+        "deleteOnTermination": "Boolean",
+        "associatedResource": "String",
+        "instanceOwningService": "String",
+        "ebsCardIndex": "Integer",
+        "volumeId": "String",
+        "instanceId": "String",
+        "device": "String",
+        "status": "VolumeAttachmentState",
+        "attachTime": "DateTime"
+      }
+    },
+    "VolumeAttachmentList": {
+      "type": "list",
+      "member": "VolumeAttachment"
+    },
+    "VolumeAttachmentState": {
+      "type": "string"
+    },
+    "VolumeState": {
+      "type": "string"
+    },
+    "VolumeType": {
       "type": "string"
     }
   },

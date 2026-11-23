@@ -118,9 +118,9 @@ public final class CloudTrailShapes {
      * milliseconds, and a sensitive member as {@code "<sensitiveDataRemoved>"}, as 2024 records of
      * RunInstances, TerminateInstances, AuthorizeSecurityGroupIngress and ModifyInstanceAttribute
      * write them. A network interface's {@code privateIpAddressesSet} keeps its {@code item} key,
-     * as the RunInstances record does. An operation the model gives no output, such as
-     * ModifyInstanceAttribute, still answers {@code return}, which its record writes as
-     * {@code "_return": true}.
+     * as the RunInstances record does. An answer's {@code return} the model does not give, as for
+     * ModifyInstanceAttribute (no output) and CreateSecurityGroup, is written {@code "_return": true}
+     * all the same, as their records write it.
      */
     public ObjectNode ec2Result(String operation, String xml) {
         String output = results.path(operation).path("shape").asText("");
@@ -135,7 +135,7 @@ public final class CloudTrailShapes {
                 read.put("requestId", child.text());
                 continue;
             }
-            if (output.isEmpty() && "return".equals(child.name())) {
+            if ("return".equals(child.name()) && !members.has("return")) {
                 read.put("_return", Boolean.parseBoolean(child.text().trim()));
                 continue;
             }

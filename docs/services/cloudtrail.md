@@ -256,23 +256,43 @@ leaves out, such as `PutLogEvents`, is not recorded.
 "All Amazon EC2 API actions are logged as management events"
 ([Amazon EC2 API Reference](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/using-cloudtrail.html)), but an EC2
 record writes a call's members in EC2's own schema rather than botocore's, which no published source carries. Floci
-records the EC2 calls a record from 2024 or later shows, as it shows them: `RunInstances`, `StartInstances`,
-`StopInstances`, `TerminateInstances`, `ModifyInstanceAttribute`, `AuthorizeSecurityGroupIngress`,
-`AuthorizeSecurityGroupEgress`, `ModifyImageAttribute`, `ModifySnapshotAttribute`, `DeleteNetworkAcl`,
-`DeleteNetworkAclEntry`, `DeleteFlowLogs` and `GetPasswordData` (`ec2-cloudtrail-events.json`). Other EC2 calls are not
-recorded yet.
+records the EC2 calls a record shows, as it shows them, a record from 2024 or later first, then an AWS guide's example,
+then an older record (`ec2-cloudtrail-events.json`):
+
+- instances: `RunInstances`, `StartInstances`, `StopInstances`, `TerminateInstances`, `ModifyInstanceAttribute`,
+  `GetPasswordData`;
+- security groups: `CreateSecurityGroup`, `DeleteSecurityGroup`, `AuthorizeSecurityGroupIngress`,
+  `AuthorizeSecurityGroupEgress`, `RevokeSecurityGroupIngress`, `RevokeSecurityGroupEgress`,
+  `ModifySecurityGroupRules`;
+- volumes and snapshots: `CreateVolume`, `DeleteVolume`, `AttachVolume`, `DetachVolume`, `CreateSnapshot`,
+  `CopySnapshot`, `DeleteSnapshot`, `ModifySnapshotAttribute`;
+- images and key pairs: `CreateImage`, `CopyImage`, `DeregisterImage`, `ModifyImageAttribute`, `CreateKeyPair`,
+  `ImportKeyPair`;
+- network ACLs and flow logs: `CreateNetworkAcl`, `DeleteNetworkAcl`, `CreateNetworkAclEntry`,
+  `ReplaceNetworkAclEntry`, `DeleteNetworkAclEntry`, `CreateFlowLogs`, `DeleteFlowLogs`.
+
+Other EC2 calls are not recorded yet.
 
 - `requestParameters` follow those records: a list is `{"items": [...]}` and an empty one `{}`
   (`"instancesSet": {"items": [{"instanceId": ...}]}`, `"ipPermissions": {"items": [{"ipRanges": {"items": [{"cidrIp": ...}]}, "groups": {}}]}`),
-  `RunInstances` puts the image and counts in `instancesSet` and writes `blockDeviceMapping`, `disableApiStop`,
-  `disableApiTermination` and `monitoring` with their defaults, `ModifyInstanceAttribute` writes user data as
-  `"<sensitiveDataRemoved>"`, `ModifySnapshotAttribute` names its attribute `CREATE_VOLUME_PERMISSION`, and
-  `DeleteFlowLogs` writes its request and answer as their XML (`{"DeleteFlowLogsRequest": {"FlowLogId": {"content": ..., "tag": 1}}}`).
-  A member no record shows (a key pair, security groups or an instance profile on `RunInstances`, another attribute on
-  `ModifyInstanceAttribute`) is left out.
+  tags are `"tagSpecificationSet": {"items": [{"resourceType": ..., "tags": [{"key": ..., "value": ...}]}]}`, and a
+  member is named and typed as its record shows it rather than as the request sends it (`CreateVolume`'s `zone` and its
+  `size` as text, `CreateSecurityGroup`'s `groupDescription`, a network ACL entry's `aclProtocol`). Defaults the records
+  show are written when the request leaves them out: `RunInstances`'s `blockDeviceMapping`, `disableApiStop`,
+  `disableApiTermination` and `monitoring`, `DeleteSnapshot`'s and `DetachVolume`'s `force`, `DeleteVolume`'s
+  `reportVolumeFailure`, `AttachVolume`'s `deleteOnTermination`, `CreateKeyPair`'s `keyType` (`rsa`) and `keyFormat`
+  (`pem`), and a network ACL entry's empty `icmpTypeCode` and `portRange`. `ModifyInstanceAttribute` writes user data as
+  `"<sensitiveDataRemoved>"` and `ModifySnapshotAttribute` names its attribute `CREATE_VOLUME_PERMISSION`.
+  `CreateFlowLogs`, `DeleteFlowLogs` and `ModifySecurityGroupRules` write their request and answer as their XML
+  (`{"DeleteFlowLogsRequest": {"FlowLogId": {"content": ..., "tag": 1}}}`). A member no record shows (a key pair,
+  security groups or an instance profile on `RunInstances`, another attribute on `ModifyInstanceAttribute`, a
+  snapshot's or a copied image's description, an ICMP type on a network ACL entry) is left out.
 - `responseElements` is the call's answer with its XML names (`instancesSet`, `securityGroupRuleSet`), lists in `items`,
-  the answer's `requestId`, a boolean result as `_return` and timestamps in epoch milliseconds (`ec2-cloudtrail-shapes.json`);
-  `null` for a read-only call (`GetPasswordData`) and a failed one.
+  the answer's `requestId`, a boolean result as `_return`, timestamps in epoch milliseconds and key material as
+  `"<sensitiveDataRemoved>"` (`ec2-cloudtrail-shapes.json`), and where a record shows otherwise, as it shows it:
+  `CreateVolume`'s `zone` and `size` and `CreateSnapshot`'s `volumeSize` as text, a network ACL's `isDefault` and its
+  entries' `aclProtocol`, and only the members their records show for `CreateVolume`, `CreateSnapshot`, `AttachVolume`
+  and `DetachVolume`; `null` for a read-only call (`GetPasswordData`) and a failed one.
 - An error is recorded as `Client.<code>` (`Client.InvalidNetworkAclID.NotFound`); a call IAM enforcement refuses as
   `Client.UnauthorizedOperation` with EC2's message and its members, as AWS keeps them for a refused EC2 call.
 
