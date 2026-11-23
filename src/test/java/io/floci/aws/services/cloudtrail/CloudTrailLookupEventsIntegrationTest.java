@@ -31,7 +31,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * Event history: {@code LookupEvents} returns the management events of the caller's account and
  * region, newest first, with no trail needed, filtered by one lookup attribute and a time range.
- * Each test runs in its own account so it sees only the events it caused.
+ * Each test runs in its own account so it sees only the events it caused: the secret's
+ * {@code CreateSecret}, then each {@code PutSecretValue}, as Secrets Manager records every call.
  */
 @QuarkusTest
 class CloudTrailLookupEventsIntegrationTest {
@@ -47,7 +48,7 @@ class CloudTrailLookupEventsIntegrationTest {
         String account = newAccount();
         String secret = putSecretValues(account, 1);
 
-        List<Event> events = lookup(account, LookupAttributeKey.EVENT_SOURCE, SECRETS_MANAGER, null).events();
+        List<Event> events = lookup(account, LookupAttributeKey.EVENT_NAME, "PutSecretValue", null).events();
 
         assertEquals(1, events.size());
         Event event = events.getFirst();
@@ -81,7 +82,7 @@ class CloudTrailLookupEventsIntegrationTest {
         Instant after = Instant.now().plusSeconds(60);
 
         try (CloudTrailClient cloudTrail = cloudTrail(account)) {
-            assertEquals(1, cloudTrail.lookupEvents(r -> r.startTime(before).endTime(after)).events().size());
+            assertEquals(2, cloudTrail.lookupEvents(r -> r.startTime(before).endTime(after)).events().size());
             assertEquals(0, cloudTrail.lookupEvents(r -> r.startTime(after)).events().size());
             assertEquals(0, cloudTrail.lookupEvents(r -> r.endTime(before)).events().size());
         }
@@ -90,7 +91,7 @@ class CloudTrailLookupEventsIntegrationTest {
     @Test
     void eventsArePagedNewestFirst() {
         String account = newAccount();
-        putSecretValues(account, 3);
+        putSecretValues(account, 2);
 
         LookupEventsResponse first = lookup(account, LookupAttributeKey.EVENT_SOURCE, SECRETS_MANAGER, 2);
         assertEquals(2, first.events().size());
@@ -112,7 +113,7 @@ class CloudTrailLookupEventsIntegrationTest {
         putSecretValues(account, 1);
 
         try (CloudTrailClient cloudTrail = cloudTrail(account)) {
-            assertEquals(1, cloudTrail.lookupEvents(r -> r.maxResults(50)).events().size());
+            assertEquals(2, cloudTrail.lookupEvents(r -> r.maxResults(50)).events().size());
             LookupEventsResponse insights = cloudTrail.lookupEvents(r -> r.eventCategory(EventCategory.INSIGHT));
             assertEquals(0, insights.events().size());
             assertNull(insights.nextToken());

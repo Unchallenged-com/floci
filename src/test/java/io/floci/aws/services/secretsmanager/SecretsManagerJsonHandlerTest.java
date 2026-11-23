@@ -32,7 +32,7 @@ class SecretsManagerJsonHandlerTest {
     void setUp() {
         service = new SecretsManagerService(new InMemoryStorage<>(), 30);
         handler = new SecretsManagerJsonHandler(service, MAPPER, mock(IamEnforcementFilter.class),
-                mock(SecretsManagerEventPublisher.class));
+                mock(SecretsManagerEventPublisher.class), mock(SecretsManagerCloudTrailEvents.class));
     }
 
     private String getRandomPassword(ObjectNode request) {

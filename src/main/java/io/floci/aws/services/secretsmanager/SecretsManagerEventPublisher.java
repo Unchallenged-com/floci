@@ -1,13 +1,8 @@
 package io.floci.aws.services.secretsmanager;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import io.floci.aws.core.common.AccountResolver;
 import io.floci.aws.core.common.RequestScopes;
 import io.floci.aws.core.common.Resettable;
-import io.floci.aws.core.common.ServicePrincipals;
-import io.floci.aws.services.cloudtrail.CloudTrailService;
 import io.floci.aws.services.eventbridge.EventBridgeService;
 import jakarta.annotation.PreDestroy;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -20,16 +15,16 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-/** Emits successful secret API writes, without copying credential-bearing request bodies. */
+/**
+ * Puts the CloudTrail record of a successful secret write on EventBridge's default bus, as
+ * {@code AWS API Call via CloudTrail}, in the background so a slow target cannot hold the write.
+ */
 @ApplicationScoped
 public class SecretsManagerEventPublisher implements Resettable {
     private static final Logger LOG = Logger.getLogger(SecretsManagerEventPublisher.class);
     private static final long RESET_DRAIN_TIMEOUT_SECONDS = 30;
 
-    private final CloudTrailService cloudTrail;
     private final EventBridgeService eventBridge;
-    private final AccountResolver accounts;
-    private final ObjectMapper mapper;
     private final Executor deliveries;
     private final Object deliveryLock = new Object();
     private long generation;
@@ -38,20 +33,15 @@ public class SecretsManagerEventPublisher implements Resettable {
     private boolean stopped;
 
     @Inject
-    public SecretsManagerEventPublisher(CloudTrailService cloudTrail, EventBridgeService eventBridge,
-                                       AccountResolver accounts, ObjectMapper mapper) {
-        this(cloudTrail, eventBridge, accounts, mapper, new ThreadPoolExecutor(2, 2, 0L, TimeUnit.MILLISECONDS,
+    public SecretsManagerEventPublisher(EventBridgeService eventBridge) {
+        this(eventBridge, new ThreadPoolExecutor(2, 2, 0L, TimeUnit.MILLISECONDS,
                 new ArrayBlockingQueue<>(256),
                 Thread.ofPlatform().daemon().name("secret-event-publisher-", 0).factory(),
                 new ThreadPoolExecutor.AbortPolicy()));
     }
 
-    SecretsManagerEventPublisher(CloudTrailService cloudTrail, EventBridgeService eventBridge,
-                                AccountResolver accounts, ObjectMapper mapper, Executor deliveries) {
-        this.cloudTrail = cloudTrail;
+    SecretsManagerEventPublisher(EventBridgeService eventBridge, Executor deliveries) {
         this.eventBridge = eventBridge;
-        this.accounts = accounts;
-        this.mapper = mapper;
         this.deliveries = deliveries;
     }
 
@@ -111,7 +101,8 @@ public class SecretsManagerEventPublisher implements Resettable {
         }
     }
 
-    public void secretWritten(String action, JsonNode request, JsonNode response, String region, String authorization) {
+    /** Queues {@code record}, the CloudTrail record of a successful {@code action}, for EventBridge. */
+    public void secretWritten(String action, ObjectNode record) {
         synchronized (deliveryLock) {
             if (paused || stopped) {
                 LOG.warnv("Dropped Secrets Manager {0} event while publisher is {1}",
@@ -119,19 +110,7 @@ public class SecretsManagerEventPublisher implements Resettable {
                 return;
             }
             try {
-                ObjectNode parameters = mapper.createObjectNode();
-                copy(request, parameters, "SecretId", "secretId");
-                copy(request, parameters, "ClientRequestToken", "clientRequestToken");
-                copy(request, parameters, "VersionStages", "versionStages");
-                copy(request, parameters, "KmsKeyId", "kmsKeyId");
-                ObjectNode result = mapper.createObjectNode();
-                copy(response, result, "ARN", "arn");
-                copy(response, result, "Name", "name");
-                copy(response, result, "VersionId", "versionId");
-                cloudTrail.emitManagementEvent(new CloudTrailService.ManagementEventInput(
-                        ServicePrincipals.of("secretsmanager"), action, region,
-                        accounts.extractAccessKeyId(authorization), parameters, result)).ifPresent(record ->
-                        queueEvent(action, record, result.path("arn").asText()));
+                queueEvent(action, record, record.path("responseElements").path("arn").asText());
             } catch (RuntimeException e) {
                 // The API write is already committed. Notification failures must not turn it into a failed write.
                 LOG.warnv(e, "Failed to publish Secrets Manager {0} event", action);
@@ -163,18 +142,5 @@ public class SecretsManagerEventPublisher implements Resettable {
                 }
             }
         });
-    }
-
-    private static void copy(JsonNode source, ObjectNode target, String from, String to) {
-        JsonNode value = source.path(from);
-        if (value.isTextual()) {
-            target.put(to, value.asText());
-        } else if ("VersionStages".equals(from) && value.isArray()) {
-            value.forEach(stage -> {
-                if (stage.isTextual()) {
-                    target.withArray(to).add(stage.asText());
-                }
-            });
-        }
     }
 }

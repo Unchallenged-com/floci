@@ -7,7 +7,7 @@ import io.floci.aws.core.common.AwsException;
 import io.floci.aws.core.common.RequestContext;
 import io.floci.aws.core.common.RequestSourceAddress;
 import io.floci.aws.core.common.ServicePrincipals;
-import io.floci.aws.core.common.VendoredResources;
+import io.floci.aws.services.cloudtrail.CloudTrailEventCatalog;
 import io.floci.aws.services.cloudtrail.CloudTrailService;
 import io.floci.aws.services.cloudtrail.CloudTrailShapes;
 import io.floci.aws.services.cloudtrail.ManagementEventSource;
@@ -19,8 +19,6 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
 import org.jboss.logging.Logger;
 
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Records SQS's control plane calls as CloudTrail management events, as the SQS Developer Guide
@@ -28,8 +26,8 @@ import java.util.Set;
  * management events"
  * (https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/logging-using-cloudtrail.html).
  * Which calls those are, and which of them are read-only, is the vendored
- * {@code aws/sqs-cloudtrail-events.json}: the guide's list, and AWS's Service Reference's access
- * level ({@code ListMessageMoveTasks} is the only read-only one). Every other SQS call is a data
+ * {@code aws/sqs-cloudtrail-events.json} ({@link CloudTrailEventCatalog}): the guide's list, and AWS's
+ * Service Reference's access level ({@code ListMessageMoveTasks} is the only read-only one). Every other SQS call is a data
  * event, which this does not record.
  *
  * <p>A call is recorded whether it succeeds, fails, or is refused by IAM enforcement, a trail or not,
@@ -52,16 +50,6 @@ public class SqsCloudTrailEvents implements ManagementEventSource {
 
     private static final Logger LOG = Logger.getLogger(SqsCloudTrailEvents.class);
     private static final String EVENT_SOURCE = ServicePrincipals.of("sqs");
-    private static final String RESOURCE_NAME = "aws/sqs-cloudtrail-events.json";
-
-    /** The vendored file: the calls CloudTrail records as management events, and the read-only ones. */
-    record Catalog(Set<String> managementEvents, Set<String> readOnlyActions) {
-    }
-
-    private static final class Holder {
-        static final Catalog CATALOG = VendoredResources.read(RESOURCE_NAME, "SQS CloudTrail events",
-                in -> catalog(new ObjectMapper().readTree(in)));
-    }
 
     private final CloudTrailService cloudTrail;
     private final RequestContext requestContext;
@@ -79,12 +67,12 @@ public class SqsCloudTrailEvents implements ManagementEventSource {
 
     /** Whether CloudTrail records {@code action} as a management event. */
     static boolean isManagementEvent(String action) {
-        return action != null && Holder.CATALOG.managementEvents().contains(action);
+        return CloudTrailEventCatalog.of("sqs").isManagementEvent(action);
     }
 
     /** Whether CloudTrail records {@code action} as read-only. */
     static boolean isReadOnly(String action) {
-        return action != null && Holder.CATALOG.readOnlyActions().contains(action);
+        return CloudTrailEventCatalog.of("sqs").isReadOnly(action);
     }
 
     /**
@@ -141,25 +129,5 @@ public class SqsCloudTrailEvents implements ManagementEventSource {
 
     private static HttpServerRequest request(RoutingContext routingContext) {
         return routingContext == null ? null : routingContext.request();
-    }
-
-    private static Catalog catalog(JsonNode root) {
-        Set<String> events = names(root.path("managementEvents"));
-        if (events.isEmpty()) {
-            throw new IllegalStateException(RESOURCE_NAME + " carries no managementEvents");
-        }
-        Set<String> readOnly = names(root.path("readOnlyActions"));
-        if (!events.containsAll(readOnly)) {
-            throw new IllegalStateException(RESOURCE_NAME + " lists a read-only action that is not a management event");
-        }
-        return new Catalog(Set.copyOf(events), Set.copyOf(readOnly));
-    }
-
-    private static Set<String> names(JsonNode array) {
-        Set<String> names = new HashSet<>();
-        for (JsonNode name : array) {
-            names.add(name.asText());
-        }
-        return names;
     }
 }

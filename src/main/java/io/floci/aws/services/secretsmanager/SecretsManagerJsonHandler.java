@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.StreamSupport;
 
@@ -38,15 +39,18 @@ public class SecretsManagerJsonHandler {
     private final ObjectMapper objectMapper;
     private final IamEnforcementFilter iamEnforcementFilter;
     private final SecretsManagerEventPublisher eventPublisher;
+    private final SecretsManagerCloudTrailEvents cloudTrailEvents;
 
     @Inject
     public SecretsManagerJsonHandler(SecretsManagerService service, ObjectMapper objectMapper,
                                      IamEnforcementFilter iamEnforcementFilter,
-                                     SecretsManagerEventPublisher eventPublisher) {
+                                     SecretsManagerEventPublisher eventPublisher,
+                                     SecretsManagerCloudTrailEvents cloudTrailEvents) {
         this.service = service;
         this.objectMapper = objectMapper;
         this.iamEnforcementFilter = iamEnforcementFilter;
         this.eventPublisher = eventPublisher;
+        this.cloudTrailEvents = cloudTrailEvents;
     }
 
     /** The secrets the service finds, random suffix included, for a caller naming the resources of a request. */
@@ -67,9 +71,26 @@ public class SecretsManagerJsonHandler {
      * @param authorization the caller's credential as {@link IamEnforcementFilter#requestAuthorization}
      *                      reads it, used where an operation authorizes the caller for a second
      *                      resource
+     * The call is recorded in CloudTrail ({@link SecretsManagerCloudTrailEvents}), and a successful
+     * {@code PutSecretValue} or {@code UpdateSecret} a trail recorded also reaches EventBridge.
      */
     public Response handle(String action, JsonNode request, String region, String authorization) {
-        Response response = switch (action) {
+        Response response;
+        try {
+            response = dispatch(action, request, region, authorization);
+        } catch (AwsException e) {
+            cloudTrailEvents.record(action, request, region, authorization, null, e);
+            throw e;
+        }
+        Optional<ObjectNode> record = cloudTrailEvents.record(action, request, region, authorization, response, null);
+        if (response.getStatus() == 200 && ("PutSecretValue".equals(action) || "UpdateSecret".equals(action))) {
+            record.ifPresent(written -> eventPublisher.secretWritten(action, written));
+        }
+        return response;
+    }
+
+    private Response dispatch(String action, JsonNode request, String region, String authorization) {
+        return switch (action) {
             case "CreateSecret" -> handleCreateSecret(request, region);
             case "GetSecretValue" -> handleGetSecretValue(request, region);
             case "PutSecretValue" -> handlePutSecretValue(request, region);
@@ -97,10 +118,6 @@ public class SecretsManagerJsonHandler {
                     .entity(new AwsErrorResponse("UnsupportedOperation", "Operation " + action + " is not supported."))
                     .build();
         };
-        if (response.getStatus() == 200 && ("PutSecretValue".equals(action) || "UpdateSecret".equals(action))) {
-            eventPublisher.secretWritten(action, request, (JsonNode) response.getEntity(), region, authorization);
-        }
-        return response;
     }
 
     private Response handleBatchGetSecretValue(JsonNode request, String region) {

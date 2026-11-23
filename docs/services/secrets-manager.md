@@ -78,11 +78,10 @@ by `CreateSecret`:
 }
 ```
 
-The lowercase `responseElements.arn` follows the current AWS CloudTrail format. Records include
-the operation, account, region, caller identity, secret name, and version ID when returned.
-Request metadata is restricted to the secret ID, client request token, version stages, and KMS
-key ID. Secret strings, binary values, descriptions, and unrecognized request fields are omitted
-from both EventBridge events and CloudTrail logs.
+The event's `detail` is the call's CloudTrail record, as
+[CloudTrail's Secrets Manager coverage](cloudtrail.md#secrets-manager-coverage) describes it: the lowercase
+`responseElements.arn` of the current AWS CloudTrail format, and the request's and result's members without the
+secret string or binary value.
 
 One event is published per successful API call even when several trails select it. Matching
 trails also buffer the same redacted record for their normal S3 log delivery. EventBridge target

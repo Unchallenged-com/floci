@@ -72,8 +72,8 @@ class IamDataVerifyTest(unittest.TestCase):
             "tools/aws/regen_service_namespaces.py\ntools/aws/regen_iam_action_resources.py\n"
         ), fail_target="iam-namespaces-verify")
         self.assertNotEqual(0, result.returncode)
-        # The SQS CloudTrail event table's generator imports regen_iam_action_resources.py, so its check runs too.
-        self.assertEqual(["iam-namespaces-verify", "iam-action-resources-verify", "sqs-cloudtrail-events-verify"],
+        # The CloudTrail event tables' generator imports regen_iam_action_resources.py, so its check runs too.
+        self.assertEqual(["iam-namespaces-verify", "iam-action-resources-verify", "cloudtrail-events-verify"],
                          calls)
         self.assertIn("the service namespace list", result.stdout)
 

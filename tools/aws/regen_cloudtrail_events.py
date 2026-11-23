@@ -1,0 +1,235 @@
+#!/usr/bin/env python3
+"""Regenerate src/main/resources/aws/<service>-cloudtrail-events.json: which of a service's calls
+CloudTrail records as management events, and which of them are read-only.
+
+Which calls are management events is each service's guide's, which no machine-readable source
+carries, so it stays in SERVICES below, as the guide lists them:
+
+- SQS (https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/logging-using-cloudtrail.html):
+  "Amazon SQS logs the following control plane operations to CloudTrail as management events".
+  Every other SQS call (sending, receiving and deleting messages, and reading a queue's URL,
+  attributes and tags) is a data event of the `AWS::SQS::Queue` resource type, which a trail logs
+  only when an advanced event selector selects it.
+- Secrets Manager (https://docs.aws.amazon.com/secretsmanager/latest/userguide/cloudtrail_log_entries.html):
+  "AWS Secrets Manager writes entries to your AWS CloudTrail log for all Secrets Manager
+  operations", followed by the entries its operations generate.
+
+Which of them are read-only is the access level AWS's Service Reference gives each action, read as
+`regen_iam_action_resources.py` reads IAM's: an action with none of the Write, Permissions
+management or Tagging properties is one CloudTrail "considers ... read-only"
+(https://servicereference.us-east-1.amazonaws.com/v1/<service>/<service>.json). That endpoint is
+live, so a fresh generation can differ from a vendored file only when AWS changes an access level:
+
+- `--check` is offline and structural: each file lists exactly its service's management events,
+  sorted, its read-only actions are among them, and the anchors SERVICES gives (a read that is
+  read-only, a write that is not) hold.
+- `--verify` needs the network: every management event is an action the reference publishes, and
+  the read-only list is the one the reference gives.
+
+Run from anywhere in the repo:
+    python3 tools/aws/regen_cloudtrail_events.py           # rewrite every vendored file in place
+    python3 tools/aws/regen_cloudtrail_events.py --check   # offline: shape of the vendored files
+    python3 tools/aws/regen_cloudtrail_events.py --verify  # online: the access levels are AWS's (2: unreachable)
+    python3 tools/aws/regen_cloudtrail_events.py --service sqs --source <file>  # one service, from a saved copy
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+import urllib.request
+from dataclasses import dataclass
+from datetime import datetime, timezone
+from pathlib import Path
+
+from regen_iam_action_resources import read_only_actions_from
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+RESOURCES = REPO_ROOT / "src/main/resources/aws"
+REFERENCE_URL = "https://servicereference.us-east-1.amazonaws.com/v1/{service}/{service}.json"
+FETCH_TIMEOUT_SECONDS = 30
+
+
+@dataclass(frozen=True)
+class Service:
+    """A service's guide, the calls it lists as management events, and the access levels to keep."""
+
+    guide: str
+    management_events: tuple[str, ...]
+    # Read-only or not, whichever way the reference says, for a read and a write the file must carry.
+    read_only_anchors: dict[str, bool]
+
+
+SERVICES: dict[str, Service] = {
+    "sqs": Service(
+        guide="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/logging-using-cloudtrail.html",
+        management_events=(
+            "AddPermission",
+            "CancelMessageMoveTask",
+            "CreateQueue",
+            "DeleteQueue",
+            "ListMessageMoveTasks",
+            "PurgeQueue",
+            "RemovePermission",
+            "SetQueueAttributes",
+            "StartMessageMoveTask",
+            "TagQueue",
+            "UntagQueue",
+        ),
+        read_only_anchors={"ListMessageMoveTasks": True, "DeleteQueue": False},
+    ),
+    "secretsmanager": Service(
+        guide="https://docs.aws.amazon.com/secretsmanager/latest/userguide/cloudtrail_log_entries.html",
+        management_events=(
+            "BatchGetSecretValue",
+            "CancelRotateSecret",
+            "CreateSecret",
+            "DeleteResourcePolicy",
+            "DeleteSecret",
+            "DescribeSecret",
+            "GetRandomPassword",
+            "GetResourcePolicy",
+            "GetSecretValue",
+            "ListSecretVersionIds",
+            "ListSecrets",
+            "PutResourcePolicy",
+            "PutSecretValue",
+            "RemoveRegionsFromReplication",
+            "ReplicateSecretToRegions",
+            "RestoreSecret",
+            "RotateSecret",
+            "StopReplicationToReplica",
+            "TagResource",
+            "UntagResource",
+            "UpdateSecret",
+            "UpdateSecretVersionStage",
+            "ValidateResourcePolicy",
+        ),
+        read_only_anchors={"GetSecretValue": True, "DeleteSecret": False},
+    ),
+}
+
+
+def output_for(service: str) -> Path:
+    return RESOURCES / f"{service}-cloudtrail-events.json"
+
+
+def fetch_reference(service: str, source: Path | None) -> tuple[dict, str]:
+    """AWS's service reference for `service` and a provenance label for where it came from."""
+    if source is not None:
+        return json.loads(source.read_text(encoding="utf-8")), f"--source {source}"
+    url = REFERENCE_URL.format(service=service)
+    request = urllib.request.Request(url, headers={"Accept": "application/json"})
+    with urllib.request.urlopen(request, timeout=FETCH_TIMEOUT_SECONDS) as response:
+        payload = response.read().decode("utf-8")
+    return json.loads(payload), url
+
+
+def build(service: str, reference: dict, provenance: str) -> dict:
+    spec = SERVICES[service]
+    read_only = set(read_only_actions_from(reference))
+    return {
+        "_source": {
+            "generator": "tools/aws/regen_cloudtrail_events.py",
+            "managementEvents": spec.guide,
+            "reference": provenance,
+            "retrieved": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+        },
+        "managementEvents": sorted(spec.management_events),
+        "readOnlyActions": sorted(name for name in spec.management_events if name in read_only),
+    }
+
+
+def render(document: dict) -> str:
+    return json.dumps(document, indent=2) + "\n"
+
+
+def validate(service: str, document: dict) -> list[str]:
+    """Problems that make the vendored file unusable, rather than merely out of date."""
+    spec = SERVICES[service]
+    problems: list[str] = []
+    events = document.get("managementEvents")
+    if events != sorted(spec.management_events):
+        problems.append("managementEvents is not the guide's list, sorted")
+        events = sorted(spec.management_events)
+    read_only = document.get("readOnlyActions")
+    if not isinstance(read_only, list):
+        return problems + ["readOnlyActions is missing"]
+    if read_only != sorted(set(read_only)):
+        problems.append("readOnlyActions is not sorted or lists an action twice")
+    for action in read_only:
+        if action not in events:
+            problems.append(f"readOnlyActions names {action!r}, which is not a management event")
+    for action, expected in spec.read_only_anchors.items():
+        if (action in read_only) != expected:
+            problems.append(f"{action!r} should {'' if expected else 'not '}be read-only")
+    return problems
+
+
+def verify_against(service: str, document: dict, reference: dict) -> list[str]:
+    """What the vendored file claims and the reference does not say."""
+    published = {action.get("Name") for action in reference.get("Actions", [])}
+    problems = [f"{name!r} is not a {service} action AWS publishes"
+                for name in SERVICES[service].management_events if name not in published]
+    expected = build(service, reference, "")["readOnlyActions"]
+    if document.get("readOnlyActions") != expected:
+        problems.append(f"readOnlyActions is {document.get('readOnlyActions')}, the reference gives {expected}")
+    return problems
+
+
+def check(service: str, output: Path, online: bool, source: Path | None) -> int:
+    document = json.loads(output.read_text(encoding="utf-8"))
+    problems = validate(service, document)
+    if online and not problems:
+        try:
+            reference, _ = fetch_reference(service, source)
+        except (OSError, ValueError) as e:
+            # An unreachable reference, or an answer that is not JSON, verifies nothing.
+            print(f"could not read the {service} service reference: {e}", file=sys.stderr)
+            return 2
+        problems = verify_against(service, document, reference)
+    for problem in problems:
+        print(f"{output.name}: {problem}", file=sys.stderr)
+    return 1 if problems else 0
+
+
+def regenerate(service: str, output: Path, source: Path | None) -> int:
+    reference, provenance = fetch_reference(service, source)
+    document = build(service, reference, provenance)
+    problems = validate(service, document)
+    if problems:
+        for problem in problems:
+            print(f"error: {service}: {problem}", file=sys.stderr)
+        return 1
+    output.write_text(render(document), encoding="utf-8")
+    shown = output.relative_to(REPO_ROOT) if output.is_relative_to(REPO_ROOT) else output
+    print(f"wrote {shown} from {provenance}")
+    return 0
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("--check", action="store_true", help="offline: exit 1 when a vendored file is unusable")
+    parser.add_argument("--verify", action="store_true", help="online: exit 1 when a vendored file is not AWS's")
+    parser.add_argument("--service", choices=sorted(SERVICES), default=None, help="only this service")
+    parser.add_argument("--source", type=Path, default=None,
+                        help="read the service reference from this file (with --service)")
+    parser.add_argument("--output", type=Path, default=None, help=argparse.SUPPRESS)
+    args = parser.parse_args(argv)
+    if (args.source is not None or args.output is not None) and args.service is None:
+        parser.error("--source and --output need --service")
+
+    status = 0
+    for service in [args.service] if args.service else sorted(SERVICES):
+        output = args.output if args.output is not None else output_for(service)
+        if args.check or args.verify:
+            result = check(service, output, args.verify, args.source)
+        else:
+            result = regenerate(service, output, args.source)
+        # An unreachable reference (2) outranks a mismatch (1): nothing was verified.
+        status = max(status, result)
+    return status
+
+
+if __name__ == "__main__":
+    sys.exit(main())

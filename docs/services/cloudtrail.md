@@ -4,7 +4,7 @@
 **Endpoint:** `POST http://localhost:4566/`
 
 Floci emulates a CloudTrail trail's full life cycle and emits S3 data events, IAM API calls, SQS control plane calls
-and selected Secrets Manager management writes to the trail's destination bucket as gzipped JSON log files at the
+and Secrets Manager API calls to the trail's destination bucket as gzipped JSON log files at the
 AWS-shaped key path:
 
 ```
@@ -138,7 +138,7 @@ reaches the account's event history whether or not a trail records it.
 - `eventSource` is `sqs.amazonaws.com` and `awsRegion` the queue's Region.
 - `readOnly` is `true` for `ListMessageMoveTasks` only, the one of them AWS's service reference
   ([`sqs.json`](https://servicereference.us-east-1.amazonaws.com/v1/sqs/sqs.json)) gives no Write, Permissions
-  management or Tagging access level, vendored in `sqs-cloudtrail-events.json` by `make sqs-cloudtrail-events-sync`.
+  management or Tagging access level, vendored in `sqs-cloudtrail-events.json` by `make cloudtrail-events-sync`.
 - `requestParameters` and `responseElements` hold the request's and the result's members, named with a lower first
   letter as the guide's event example names them (`queueUrl`, `mD5OfMessageBody`), a map's keys as sent
   (`"attributes": {"Policy": ...}`, `"tags": {"team": ...}`), typed as botocore's SQS model types them
@@ -159,22 +159,51 @@ Not recorded:
   refuses is recorded whichever protocol it uses.
 - A call another service makes for the caller, such as a Step Functions task or an API Gateway integration.
 
-## Management Write Coverage
+## Secrets Manager Coverage
 
-Successful Secrets Manager `PutSecretValue` and `UpdateSecret` API calls produce management
-records when a logging trail selects them. New trails include management events by default.
-Basic selectors honor `IncludeManagementEvents`, `ReadWriteType` (against each event's `readOnly`), and source exclusions.
-Advanced selectors evaluate `eventCategory`, `eventSource`, `eventName`, `readOnly`, `eventType`,
-and `userIdentity.arn`; unsupported fields do not match these records.
+Every Secrets Manager call is recorded as a management event, as CloudTrail
+["writes entries to your AWS CloudTrail log for all Secrets Manager operations"](https://docs.aws.amazon.com/secretsmanager/latest/userguide/cloudtrail_log_entries.html):
+one Secrets Manager ran, one it answered with an error, and, with `floci.services.iam.enforcement-enabled`, one IAM
+enforcement refused.
 
-Records have `eventCategory: Management` and `managementEvent: true`; the Secrets Manager writes have `readOnly: false`.
-Sensitive secret values are omitted. Buffers and background S3 delivery retain the originating
-account, including when different accounts use the same trail name. Multi-region trails cover
-regions within their own partition.
+- `eventSource` is `secretsmanager.amazonaws.com` and `awsRegion` the request's Region.
+- `readOnly` is `true` for the calls AWS's service reference
+  ([`secretsmanager.json`](https://servicereference.us-east-1.amazonaws.com/v1/secretsmanager/secretsmanager.json))
+  gives no Write, Permissions management or Tagging access level: `BatchGetSecretValue`, `DescribeSecret`,
+  `GetRandomPassword`, `GetResourcePolicy`, `GetSecretValue`, `ListSecretVersionIds` and `ListSecrets`, vendored in
+  `secretsmanager-cloudtrail-events.json` by `make cloudtrail-events-sync`.
+- `requestParameters` and `responseElements` hold the request's and the result's members, named with a lower first
+  letter (`secretId`, `filters: [{"key": ..., "values": [...]}]`), typed as botocore's Secrets Manager model types
+  them (`"maxResults": 100`, `secretsmanager-cloudtrail-shapes.json`). The members the model marks sensitive are left
+  out, as the API Reference says of `SecretString` and `SecretBinary`: "the service does not include it in AWS
+  CloudTrail log entries". The secret's ARN is `arn`, as CloudTrail has written it since February 2024 (it was
+  `aRN` before). `responseElements` is `null` for a read-only call, for a call that answers nothing and for a failed
+  one.
+- `BatchGetSecretValue` is recorded as one `BatchGetSecretValue` event, not one `GetSecretValue` event per secret.
+- An error is recorded under its code (`ResourceNotFoundException`), with Secrets Manager's message. A call IAM
+  enforcement refuses is recorded as `AccessDenied` with `"requestParameters": null` and the message its refusal
+  answers with.
 
-These writes also reach EventBridge's default bus in the request's account and region. See
-[Secrets Manager event delivery](secrets-manager.md#secret-write-events) for prerequisites,
-the secret-specific event pattern, and the limits of this coverage.
+A successful `PutSecretValue` or `UpdateSecret` a trail records also reaches EventBridge's default bus in the
+request's account and region. See [Secrets Manager event delivery](secrets-manager.md#secret-write-events) for
+prerequisites, the secret-specific event pattern, and the limits of this coverage.
+
+A call another service makes to Secrets Manager for the caller, such as an API Gateway integration or a Step Functions
+task, is recorded too, without the `invokedBy` that names that service on AWS. A timestamp in `responseElements`
+(`deletionDate`) is written in epoch seconds, as Secrets Manager answers it.
+
+Not recorded: the service events Secrets Manager logs for rotation, replication and version deletion
+(`RotationSucceeded`, `StartSecretVersionDelete`, ...).
+
+## Management events and selectors
+
+New trails include management events by default. Basic selectors honor `IncludeManagementEvents`, `ReadWriteType`
+(against each event's `readOnly`), and source exclusions. Advanced selectors evaluate `eventCategory`, `eventSource`,
+`eventName`, `readOnly`, `eventType`, and `userIdentity.arn`; unsupported fields do not match these records.
+
+Records have `eventCategory: Management` and `managementEvent: true`. Buffers and background S3 delivery retain the
+originating account, including when different accounts use the same trail name. Multi-region trails cover regions
+within their own partition.
 
 ## Event History
 

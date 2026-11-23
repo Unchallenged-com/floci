@@ -62,12 +62,12 @@
 # check fails until the actions of no resource type list the model's scope.
 # src/main/resources/aws/iam-paginators.json, what each paged IAM list pages by, is generated
 # from botocore's IAM model and paginators by tools/aws/regen_iam_paginators.py.
-# src/main/resources/aws/iam-cloudtrail-shapes.json and sqs-cloudtrail-shapes.json, how a CloudTrail
-# record names and types an IAM or SQS call's members and errors, are generated from botocore's
-# models by tools/aws/regen_iam_cloudtrail_shapes.py and regen_sqs_cloudtrail_shapes.py.
-# src/main/resources/aws/sqs-cloudtrail-events.json, which SQS calls CloudTrail records as
-# management events and which of them are read-only, is generated from the SQS Developer Guide's
-# list and AWS's service reference by tools/aws/regen_sqs_cloudtrail_events.py.
+# src/main/resources/aws/<service>-cloudtrail-shapes.json, how a CloudTrail record names and types an
+# IAM, SQS or Secrets Manager call's members and errors, is generated from botocore's model of the
+# service by tools/aws/regen_<service>_cloudtrail_shapes.py.
+# src/main/resources/aws/<service>-cloudtrail-events.json, which SQS and Secrets Manager calls
+# CloudTrail records as management events and which of them are read-only, is generated from each
+# service guide's list and AWS's service reference by tools/aws/regen_cloudtrail_events.py.
 
 PYTHON ?= python3
 
@@ -103,7 +103,7 @@ PREFIX ?= $(HOME)/.local
         iam-namespaces-sync iam-namespaces-check iam-namespaces-verify iam-namespaces-test \
         iam-action-resources-sync iam-action-resources-check iam-action-resources-verify \
         iam-action-resources-test iam-authorized-actions-sync iam-authorized-actions-check \
-        sqs-cloudtrail-events-sync sqs-cloudtrail-events-check sqs-cloudtrail-events-verify \
+        cloudtrail-events-sync cloudtrail-events-check cloudtrail-events-verify \
         cfn-property-types-sync cfn-property-types-check cfn-property-types-verify cfn-property-types-test \
         cfn-schema-surface-sync cfn-schema-surface-verify cfn-schema-surface-test \
         cfn-create-only-sync cfn-create-only-verify cfn-create-only-test \
@@ -331,6 +331,7 @@ aws-data-sync-botocore: ## Regenerate only the AWS data derived from botocore, s
 	$(PYTHON) tools/aws/regen_iam_paginators.py
 	$(PYTHON) tools/aws/regen_iam_cloudtrail_shapes.py
 	$(PYTHON) tools/aws/regen_sqs_cloudtrail_shapes.py
+	$(PYTHON) tools/aws/regen_secretsmanager_cloudtrail_shapes.py
 
 aws-data-check: aws-data-check-botocore ## CI gate: the vendored AWS data must match a fresh generation
 	@$(PYTHON) tools/aws/regen_partitions.py --check || { \
@@ -543,6 +544,12 @@ aws-data-check-botocore: ## The AWS data derived from botocore must match a fres
 		echo "       Run 'make aws-data-sync' and commit the result."; \
 		exit 1; \
 	}
+	@$(PYTHON) tools/aws/regen_secretsmanager_cloudtrail_shapes.py --check || { \
+		echo ""; \
+		echo "error: src/main/resources/aws/secretsmanager-cloudtrail-shapes.json is out of date."; \
+		echo "       Run 'make aws-data-sync' and commit the result."; \
+		exit 1; \
+	}
 	@$(MAKE) --no-print-directory iam-passed-roles-check
 	@$(MAKE) --no-print-directory iam-passed-network-connectors-check
 	@$(MAKE) --no-print-directory iam-tag-on-create-check
@@ -606,27 +613,27 @@ iam-action-resources-verify: ## CI gate (online): every vendored IAM action reso
 		exit 1; \
 	fi
 
-sqs-cloudtrail-events-sync: ## Regenerate src/main/resources/aws/sqs-cloudtrail-events.json from AWS (commit the result)
-	$(PYTHON) tools/aws/regen_sqs_cloudtrail_events.py
+cloudtrail-events-sync: ## Regenerate src/main/resources/aws/<service>-cloudtrail-events.json from AWS (commit the result)
+	$(PYTHON) tools/aws/regen_cloudtrail_events.py
 
-sqs-cloudtrail-events-check: ## CI gate (offline): the vendored SQS CloudTrail event table must be well-formed
-	@$(PYTHON) tools/aws/regen_sqs_cloudtrail_events.py --check || { \
+cloudtrail-events-check: ## CI gate (offline): the vendored CloudTrail event tables must be well-formed
+	@$(PYTHON) tools/aws/regen_cloudtrail_events.py --check || { \
 		echo ""; \
-		echo "error: src/main/resources/aws/sqs-cloudtrail-events.json is malformed."; \
-		echo "       Run 'make sqs-cloudtrail-events-sync' and commit the result."; \
+		echo "error: a vendored src/main/resources/aws/<service>-cloudtrail-events.json is malformed."; \
+		echo "       Run 'make cloudtrail-events-sync' and commit the result."; \
 		exit 1; \
 	}
 
-sqs-cloudtrail-events-verify: ## CI gate (online): the vendored SQS read-only actions must match AWS
-	@$(PYTHON) tools/aws/regen_sqs_cloudtrail_events.py --verify; status=$$?; \
+cloudtrail-events-verify: ## CI gate (online): the vendored CloudTrail read-only actions must match AWS
+	@$(PYTHON) tools/aws/regen_cloudtrail_events.py --verify; status=$$?; \
 	if [ $$status -eq 2 ]; then \
 		echo ""; \
-		echo "error: could not reach AWS's SQS service reference, so nothing was verified."; \
+		echo "error: could not reach an AWS service reference, so nothing was verified."; \
 		exit 1; \
 	elif [ $$status -ne 0 ]; then \
 		echo ""; \
-		echo "error: the vendored SQS CloudTrail event table does not match AWS's access levels."; \
-		echo "       Run 'make sqs-cloudtrail-events-sync' and commit the result."; \
+		echo "error: a vendored CloudTrail event table does not match AWS's access levels."; \
+		echo "       Run 'make cloudtrail-events-sync' and commit the result."; \
 		exit 1; \
 	fi
 
@@ -641,8 +648,9 @@ IAM_NAMESPACES_PATHS := src/main/resources/aws/iam-service-namespaces.json \
 	tools/aws/regen_service_namespaces.py tools/aws/test_regen_service_namespaces.py
 IAM_ACTION_RESOURCES_PATHS := src/main/resources/aws/iam-action-resources.json \
 	tools/aws/regen_iam_action_resources.py tools/aws/test_regen_iam_action_resources.py
-SQS_CLOUDTRAIL_EVENTS_PATHS := src/main/resources/aws/sqs-cloudtrail-events.json \
-	tools/aws/regen_sqs_cloudtrail_events.py tools/aws/test_regen_sqs_cloudtrail_events.py \
+CLOUDTRAIL_EVENTS_PATHS := src/main/resources/aws/sqs-cloudtrail-events.json \
+	src/main/resources/aws/secretsmanager-cloudtrail-events.json \
+	tools/aws/regen_cloudtrail_events.py tools/aws/test_regen_cloudtrail_events.py \
 	tools/aws/regen_iam_action_resources.py
 IAM_AUTHORIZED_ACTIONS_PATHS := src/main/resources/aws/iam-authorized-actions.json \
 	tools/aws/regen_iam_authorized_actions.py tools/aws/test_regen_iam_authorized_actions.py \
@@ -700,8 +708,8 @@ iam-data-verify: ## CI gate (online): every vendored IAM file must still match A
 	if covers "$(IAM_ACTION_RESOURCES_PATHS)" "the action resource map"; then \
 		$(MAKE) --no-print-directory iam-action-resources-verify || actions=$$?; \
 	fi; \
-	if covers "$(SQS_CLOUDTRAIL_EVENTS_PATHS)" "the SQS CloudTrail event table"; then \
-		$(MAKE) --no-print-directory sqs-cloudtrail-events-verify || sqsevents=$$?; \
+	if covers "$(CLOUDTRAIL_EVENTS_PATHS)" "the CloudTrail event tables"; then \
+		$(MAKE) --no-print-directory cloudtrail-events-verify || sqsevents=$$?; \
 	fi; \
 	if covers "$(IAM_AUTHORIZED_ACTIONS_PATHS)" "the map of operations to their IAM actions"; then \
 		$(MAKE) --no-print-directory iam-authorized-actions-verify || authorized=$$?; \

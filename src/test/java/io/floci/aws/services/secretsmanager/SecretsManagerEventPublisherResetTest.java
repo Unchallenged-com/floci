@@ -2,12 +2,10 @@ package io.floci.aws.services.secretsmanager;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import io.floci.aws.core.common.AccountResolver;
 import io.floci.aws.core.common.ContainerTeardown;
 import io.floci.aws.core.common.Resettable;
 import io.floci.aws.core.storage.StorageFactory;
 import io.floci.aws.lifecycle.EmulatorInfoController;
-import io.floci.aws.services.cloudtrail.CloudTrailService;
 import io.floci.aws.services.eventbridge.EventBridgeService;
 import jakarta.enterprise.inject.Instance;
 import org.junit.jupiter.api.AfterEach;
@@ -17,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -35,7 +32,6 @@ class SecretsManagerEventPublisherResetTest {
     private static final String REGION = "us-east-1";
     private static final String ARN = "arn:aws:secretsmanager:us-east-1:661100000003:secret:example";
     private final ObjectMapper mapper = new ObjectMapper();
-    private final CloudTrailService trails = mock(CloudTrailService.class);
     private final EventBridgeService events = mock(EventBridgeService.class);
     private final StorageFactory storage = mock(StorageFactory.class);
     private final Deque<Runnable> queued = new ArrayDeque<>();
@@ -43,12 +39,7 @@ class SecretsManagerEventPublisherResetTest {
 
     @BeforeEach
     void setUp() {
-        publisher = new SecretsManagerEventPublisher(trails, events, new AccountResolver(ACCOUNT), mapper, queued::addLast);
-        when(trails.emitManagementEvent(any())).thenAnswer(call -> {
-            CloudTrailService.ManagementEventInput input = call.getArgument(0);
-            return Optional.of(mapper.createObjectNode().put("recipientAccountId", ACCOUNT).put("awsRegion", REGION)
-                    .put("eventID", input.requestParameters().path("clientRequestToken").asText()));
-        });
+        publisher = new SecretsManagerEventPublisher(events, queued::addLast);
     }
 
     @AfterEach
@@ -73,7 +64,7 @@ class SecretsManagerEventPublisherResetTest {
 
     @Test
     void resetDrainsActiveDeliveriesBeforeWipeDiscardsQueuedEventsAndReusesWorkers() throws Exception {
-        publisher = new SecretsManagerEventPublisher(trails, events, new AccountResolver(ACCOUNT), mapper);
+        publisher = new SecretsManagerEventPublisher(events);
         CountDownLatch active = new CountDownLatch(2);
         CountDownLatch release = new CountDownLatch(1);
         CountDownLatch fresh = new CountDownLatch(1);
@@ -132,7 +123,7 @@ class SecretsManagerEventPublisherResetTest {
             assertTrue(wiping.await(5, TimeUnit.SECONDS));
             write("during-reset");
             assertTrue(queued.isEmpty(), "notifications must not enter the queue during the storage wipe");
-            verifyNoInteractions(trails, events);
+            verifyNoInteractions(events);
             finishWipe.countDown();
             reset.get(5, TimeUnit.SECONDS);
             write("after-reset");
@@ -161,7 +152,7 @@ class SecretsManagerEventPublisherResetTest {
 
     @Test
     void interruptedDrainRefusesTheWipeAndRestoresPublication() throws Exception {
-        publisher = new SecretsManagerEventPublisher(trails, events, new AccountResolver(ACCOUNT), mapper);
+        publisher = new SecretsManagerEventPublisher(events);
         CountDownLatch active = new CountDownLatch(1);
         CountDownLatch release = new CountDownLatch(1);
         CountDownLatch fresh = new CountDownLatch(1);
@@ -203,8 +194,10 @@ class SecretsManagerEventPublisherResetTest {
     }
 
     private void write(String id) {
-        ObjectNode request = mapper.createObjectNode().put("SecretId", ARN).put("ClientRequestToken", id);
-        publisher.secretWritten("PutSecretValue", request, mapper.createObjectNode().put("ARN", ARN), REGION, null);
+        ObjectNode record = mapper.createObjectNode().put("recipientAccountId", ACCOUNT).put("awsRegion", REGION)
+                .put("eventID", id);
+        record.putObject("responseElements").put("arn", ARN);
+        publisher.secretWritten("PutSecretValue", record);
     }
 
     @SuppressWarnings("unchecked")
