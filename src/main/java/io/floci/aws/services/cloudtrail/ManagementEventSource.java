@@ -5,6 +5,8 @@ import io.floci.aws.core.common.XmlParser;
 import io.vertx.ext.web.RoutingContext;
 import jakarta.ws.rs.core.Response;
 
+import java.util.Map;
+
 /**
  * A service whose API calls CloudTrail records as management events, asked for the record of a
  * call IAM enforcement refused before the service ran it. Each such service has one, so the
@@ -22,6 +24,17 @@ public interface ManagementEventSource {
      */
     CloudTrailService.ManagementEventInput refused(String operation, String accessKeyId, String region,
                                                    RoutingContext routingContext, Response refusal);
+
+    /**
+     * As {@link #refused(String, String, String, RoutingContext, Response)}, for a service whose record of
+     * a refusal keeps the request's members: {@code formParameters} are the Query request's form members,
+     * first value of each.
+     */
+    default CloudTrailService.ManagementEventInput refused(String operation, String accessKeyId, String region,
+                                                           RoutingContext routingContext, Response refusal,
+                                                           Map<String, String> formParameters) {
+        return refused(operation, accessKeyId, region, routingContext, refusal);
+    }
 
     /**
      * The errorCode a call IAM enforcement refused is recorded under, whatever code its service answers it

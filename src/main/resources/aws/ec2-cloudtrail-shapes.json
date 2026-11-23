@@ -1,0 +1,758 @@
+{
+  "_source": {
+    "generator": "tools/aws/regen_ec2_cloudtrail_shapes.py",
+    "botocore": "botocore 1.44.9 (installed package)"
+  },
+  "operations": {
+    "AuthorizeSecurityGroupEgress": "AuthorizeSecurityGroupEgressRequest",
+    "AuthorizeSecurityGroupIngress": "AuthorizeSecurityGroupIngressRequest",
+    "DeleteFlowLogs": "DeleteFlowLogsRequest",
+    "DeleteNetworkAcl": "DeleteNetworkAclRequest",
+    "DeleteNetworkAclEntry": "DeleteNetworkAclEntryRequest",
+    "GetPasswordData": "GetPasswordDataRequest",
+    "ModifyImageAttribute": "ModifyImageAttributeRequest",
+    "ModifyInstanceAttribute": "ModifyInstanceAttributeRequest",
+    "ModifySnapshotAttribute": "ModifySnapshotAttributeRequest",
+    "RunInstances": "RunInstancesRequest",
+    "StartInstances": "StartInstancesRequest",
+    "StopInstances": "StopInstancesRequest",
+    "TerminateInstances": "TerminateInstancesRequest"
+  },
+  "results": {
+    "AuthorizeSecurityGroupEgress": {
+      "shape": "AuthorizeSecurityGroupEgressResult",
+      "resultWrapper": null
+    },
+    "AuthorizeSecurityGroupIngress": {
+      "shape": "AuthorizeSecurityGroupIngressResult",
+      "resultWrapper": null
+    },
+    "DeleteFlowLogs": {
+      "shape": "DeleteFlowLogsResult",
+      "resultWrapper": null
+    },
+    "GetPasswordData": {
+      "shape": "GetPasswordDataResult",
+      "resultWrapper": null
+    },
+    "RunInstances": {
+      "shape": "Reservation",
+      "resultWrapper": null
+    },
+    "StartInstances": {
+      "shape": "StartInstancesResult",
+      "resultWrapper": null
+    },
+    "StopInstances": {
+      "shape": "StopInstancesResult",
+      "resultWrapper": null
+    },
+    "TerminateInstances": {
+      "shape": "TerminateInstancesResult",
+      "resultWrapper": null
+    }
+  },
+  "shapes": {
+    "AmdSevSnpSpecification": {
+      "type": "string"
+    },
+    "ArchitectureValues": {
+      "type": "string"
+    },
+    "AttachmentStatus": {
+      "type": "string"
+    },
+    "AuthorizeSecurityGroupEgressResult": {
+      "type": "structure",
+      "members": {
+        "return": "Boolean",
+        "securityGroupRuleSet": "SecurityGroupRuleList"
+      }
+    },
+    "AuthorizeSecurityGroupIngressResult": {
+      "type": "structure",
+      "members": {
+        "return": "Boolean",
+        "securityGroupRuleSet": "SecurityGroupRuleList"
+      }
+    },
+    "AvailabilityZoneId": {
+      "type": "string"
+    },
+    "Boolean": {
+      "type": "boolean"
+    },
+    "BootModeValues": {
+      "type": "string"
+    },
+    "CapacityReservationPreference": {
+      "type": "string"
+    },
+    "CapacityReservationSpecificationResponse": {
+      "type": "structure",
+      "members": {
+        "capacityReservationPreference": "CapacityReservationPreference",
+        "capacityReservationTarget": "CapacityReservationTargetResponse"
+      }
+    },
+    "CapacityReservationTargetResponse": {
+      "type": "structure",
+      "members": {
+        "capacityReservationId": "String",
+        "capacityReservationResourceGroupArn": "String"
+      }
+    },
+    "ConnectionTrackingSpecificationResponse": {
+      "type": "structure",
+      "members": {
+        "tcpEstablishedTimeout": "Integer",
+        "udpStreamTimeout": "Integer",
+        "udpTimeout": "Integer"
+      }
+    },
+    "CpuOptions": {
+      "type": "structure",
+      "members": {
+        "coreCount": "Integer",
+        "threadsPerCore": "Integer",
+        "amdSevSnp": "AmdSevSnpSpecification",
+        "nestedVirtualization": "NestedVirtualizationSpecification"
+      }
+    },
+    "DateTime": {
+      "type": "timestamp"
+    },
+    "DeleteFlowLogsResult": {
+      "type": "structure",
+      "members": {
+        "unsuccessful": "UnsuccessfulItemSet"
+      }
+    },
+    "DeviceType": {
+      "type": "string"
+    },
+    "EbsInstanceBlockDevice": {
+      "type": "structure",
+      "members": {
+        "attachTime": "DateTime",
+        "deleteOnTermination": "Boolean",
+        "status": "AttachmentStatus",
+        "volumeId": "String",
+        "associatedResource": "String",
+        "volumeOwnerId": "String",
+        "operator": "OperatorResponse",
+        "ebsCardIndex": "Integer"
+      }
+    },
+    "ElasticGpuAssociation": {
+      "type": "structure",
+      "members": {
+        "elasticGpuId": "ElasticGpuId",
+        "elasticGpuAssociationId": "String",
+        "elasticGpuAssociationState": "String",
+        "elasticGpuAssociationTime": "String"
+      }
+    },
+    "ElasticGpuAssociationList": {
+      "type": "list",
+      "member": "ElasticGpuAssociation"
+    },
+    "ElasticGpuId": {
+      "type": "string"
+    },
+    "ElasticInferenceAcceleratorAssociation": {
+      "type": "structure",
+      "members": {
+        "elasticInferenceAcceleratorArn": "String",
+        "elasticInferenceAcceleratorAssociationId": "String",
+        "elasticInferenceAcceleratorAssociationState": "String",
+        "elasticInferenceAcceleratorAssociationTime": "DateTime"
+      }
+    },
+    "ElasticInferenceAcceleratorAssociationList": {
+      "type": "list",
+      "member": "ElasticInferenceAcceleratorAssociation"
+    },
+    "EnclaveOptions": {
+      "type": "structure",
+      "members": {
+        "enabled": "Boolean"
+      }
+    },
+    "GetPasswordDataResult": {
+      "type": "structure",
+      "members": {
+        "instanceId": "String",
+        "timestamp": "DateTime",
+        "passwordData": "PasswordData"
+      }
+    },
+    "GroupIdentifier": {
+      "type": "structure",
+      "members": {
+        "groupId": "String",
+        "groupName": "String"
+      }
+    },
+    "GroupIdentifierList": {
+      "type": "list",
+      "member": "GroupIdentifier"
+    },
+    "HibernationOptions": {
+      "type": "structure",
+      "members": {
+        "configured": "Boolean"
+      }
+    },
+    "HostnameType": {
+      "type": "string"
+    },
+    "HttpTokensState": {
+      "type": "string"
+    },
+    "HypervisorType": {
+      "type": "string"
+    },
+    "IamInstanceProfile": {
+      "type": "structure",
+      "members": {
+        "arn": "String",
+        "id": "String"
+      }
+    },
+    "Instance": {
+      "type": "structure",
+      "members": {
+        "architecture": "ArchitectureValues",
+        "blockDeviceMapping": "InstanceBlockDeviceMappingList",
+        "clientToken": "String",
+        "ebsOptimized": "Boolean",
+        "enaSupport": "Boolean",
+        "hypervisor": "HypervisorType",
+        "iamInstanceProfile": "IamInstanceProfile",
+        "instanceLifecycle": "InstanceLifecycleType",
+        "elasticGpuAssociationSet": "ElasticGpuAssociationList",
+        "elasticInferenceAcceleratorAssociationSet": "ElasticInferenceAcceleratorAssociationList",
+        "networkInterfaceSet": "InstanceNetworkInterfaceList",
+        "outpostArn": "String",
+        "rootDeviceName": "String",
+        "rootDeviceType": "DeviceType",
+        "groupSet": "GroupIdentifierList",
+        "sourceDestCheck": "Boolean",
+        "spotInstanceRequestId": "String",
+        "sriovNetSupport": "String",
+        "stateReason": "StateReason",
+        "tagSet": "TagList",
+        "virtualizationType": "VirtualizationType",
+        "cpuOptions": "CpuOptions",
+        "capacityBlockId": "String",
+        "capacityReservationId": "String",
+        "capacityReservationSpecification": "CapacityReservationSpecificationResponse",
+        "hibernationOptions": "HibernationOptions",
+        "licenseSet": "LicenseList",
+        "metadataOptions": "InstanceMetadataOptionsResponse",
+        "enclaveOptions": "EnclaveOptions",
+        "bootMode": "BootModeValues",
+        "platformDetails": "String",
+        "usageOperation": "String",
+        "usageOperationUpdateTime": "MillisecondDateTime",
+        "privateDnsNameOptions": "PrivateDnsNameOptionsResponse",
+        "ipv6Address": "String",
+        "tpmSupport": "String",
+        "maintenanceOptions": "InstanceMaintenanceOptions",
+        "currentInstanceBootMode": "InstanceBootModeValues",
+        "networkPerformanceOptions": "InstanceNetworkPerformanceOptions",
+        "operator": "OperatorResponse",
+        "secondaryInterfaceSet": "InstanceSecondaryInterfaceList",
+        "instanceId": "String",
+        "imageId": "String",
+        "instanceState": "InstanceState",
+        "privateDnsName": "String",
+        "dnsName": "String",
+        "reason": "String",
+        "keyName": "String",
+        "amiLaunchIndex": "Integer",
+        "productCodes": "ProductCodeList",
+        "instanceType": "InstanceType",
+        "launchTime": "DateTime",
+        "placement": "Placement",
+        "kernelId": "String",
+        "ramdiskId": "String",
+        "platform": "PlatformValues",
+        "monitoring": "Monitoring",
+        "subnetId": "String",
+        "vpcId": "String",
+        "privateIpAddress": "String",
+        "ipAddress": "String"
+      }
+    },
+    "InstanceAttachmentEnaSrdSpecification": {
+      "type": "structure",
+      "members": {
+        "enaSrdEnabled": "Boolean",
+        "enaSrdUdpSpecification": "InstanceAttachmentEnaSrdUdpSpecification"
+      }
+    },
+    "InstanceAttachmentEnaSrdUdpSpecification": {
+      "type": "structure",
+      "members": {
+        "enaSrdUdpEnabled": "Boolean"
+      }
+    },
+    "InstanceAutoRecoveryState": {
+      "type": "string"
+    },
+    "InstanceBandwidthWeighting": {
+      "type": "string"
+    },
+    "InstanceBlockDeviceMapping": {
+      "type": "structure",
+      "members": {
+        "deviceName": "String",
+        "ebs": "EbsInstanceBlockDevice"
+      }
+    },
+    "InstanceBlockDeviceMappingList": {
+      "type": "list",
+      "member": "InstanceBlockDeviceMapping"
+    },
+    "InstanceBootModeValues": {
+      "type": "string"
+    },
+    "InstanceIpv4Prefix": {
+      "type": "structure",
+      "members": {
+        "ipv4Prefix": "String"
+      }
+    },
+    "InstanceIpv4PrefixList": {
+      "type": "list",
+      "member": "InstanceIpv4Prefix"
+    },
+    "InstanceIpv6Address": {
+      "type": "structure",
+      "members": {
+        "ipv6Address": "String",
+        "isPrimaryIpv6": "Boolean"
+      }
+    },
+    "InstanceIpv6AddressList": {
+      "type": "list",
+      "member": "InstanceIpv6Address"
+    },
+    "InstanceIpv6Prefix": {
+      "type": "structure",
+      "members": {
+        "ipv6Prefix": "String"
+      }
+    },
+    "InstanceIpv6PrefixList": {
+      "type": "list",
+      "member": "InstanceIpv6Prefix"
+    },
+    "InstanceLifecycleType": {
+      "type": "string"
+    },
+    "InstanceList": {
+      "type": "list",
+      "member": "Instance"
+    },
+    "InstanceMaintenanceOptions": {
+      "type": "structure",
+      "members": {
+        "autoRecovery": "InstanceAutoRecoveryState",
+        "rebootMigration": "InstanceRebootMigrationState"
+      }
+    },
+    "InstanceMetadataEndpointState": {
+      "type": "string"
+    },
+    "InstanceMetadataOptionsResponse": {
+      "type": "structure",
+      "members": {
+        "state": "InstanceMetadataOptionsState",
+        "httpTokens": "HttpTokensState",
+        "httpPutResponseHopLimit": "Integer",
+        "httpEndpoint": "InstanceMetadataEndpointState",
+        "httpProtocolIpv6": "InstanceMetadataProtocolState",
+        "instanceMetadataTags": "InstanceMetadataTagsState"
+      }
+    },
+    "InstanceMetadataOptionsState": {
+      "type": "string"
+    },
+    "InstanceMetadataProtocolState": {
+      "type": "string"
+    },
+    "InstanceMetadataTagsState": {
+      "type": "string"
+    },
+    "InstanceNetworkInterface": {
+      "type": "structure",
+      "members": {
+        "association": "InstanceNetworkInterfaceAssociation",
+        "attachment": "InstanceNetworkInterfaceAttachment",
+        "description": "String",
+        "groupSet": "GroupIdentifierList",
+        "ipv6AddressesSet": "InstanceIpv6AddressList",
+        "macAddress": "String",
+        "networkInterfaceId": "String",
+        "ownerId": "String",
+        "privateDnsName": "String",
+        "privateIpAddress": "String",
+        "privateIpAddressesSet": "InstancePrivateIpAddressList",
+        "sourceDestCheck": "Boolean",
+        "status": "NetworkInterfaceStatus",
+        "subnetId": "String",
+        "vpcId": "String",
+        "interfaceType": "String",
+        "ipv4PrefixSet": "InstanceIpv4PrefixList",
+        "ipv6PrefixSet": "InstanceIpv6PrefixList",
+        "connectionTrackingConfiguration": "ConnectionTrackingSpecificationResponse",
+        "operator": "OperatorResponse"
+      }
+    },
+    "InstanceNetworkInterfaceAssociation": {
+      "type": "structure",
+      "members": {
+        "carrierIp": "String",
+        "customerOwnedIp": "String",
+        "ipOwnerId": "String",
+        "publicDnsName": "String",
+        "publicIp": "String"
+      }
+    },
+    "InstanceNetworkInterfaceAttachment": {
+      "type": "structure",
+      "members": {
+        "attachTime": "DateTime",
+        "attachmentId": "String",
+        "deleteOnTermination": "Boolean",
+        "deviceIndex": "Integer",
+        "status": "AttachmentStatus",
+        "networkCardIndex": "Integer",
+        "enaSrdSpecification": "InstanceAttachmentEnaSrdSpecification",
+        "enaQueueCount": "Integer"
+      }
+    },
+    "InstanceNetworkInterfaceList": {
+      "type": "list",
+      "member": "InstanceNetworkInterface"
+    },
+    "InstanceNetworkPerformanceOptions": {
+      "type": "structure",
+      "members": {
+        "bandwidthWeighting": "InstanceBandwidthWeighting"
+      }
+    },
+    "InstancePrivateIpAddress": {
+      "type": "structure",
+      "members": {
+        "association": "InstanceNetworkInterfaceAssociation",
+        "primary": "Boolean",
+        "privateDnsName": "String",
+        "privateIpAddress": "String"
+      }
+    },
+    "InstancePrivateIpAddressList": {
+      "type": "list",
+      "member": "InstancePrivateIpAddress"
+    },
+    "InstanceRebootMigrationState": {
+      "type": "string"
+    },
+    "InstanceSecondaryInterface": {
+      "type": "structure",
+      "members": {
+        "attachment": "InstanceSecondaryInterfaceAttachment",
+        "macAddress": "String",
+        "secondaryInterfaceId": "SecondaryInterfaceId",
+        "ownerId": "String",
+        "privateIpAddressSet": "InstanceSecondaryInterfacePrivateIpAddressList",
+        "sourceDestCheck": "Boolean",
+        "status": "SecondaryInterfaceStatus",
+        "secondarySubnetId": "SecondarySubnetId",
+        "secondaryNetworkId": "SecondaryNetworkId",
+        "interfaceType": "SecondaryInterfaceType"
+      }
+    },
+    "InstanceSecondaryInterfaceAttachment": {
+      "type": "structure",
+      "members": {
+        "attachTime": "MillisecondDateTime",
+        "attachmentId": "String",
+        "deleteOnTermination": "Boolean",
+        "deviceIndex": "Integer",
+        "status": "AttachmentStatus",
+        "networkCardIndex": "Integer"
+      }
+    },
+    "InstanceSecondaryInterfaceList": {
+      "type": "list",
+      "member": "InstanceSecondaryInterface"
+    },
+    "InstanceSecondaryInterfacePrivateIpAddress": {
+      "type": "structure",
+      "members": {
+        "privateIpAddress": "String"
+      }
+    },
+    "InstanceSecondaryInterfacePrivateIpAddressList": {
+      "type": "list",
+      "member": "InstanceSecondaryInterfacePrivateIpAddress"
+    },
+    "InstanceState": {
+      "type": "structure",
+      "members": {
+        "code": "Integer",
+        "name": "InstanceStateName"
+      }
+    },
+    "InstanceStateChange": {
+      "type": "structure",
+      "members": {
+        "instanceId": "String",
+        "currentState": "InstanceState",
+        "previousState": "InstanceState"
+      }
+    },
+    "InstanceStateChangeList": {
+      "type": "list",
+      "member": "InstanceStateChange"
+    },
+    "InstanceStateName": {
+      "type": "string"
+    },
+    "InstanceType": {
+      "type": "string"
+    },
+    "Integer": {
+      "type": "integer"
+    },
+    "LicenseConfiguration": {
+      "type": "structure",
+      "members": {
+        "licenseConfigurationArn": "String"
+      }
+    },
+    "LicenseList": {
+      "type": "list",
+      "member": "LicenseConfiguration"
+    },
+    "MetricCategoryId": {
+      "type": "string"
+    },
+    "MetricCategoryIdList": {
+      "type": "list",
+      "member": "MetricCategoryId"
+    },
+    "MillisecondDateTime": {
+      "type": "timestamp"
+    },
+    "Monitoring": {
+      "type": "structure",
+      "members": {
+        "metricCategoryIdSet": "MetricCategoryIdList",
+        "state": "MonitoringState"
+      }
+    },
+    "MonitoringState": {
+      "type": "string"
+    },
+    "NestedVirtualizationSpecification": {
+      "type": "string"
+    },
+    "NetworkInterfaceStatus": {
+      "type": "string"
+    },
+    "OperatorResponse": {
+      "type": "structure",
+      "members": {
+        "managed": "Boolean",
+        "principal": "String",
+        "hiddenByDefault": "Boolean"
+      }
+    },
+    "PasswordData": {
+      "type": "string",
+      "sensitive": true
+    },
+    "Placement": {
+      "type": "structure",
+      "members": {
+        "availabilityZoneId": "AvailabilityZoneId",
+        "affinity": "String",
+        "groupName": "PlacementGroupName",
+        "partitionNumber": "Integer",
+        "hostId": "String",
+        "tenancy": "Tenancy",
+        "spreadDomain": "String",
+        "hostResourceGroupArn": "String",
+        "groupId": "PlacementGroupId",
+        "availabilityZone": "String"
+      }
+    },
+    "PlacementGroupId": {
+      "type": "string"
+    },
+    "PlacementGroupName": {
+      "type": "string"
+    },
+    "PlatformValues": {
+      "type": "string"
+    },
+    "PrefixListResourceId": {
+      "type": "string"
+    },
+    "PrivateDnsNameOptionsResponse": {
+      "type": "structure",
+      "members": {
+        "hostnameType": "HostnameType",
+        "enableResourceNameDnsARecord": "Boolean",
+        "enableResourceNameDnsAAAARecord": "Boolean"
+      }
+    },
+    "ProductCode": {
+      "type": "structure",
+      "members": {
+        "productCode": "String",
+        "type": "ProductCodeValues"
+      }
+    },
+    "ProductCodeList": {
+      "type": "list",
+      "member": "ProductCode"
+    },
+    "ProductCodeValues": {
+      "type": "string"
+    },
+    "ReferencedSecurityGroup": {
+      "type": "structure",
+      "members": {
+        "groupId": "String",
+        "peeringStatus": "String",
+        "userId": "String",
+        "vpcId": "String",
+        "vpcPeeringConnectionId": "String"
+      }
+    },
+    "Reservation": {
+      "type": "structure",
+      "members": {
+        "reservationId": "String",
+        "ownerId": "String",
+        "requesterId": "String",
+        "groupSet": "GroupIdentifierList",
+        "instancesSet": "InstanceList"
+      }
+    },
+    "SecondaryInterfaceId": {
+      "type": "string"
+    },
+    "SecondaryInterfaceStatus": {
+      "type": "string"
+    },
+    "SecondaryInterfaceType": {
+      "type": "string"
+    },
+    "SecondaryNetworkId": {
+      "type": "string"
+    },
+    "SecondarySubnetId": {
+      "type": "string"
+    },
+    "SecurityGroupId": {
+      "type": "string"
+    },
+    "SecurityGroupRule": {
+      "type": "structure",
+      "members": {
+        "securityGroupRuleId": "SecurityGroupRuleId",
+        "groupId": "SecurityGroupId",
+        "groupOwnerId": "String",
+        "isEgress": "Boolean",
+        "ipProtocol": "String",
+        "fromPort": "Integer",
+        "toPort": "Integer",
+        "cidrIpv4": "String",
+        "cidrIpv6": "String",
+        "prefixListId": "PrefixListResourceId",
+        "referencedGroupInfo": "ReferencedSecurityGroup",
+        "description": "String",
+        "tagSet": "TagList",
+        "securityGroupRuleArn": "String"
+      }
+    },
+    "SecurityGroupRuleId": {
+      "type": "string"
+    },
+    "SecurityGroupRuleList": {
+      "type": "list",
+      "member": "SecurityGroupRule"
+    },
+    "StartInstancesResult": {
+      "type": "structure",
+      "members": {
+        "instancesSet": "InstanceStateChangeList"
+      }
+    },
+    "StateReason": {
+      "type": "structure",
+      "members": {
+        "code": "String",
+        "message": "String"
+      }
+    },
+    "StopInstancesResult": {
+      "type": "structure",
+      "members": {
+        "instancesSet": "InstanceStateChangeList"
+      }
+    },
+    "String": {
+      "type": "string"
+    },
+    "Tag": {
+      "type": "structure",
+      "members": {
+        "key": "String",
+        "value": "String"
+      }
+    },
+    "TagList": {
+      "type": "list",
+      "member": "Tag"
+    },
+    "Tenancy": {
+      "type": "string"
+    },
+    "TerminateInstancesResult": {
+      "type": "structure",
+      "members": {
+        "instancesSet": "InstanceStateChangeList"
+      }
+    },
+    "UnsuccessfulItem": {
+      "type": "structure",
+      "members": {
+        "error": "UnsuccessfulItemError",
+        "resourceId": "String"
+      }
+    },
+    "UnsuccessfulItemError": {
+      "type": "structure",
+      "members": {
+        "code": "String",
+        "message": "String"
+      }
+    },
+    "UnsuccessfulItemSet": {
+      "type": "list",
+      "member": "UnsuccessfulItem"
+    },
+    "VirtualizationType": {
+      "type": "string"
+    }
+  },
+  "errors": {}
+}

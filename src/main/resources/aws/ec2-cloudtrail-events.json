@@ -1,0 +1,26 @@
+{
+  "_source": {
+    "generator": "tools/aws/regen_cloudtrail_events.py",
+    "managementEvents": "https://docs.aws.amazon.com/AWSEC2/latest/APIReference/using-cloudtrail.html",
+    "reference": "https://servicereference.us-east-1.amazonaws.com/v1/ec2/ec2.json",
+    "retrieved": "2026-11-22"
+  },
+  "managementEvents": [
+    "AuthorizeSecurityGroupEgress",
+    "AuthorizeSecurityGroupIngress",
+    "DeleteFlowLogs",
+    "DeleteNetworkAcl",
+    "DeleteNetworkAclEntry",
+    "GetPasswordData",
+    "ModifyImageAttribute",
+    "ModifyInstanceAttribute",
+    "ModifySnapshotAttribute",
+    "RunInstances",
+    "StartInstances",
+    "StopInstances",
+    "TerminateInstances"
+  ],
+  "readOnlyActions": [
+    "GetPasswordData"
+  ]
+}

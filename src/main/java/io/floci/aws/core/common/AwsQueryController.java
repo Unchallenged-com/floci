@@ -6,6 +6,7 @@ import io.floci.aws.services.cloudwatch.metrics.CloudWatchMetricsQueryHandler;
 import io.floci.aws.services.cognito.CognitoJsonHandler;
 import io.floci.aws.services.docdb.DocDbQueryHandler;
 import io.floci.aws.services.docdb.DocDbService;
+import io.floci.aws.services.ec2.Ec2CloudTrailEvents;
 import io.floci.aws.services.ec2.Ec2QueryHandler;
 import io.floci.aws.services.elasticache.ElastiCacheQueryHandler;
 import io.floci.aws.services.elasticbeanstalk.ElasticBeanstalkQueryHandler;
@@ -81,6 +82,7 @@ public class AwsQueryController {
     private final CloudWatchMetricsQueryHandler cloudWatchMetricsQueryHandler;
     private final CognitoJsonHandler cognitoJsonHandler;
     private final Ec2QueryHandler ec2QueryHandler;
+    private final Ec2CloudTrailEvents ec2CloudTrailEvents;
     private final ElbV2QueryHandler elbV2QueryHandler;
     private final ElbClassicQueryHandler elbClassicQueryHandler;
     private final AutoScalingQueryHandler autoScalingQueryHandler;
@@ -104,6 +106,7 @@ public class AwsQueryController {
                               CloudWatchMetricsQueryHandler cloudWatchMetricsQueryHandler,
                               CognitoJsonHandler cognitoJsonHandler,
                               Ec2QueryHandler ec2QueryHandler,
+                              Ec2CloudTrailEvents ec2CloudTrailEvents,
                               ElbV2QueryHandler elbV2QueryHandler,
                               ElbClassicQueryHandler elbClassicQueryHandler,
                               AutoScalingQueryHandler autoScalingQueryHandler,
@@ -127,6 +130,7 @@ public class AwsQueryController {
         this.cloudWatchMetricsQueryHandler = cloudWatchMetricsQueryHandler;
         this.cognitoJsonHandler = cognitoJsonHandler;
         this.ec2QueryHandler = ec2QueryHandler;
+        this.ec2CloudTrailEvents = ec2CloudTrailEvents;
         this.elbV2QueryHandler = elbV2QueryHandler;
         this.elbClassicQueryHandler = elbClassicQueryHandler;
         this.autoScalingQueryHandler = autoScalingQueryHandler;
@@ -243,7 +247,8 @@ public class AwsQueryController {
             case "monitoring" -> cloudWatchMetricsQueryHandler.handle(action, formParams, region);
             case "cloudformation" -> cloudFormationQueryHandler.handle(action, formParams, region);
             case "cognito-idp" -> handleCognitoQuery(action, formParams, region);
-            case "ec2" -> ec2QueryHandler.handle(action, formParams, region);
+            case "ec2" -> ec2CloudTrailEvents.recorded(action, formParams, region, authorization,
+                    () -> ec2QueryHandler.handle(action, formParams, region));
             case "elasticloadbalancing" -> isElbClassicRequest(action, formParams)
                     ? elbClassicQueryHandler.handle(action, formParams, region)
                     : elbV2QueryHandler.handle(action, formParams, region);

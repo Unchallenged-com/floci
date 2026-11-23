@@ -4,7 +4,7 @@
 **Endpoint:** `POST http://localhost:4566/`
 
 Floci emulates a CloudTrail trail's full life cycle and emits S3 data events, IAM API calls, SQS control plane calls,
-Secrets Manager, KMS and CloudWatch Logs API calls to the trail's destination bucket as gzipped JSON log files at the
+Secrets Manager, KMS and CloudWatch Logs API calls and some EC2 calls to the trail's destination bucket as gzipped JSON log files at the
 AWS-shaped key path:
 
 ```
@@ -250,6 +250,31 @@ leaves out, such as `PutLogEvents`, is not recorded.
 - An error is recorded under its `__type` (`ResourceNotFoundException`); a call IAM enforcement refuses as `AccessDenied`
   with `"requestParameters": null` and the message its refusal answers with. A call an
   API Gateway integration makes is recorded too, without `invokedBy`.
+
+## EC2 Coverage
+
+"All Amazon EC2 API actions are logged as management events"
+([Amazon EC2 API Reference](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/using-cloudtrail.html)), but an EC2
+record writes a call's members in EC2's own schema rather than botocore's, which no published source carries. Floci
+records the EC2 calls a record from 2024 or later shows, as it shows them: `RunInstances`, `StartInstances`,
+`StopInstances`, `TerminateInstances`, `ModifyInstanceAttribute`, `AuthorizeSecurityGroupIngress`,
+`AuthorizeSecurityGroupEgress`, `ModifyImageAttribute`, `ModifySnapshotAttribute`, `DeleteNetworkAcl`,
+`DeleteNetworkAclEntry`, `DeleteFlowLogs` and `GetPasswordData` (`ec2-cloudtrail-events.json`). Other EC2 calls are not
+recorded yet.
+
+- `requestParameters` follow those records: a list is `{"items": [...]}` and an empty one `{}`
+  (`"instancesSet": {"items": [{"instanceId": ...}]}`, `"ipPermissions": {"items": [{"ipRanges": {"items": [{"cidrIp": ...}]}, "groups": {}}]}`),
+  `RunInstances` puts the image and counts in `instancesSet` and writes `blockDeviceMapping`, `disableApiStop`,
+  `disableApiTermination` and `monitoring` with their defaults, `ModifyInstanceAttribute` writes user data as
+  `"<sensitiveDataRemoved>"`, `ModifySnapshotAttribute` names its attribute `CREATE_VOLUME_PERMISSION`, and
+  `DeleteFlowLogs` writes its request and answer as their XML (`{"DeleteFlowLogsRequest": {"FlowLogId": {"content": ..., "tag": 1}}}`).
+  A member no record shows (a key pair, security groups or an instance profile on `RunInstances`, another attribute on
+  `ModifyInstanceAttribute`) is left out.
+- `responseElements` is the call's answer with its XML names (`instancesSet`, `securityGroupRuleSet`), lists in `items`,
+  the answer's `requestId`, a boolean result as `_return` and timestamps in epoch milliseconds (`ec2-cloudtrail-shapes.json`);
+  `null` for a read-only call (`GetPasswordData`) and a failed one.
+- An error is recorded as `Client.<code>` (`Client.InvalidNetworkAclID.NotFound`); a call IAM enforcement refuses as
+  `Client.UnauthorizedOperation` with EC2's message and its members, as AWS keeps them for a refused EC2 call.
 
 ## Management events and selectors
 

@@ -18,6 +18,9 @@ carries, so it stays in SERVICES below, as the guide lists them:
 - CloudWatch Logs (https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/logging_cw_api_calls_cwl.html):
   "CloudWatch Logs supports logging the following actions as events in CloudTrail log files", followed
   by the list. `PutLogEvents` is not in it.
+- EC2 (https://docs.aws.amazon.com/AWSEC2/latest/APIReference/using-cloudtrail.html): every EC2 API call
+  is a management event, but an EC2 record's members follow EC2's own schema rather than botocore's,
+  so Floci records only the calls whose record a recent capture shows (Ec2CloudTrailEvents).
 
 Which of them are read-only is the access level AWS's Service Reference gives each action, read as
 `regen_iam_action_resources.py` reads IAM's: an action with none of the Write, Permissions
@@ -89,6 +92,15 @@ SERVICES: dict[str, Service] = {
             "UntagQueue",
         ),
         read_only_anchors={"ListMessageMoveTasks": True, "DeleteQueue": False},
+    ),
+    "ec2": Service(
+        guide="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/using-cloudtrail.html",
+        management_events=(
+            "AuthorizeSecurityGroupEgress", "AuthorizeSecurityGroupIngress", "DeleteFlowLogs", "DeleteNetworkAcl",
+            "DeleteNetworkAclEntry", "GetPasswordData", "ModifyImageAttribute", "ModifyInstanceAttribute",
+            "ModifySnapshotAttribute", "RunInstances", "StartInstances", "StopInstances", "TerminateInstances",
+        ),
+        read_only_anchors={"GetPasswordData": True, "TerminateInstances": False},
     ),
     "kms": Service(
         guide="https://docs.aws.amazon.com/kms/latest/developerguide/logging-using-cloudtrail.html",

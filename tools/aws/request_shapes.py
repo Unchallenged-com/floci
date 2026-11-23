@@ -78,7 +78,8 @@ def record_check(member_traits: set[str]) -> Callable[[str, dict], None]:
 
 def build(model: dict, provenance: str, generator: str, outputs: bool = False, required: bool = False,
           results: bool = False, sensitive: bool = False, errors: bool = False,
-          check: Callable[[str, dict], None] | None = None) -> dict:
+          check: Callable[[str, dict], None] | None = None, subset: tuple[str, ...] | None = None,
+          xml_names: bool = False) -> dict:
     """The input shape of every operation and every shape reachable from one, reduced to its type and
     the shapes of its members, list elements or map values.
 
@@ -86,7 +87,10 @@ def build(model: dict, provenance: str, generator: str, outputs: bool = False, r
     element its result is wrapped in, under `results`. `required` keeps the members each structure
     requires, `sensitive` marks the shapes the model marks `sensitive`, and `errors` adds the shape
     each modeled error code is answered by. `check` sees every shape kept, by name and as the model
-    declares it, and raises for one the file's reader cannot read."""
+    declares it, and raises for one the file's reader cannot read. `subset` keeps those operations
+    alone, for a model too large to vendor whole. `xml_names` keys each structure's members by the name
+    its XML gives them (`locationName`) and keeps only results, for a reader of XML results whose
+    requests it reads some other way: `operations` then names each input shape without vendoring it."""
     shapes = model["shapes"]
     kept: dict[str, dict] = {}
 
@@ -106,7 +110,8 @@ def build(model: dict, provenance: str, generator: str, outputs: bool = False, r
                        if not (body_only and "location" in spec)}
             if required and "required" in shape:
                 entry["required"] = [member for member in shape["required"] if member in members]
-            entry["members"] = {member: spec["shape"] for member, spec in members.items()}
+            entry["members"] = {(spec.get("locationName", member) if xml_names else member): spec["shape"]
+                                for member, spec in members.items()}
             for spec in members.values():
                 keep(spec["shape"])
         elif kind == "list":
@@ -119,9 +124,12 @@ def build(model: dict, provenance: str, generator: str, outputs: bool = False, r
     operations = {}
     wrapped = {}
     for name, operation in sorted(model["operations"].items()):
+        if subset is not None and name not in subset:
+            continue
         if "input" in operation:
             operations[name] = operation["input"]["shape"]
-            keep(operation["input"]["shape"], body_only=True)
+            if not xml_names:
+                keep(operation["input"]["shape"], body_only=True)
         if (outputs or results) and "output" in operation:
             keep(operation["output"]["shape"], body_only=True)
         if results and "output" in operation:
@@ -236,7 +244,8 @@ def main(argv: list[str] | None, *, script: str, model: Path, output: Path,
          constraints: bool = False,
          prepare: Callable[[dict], dict] | None = None,
          results: bool = False, sensitive: bool = False, errors: bool = False,
-         check: Callable[[str, dict], None] | None = None) -> int:
+         check: Callable[[str, dict], None] | None = None, subset: tuple[str, ...] | None = None,
+         xml_names: bool = False) -> int:
     """Drives one generator: parse the flags, read the model, write or check the vendored file.
 
     `operations` picks the constraints flavour, keeping those operations' declared constraints
@@ -252,8 +261,8 @@ def main(argv: list[str] | None, *, script: str, model: Path, output: Path,
     it vendors in part: IAM reduces a paged request to its paging members, the rest of it keeping
     the reading it has today.
 
-    `results`, `sensitive`, `errors` and `check` are `build`'s, for a generator that keeps every
-    operation's member types."""
+    `results`, `sensitive`, `errors`, `check`, `subset` and `xml_names` are `build`'s, for a generator
+    that keeps every operation's member types."""
     parser = argparse.ArgumentParser(description=description, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--check", action="store_true", help="exit 1 when the vendored file differs from a fresh generation")
     parser.add_argument("--botocore-data", type=Path, help="botocore data directory")
@@ -269,7 +278,8 @@ def main(argv: list[str] | None, *, script: str, model: Path, output: Path,
     generator = generator_name(script)
     fresh = render(build_constraints(loaded, operations, provenance, generator) if operations is not None
                    else build(loaded, provenance, generator, outputs, required,
-                              results=results, sensitive=sensitive, errors=errors, check=check))
+                              results=results, sensitive=sensitive, errors=errors, check=check,
+                              subset=subset, xml_names=xml_names))
 
     if args.check:
         current = args.output.read_text(encoding="utf-8") if args.output.exists() else ""

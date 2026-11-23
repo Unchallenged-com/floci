@@ -110,6 +110,88 @@ public final class CloudTrailShapes {
         return read instanceof ObjectNode object && !object.isEmpty() ? object : null;
     }
 
+    /**
+     * The EC2 result {@code xml} answers {@code operation} with, as an EC2 record's
+     * {@code responseElements} writes it: each member under its XML name ({@code instancesSet}), a
+     * list as {@code {"items": [...]}} and an empty one as {@code {}}, a boolean result
+     * ({@code return}) as {@code _return}, the answer's {@code requestId}, a timestamp in epoch
+     * milliseconds, and a sensitive member as {@code "<sensitiveDataRemoved>"}, as 2024 records of
+     * RunInstances, TerminateInstances, AuthorizeSecurityGroupIngress and ModifyInstanceAttribute
+     * write them. A network interface's {@code privateIpAddressesSet} keeps its {@code item} key,
+     * as the RunInstances record does. An operation the model gives no output, such as
+     * ModifyInstanceAttribute, still answers {@code return}, which its record writes as
+     * {@code "_return": true}.
+     */
+    public ObjectNode ec2Result(String operation, String xml) {
+        String output = results.path(operation).path("shape").asText("");
+        XmlParser.XmlElement root = xml == null ? null : XmlParser.extractElementTree(xml, operation + "Response");
+        if (root == null) {
+            return null;
+        }
+        ObjectNode read = MAPPER.createObjectNode();
+        JsonNode members = shapes.path(output).path("members");
+        for (XmlParser.XmlElement child : root.children()) {
+            if ("requestId".equals(child.name())) {
+                read.put("requestId", child.text());
+                continue;
+            }
+            if (output.isEmpty() && "return".equals(child.name())) {
+                read.put("_return", Boolean.parseBoolean(child.text().trim()));
+                continue;
+            }
+            JsonNode member = members.path(child.name());
+            JsonNode value = member.isTextual() ? readEc2(member.asText(), child) : null;
+            if (value != null) {
+                read.set("return".equals(child.name()) ? "_return" : child.name(), value);
+            }
+        }
+        return read.isEmpty() ? null : read;
+    }
+
+    private JsonNode readEc2(String shapeName, XmlParser.XmlElement element) {
+        JsonNode shape = shapes.path(shapeName);
+        if (shape.path("sensitive").asBoolean()) {
+            return MAPPER.getNodeFactory().textNode("<sensitiveDataRemoved>");
+        }
+        return switch (shape.path("type").asText()) {
+            case "structure" -> {
+                ObjectNode read = MAPPER.createObjectNode();
+                JsonNode members = shape.path("members");
+                for (XmlParser.XmlElement child : element.children()) {
+                    JsonNode member = members.path(child.name());
+                    JsonNode value = member.isTextual() ? readEc2(member.asText(), child) : null;
+                    if (value != null) {
+                        read.set("return".equals(child.name()) ? "_return" : child.name(), value);
+                    }
+                }
+                yield read;
+            }
+            case "list" -> {
+                ArrayNode items = MAPPER.createArrayNode();
+                for (XmlParser.XmlElement child : element.children()) {
+                    JsonNode value = readEc2(shape.path("member").asText(), child);
+                    if (value != null) {
+                        items.add(value);
+                    }
+                }
+                ObjectNode read = MAPPER.createObjectNode();
+                if (!items.isEmpty()) {
+                    read.set("privateIpAddressesSet".equals(element.name()) ? "item" : "items", items);
+                }
+                yield read;
+            }
+            case "timestamp" -> {
+                try {
+                    yield MAPPER.getNodeFactory().numberNode(Instant.parse(element.text().trim()).toEpochMilli());
+                } catch (DateTimeParseException expected) {
+                    yield MAPPER.getNodeFactory().textNode(element.text());
+                }
+            }
+            default -> element.text().isEmpty() ? null : scalar(shape.path("type").asText(), element.rawText(), false);
+        };
+    }
+
+    /** The name of the error shape that answers {@code code}; a code IAM does not model is kept. */
     /** The name of the error shape that answers {@code code}; a code the service does not model is kept. */
     public String recordedErrorCode(String code) {
         return code == null ? null : errors.path(code).asText(code);

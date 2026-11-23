@@ -1773,7 +1773,7 @@ public class IamEnforcementFilter implements ContainerRequestFilter {
                         operation = IamConditionContextResolver.formParameters(ctx).get("Action");
                     }
                     CloudTrailService.ManagementEventInput event = source.refused(operation, akid, region,
-                            currentVertxRequest.getCurrent(), refusal);
+                            currentVertxRequest.getCurrent(), refusal, IamConditionContextResolver.formParameters(ctx));
                     if (event != null) {
                         cloudTrailService.emitManagementEvent(event);
                     }
