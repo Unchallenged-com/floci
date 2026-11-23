@@ -1,0 +1,88 @@
+{
+  "_source": {
+    "generator": "tools/aws/regen_ec2_instance_connect_cloudtrail_shapes.py",
+    "botocore": "botocore 1.44.9 (installed package)"
+  },
+  "operations": {
+    "SendSSHPublicKey": "SendSSHPublicKeyRequest",
+    "SendSerialConsoleSSHPublicKey": "SendSerialConsoleSSHPublicKeyRequest"
+  },
+  "results": {
+    "SendSSHPublicKey": {
+      "shape": "SendSSHPublicKeyResponse",
+      "resultWrapper": null
+    },
+    "SendSerialConsoleSSHPublicKey": {
+      "shape": "SendSerialConsoleSSHPublicKeyResponse",
+      "resultWrapper": null
+    }
+  },
+  "shapes": {
+    "AvailabilityZone": {
+      "type": "string"
+    },
+    "InstanceId": {
+      "type": "string"
+    },
+    "InstanceOSUser": {
+      "type": "string"
+    },
+    "RequestId": {
+      "type": "string"
+    },
+    "SSHPublicKey": {
+      "type": "string"
+    },
+    "SendSSHPublicKeyRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceId": "InstanceId",
+        "InstanceOSUser": "InstanceOSUser",
+        "SSHPublicKey": "SSHPublicKey",
+        "AvailabilityZone": "AvailabilityZone"
+      }
+    },
+    "SendSSHPublicKeyResponse": {
+      "type": "structure",
+      "members": {
+        "RequestId": "RequestId",
+        "Success": "Success"
+      }
+    },
+    "SendSerialConsoleSSHPublicKeyRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceId": "InstanceId",
+        "SerialPort": "SerialPort",
+        "SSHPublicKey": "SSHPublicKey"
+      }
+    },
+    "SendSerialConsoleSSHPublicKeyResponse": {
+      "type": "structure",
+      "members": {
+        "RequestId": "RequestId",
+        "Success": "Success"
+      }
+    },
+    "SerialPort": {
+      "type": "integer"
+    },
+    "Success": {
+      "type": "boolean"
+    }
+  },
+  "errors": {
+    "AuthException": "AuthException",
+    "EC2InstanceNotFoundException": "EC2InstanceNotFoundException",
+    "EC2InstanceStateInvalidException": "EC2InstanceStateInvalidException",
+    "EC2InstanceTypeInvalidException": "EC2InstanceTypeInvalidException",
+    "EC2InstanceUnavailableException": "EC2InstanceUnavailableException",
+    "InvalidArgsException": "InvalidArgsException",
+    "SerialConsoleAccessDisabledException": "SerialConsoleAccessDisabledException",
+    "SerialConsoleSessionLimitExceededException": "SerialConsoleSessionLimitExceededException",
+    "SerialConsoleSessionUnavailableException": "SerialConsoleSessionUnavailableException",
+    "SerialConsoleSessionUnsupportedException": "SerialConsoleSessionUnsupportedException",
+    "ServiceException": "ServiceException",
+    "ThrottlingException": "ThrottlingException"
+  }
+}

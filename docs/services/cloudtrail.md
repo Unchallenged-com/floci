@@ -362,6 +362,24 @@ Not recorded: the data events (`CreateControlChannel`, `OpenControlChannel`, `Re
 calls of the agent's own endpoints (`UpdateInstanceInformation`, `ec2messages`), and the members a record carries that
 the model does not (`SendCommand`'s `interactive`).
 
+## EC2 Instance Connect Coverage
+
+"The page displays the events that correspond to the SendSSHPublicKey API calls"
+([Amazon EC2 User Guide](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitor-with-cloudtrail.html#ec2-instance-connect-cloudtrail)):
+Floci records `SendSSHPublicKey` and `SendSerialConsoleSSHPublicKey` (`ec2-instance-connect-cloudtrail-events.json`),
+neither read-only, whether they succeed, fail (a serial console key always fails, with
+`SerialConsoleSessionUnsupportedException`) or are refused by IAM enforcement.
+
+- `eventSource` is `ec2-instance-connect.amazonaws.com`. `requestParameters` carry "the destination instance ID, OS
+  username, and public key", named as botocore's model names them with a lower first letter, as records since 2024 do
+  (`"instanceId"`, `"instanceOSUser"`, `"sSHPublicKey"`), rather than as the guide's 2018 example does.
+- `responseElements` is the answer (`"requestId"`, `"success": true`), whose `requestId` is the record's `requestID`;
+  `null` for a failed call.
+- A call IAM enforcement refuses is recorded as `AccessDenied` with `"requestParameters": null` and the message its
+  refusal answers with.
+
+Not recorded: `OpenTunnel`, the connection an EC2 Instance Connect Endpoint logs.
+
 ## EventBridge delivery
 
 "CloudTrail sends the following types of events to the default EventBridge event bus", the first of them

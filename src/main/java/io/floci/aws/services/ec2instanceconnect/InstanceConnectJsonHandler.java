@@ -44,24 +44,41 @@ public class InstanceConnectJsonHandler {
     private final InstanceConnectKeys keys;
     private final RegionResolver regionResolver;
     private final ObjectMapper objectMapper;
+    private final InstanceConnectCloudTrailEvents cloudTrailEvents;
     private final Clock clock;
 
     @Inject
     public InstanceConnectJsonHandler(Ec2Service ec2Service, InstanceConnectKeys keys,
-                                      RegionResolver regionResolver, ObjectMapper objectMapper) {
-        this(ec2Service, keys, regionResolver, objectMapper, Clock.systemUTC());
+                                      RegionResolver regionResolver, ObjectMapper objectMapper,
+                                      InstanceConnectCloudTrailEvents cloudTrailEvents) {
+        this(ec2Service, keys, regionResolver, objectMapper, cloudTrailEvents, Clock.systemUTC());
     }
 
     InstanceConnectJsonHandler(Ec2Service ec2Service, InstanceConnectKeys keys, RegionResolver regionResolver,
-                               ObjectMapper objectMapper, Clock clock) {
+                               ObjectMapper objectMapper, InstanceConnectCloudTrailEvents cloudTrailEvents,
+                               Clock clock) {
         this.ec2Service = ec2Service;
         this.keys = keys;
         this.regionResolver = regionResolver;
         this.objectMapper = objectMapper;
+        this.cloudTrailEvents = cloudTrailEvents;
         this.clock = clock;
     }
 
+    /** Handles a call, and records it in CloudTrail ({@link InstanceConnectCloudTrailEvents}). */
     public Response handle(String action, JsonNode request, String region) {
+        Response response;
+        try {
+            response = dispatch(action, request, region);
+        } catch (AwsException e) {
+            cloudTrailEvents.record(action, request, region, null, e);
+            throw e;
+        }
+        cloudTrailEvents.record(action, request, region, response, null);
+        return response;
+    }
+
+    private Response dispatch(String action, JsonNode request, String region) {
         return switch (action) {
             case "SendSSHPublicKey" -> sendSshPublicKey(request, region);
             case "SendSerialConsoleSSHPublicKey" -> sendSerialConsoleSshPublicKey(request, region);

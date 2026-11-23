@@ -82,7 +82,7 @@ class InstanceConnectJsonHandlerTest {
 
     private InstanceConnectJsonHandler handlerIn(String defaultRegion) {
         return new InstanceConnectJsonHandler(ec2, keys, new RegionResolver(defaultRegion, "000000000000"), mapper,
-                Clock.fixed(NOW, ZoneOffset.UTC));
+                mock(InstanceConnectCloudTrailEvents.class), Clock.fixed(NOW, ZoneOffset.UTC));
     }
 
     @Test

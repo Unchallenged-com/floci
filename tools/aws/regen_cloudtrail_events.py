@@ -30,6 +30,11 @@ carries, so it stays in SERVICES below, as the guide lists them:
   A record names most of them with the API version they are served under (`CreateFunction20150331`),
   which the file carries as `eventNames`: "the `eventName` might include date and version information,
   but it is still referring to the same public API action".
+- EC2 Instance Connect (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitor-with-cloudtrail.html, "Audit
+  connections made using EC2 Instance Connect"): the event history shows "the events that correspond to the
+  SendSSHPublicKey API calls" under the event source `ec2-instance-connect.amazonaws.com`, and records of
+  SendSerialConsoleSSHPublicKey (November 2024) show it a management event too. OpenTunnel, which the
+  EC2 Instance Connect Endpoint guide lists, is not an API call Floci records here.
 - Systems Manager (https://docs.aws.amazon.com/systems-manager/latest/userguide/monitoring-cloudtrail-logs.html):
   "Systems Manager logs all control plane operations to CloudTrail as management events", so every
   operation of botocore's SSM model Floci serves. CreateControlChannel, OpenControlChannel and
@@ -140,6 +145,11 @@ SERVICES: dict[str, Service] = {
             "TerminateInstances",
         ),
         read_only_anchors={"GetPasswordData": True, "TerminateInstances": False},
+    ),
+    "ec2-instance-connect": Service(
+        guide="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitor-with-cloudtrail.html",
+        management_events=("SendSSHPublicKey", "SendSerialConsoleSSHPublicKey"),
+        read_only_anchors={"SendSSHPublicKey": False, "SendSerialConsoleSSHPublicKey": False},
     ),
     "kms": Service(
         guide="https://docs.aws.amazon.com/kms/latest/developerguide/logging-using-cloudtrail.html",

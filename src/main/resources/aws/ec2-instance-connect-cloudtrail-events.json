@@ -1,0 +1,13 @@
+{
+  "_source": {
+    "generator": "tools/aws/regen_cloudtrail_events.py",
+    "managementEvents": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitor-with-cloudtrail.html",
+    "reference": "https://servicereference.us-east-1.amazonaws.com/v1/ec2-instance-connect/ec2-instance-connect.json",
+    "retrieved": "2026-11-23"
+  },
+  "managementEvents": [
+    "SendSSHPublicKey",
+    "SendSerialConsoleSSHPublicKey"
+  ],
+  "readOnlyActions": []
+}
