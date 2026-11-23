@@ -33,14 +33,26 @@ public class SnsJsonHandler {
 
     private final SnsService snsService;
     private final ObjectMapper objectMapper;
+    private final SnsCloudTrailEvents cloudTrailEvents;
 
-    @Inject
     public SnsJsonHandler(SnsService snsService, ObjectMapper objectMapper) {
-        this.snsService = snsService;
-        this.objectMapper = objectMapper;
+        this(snsService, objectMapper, null);
     }
 
+    @Inject
+    public SnsJsonHandler(SnsService snsService, ObjectMapper objectMapper, SnsCloudTrailEvents cloudTrailEvents) {
+        this.snsService = snsService;
+        this.objectMapper = objectMapper;
+        this.cloudTrailEvents = cloudTrailEvents;
+    }
+
+    /** Serves a JSON call, which CloudTrail records ({@link SnsCloudTrailEvents}). */
     public Response handle(String action, JsonNode request, String region) {
+        return cloudTrailEvents == null ? dispatch(action, request, region)
+                : cloudTrailEvents.recordedJson(action, request, region, () -> dispatch(action, request, region));
+    }
+
+    private Response dispatch(String action, JsonNode request, String region) {
         return switch (action) {
             case "CreateTopic" -> handleCreateTopic(request, region);
             case "DeleteTopic" -> handleDeleteTopic(request, region);

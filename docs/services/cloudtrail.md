@@ -335,6 +335,25 @@ not recorded here.
 - A failed call keeps its members, under the code it answered (`ResourceNotFound`); a call IAM enforcement refuses is
   recorded as `AccessDenied` with `"requestParameters": null`.
 
+## SNS Coverage
+
+"AWS SNS logs the following SNS control plane operations to CloudTrail as management events"
+([SNS Developer Guide](https://docs.aws.amazon.com/sns/latest/dg/logging-using-cloudtrail.html)). Floci records those
+calls (`sns-cloudtrail-events.json`) under their own names, whether they are made over the Query protocol or JSON.
+`Publish` and `PublishBatch` are data events and are not recorded here.
+
+- `eventSource` is `sns.amazonaws.com`. `requestParameters` are the request's members with a lower first letter, typed
+  as botocore's SNS model types them (`"name": "alerts"`, `"returnSubscriptionArn": true`), read from a Query form or a
+  JSON body alike. The address an email subscription names is written `"endpoint": "REDACTED"`.
+- `responseElements` is the answer in the same form (`"topicArn"`, `"subscriptionArn"`); `null` for a read-only call
+  (`ListTopics`, `GetTopicAttributes`), a call that answers nothing (`DeleteTopic`, `SetTopicAttributes`) and a failed
+  one.
+- A failed call keeps its members, under the name of the error shape that answers its code (`NotFoundException`); a
+  call IAM enforcement refuses is recorded as `AccessDenied` with `"requestParameters": null`.
+- "When you aren't logged in to Amazon Web Services (unauthenticated mode), CloudTrail does not log the
+  `ConfirmSubscription` or `Unsubscribe` actions": following a confirmation or unsubscribe link without credentials
+  leaves no record.
+
 ## EventBridge delivery
 
 "CloudTrail sends the following types of events to the default EventBridge event bus", the first of them

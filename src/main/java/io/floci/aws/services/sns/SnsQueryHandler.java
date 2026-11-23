@@ -30,13 +30,25 @@ public class SnsQueryHandler {
     private static final Logger LOG = Logger.getLogger(SnsQueryHandler.class);
 
     private final SnsService snsService;
+    private final SnsCloudTrailEvents cloudTrailEvents;
 
-    @Inject
     public SnsQueryHandler(SnsService snsService) {
-        this.snsService = snsService;
+        this(snsService, null);
     }
 
+    @Inject
+    public SnsQueryHandler(SnsService snsService, SnsCloudTrailEvents cloudTrailEvents) {
+        this.snsService = snsService;
+        this.cloudTrailEvents = cloudTrailEvents;
+    }
+
+    /** Serves a Query call, which CloudTrail records ({@link SnsCloudTrailEvents}). */
     public Response handle(String action, MultivaluedMap<String, String> params, String region) {
+        return cloudTrailEvents == null ? dispatch(action, params, region)
+                : cloudTrailEvents.recordedQuery(action, params, region, () -> dispatch(action, params, region));
+    }
+
+    private Response dispatch(String action, MultivaluedMap<String, String> params, String region) {
         LOG.debugv("SNS action: {0}", action);
 
         return switch (action) {

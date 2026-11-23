@@ -30,6 +30,9 @@ carries, so it stays in SERVICES below, as the guide lists them:
   A record names most of them with the API version they are served under (`CreateFunction20150331`),
   which the file carries as `eventNames`: "the `eventName` might include date and version information,
   but it is still referring to the same public API action".
+- SNS (https://docs.aws.amazon.com/sns/latest/dg/logging-using-cloudtrail.html): "AWS SNS logs the following
+  SNS control plane operations to CloudTrail as management events", followed by the list. `Publish` and
+  `PublishBatch` are data events of the `AWS::SNS::Topic` and `AWS::SNS::PlatformEndpoint` resource types.
 
 Which of them are read-only is the access level AWS's Service Reference gives each action, read as
 `regen_iam_action_resources.py` reads IAM's: an action with none of the Write, Permissions
@@ -287,6 +290,24 @@ SERVICES: dict[str, Service] = {
             "ValidateResourcePolicy",
         ),
         read_only_anchors={"GetSecretValue": True, "DeleteSecret": False},
+    ),
+    "sns": Service(
+        guide="https://docs.aws.amazon.com/sns/latest/dg/logging-using-cloudtrail.html",
+        management_events=(
+            "AddPermission", "CheckIfPhoneNumberIsOptedOut", "ConfirmSubscription", "CreatePlatformApplication",
+            "CreatePlatformEndpoint", "CreateSMSSandboxPhoneNumber", "CreateTopic", "DeleteEndpoint",
+            "DeletePlatformApplication", "DeleteSMSSandboxPhoneNumber", "DeleteTopic", "GetDataProtectionPolicy",
+            "GetEndpointAttributes", "GetPlatformApplicationAttributes", "GetSMSAttributes",
+            "GetSMSSandboxAccountStatus", "GetSubscriptionAttributes", "GetTopicAttributes",
+            "ListEndpointsByPlatformApplication", "ListOriginationNumbers", "ListPhoneNumbersOptedOut",
+            "ListPlatformApplications", "ListSMSSandboxPhoneNumbers", "ListSubscriptions",
+            "ListSubscriptionsByTopic", "ListTagsForResource", "ListTopics", "OptInPhoneNumber",
+            "PutDataProtectionPolicy", "RemovePermission", "SetEndpointAttributes",
+            "SetPlatformApplicationAttributes", "SetSMSAttributes", "SetSubscriptionAttributes",
+            "SetTopicAttributes", "Subscribe", "TagResource", "Unsubscribe", "UntagResource",
+            "VerifySMSSandboxPhoneNumber",
+        ),
+        read_only_anchors={"ListTopics": True, "DeleteTopic": False},
     ),
 }
 

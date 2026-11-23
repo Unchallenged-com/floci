@@ -1,0 +1,857 @@
+{
+  "_source": {
+    "generator": "tools/aws/regen_sns_cloudtrail_shapes.py",
+    "botocore": "botocore 1.44.9 (installed package)"
+  },
+  "operations": {
+    "AddPermission": "AddPermissionInput",
+    "CheckIfPhoneNumberIsOptedOut": "CheckIfPhoneNumberIsOptedOutInput",
+    "ConfirmSubscription": "ConfirmSubscriptionInput",
+    "CreatePlatformApplication": "CreatePlatformApplicationInput",
+    "CreatePlatformEndpoint": "CreatePlatformEndpointInput",
+    "CreateSMSSandboxPhoneNumber": "CreateSMSSandboxPhoneNumberInput",
+    "CreateTopic": "CreateTopicInput",
+    "DeleteEndpoint": "DeleteEndpointInput",
+    "DeletePlatformApplication": "DeletePlatformApplicationInput",
+    "DeleteSMSSandboxPhoneNumber": "DeleteSMSSandboxPhoneNumberInput",
+    "DeleteTopic": "DeleteTopicInput",
+    "GetDataProtectionPolicy": "GetDataProtectionPolicyInput",
+    "GetEndpointAttributes": "GetEndpointAttributesInput",
+    "GetPlatformApplicationAttributes": "GetPlatformApplicationAttributesInput",
+    "GetSMSAttributes": "GetSMSAttributesInput",
+    "GetSMSSandboxAccountStatus": "GetSMSSandboxAccountStatusInput",
+    "GetSubscriptionAttributes": "GetSubscriptionAttributesInput",
+    "GetTopicAttributes": "GetTopicAttributesInput",
+    "ListEndpointsByPlatformApplication": "ListEndpointsByPlatformApplicationInput",
+    "ListOriginationNumbers": "ListOriginationNumbersRequest",
+    "ListPhoneNumbersOptedOut": "ListPhoneNumbersOptedOutInput",
+    "ListPlatformApplications": "ListPlatformApplicationsInput",
+    "ListSMSSandboxPhoneNumbers": "ListSMSSandboxPhoneNumbersInput",
+    "ListSubscriptions": "ListSubscriptionsInput",
+    "ListSubscriptionsByTopic": "ListSubscriptionsByTopicInput",
+    "ListTagsForResource": "ListTagsForResourceRequest",
+    "ListTopics": "ListTopicsInput",
+    "OptInPhoneNumber": "OptInPhoneNumberInput",
+    "PutDataProtectionPolicy": "PutDataProtectionPolicyInput",
+    "RemovePermission": "RemovePermissionInput",
+    "SetEndpointAttributes": "SetEndpointAttributesInput",
+    "SetPlatformApplicationAttributes": "SetPlatformApplicationAttributesInput",
+    "SetSMSAttributes": "SetSMSAttributesInput",
+    "SetSubscriptionAttributes": "SetSubscriptionAttributesInput",
+    "SetTopicAttributes": "SetTopicAttributesInput",
+    "Subscribe": "SubscribeInput",
+    "TagResource": "TagResourceRequest",
+    "Unsubscribe": "UnsubscribeInput",
+    "UntagResource": "UntagResourceRequest",
+    "VerifySMSSandboxPhoneNumber": "VerifySMSSandboxPhoneNumberInput"
+  },
+  "results": {
+    "CheckIfPhoneNumberIsOptedOut": {
+      "shape": "CheckIfPhoneNumberIsOptedOutResponse",
+      "resultWrapper": "CheckIfPhoneNumberIsOptedOutResult"
+    },
+    "ConfirmSubscription": {
+      "shape": "ConfirmSubscriptionResponse",
+      "resultWrapper": "ConfirmSubscriptionResult"
+    },
+    "CreatePlatformApplication": {
+      "shape": "CreatePlatformApplicationResponse",
+      "resultWrapper": "CreatePlatformApplicationResult"
+    },
+    "CreatePlatformEndpoint": {
+      "shape": "CreateEndpointResponse",
+      "resultWrapper": "CreatePlatformEndpointResult"
+    },
+    "CreateSMSSandboxPhoneNumber": {
+      "shape": "CreateSMSSandboxPhoneNumberResult",
+      "resultWrapper": "CreateSMSSandboxPhoneNumberResult"
+    },
+    "CreateTopic": {
+      "shape": "CreateTopicResponse",
+      "resultWrapper": "CreateTopicResult"
+    },
+    "DeleteSMSSandboxPhoneNumber": {
+      "shape": "DeleteSMSSandboxPhoneNumberResult",
+      "resultWrapper": "DeleteSMSSandboxPhoneNumberResult"
+    },
+    "GetDataProtectionPolicy": {
+      "shape": "GetDataProtectionPolicyResponse",
+      "resultWrapper": "GetDataProtectionPolicyResult"
+    },
+    "GetEndpointAttributes": {
+      "shape": "GetEndpointAttributesResponse",
+      "resultWrapper": "GetEndpointAttributesResult"
+    },
+    "GetPlatformApplicationAttributes": {
+      "shape": "GetPlatformApplicationAttributesResponse",
+      "resultWrapper": "GetPlatformApplicationAttributesResult"
+    },
+    "GetSMSAttributes": {
+      "shape": "GetSMSAttributesResponse",
+      "resultWrapper": "GetSMSAttributesResult"
+    },
+    "GetSMSSandboxAccountStatus": {
+      "shape": "GetSMSSandboxAccountStatusResult",
+      "resultWrapper": "GetSMSSandboxAccountStatusResult"
+    },
+    "GetSubscriptionAttributes": {
+      "shape": "GetSubscriptionAttributesResponse",
+      "resultWrapper": "GetSubscriptionAttributesResult"
+    },
+    "GetTopicAttributes": {
+      "shape": "GetTopicAttributesResponse",
+      "resultWrapper": "GetTopicAttributesResult"
+    },
+    "ListEndpointsByPlatformApplication": {
+      "shape": "ListEndpointsByPlatformApplicationResponse",
+      "resultWrapper": "ListEndpointsByPlatformApplicationResult"
+    },
+    "ListOriginationNumbers": {
+      "shape": "ListOriginationNumbersResult",
+      "resultWrapper": "ListOriginationNumbersResult"
+    },
+    "ListPhoneNumbersOptedOut": {
+      "shape": "ListPhoneNumbersOptedOutResponse",
+      "resultWrapper": "ListPhoneNumbersOptedOutResult"
+    },
+    "ListPlatformApplications": {
+      "shape": "ListPlatformApplicationsResponse",
+      "resultWrapper": "ListPlatformApplicationsResult"
+    },
+    "ListSMSSandboxPhoneNumbers": {
+      "shape": "ListSMSSandboxPhoneNumbersResult",
+      "resultWrapper": "ListSMSSandboxPhoneNumbersResult"
+    },
+    "ListSubscriptions": {
+      "shape": "ListSubscriptionsResponse",
+      "resultWrapper": "ListSubscriptionsResult"
+    },
+    "ListSubscriptionsByTopic": {
+      "shape": "ListSubscriptionsByTopicResponse",
+      "resultWrapper": "ListSubscriptionsByTopicResult"
+    },
+    "ListTagsForResource": {
+      "shape": "ListTagsForResourceResponse",
+      "resultWrapper": "ListTagsForResourceResult"
+    },
+    "ListTopics": {
+      "shape": "ListTopicsResponse",
+      "resultWrapper": "ListTopicsResult"
+    },
+    "OptInPhoneNumber": {
+      "shape": "OptInPhoneNumberResponse",
+      "resultWrapper": "OptInPhoneNumberResult"
+    },
+    "SetSMSAttributes": {
+      "shape": "SetSMSAttributesResponse",
+      "resultWrapper": "SetSMSAttributesResult"
+    },
+    "Subscribe": {
+      "shape": "SubscribeResponse",
+      "resultWrapper": "SubscribeResult"
+    },
+    "TagResource": {
+      "shape": "TagResourceResponse",
+      "resultWrapper": "TagResourceResult"
+    },
+    "UntagResource": {
+      "shape": "UntagResourceResponse",
+      "resultWrapper": "UntagResourceResult"
+    },
+    "VerifySMSSandboxPhoneNumber": {
+      "shape": "VerifySMSSandboxPhoneNumberResult",
+      "resultWrapper": "VerifySMSSandboxPhoneNumberResult"
+    }
+  },
+  "shapes": {
+    "ActionsList": {
+      "type": "list",
+      "member": "action"
+    },
+    "AddPermissionInput": {
+      "type": "structure",
+      "members": {
+        "TopicArn": "topicARN",
+        "Label": "label",
+        "AWSAccountId": "DelegatesList",
+        "ActionName": "ActionsList"
+      }
+    },
+    "AmazonResourceName": {
+      "type": "string"
+    },
+    "CheckIfPhoneNumberIsOptedOutInput": {
+      "type": "structure",
+      "members": {
+        "phoneNumber": "PhoneNumber"
+      }
+    },
+    "CheckIfPhoneNumberIsOptedOutResponse": {
+      "type": "structure",
+      "members": {
+        "isOptedOut": "boolean"
+      }
+    },
+    "ConfirmSubscriptionInput": {
+      "type": "structure",
+      "members": {
+        "TopicArn": "topicARN",
+        "Token": "token",
+        "AuthenticateOnUnsubscribe": "authenticateOnUnsubscribe"
+      }
+    },
+    "ConfirmSubscriptionResponse": {
+      "type": "structure",
+      "members": {
+        "SubscriptionArn": "subscriptionARN"
+      }
+    },
+    "CreateEndpointResponse": {
+      "type": "structure",
+      "members": {
+        "EndpointArn": "String"
+      }
+    },
+    "CreatePlatformApplicationInput": {
+      "type": "structure",
+      "members": {
+        "Name": "String",
+        "Platform": "String",
+        "Attributes": "MapStringToString"
+      }
+    },
+    "CreatePlatformApplicationResponse": {
+      "type": "structure",
+      "members": {
+        "PlatformApplicationArn": "String"
+      }
+    },
+    "CreatePlatformEndpointInput": {
+      "type": "structure",
+      "members": {
+        "PlatformApplicationArn": "String",
+        "Token": "String",
+        "CustomUserData": "String",
+        "Attributes": "MapStringToString"
+      }
+    },
+    "CreateSMSSandboxPhoneNumberInput": {
+      "type": "structure",
+      "members": {
+        "PhoneNumber": "PhoneNumberString",
+        "LanguageCode": "LanguageCodeString"
+      }
+    },
+    "CreateSMSSandboxPhoneNumberResult": {
+      "type": "structure",
+      "members": {}
+    },
+    "CreateTopicInput": {
+      "type": "structure",
+      "members": {
+        "Name": "topicName",
+        "Attributes": "TopicAttributesMap",
+        "Tags": "TagList",
+        "DataProtectionPolicy": "attributeValue"
+      }
+    },
+    "CreateTopicResponse": {
+      "type": "structure",
+      "members": {
+        "TopicArn": "topicARN"
+      }
+    },
+    "DelegatesList": {
+      "type": "list",
+      "member": "delegate"
+    },
+    "DeleteEndpointInput": {
+      "type": "structure",
+      "members": {
+        "EndpointArn": "String"
+      }
+    },
+    "DeletePlatformApplicationInput": {
+      "type": "structure",
+      "members": {
+        "PlatformApplicationArn": "String"
+      }
+    },
+    "DeleteSMSSandboxPhoneNumberInput": {
+      "type": "structure",
+      "members": {
+        "PhoneNumber": "PhoneNumberString"
+      }
+    },
+    "DeleteSMSSandboxPhoneNumberResult": {
+      "type": "structure",
+      "members": {}
+    },
+    "DeleteTopicInput": {
+      "type": "structure",
+      "members": {
+        "TopicArn": "topicARN"
+      }
+    },
+    "Endpoint": {
+      "type": "structure",
+      "members": {
+        "EndpointArn": "String",
+        "Attributes": "MapStringToString"
+      }
+    },
+    "GetDataProtectionPolicyInput": {
+      "type": "structure",
+      "members": {
+        "ResourceArn": "topicARN"
+      }
+    },
+    "GetDataProtectionPolicyResponse": {
+      "type": "structure",
+      "members": {
+        "DataProtectionPolicy": "attributeValue"
+      }
+    },
+    "GetEndpointAttributesInput": {
+      "type": "structure",
+      "members": {
+        "EndpointArn": "String"
+      }
+    },
+    "GetEndpointAttributesResponse": {
+      "type": "structure",
+      "members": {
+        "Attributes": "MapStringToString"
+      }
+    },
+    "GetPlatformApplicationAttributesInput": {
+      "type": "structure",
+      "members": {
+        "PlatformApplicationArn": "String"
+      }
+    },
+    "GetPlatformApplicationAttributesResponse": {
+      "type": "structure",
+      "members": {
+        "Attributes": "MapStringToString"
+      }
+    },
+    "GetSMSAttributesInput": {
+      "type": "structure",
+      "members": {
+        "attributes": "ListString"
+      }
+    },
+    "GetSMSAttributesResponse": {
+      "type": "structure",
+      "members": {
+        "attributes": "MapStringToString"
+      }
+    },
+    "GetSMSSandboxAccountStatusInput": {
+      "type": "structure",
+      "members": {}
+    },
+    "GetSMSSandboxAccountStatusResult": {
+      "type": "structure",
+      "members": {
+        "IsInSandbox": "boolean"
+      }
+    },
+    "GetSubscriptionAttributesInput": {
+      "type": "structure",
+      "members": {
+        "SubscriptionArn": "subscriptionARN"
+      }
+    },
+    "GetSubscriptionAttributesResponse": {
+      "type": "structure",
+      "members": {
+        "Attributes": "SubscriptionAttributesMap"
+      }
+    },
+    "GetTopicAttributesInput": {
+      "type": "structure",
+      "members": {
+        "TopicArn": "topicARN"
+      }
+    },
+    "GetTopicAttributesResponse": {
+      "type": "structure",
+      "members": {
+        "Attributes": "TopicAttributesMap"
+      }
+    },
+    "Iso2CountryCode": {
+      "type": "string"
+    },
+    "LanguageCodeString": {
+      "type": "string"
+    },
+    "ListEndpointsByPlatformApplicationInput": {
+      "type": "structure",
+      "members": {
+        "PlatformApplicationArn": "String",
+        "NextToken": "String"
+      }
+    },
+    "ListEndpointsByPlatformApplicationResponse": {
+      "type": "structure",
+      "members": {
+        "Endpoints": "ListOfEndpoints",
+        "NextToken": "String"
+      }
+    },
+    "ListOfEndpoints": {
+      "type": "list",
+      "member": "Endpoint"
+    },
+    "ListOfPlatformApplications": {
+      "type": "list",
+      "member": "PlatformApplication"
+    },
+    "ListOriginationNumbersRequest": {
+      "type": "structure",
+      "members": {
+        "NextToken": "nextToken",
+        "MaxResults": "MaxItemsListOriginationNumbers"
+      }
+    },
+    "ListOriginationNumbersResult": {
+      "type": "structure",
+      "members": {
+        "NextToken": "nextToken",
+        "PhoneNumbers": "PhoneNumberInformationList"
+      }
+    },
+    "ListPhoneNumbersOptedOutInput": {
+      "type": "structure",
+      "members": {
+        "nextToken": "string"
+      }
+    },
+    "ListPhoneNumbersOptedOutResponse": {
+      "type": "structure",
+      "members": {
+        "phoneNumbers": "PhoneNumberList",
+        "nextToken": "string"
+      }
+    },
+    "ListPlatformApplicationsInput": {
+      "type": "structure",
+      "members": {
+        "NextToken": "String"
+      }
+    },
+    "ListPlatformApplicationsResponse": {
+      "type": "structure",
+      "members": {
+        "PlatformApplications": "ListOfPlatformApplications",
+        "NextToken": "String"
+      }
+    },
+    "ListSMSSandboxPhoneNumbersInput": {
+      "type": "structure",
+      "members": {
+        "NextToken": "nextToken",
+        "MaxResults": "MaxItems"
+      }
+    },
+    "ListSMSSandboxPhoneNumbersResult": {
+      "type": "structure",
+      "members": {
+        "PhoneNumbers": "SMSSandboxPhoneNumberList",
+        "NextToken": "string"
+      }
+    },
+    "ListString": {
+      "type": "list",
+      "member": "String"
+    },
+    "ListSubscriptionsByTopicInput": {
+      "type": "structure",
+      "members": {
+        "TopicArn": "topicARN",
+        "NextToken": "nextToken"
+      }
+    },
+    "ListSubscriptionsByTopicResponse": {
+      "type": "structure",
+      "members": {
+        "Subscriptions": "SubscriptionsList",
+        "NextToken": "nextToken"
+      }
+    },
+    "ListSubscriptionsInput": {
+      "type": "structure",
+      "members": {
+        "NextToken": "nextToken"
+      }
+    },
+    "ListSubscriptionsResponse": {
+      "type": "structure",
+      "members": {
+        "Subscriptions": "SubscriptionsList",
+        "NextToken": "nextToken"
+      }
+    },
+    "ListTagsForResourceRequest": {
+      "type": "structure",
+      "members": {
+        "ResourceArn": "AmazonResourceName"
+      }
+    },
+    "ListTagsForResourceResponse": {
+      "type": "structure",
+      "members": {
+        "Tags": "TagList"
+      }
+    },
+    "ListTopicsInput": {
+      "type": "structure",
+      "members": {
+        "NextToken": "nextToken"
+      }
+    },
+    "ListTopicsResponse": {
+      "type": "structure",
+      "members": {
+        "Topics": "TopicsList",
+        "NextToken": "nextToken"
+      }
+    },
+    "MapStringToString": {
+      "type": "map",
+      "value": "String"
+    },
+    "MaxItems": {
+      "type": "integer"
+    },
+    "MaxItemsListOriginationNumbers": {
+      "type": "integer"
+    },
+    "NumberCapability": {
+      "type": "string"
+    },
+    "NumberCapabilityList": {
+      "type": "list",
+      "member": "NumberCapability"
+    },
+    "OTPCode": {
+      "type": "string"
+    },
+    "OptInPhoneNumberInput": {
+      "type": "structure",
+      "members": {
+        "phoneNumber": "PhoneNumber"
+      }
+    },
+    "OptInPhoneNumberResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "PhoneNumber": {
+      "type": "string",
+      "sensitive": true
+    },
+    "PhoneNumberInformation": {
+      "type": "structure",
+      "members": {
+        "CreatedAt": "Timestamp",
+        "PhoneNumber": "PhoneNumber",
+        "Status": "String",
+        "Iso2CountryCode": "Iso2CountryCode",
+        "RouteType": "RouteType",
+        "NumberCapabilities": "NumberCapabilityList"
+      }
+    },
+    "PhoneNumberInformationList": {
+      "type": "list",
+      "member": "PhoneNumberInformation"
+    },
+    "PhoneNumberList": {
+      "type": "list",
+      "member": "PhoneNumber"
+    },
+    "PhoneNumberString": {
+      "type": "string",
+      "sensitive": true
+    },
+    "PlatformApplication": {
+      "type": "structure",
+      "members": {
+        "PlatformApplicationArn": "String",
+        "Attributes": "MapStringToString"
+      }
+    },
+    "PutDataProtectionPolicyInput": {
+      "type": "structure",
+      "members": {
+        "ResourceArn": "topicARN",
+        "DataProtectionPolicy": "attributeValue"
+      }
+    },
+    "RemovePermissionInput": {
+      "type": "structure",
+      "members": {
+        "TopicArn": "topicARN",
+        "Label": "label"
+      }
+    },
+    "RouteType": {
+      "type": "string"
+    },
+    "SMSSandboxPhoneNumber": {
+      "type": "structure",
+      "members": {
+        "PhoneNumber": "PhoneNumberString",
+        "Status": "SMSSandboxPhoneNumberVerificationStatus"
+      }
+    },
+    "SMSSandboxPhoneNumberList": {
+      "type": "list",
+      "member": "SMSSandboxPhoneNumber"
+    },
+    "SMSSandboxPhoneNumberVerificationStatus": {
+      "type": "string"
+    },
+    "SetEndpointAttributesInput": {
+      "type": "structure",
+      "members": {
+        "EndpointArn": "String",
+        "Attributes": "MapStringToString"
+      }
+    },
+    "SetPlatformApplicationAttributesInput": {
+      "type": "structure",
+      "members": {
+        "PlatformApplicationArn": "String",
+        "Attributes": "MapStringToString"
+      }
+    },
+    "SetSMSAttributesInput": {
+      "type": "structure",
+      "members": {
+        "attributes": "MapStringToString"
+      }
+    },
+    "SetSMSAttributesResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "SetSubscriptionAttributesInput": {
+      "type": "structure",
+      "members": {
+        "SubscriptionArn": "subscriptionARN",
+        "AttributeName": "attributeName",
+        "AttributeValue": "attributeValue"
+      }
+    },
+    "SetTopicAttributesInput": {
+      "type": "structure",
+      "members": {
+        "TopicArn": "topicARN",
+        "AttributeName": "attributeName",
+        "AttributeValue": "attributeValue"
+      }
+    },
+    "String": {
+      "type": "string"
+    },
+    "SubscribeInput": {
+      "type": "structure",
+      "members": {
+        "TopicArn": "topicARN",
+        "Protocol": "protocol",
+        "Endpoint": "endpoint",
+        "Attributes": "SubscriptionAttributesMap",
+        "ReturnSubscriptionArn": "boolean"
+      }
+    },
+    "SubscribeResponse": {
+      "type": "structure",
+      "members": {
+        "SubscriptionArn": "subscriptionARN"
+      }
+    },
+    "Subscription": {
+      "type": "structure",
+      "members": {
+        "SubscriptionArn": "subscriptionARN",
+        "Owner": "account",
+        "Protocol": "protocol",
+        "Endpoint": "endpoint",
+        "TopicArn": "topicARN"
+      }
+    },
+    "SubscriptionAttributesMap": {
+      "type": "map",
+      "value": "attributeValue"
+    },
+    "SubscriptionsList": {
+      "type": "list",
+      "member": "Subscription"
+    },
+    "Tag": {
+      "type": "structure",
+      "members": {
+        "Key": "TagKey",
+        "Value": "TagValue"
+      }
+    },
+    "TagKey": {
+      "type": "string"
+    },
+    "TagKeyList": {
+      "type": "list",
+      "member": "TagKey"
+    },
+    "TagList": {
+      "type": "list",
+      "member": "Tag"
+    },
+    "TagResourceRequest": {
+      "type": "structure",
+      "members": {
+        "ResourceArn": "AmazonResourceName",
+        "Tags": "TagList"
+      }
+    },
+    "TagResourceResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "TagValue": {
+      "type": "string"
+    },
+    "Timestamp": {
+      "type": "timestamp"
+    },
+    "Topic": {
+      "type": "structure",
+      "members": {
+        "TopicArn": "topicARN"
+      }
+    },
+    "TopicAttributesMap": {
+      "type": "map",
+      "value": "attributeValue"
+    },
+    "TopicsList": {
+      "type": "list",
+      "member": "Topic"
+    },
+    "UnsubscribeInput": {
+      "type": "structure",
+      "members": {
+        "SubscriptionArn": "subscriptionARN"
+      }
+    },
+    "UntagResourceRequest": {
+      "type": "structure",
+      "members": {
+        "ResourceArn": "AmazonResourceName",
+        "TagKeys": "TagKeyList"
+      }
+    },
+    "UntagResourceResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "VerifySMSSandboxPhoneNumberInput": {
+      "type": "structure",
+      "members": {
+        "PhoneNumber": "PhoneNumberString",
+        "OneTimePassword": "OTPCode"
+      }
+    },
+    "VerifySMSSandboxPhoneNumberResult": {
+      "type": "structure",
+      "members": {}
+    },
+    "account": {
+      "type": "string"
+    },
+    "action": {
+      "type": "string"
+    },
+    "attributeName": {
+      "type": "string"
+    },
+    "attributeValue": {
+      "type": "string"
+    },
+    "authenticateOnUnsubscribe": {
+      "type": "string"
+    },
+    "boolean": {
+      "type": "boolean"
+    },
+    "delegate": {
+      "type": "string"
+    },
+    "endpoint": {
+      "type": "string"
+    },
+    "label": {
+      "type": "string"
+    },
+    "nextToken": {
+      "type": "string"
+    },
+    "protocol": {
+      "type": "string"
+    },
+    "string": {
+      "type": "string"
+    },
+    "subscriptionARN": {
+      "type": "string"
+    },
+    "token": {
+      "type": "string"
+    },
+    "topicARN": {
+      "type": "string"
+    },
+    "topicName": {
+      "type": "string"
+    }
+  },
+  "errors": {
+    "AuthorizationError": "AuthorizationErrorException",
+    "BatchEntryIdsNotDistinct": "BatchEntryIdsNotDistinctException",
+    "BatchRequestTooLong": "BatchRequestTooLongException",
+    "ConcurrentAccess": "ConcurrentAccessException",
+    "EmptyBatchRequest": "EmptyBatchRequestException",
+    "EndpointDisabled": "EndpointDisabledException",
+    "FilterPolicyLimitExceeded": "FilterPolicyLimitExceededException",
+    "InternalError": "InternalErrorException",
+    "InvalidBatchEntryId": "InvalidBatchEntryIdException",
+    "InvalidParameter": "InvalidParameterException",
+    "InvalidSecurity": "InvalidSecurityException",
+    "InvalidState": "InvalidStateException",
+    "KMSAccessDenied": "KMSAccessDeniedException",
+    "KMSDisabled": "KMSDisabledException",
+    "KMSInvalidState": "KMSInvalidStateException",
+    "KMSNotFound": "KMSNotFoundException",
+    "KMSOptInRequired": "KMSOptInRequired",
+    "KMSThrottling": "KMSThrottlingException",
+    "NotFound": "NotFoundException",
+    "OptedOut": "OptedOutException",
+    "ParameterValueInvalid": "InvalidParameterValueException",
+    "PlatformApplicationDisabled": "PlatformApplicationDisabledException",
+    "ReplayLimitExceeded": "ReplayLimitExceededException",
+    "ResourceNotFound": "ResourceNotFoundException",
+    "StaleTag": "StaleTagException",
+    "SubscriptionLimitExceeded": "SubscriptionLimitExceededException",
+    "TagLimitExceeded": "TagLimitExceededException",
+    "TagPolicy": "TagPolicyException",
+    "Throttled": "ThrottledException",
+    "TooManyEntriesInBatchRequest": "TooManyEntriesInBatchRequestException",
+    "TopicLimitExceeded": "TopicLimitExceededException",
+    "UserError": "UserErrorException",
+    "ValidationException": "ValidationException",
+    "VerificationException": "VerificationException"
+  }
+}
