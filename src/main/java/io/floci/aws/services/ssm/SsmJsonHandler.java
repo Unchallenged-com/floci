@@ -51,17 +51,35 @@ public class SsmJsonHandler {
     private final SsmCommandService commandService;
     private final ObjectMapper objectMapper;
     private final IamEnforcementFilter iamEnforcementFilter;
+    private final SsmCloudTrailEvents cloudTrailEvents;
 
     @Inject
     public SsmJsonHandler(SsmService ssmService, SsmCommandService commandService, ObjectMapper objectMapper,
-                          IamEnforcementFilter iamEnforcementFilter) {
+                          IamEnforcementFilter iamEnforcementFilter, SsmCloudTrailEvents cloudTrailEvents) {
         this.ssmService = ssmService;
         this.commandService = commandService;
         this.objectMapper = objectMapper;
         this.iamEnforcementFilter = iamEnforcementFilter;
+        this.cloudTrailEvents = cloudTrailEvents;
     }
 
+    /**
+     * Handles a call, and records it in CloudTrail ({@link SsmCloudTrailEvents}) as the caller
+     * {@code authorization} names.
+     */
     public Response handle(String action, JsonNode request, String region, String authorization) {
+        Response response;
+        try {
+            response = dispatch(action, request, region, authorization);
+        } catch (AwsException e) {
+            cloudTrailEvents.record(action, request, region, authorization, null, e);
+            throw e;
+        }
+        cloudTrailEvents.record(action, request, region, authorization, response, null);
+        return response;
+    }
+
+    private Response dispatch(String action, JsonNode request, String region, String authorization) {
         return switch (action) {
             // Parameter Store
             case "PutParameter" -> handlePutParameter(request, region);

@@ -1,0 +1,2382 @@
+{
+  "_source": {
+    "generator": "tools/aws/regen_ssm_cloudtrail_shapes.py",
+    "botocore": "botocore 1.44.9 (installed package)"
+  },
+  "operations": {
+    "AddTagsToResource": "AddTagsToResourceRequest",
+    "CancelCommand": "CancelCommandRequest",
+    "CreateAssociation": "CreateAssociationRequest",
+    "CreateDocument": "CreateDocumentRequest",
+    "DeleteAssociation": "DeleteAssociationRequest",
+    "DeleteDocument": "DeleteDocumentRequest",
+    "DeleteParameter": "DeleteParameterRequest",
+    "DeleteParameters": "DeleteParametersRequest",
+    "DeleteResourcePolicy": "DeleteResourcePolicyRequest",
+    "DescribeAssociation": "DescribeAssociationRequest",
+    "DescribeDocument": "DescribeDocumentRequest",
+    "DescribeDocumentPermission": "DescribeDocumentPermissionRequest",
+    "DescribeInstanceInformation": "DescribeInstanceInformationRequest",
+    "DescribeMaintenanceWindows": "DescribeMaintenanceWindowsRequest",
+    "DescribeParameters": "DescribeParametersRequest",
+    "DescribePatchBaselines": "DescribePatchBaselinesRequest",
+    "GetCommandInvocation": "GetCommandInvocationRequest",
+    "GetDefaultPatchBaseline": "GetDefaultPatchBaselineRequest",
+    "GetDocument": "GetDocumentRequest",
+    "GetParameter": "GetParameterRequest",
+    "GetParameterHistory": "GetParameterHistoryRequest",
+    "GetParameters": "GetParametersRequest",
+    "GetParametersByPath": "GetParametersByPathRequest",
+    "GetResourcePolicies": "GetResourcePoliciesRequest",
+    "GetServiceSetting": "GetServiceSettingRequest",
+    "LabelParameterVersion": "LabelParameterVersionRequest",
+    "ListAssociations": "ListAssociationsRequest",
+    "ListCommandInvocations": "ListCommandInvocationsRequest",
+    "ListCommands": "ListCommandsRequest",
+    "ListDocuments": "ListDocumentsRequest",
+    "ListTagsForResource": "ListTagsForResourceRequest",
+    "ModifyDocumentPermission": "ModifyDocumentPermissionRequest",
+    "PutParameter": "PutParameterRequest",
+    "PutResourcePolicy": "PutResourcePolicyRequest",
+    "RemoveTagsFromResource": "RemoveTagsFromResourceRequest",
+    "ResetServiceSetting": "ResetServiceSettingRequest",
+    "SendCommand": "SendCommandRequest",
+    "UnlabelParameterVersion": "UnlabelParameterVersionRequest",
+    "UpdateAssociation": "UpdateAssociationRequest",
+    "UpdateDocument": "UpdateDocumentRequest",
+    "UpdateServiceSetting": "UpdateServiceSettingRequest"
+  },
+  "results": {
+    "AddTagsToResource": {
+      "shape": "AddTagsToResourceResult",
+      "resultWrapper": null
+    },
+    "CancelCommand": {
+      "shape": "CancelCommandResult",
+      "resultWrapper": null
+    },
+    "CreateAssociation": {
+      "shape": "CreateAssociationResult",
+      "resultWrapper": null
+    },
+    "CreateDocument": {
+      "shape": "CreateDocumentResult",
+      "resultWrapper": null
+    },
+    "DeleteAssociation": {
+      "shape": "DeleteAssociationResult",
+      "resultWrapper": null
+    },
+    "DeleteDocument": {
+      "shape": "DeleteDocumentResult",
+      "resultWrapper": null
+    },
+    "DeleteParameter": {
+      "shape": "DeleteParameterResult",
+      "resultWrapper": null
+    },
+    "DeleteParameters": {
+      "shape": "DeleteParametersResult",
+      "resultWrapper": null
+    },
+    "DeleteResourcePolicy": {
+      "shape": "DeleteResourcePolicyResponse",
+      "resultWrapper": null
+    },
+    "DescribeAssociation": {
+      "shape": "DescribeAssociationResult",
+      "resultWrapper": null
+    },
+    "DescribeDocument": {
+      "shape": "DescribeDocumentResult",
+      "resultWrapper": null
+    },
+    "DescribeDocumentPermission": {
+      "shape": "DescribeDocumentPermissionResponse",
+      "resultWrapper": null
+    },
+    "DescribeInstanceInformation": {
+      "shape": "DescribeInstanceInformationResult",
+      "resultWrapper": null
+    },
+    "DescribeMaintenanceWindows": {
+      "shape": "DescribeMaintenanceWindowsResult",
+      "resultWrapper": null
+    },
+    "DescribeParameters": {
+      "shape": "DescribeParametersResult",
+      "resultWrapper": null
+    },
+    "DescribePatchBaselines": {
+      "shape": "DescribePatchBaselinesResult",
+      "resultWrapper": null
+    },
+    "GetCommandInvocation": {
+      "shape": "GetCommandInvocationResult",
+      "resultWrapper": null
+    },
+    "GetDefaultPatchBaseline": {
+      "shape": "GetDefaultPatchBaselineResult",
+      "resultWrapper": null
+    },
+    "GetDocument": {
+      "shape": "GetDocumentResult",
+      "resultWrapper": null
+    },
+    "GetParameter": {
+      "shape": "GetParameterResult",
+      "resultWrapper": null
+    },
+    "GetParameterHistory": {
+      "shape": "GetParameterHistoryResult",
+      "resultWrapper": null
+    },
+    "GetParameters": {
+      "shape": "GetParametersResult",
+      "resultWrapper": null
+    },
+    "GetParametersByPath": {
+      "shape": "GetParametersByPathResult",
+      "resultWrapper": null
+    },
+    "GetResourcePolicies": {
+      "shape": "GetResourcePoliciesResponse",
+      "resultWrapper": null
+    },
+    "GetServiceSetting": {
+      "shape": "GetServiceSettingResult",
+      "resultWrapper": null
+    },
+    "LabelParameterVersion": {
+      "shape": "LabelParameterVersionResult",
+      "resultWrapper": null
+    },
+    "ListAssociations": {
+      "shape": "ListAssociationsResult",
+      "resultWrapper": null
+    },
+    "ListCommandInvocations": {
+      "shape": "ListCommandInvocationsResult",
+      "resultWrapper": null
+    },
+    "ListCommands": {
+      "shape": "ListCommandsResult",
+      "resultWrapper": null
+    },
+    "ListDocuments": {
+      "shape": "ListDocumentsResult",
+      "resultWrapper": null
+    },
+    "ListTagsForResource": {
+      "shape": "ListTagsForResourceResult",
+      "resultWrapper": null
+    },
+    "ModifyDocumentPermission": {
+      "shape": "ModifyDocumentPermissionResponse",
+      "resultWrapper": null
+    },
+    "PutParameter": {
+      "shape": "PutParameterResult",
+      "resultWrapper": null
+    },
+    "PutResourcePolicy": {
+      "shape": "PutResourcePolicyResponse",
+      "resultWrapper": null
+    },
+    "RemoveTagsFromResource": {
+      "shape": "RemoveTagsFromResourceResult",
+      "resultWrapper": null
+    },
+    "ResetServiceSetting": {
+      "shape": "ResetServiceSettingResult",
+      "resultWrapper": null
+    },
+    "SendCommand": {
+      "shape": "SendCommandResult",
+      "resultWrapper": null
+    },
+    "UnlabelParameterVersion": {
+      "shape": "UnlabelParameterVersionResult",
+      "resultWrapper": null
+    },
+    "UpdateAssociation": {
+      "shape": "UpdateAssociationResult",
+      "resultWrapper": null
+    },
+    "UpdateDocument": {
+      "shape": "UpdateDocumentResult",
+      "resultWrapper": null
+    },
+    "UpdateServiceSetting": {
+      "shape": "UpdateServiceSettingResult",
+      "resultWrapper": null
+    }
+  },
+  "shapes": {
+    "Account": {
+      "type": "string"
+    },
+    "AccountId": {
+      "type": "string"
+    },
+    "AccountIdList": {
+      "type": "list",
+      "member": "AccountId"
+    },
+    "AccountSharingInfo": {
+      "type": "structure",
+      "members": {
+        "AccountId": "AccountId",
+        "SharedDocumentVersion": "SharedDocumentVersion"
+      }
+    },
+    "AccountSharingInfoList": {
+      "type": "list",
+      "member": "AccountSharingInfo"
+    },
+    "Accounts": {
+      "type": "list",
+      "member": "Account"
+    },
+    "ActivationId": {
+      "type": "string"
+    },
+    "AddTagsToResourceRequest": {
+      "type": "structure",
+      "members": {
+        "ResourceType": "ResourceTypeForTagging",
+        "ResourceId": "ResourceId",
+        "Tags": "TagList"
+      }
+    },
+    "AddTagsToResourceResult": {
+      "type": "structure",
+      "members": {}
+    },
+    "Alarm": {
+      "type": "structure",
+      "members": {
+        "Name": "AlarmName"
+      }
+    },
+    "AlarmConfiguration": {
+      "type": "structure",
+      "members": {
+        "IgnorePollAlarmFailure": "Boolean",
+        "Alarms": "AlarmList"
+      }
+    },
+    "AlarmList": {
+      "type": "list",
+      "member": "Alarm"
+    },
+    "AlarmName": {
+      "type": "string"
+    },
+    "AlarmStateInformation": {
+      "type": "structure",
+      "members": {
+        "Name": "AlarmName",
+        "State": "ExternalAlarmState"
+      }
+    },
+    "AlarmStateInformationList": {
+      "type": "list",
+      "member": "AlarmStateInformation"
+    },
+    "AllowedPattern": {
+      "type": "string"
+    },
+    "ApplyOnlyAtCronInterval": {
+      "type": "boolean"
+    },
+    "Association": {
+      "type": "structure",
+      "members": {
+        "Name": "DocumentARN",
+        "InstanceId": "InstanceId",
+        "AssociationId": "AssociationId",
+        "AssociationVersion": "AssociationVersion",
+        "DocumentVersion": "DocumentVersion",
+        "Targets": "Targets",
+        "LastExecutionDate": "DateTime",
+        "Overview": "AssociationOverview",
+        "ScheduleExpression": "ScheduleExpression",
+        "AssociationName": "AssociationName",
+        "ScheduleOffset": "ScheduleOffset",
+        "Duration": "Duration",
+        "TargetMaps": "TargetMaps"
+      }
+    },
+    "AssociationComplianceSeverity": {
+      "type": "string"
+    },
+    "AssociationDescription": {
+      "type": "structure",
+      "members": {
+        "Name": "DocumentARN",
+        "InstanceId": "InstanceId",
+        "AssociationVersion": "AssociationVersion",
+        "Date": "DateTime",
+        "LastUpdateAssociationDate": "DateTime",
+        "Status": "AssociationStatus",
+        "Overview": "AssociationOverview",
+        "DocumentVersion": "DocumentVersion",
+        "AutomationTargetParameterName": "AutomationTargetParameterName",
+        "Parameters": "Parameters",
+        "AssociationId": "AssociationId",
+        "Targets": "Targets",
+        "ScheduleExpression": "ScheduleExpression",
+        "OutputLocation": "InstanceAssociationOutputLocation",
+        "LastExecutionDate": "DateTime",
+        "LastSuccessfulExecutionDate": "DateTime",
+        "AssociationName": "AssociationName",
+        "MaxErrors": "MaxErrors",
+        "MaxConcurrency": "MaxConcurrency",
+        "ComplianceSeverity": "AssociationComplianceSeverity",
+        "SyncCompliance": "AssociationSyncCompliance",
+        "ApplyOnlyAtCronInterval": "ApplyOnlyAtCronInterval",
+        "CalendarNames": "CalendarNameOrARNList",
+        "TargetLocations": "TargetLocations",
+        "ScheduleOffset": "ScheduleOffset",
+        "Duration": "Duration",
+        "TargetMaps": "TargetMaps",
+        "AlarmConfiguration": "AlarmConfiguration",
+        "TriggeredAlarms": "AlarmStateInformationList",
+        "AssociationDispatchAssumeRole": "AssociationDispatchAssumeRoleArn"
+      }
+    },
+    "AssociationDispatchAssumeRoleArn": {
+      "type": "string"
+    },
+    "AssociationFilter": {
+      "type": "structure",
+      "members": {
+        "key": "AssociationFilterKey",
+        "value": "AssociationFilterValue"
+      }
+    },
+    "AssociationFilterKey": {
+      "type": "string"
+    },
+    "AssociationFilterList": {
+      "type": "list",
+      "member": "AssociationFilter"
+    },
+    "AssociationFilterValue": {
+      "type": "string"
+    },
+    "AssociationId": {
+      "type": "string"
+    },
+    "AssociationList": {
+      "type": "list",
+      "member": "Association"
+    },
+    "AssociationName": {
+      "type": "string"
+    },
+    "AssociationOverview": {
+      "type": "structure",
+      "members": {
+        "Status": "StatusName",
+        "DetailedStatus": "StatusName",
+        "AssociationStatusAggregatedCount": "AssociationStatusAggregatedCount"
+      }
+    },
+    "AssociationStatus": {
+      "type": "structure",
+      "members": {
+        "Date": "DateTime",
+        "Name": "AssociationStatusName",
+        "Message": "StatusMessage",
+        "AdditionalInfo": "StatusAdditionalInfo"
+      }
+    },
+    "AssociationStatusAggregatedCount": {
+      "type": "map",
+      "value": "InstanceCount"
+    },
+    "AssociationStatusName": {
+      "type": "string"
+    },
+    "AssociationSyncCompliance": {
+      "type": "string"
+    },
+    "AssociationVersion": {
+      "type": "string"
+    },
+    "AttachmentContent": {
+      "type": "structure",
+      "members": {
+        "Name": "AttachmentName",
+        "Size": "ContentLength",
+        "Hash": "AttachmentHash",
+        "HashType": "AttachmentHashType",
+        "Url": "AttachmentUrl"
+      }
+    },
+    "AttachmentContentList": {
+      "type": "list",
+      "member": "AttachmentContent"
+    },
+    "AttachmentHash": {
+      "type": "string"
+    },
+    "AttachmentHashType": {
+      "type": "string"
+    },
+    "AttachmentIdentifier": {
+      "type": "string"
+    },
+    "AttachmentInformation": {
+      "type": "structure",
+      "members": {
+        "Name": "AttachmentName"
+      }
+    },
+    "AttachmentInformationList": {
+      "type": "list",
+      "member": "AttachmentInformation"
+    },
+    "AttachmentName": {
+      "type": "string"
+    },
+    "AttachmentUrl": {
+      "type": "string"
+    },
+    "AttachmentsSource": {
+      "type": "structure",
+      "members": {
+        "Key": "AttachmentsSourceKey",
+        "Values": "AttachmentsSourceValues",
+        "Name": "AttachmentIdentifier"
+      }
+    },
+    "AttachmentsSourceKey": {
+      "type": "string"
+    },
+    "AttachmentsSourceList": {
+      "type": "list",
+      "member": "AttachmentsSource"
+    },
+    "AttachmentsSourceValue": {
+      "type": "string"
+    },
+    "AttachmentsSourceValues": {
+      "type": "list",
+      "member": "AttachmentsSourceValue"
+    },
+    "AutomationTargetParameterName": {
+      "type": "string"
+    },
+    "AutomationTargets": {
+      "type": "list",
+      "member": "Target"
+    },
+    "BaselineDescription": {
+      "type": "string"
+    },
+    "BaselineId": {
+      "type": "string"
+    },
+    "BaselineName": {
+      "type": "string"
+    },
+    "Boolean": {
+      "type": "boolean"
+    },
+    "CalendarNameOrARN": {
+      "type": "string"
+    },
+    "CalendarNameOrARNList": {
+      "type": "list",
+      "member": "CalendarNameOrARN"
+    },
+    "CancelCommandRequest": {
+      "type": "structure",
+      "members": {
+        "CommandId": "CommandId",
+        "InstanceIds": "InstanceIdList"
+      }
+    },
+    "CancelCommandResult": {
+      "type": "structure",
+      "members": {}
+    },
+    "Category": {
+      "type": "string"
+    },
+    "CategoryEnumList": {
+      "type": "list",
+      "member": "Category"
+    },
+    "CategoryList": {
+      "type": "list",
+      "member": "Category"
+    },
+    "CloudProvider": {
+      "type": "string"
+    },
+    "CloudProviderList": {
+      "type": "list",
+      "member": "CloudProvider"
+    },
+    "CloudWatchLogGroupName": {
+      "type": "string"
+    },
+    "CloudWatchOutputConfig": {
+      "type": "structure",
+      "members": {
+        "CloudWatchLogGroupName": "CloudWatchLogGroupName",
+        "CloudWatchOutputEnabled": "CloudWatchOutputEnabled"
+      }
+    },
+    "CloudWatchOutputEnabled": {
+      "type": "boolean"
+    },
+    "Command": {
+      "type": "structure",
+      "members": {
+        "CommandId": "CommandId",
+        "DocumentName": "DocumentName",
+        "DocumentVersion": "DocumentVersion",
+        "Comment": "Comment",
+        "ExpiresAfter": "DateTime",
+        "Parameters": "Parameters",
+        "InstanceIds": "InstanceIdList",
+        "Targets": "Targets",
+        "RequestedDateTime": "DateTime",
+        "Status": "CommandStatus",
+        "StatusDetails": "StatusDetails",
+        "OutputS3Region": "S3Region",
+        "OutputS3BucketName": "S3BucketName",
+        "OutputS3KeyPrefix": "S3KeyPrefix",
+        "MaxConcurrency": "MaxConcurrency",
+        "MaxErrors": "MaxErrors",
+        "TargetCount": "TargetCount",
+        "CompletedCount": "CompletedCount",
+        "ErrorCount": "ErrorCount",
+        "DeliveryTimedOutCount": "DeliveryTimedOutCount",
+        "ServiceRole": "ServiceRole",
+        "NotificationConfig": "NotificationConfig",
+        "CloudWatchOutputConfig": "CloudWatchOutputConfig",
+        "TimeoutSeconds": "TimeoutSeconds",
+        "AlarmConfiguration": "AlarmConfiguration",
+        "TriggeredAlarms": "AlarmStateInformationList"
+      }
+    },
+    "CommandFilter": {
+      "type": "structure",
+      "members": {
+        "key": "CommandFilterKey",
+        "value": "CommandFilterValue"
+      }
+    },
+    "CommandFilterKey": {
+      "type": "string"
+    },
+    "CommandFilterList": {
+      "type": "list",
+      "member": "CommandFilter"
+    },
+    "CommandFilterValue": {
+      "type": "string"
+    },
+    "CommandId": {
+      "type": "string"
+    },
+    "CommandInvocation": {
+      "type": "structure",
+      "members": {
+        "CommandId": "CommandId",
+        "InstanceId": "InstanceId",
+        "InstanceName": "InstanceTagName",
+        "Comment": "Comment",
+        "DocumentName": "DocumentName",
+        "DocumentVersion": "DocumentVersion",
+        "RequestedDateTime": "DateTime",
+        "Status": "CommandInvocationStatus",
+        "StatusDetails": "StatusDetails",
+        "TraceOutput": "InvocationTraceOutput",
+        "StandardOutputUrl": "Url",
+        "StandardErrorUrl": "Url",
+        "CommandPlugins": "CommandPluginList",
+        "ServiceRole": "ServiceRole",
+        "NotificationConfig": "NotificationConfig",
+        "CloudWatchOutputConfig": "CloudWatchOutputConfig"
+      }
+    },
+    "CommandInvocationList": {
+      "type": "list",
+      "member": "CommandInvocation"
+    },
+    "CommandInvocationStatus": {
+      "type": "string"
+    },
+    "CommandList": {
+      "type": "list",
+      "member": "Command"
+    },
+    "CommandMaxResults": {
+      "type": "integer"
+    },
+    "CommandPlugin": {
+      "type": "structure",
+      "members": {
+        "Name": "CommandPluginName",
+        "Status": "CommandPluginStatus",
+        "StatusDetails": "StatusDetails",
+        "ResponseCode": "ResponseCode",
+        "ResponseStartDateTime": "DateTime",
+        "ResponseFinishDateTime": "DateTime",
+        "Output": "CommandPluginOutput",
+        "StandardOutputUrl": "Url",
+        "StandardErrorUrl": "Url",
+        "OutputS3Region": "S3Region",
+        "OutputS3BucketName": "S3BucketName",
+        "OutputS3KeyPrefix": "S3KeyPrefix"
+      }
+    },
+    "CommandPluginList": {
+      "type": "list",
+      "member": "CommandPlugin"
+    },
+    "CommandPluginName": {
+      "type": "string"
+    },
+    "CommandPluginOutput": {
+      "type": "string"
+    },
+    "CommandPluginStatus": {
+      "type": "string"
+    },
+    "CommandStatus": {
+      "type": "string"
+    },
+    "Comment": {
+      "type": "string"
+    },
+    "CompletedCount": {
+      "type": "integer"
+    },
+    "ComputerName": {
+      "type": "string"
+    },
+    "ContentLength": {
+      "type": "long"
+    },
+    "CreateAssociationRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "DocumentARN",
+        "DocumentVersion": "DocumentVersion",
+        "InstanceId": "InstanceId",
+        "Parameters": "Parameters",
+        "Targets": "Targets",
+        "ScheduleExpression": "ScheduleExpression",
+        "OutputLocation": "InstanceAssociationOutputLocation",
+        "AssociationName": "AssociationName",
+        "AutomationTargetParameterName": "AutomationTargetParameterName",
+        "MaxErrors": "MaxErrors",
+        "MaxConcurrency": "MaxConcurrency",
+        "ComplianceSeverity": "AssociationComplianceSeverity",
+        "SyncCompliance": "AssociationSyncCompliance",
+        "ApplyOnlyAtCronInterval": "ApplyOnlyAtCronInterval",
+        "CalendarNames": "CalendarNameOrARNList",
+        "TargetLocations": "TargetLocations",
+        "ScheduleOffset": "ScheduleOffset",
+        "Duration": "Duration",
+        "TargetMaps": "TargetMaps",
+        "Tags": "TagList",
+        "AlarmConfiguration": "AlarmConfiguration",
+        "AssociationDispatchAssumeRole": "AssociationDispatchAssumeRoleArn"
+      }
+    },
+    "CreateAssociationResult": {
+      "type": "structure",
+      "members": {
+        "AssociationDescription": "AssociationDescription"
+      }
+    },
+    "CreateDocumentRequest": {
+      "type": "structure",
+      "members": {
+        "Content": "DocumentContent",
+        "Requires": "DocumentRequiresList",
+        "Attachments": "AttachmentsSourceList",
+        "Name": "DocumentName",
+        "DisplayName": "DocumentDisplayName",
+        "VersionName": "DocumentVersionName",
+        "DocumentType": "DocumentType",
+        "DocumentFormat": "DocumentFormat",
+        "TargetType": "TargetType",
+        "Tags": "TagList",
+        "CloudProviders": "CloudProviderList"
+      }
+    },
+    "CreateDocumentResult": {
+      "type": "structure",
+      "members": {
+        "DocumentDescription": "DocumentDescription"
+      }
+    },
+    "DateTime": {
+      "type": "timestamp"
+    },
+    "DefaultBaseline": {
+      "type": "boolean"
+    },
+    "DeleteAssociationRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "DocumentARN",
+        "InstanceId": "InstanceId",
+        "AssociationId": "AssociationId"
+      }
+    },
+    "DeleteAssociationResult": {
+      "type": "structure",
+      "members": {}
+    },
+    "DeleteDocumentRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "DocumentName",
+        "DocumentVersion": "DocumentVersion",
+        "VersionName": "DocumentVersionName",
+        "Force": "Boolean"
+      }
+    },
+    "DeleteDocumentResult": {
+      "type": "structure",
+      "members": {}
+    },
+    "DeleteParameterRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "PSParameterName"
+      }
+    },
+    "DeleteParameterResult": {
+      "type": "structure",
+      "members": {}
+    },
+    "DeleteParametersRequest": {
+      "type": "structure",
+      "members": {
+        "Names": "ParameterNameList"
+      }
+    },
+    "DeleteParametersResult": {
+      "type": "structure",
+      "members": {
+        "DeletedParameters": "ParameterNameList",
+        "InvalidParameters": "ParameterNameList"
+      }
+    },
+    "DeleteResourcePolicyRequest": {
+      "type": "structure",
+      "members": {
+        "ResourceArn": "ResourceArnString",
+        "PolicyId": "PolicyId",
+        "PolicyHash": "PolicyHash",
+        "DeletionMode": "DeletionMode"
+      }
+    },
+    "DeleteResourcePolicyResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "DeletionMode": {
+      "type": "string"
+    },
+    "DeliveryTimedOutCount": {
+      "type": "integer"
+    },
+    "DescribeAssociationRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "DocumentARN",
+        "InstanceId": "InstanceId",
+        "AssociationId": "AssociationId",
+        "AssociationVersion": "AssociationVersion"
+      }
+    },
+    "DescribeAssociationResult": {
+      "type": "structure",
+      "members": {
+        "AssociationDescription": "AssociationDescription"
+      }
+    },
+    "DescribeDocumentPermissionRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "DocumentName",
+        "PermissionType": "DocumentPermissionType",
+        "MaxResults": "DocumentPermissionMaxResults",
+        "NextToken": "NextToken"
+      }
+    },
+    "DescribeDocumentPermissionResponse": {
+      "type": "structure",
+      "members": {
+        "AccountIds": "AccountIdList",
+        "AccountSharingInfoList": "AccountSharingInfoList",
+        "NextToken": "NextToken"
+      }
+    },
+    "DescribeDocumentRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "DocumentARN",
+        "DocumentVersion": "DocumentVersion",
+        "VersionName": "DocumentVersionName"
+      }
+    },
+    "DescribeDocumentResult": {
+      "type": "structure",
+      "members": {
+        "Document": "DocumentDescription"
+      }
+    },
+    "DescribeInstanceInformationRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceInformationFilterList": "InstanceInformationFilterList",
+        "Filters": "InstanceInformationStringFilterList",
+        "MaxResults": "MaxResultsEC2Compatible",
+        "NextToken": "NextToken"
+      }
+    },
+    "DescribeInstanceInformationResult": {
+      "type": "structure",
+      "members": {
+        "InstanceInformationList": "InstanceInformationList",
+        "NextToken": "NextToken"
+      }
+    },
+    "DescribeMaintenanceWindowsRequest": {
+      "type": "structure",
+      "members": {
+        "Filters": "MaintenanceWindowFilterList",
+        "MaxResults": "MaintenanceWindowMaxResults",
+        "NextToken": "NextToken"
+      }
+    },
+    "DescribeMaintenanceWindowsResult": {
+      "type": "structure",
+      "members": {
+        "WindowIdentities": "MaintenanceWindowIdentityList",
+        "NextToken": "NextToken"
+      }
+    },
+    "DescribeParametersRequest": {
+      "type": "structure",
+      "members": {
+        "Filters": "ParametersFilterList",
+        "ParameterFilters": "ParameterStringFilterList",
+        "MaxResults": "MaxResults",
+        "NextToken": "NextToken",
+        "Shared": "Boolean"
+      }
+    },
+    "DescribeParametersResult": {
+      "type": "structure",
+      "members": {
+        "Parameters": "ParameterMetadataList",
+        "NextToken": "NextToken"
+      }
+    },
+    "DescribePatchBaselinesRequest": {
+      "type": "structure",
+      "members": {
+        "Filters": "PatchOrchestratorFilterList",
+        "MaxResults": "PatchBaselineMaxResults",
+        "NextToken": "NextToken"
+      }
+    },
+    "DescribePatchBaselinesResult": {
+      "type": "structure",
+      "members": {
+        "BaselineIdentities": "PatchBaselineIdentityList",
+        "NextToken": "NextToken"
+      }
+    },
+    "DescriptionInDocument": {
+      "type": "string"
+    },
+    "DocumentARN": {
+      "type": "string"
+    },
+    "DocumentAuthor": {
+      "type": "string"
+    },
+    "DocumentContent": {
+      "type": "string"
+    },
+    "DocumentDescription": {
+      "type": "structure",
+      "members": {
+        "Sha1": "DocumentSha1",
+        "Hash": "DocumentHash",
+        "HashType": "DocumentHashType",
+        "Name": "DocumentARN",
+        "DisplayName": "DocumentDisplayName",
+        "VersionName": "DocumentVersionName",
+        "Owner": "DocumentOwner",
+        "CreatedDate": "DateTime",
+        "Status": "DocumentStatus",
+        "StatusInformation": "DocumentStatusInformation",
+        "DocumentVersion": "DocumentVersion",
+        "Description": "DescriptionInDocument",
+        "Parameters": "DocumentParameterList",
+        "PlatformTypes": "PlatformTypeList",
+        "DocumentType": "DocumentType",
+        "SchemaVersion": "DocumentSchemaVersion",
+        "LatestVersion": "DocumentVersion",
+        "DefaultVersion": "DocumentVersion",
+        "DocumentFormat": "DocumentFormat",
+        "TargetType": "TargetType",
+        "Tags": "TagList",
+        "AttachmentsInformation": "AttachmentInformationList",
+        "Requires": "DocumentRequiresList",
+        "Author": "DocumentAuthor",
+        "ReviewInformation": "ReviewInformationList",
+        "ApprovedVersion": "DocumentVersion",
+        "PendingReviewVersion": "DocumentVersion",
+        "ReviewStatus": "ReviewStatus",
+        "Category": "CategoryList",
+        "CategoryEnum": "CategoryEnumList",
+        "CloudProviders": "CloudProviderList"
+      }
+    },
+    "DocumentDisplayName": {
+      "type": "string"
+    },
+    "DocumentFilter": {
+      "type": "structure",
+      "members": {
+        "key": "DocumentFilterKey",
+        "value": "DocumentFilterValue"
+      }
+    },
+    "DocumentFilterKey": {
+      "type": "string"
+    },
+    "DocumentFilterList": {
+      "type": "list",
+      "member": "DocumentFilter"
+    },
+    "DocumentFilterValue": {
+      "type": "string"
+    },
+    "DocumentFormat": {
+      "type": "string"
+    },
+    "DocumentHash": {
+      "type": "string"
+    },
+    "DocumentHashType": {
+      "type": "string"
+    },
+    "DocumentIdentifier": {
+      "type": "structure",
+      "members": {
+        "Name": "DocumentARN",
+        "CreatedDate": "DateTime",
+        "DisplayName": "DocumentDisplayName",
+        "Owner": "DocumentOwner",
+        "VersionName": "DocumentVersionName",
+        "PlatformTypes": "PlatformTypeList",
+        "DocumentVersion": "DocumentVersion",
+        "DocumentType": "DocumentType",
+        "SchemaVersion": "DocumentSchemaVersion",
+        "DocumentFormat": "DocumentFormat",
+        "TargetType": "TargetType",
+        "Tags": "TagList",
+        "Requires": "DocumentRequiresList",
+        "ReviewStatus": "ReviewStatus",
+        "Author": "DocumentAuthor",
+        "CloudProviders": "CloudProviderList"
+      }
+    },
+    "DocumentIdentifierList": {
+      "type": "list",
+      "member": "DocumentIdentifier"
+    },
+    "DocumentKeyValuesFilter": {
+      "type": "structure",
+      "members": {
+        "Key": "DocumentKeyValuesFilterKey",
+        "Values": "DocumentKeyValuesFilterValues"
+      }
+    },
+    "DocumentKeyValuesFilterKey": {
+      "type": "string"
+    },
+    "DocumentKeyValuesFilterList": {
+      "type": "list",
+      "member": "DocumentKeyValuesFilter"
+    },
+    "DocumentKeyValuesFilterValue": {
+      "type": "string"
+    },
+    "DocumentKeyValuesFilterValues": {
+      "type": "list",
+      "member": "DocumentKeyValuesFilterValue"
+    },
+    "DocumentName": {
+      "type": "string"
+    },
+    "DocumentOwner": {
+      "type": "string"
+    },
+    "DocumentParameter": {
+      "type": "structure",
+      "members": {
+        "Name": "DocumentParameterName",
+        "Type": "DocumentParameterType",
+        "Description": "DocumentParameterDescrption",
+        "DefaultValue": "DocumentParameterDefaultValue"
+      }
+    },
+    "DocumentParameterDefaultValue": {
+      "type": "string"
+    },
+    "DocumentParameterDescrption": {
+      "type": "string"
+    },
+    "DocumentParameterList": {
+      "type": "list",
+      "member": "DocumentParameter"
+    },
+    "DocumentParameterName": {
+      "type": "string"
+    },
+    "DocumentParameterType": {
+      "type": "string"
+    },
+    "DocumentPermissionMaxResults": {
+      "type": "integer"
+    },
+    "DocumentPermissionType": {
+      "type": "string"
+    },
+    "DocumentRequires": {
+      "type": "structure",
+      "members": {
+        "Name": "DocumentARN",
+        "Version": "DocumentVersion",
+        "RequireType": "RequireType",
+        "VersionName": "DocumentVersionName"
+      }
+    },
+    "DocumentRequiresList": {
+      "type": "list",
+      "member": "DocumentRequires"
+    },
+    "DocumentSchemaVersion": {
+      "type": "string"
+    },
+    "DocumentSha1": {
+      "type": "string"
+    },
+    "DocumentStatus": {
+      "type": "string"
+    },
+    "DocumentStatusInformation": {
+      "type": "string"
+    },
+    "DocumentType": {
+      "type": "string"
+    },
+    "DocumentVersion": {
+      "type": "string"
+    },
+    "DocumentVersionName": {
+      "type": "string"
+    },
+    "Duration": {
+      "type": "integer"
+    },
+    "ErrorCount": {
+      "type": "integer"
+    },
+    "ExcludeAccount": {
+      "type": "string"
+    },
+    "ExcludeAccounts": {
+      "type": "list",
+      "member": "ExcludeAccount"
+    },
+    "ExecutionRoleName": {
+      "type": "string"
+    },
+    "ExternalAlarmState": {
+      "type": "string"
+    },
+    "GetCommandInvocationRequest": {
+      "type": "structure",
+      "members": {
+        "CommandId": "CommandId",
+        "InstanceId": "InstanceId",
+        "PluginName": "CommandPluginName"
+      }
+    },
+    "GetCommandInvocationResult": {
+      "type": "structure",
+      "members": {
+        "CommandId": "CommandId",
+        "InstanceId": "InstanceId",
+        "Comment": "Comment",
+        "DocumentName": "DocumentName",
+        "DocumentVersion": "DocumentVersion",
+        "PluginName": "CommandPluginName",
+        "ResponseCode": "ResponseCode",
+        "ExecutionStartDateTime": "StringDateTime",
+        "ExecutionElapsedTime": "StringDateTime",
+        "ExecutionEndDateTime": "StringDateTime",
+        "Status": "CommandInvocationStatus",
+        "StatusDetails": "StatusDetails",
+        "StandardOutputContent": "StandardOutputContent",
+        "StandardOutputUrl": "Url",
+        "StandardErrorContent": "StandardErrorContent",
+        "StandardErrorUrl": "Url",
+        "CloudWatchOutputConfig": "CloudWatchOutputConfig"
+      }
+    },
+    "GetDefaultPatchBaselineRequest": {
+      "type": "structure",
+      "members": {
+        "OperatingSystem": "OperatingSystem"
+      }
+    },
+    "GetDefaultPatchBaselineResult": {
+      "type": "structure",
+      "members": {
+        "BaselineId": "BaselineId",
+        "OperatingSystem": "OperatingSystem"
+      }
+    },
+    "GetDocumentRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "DocumentARN",
+        "VersionName": "DocumentVersionName",
+        "DocumentVersion": "DocumentVersion",
+        "DocumentFormat": "DocumentFormat"
+      }
+    },
+    "GetDocumentResult": {
+      "type": "structure",
+      "members": {
+        "Name": "DocumentARN",
+        "CreatedDate": "DateTime",
+        "DisplayName": "DocumentDisplayName",
+        "VersionName": "DocumentVersionName",
+        "DocumentVersion": "DocumentVersion",
+        "Status": "DocumentStatus",
+        "StatusInformation": "DocumentStatusInformation",
+        "Content": "DocumentContent",
+        "DocumentType": "DocumentType",
+        "DocumentFormat": "DocumentFormat",
+        "Requires": "DocumentRequiresList",
+        "AttachmentsContent": "AttachmentContentList",
+        "ReviewStatus": "ReviewStatus"
+      }
+    },
+    "GetParameterHistoryRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "PSParameterName",
+        "WithDecryption": "Boolean",
+        "MaxResults": "MaxResults",
+        "NextToken": "NextToken"
+      }
+    },
+    "GetParameterHistoryResult": {
+      "type": "structure",
+      "members": {
+        "Parameters": "ParameterHistoryList",
+        "NextToken": "NextToken"
+      }
+    },
+    "GetParameterRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "PSParameterName",
+        "WithDecryption": "Boolean"
+      }
+    },
+    "GetParameterResult": {
+      "type": "structure",
+      "members": {
+        "Parameter": "Parameter"
+      }
+    },
+    "GetParametersByPathMaxResults": {
+      "type": "integer"
+    },
+    "GetParametersByPathRequest": {
+      "type": "structure",
+      "members": {
+        "Path": "PSParameterName",
+        "Recursive": "Boolean",
+        "ParameterFilters": "ParameterStringFilterList",
+        "WithDecryption": "Boolean",
+        "MaxResults": "GetParametersByPathMaxResults",
+        "NextToken": "NextToken"
+      }
+    },
+    "GetParametersByPathResult": {
+      "type": "structure",
+      "members": {
+        "Parameters": "ParameterList",
+        "NextToken": "NextToken"
+      }
+    },
+    "GetParametersRequest": {
+      "type": "structure",
+      "members": {
+        "Names": "ParameterNameList",
+        "WithDecryption": "Boolean"
+      }
+    },
+    "GetParametersResult": {
+      "type": "structure",
+      "members": {
+        "Parameters": "ParameterList",
+        "InvalidParameters": "ParameterNameList"
+      }
+    },
+    "GetResourcePoliciesRequest": {
+      "type": "structure",
+      "members": {
+        "ResourceArn": "ResourceArnString",
+        "NextToken": "String",
+        "MaxResults": "ResourcePolicyMaxResults"
+      }
+    },
+    "GetResourcePoliciesResponse": {
+      "type": "structure",
+      "members": {
+        "NextToken": "String",
+        "Policies": "GetResourcePoliciesResponseEntries"
+      }
+    },
+    "GetResourcePoliciesResponseEntries": {
+      "type": "list",
+      "member": "GetResourcePoliciesResponseEntry"
+    },
+    "GetResourcePoliciesResponseEntry": {
+      "type": "structure",
+      "members": {
+        "PolicyId": "PolicyId",
+        "PolicyHash": "PolicyHash",
+        "Policy": "Policy"
+      }
+    },
+    "GetServiceSettingRequest": {
+      "type": "structure",
+      "members": {
+        "SettingId": "ServiceSettingId"
+      }
+    },
+    "GetServiceSettingResult": {
+      "type": "structure",
+      "members": {
+        "ServiceSetting": "ServiceSetting"
+      }
+    },
+    "IPAddress": {
+      "type": "string",
+      "sensitive": true
+    },
+    "IamRole": {
+      "type": "string"
+    },
+    "InstanceAggregatedAssociationOverview": {
+      "type": "structure",
+      "members": {
+        "DetailedStatus": "StatusName",
+        "InstanceAssociationStatusAggregatedCount": "InstanceAssociationStatusAggregatedCount"
+      }
+    },
+    "InstanceAssociationOutputLocation": {
+      "type": "structure",
+      "members": {
+        "S3Location": "S3OutputLocation"
+      }
+    },
+    "InstanceAssociationStatusAggregatedCount": {
+      "type": "map",
+      "value": "InstanceCount"
+    },
+    "InstanceCount": {
+      "type": "integer"
+    },
+    "InstanceId": {
+      "type": "string"
+    },
+    "InstanceIdList": {
+      "type": "list",
+      "member": "InstanceId"
+    },
+    "InstanceInformation": {
+      "type": "structure",
+      "members": {
+        "InstanceId": "InstanceId",
+        "PingStatus": "PingStatus",
+        "LastPingDateTime": "DateTime",
+        "AgentVersion": "Version",
+        "IsLatestVersion": "Boolean",
+        "PlatformType": "PlatformType",
+        "PlatformName": "String",
+        "PlatformVersion": "String",
+        "ActivationId": "ActivationId",
+        "IamRole": "IamRole",
+        "RegistrationDate": "DateTime",
+        "ResourceType": "ResourceType",
+        "Name": "String",
+        "IPAddress": "IPAddress",
+        "ComputerName": "ComputerName",
+        "AssociationStatus": "StatusName",
+        "LastAssociationExecutionDate": "DateTime",
+        "LastSuccessfulAssociationExecutionDate": "DateTime",
+        "AssociationOverview": "InstanceAggregatedAssociationOverview",
+        "SourceId": "SourceId",
+        "SourceType": "SourceType",
+        "SourceLocation": "SourceLocation"
+      }
+    },
+    "InstanceInformationFilter": {
+      "type": "structure",
+      "members": {
+        "key": "InstanceInformationFilterKey",
+        "valueSet": "InstanceInformationFilterValueSet"
+      }
+    },
+    "InstanceInformationFilterKey": {
+      "type": "string"
+    },
+    "InstanceInformationFilterList": {
+      "type": "list",
+      "member": "InstanceInformationFilter"
+    },
+    "InstanceInformationFilterValue": {
+      "type": "string"
+    },
+    "InstanceInformationFilterValueSet": {
+      "type": "list",
+      "member": "InstanceInformationFilterValue"
+    },
+    "InstanceInformationList": {
+      "type": "list",
+      "member": "InstanceInformation"
+    },
+    "InstanceInformationStringFilter": {
+      "type": "structure",
+      "members": {
+        "Key": "InstanceInformationStringFilterKey",
+        "Values": "InstanceInformationFilterValueSet"
+      }
+    },
+    "InstanceInformationStringFilterKey": {
+      "type": "string"
+    },
+    "InstanceInformationStringFilterList": {
+      "type": "list",
+      "member": "InstanceInformationStringFilter"
+    },
+    "InstanceTagName": {
+      "type": "string"
+    },
+    "InvocationTraceOutput": {
+      "type": "string"
+    },
+    "KeyList": {
+      "type": "list",
+      "member": "TagKey"
+    },
+    "LabelParameterVersionRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "PSParameterName",
+        "ParameterVersion": "PSParameterVersion",
+        "Labels": "ParameterLabelList"
+      }
+    },
+    "LabelParameterVersionResult": {
+      "type": "structure",
+      "members": {
+        "InvalidLabels": "ParameterLabelList",
+        "ParameterVersion": "PSParameterVersion"
+      }
+    },
+    "ListAssociationsRequest": {
+      "type": "structure",
+      "members": {
+        "AssociationFilterList": "AssociationFilterList",
+        "MaxResults": "MaxResults",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListAssociationsResult": {
+      "type": "structure",
+      "members": {
+        "Associations": "AssociationList",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListCommandInvocationsRequest": {
+      "type": "structure",
+      "members": {
+        "CommandId": "CommandId",
+        "InstanceId": "InstanceId",
+        "MaxResults": "CommandMaxResults",
+        "NextToken": "NextToken",
+        "Filters": "CommandFilterList",
+        "Details": "Boolean"
+      }
+    },
+    "ListCommandInvocationsResult": {
+      "type": "structure",
+      "members": {
+        "CommandInvocations": "CommandInvocationList",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListCommandsRequest": {
+      "type": "structure",
+      "members": {
+        "CommandId": "CommandId",
+        "InstanceId": "InstanceId",
+        "MaxResults": "CommandMaxResults",
+        "NextToken": "NextToken",
+        "Filters": "CommandFilterList"
+      }
+    },
+    "ListCommandsResult": {
+      "type": "structure",
+      "members": {
+        "Commands": "CommandList",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListDocumentsRequest": {
+      "type": "structure",
+      "members": {
+        "DocumentFilterList": "DocumentFilterList",
+        "Filters": "DocumentKeyValuesFilterList",
+        "MaxResults": "MaxResults",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListDocumentsResult": {
+      "type": "structure",
+      "members": {
+        "DocumentIdentifiers": "DocumentIdentifierList",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListTagsForResourceRequest": {
+      "type": "structure",
+      "members": {
+        "ResourceType": "ResourceTypeForTagging",
+        "ResourceId": "ResourceId"
+      }
+    },
+    "ListTagsForResourceResult": {
+      "type": "structure",
+      "members": {
+        "TagList": "TagList"
+      }
+    },
+    "MaintenanceWindowCutoff": {
+      "type": "integer"
+    },
+    "MaintenanceWindowDescription": {
+      "type": "string",
+      "sensitive": true
+    },
+    "MaintenanceWindowDurationHours": {
+      "type": "integer"
+    },
+    "MaintenanceWindowEnabled": {
+      "type": "boolean"
+    },
+    "MaintenanceWindowFilter": {
+      "type": "structure",
+      "members": {
+        "Key": "MaintenanceWindowFilterKey",
+        "Values": "MaintenanceWindowFilterValues"
+      }
+    },
+    "MaintenanceWindowFilterKey": {
+      "type": "string"
+    },
+    "MaintenanceWindowFilterList": {
+      "type": "list",
+      "member": "MaintenanceWindowFilter"
+    },
+    "MaintenanceWindowFilterValue": {
+      "type": "string"
+    },
+    "MaintenanceWindowFilterValues": {
+      "type": "list",
+      "member": "MaintenanceWindowFilterValue"
+    },
+    "MaintenanceWindowId": {
+      "type": "string"
+    },
+    "MaintenanceWindowIdentity": {
+      "type": "structure",
+      "members": {
+        "WindowId": "MaintenanceWindowId",
+        "Name": "MaintenanceWindowName",
+        "Description": "MaintenanceWindowDescription",
+        "Enabled": "MaintenanceWindowEnabled",
+        "Duration": "MaintenanceWindowDurationHours",
+        "Cutoff": "MaintenanceWindowCutoff",
+        "Schedule": "MaintenanceWindowSchedule",
+        "ScheduleTimezone": "MaintenanceWindowTimezone",
+        "ScheduleOffset": "MaintenanceWindowOffset",
+        "EndDate": "MaintenanceWindowStringDateTime",
+        "StartDate": "MaintenanceWindowStringDateTime",
+        "NextExecutionTime": "MaintenanceWindowStringDateTime"
+      }
+    },
+    "MaintenanceWindowIdentityList": {
+      "type": "list",
+      "member": "MaintenanceWindowIdentity"
+    },
+    "MaintenanceWindowMaxResults": {
+      "type": "integer"
+    },
+    "MaintenanceWindowName": {
+      "type": "string"
+    },
+    "MaintenanceWindowOffset": {
+      "type": "integer"
+    },
+    "MaintenanceWindowSchedule": {
+      "type": "string"
+    },
+    "MaintenanceWindowStringDateTime": {
+      "type": "string"
+    },
+    "MaintenanceWindowTimezone": {
+      "type": "string"
+    },
+    "MaxConcurrency": {
+      "type": "string"
+    },
+    "MaxErrors": {
+      "type": "string"
+    },
+    "MaxResults": {
+      "type": "integer"
+    },
+    "MaxResultsEC2Compatible": {
+      "type": "integer"
+    },
+    "ModifyDocumentPermissionRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "DocumentName",
+        "PermissionType": "DocumentPermissionType",
+        "AccountIdsToAdd": "AccountIdList",
+        "AccountIdsToRemove": "AccountIdList",
+        "SharedDocumentVersion": "SharedDocumentVersion"
+      }
+    },
+    "ModifyDocumentPermissionResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "NextToken": {
+      "type": "string"
+    },
+    "NotificationArn": {
+      "type": "string"
+    },
+    "NotificationConfig": {
+      "type": "structure",
+      "members": {
+        "NotificationArn": "NotificationArn",
+        "NotificationEvents": "NotificationEventList",
+        "NotificationType": "NotificationType"
+      }
+    },
+    "NotificationEvent": {
+      "type": "string"
+    },
+    "NotificationEventList": {
+      "type": "list",
+      "member": "NotificationEvent"
+    },
+    "NotificationType": {
+      "type": "string"
+    },
+    "OperatingSystem": {
+      "type": "string"
+    },
+    "PSParameterName": {
+      "type": "string"
+    },
+    "PSParameterSelector": {
+      "type": "string"
+    },
+    "PSParameterValue": {
+      "type": "string",
+      "sensitive": true
+    },
+    "PSParameterVersion": {
+      "type": "long"
+    },
+    "Parameter": {
+      "type": "structure",
+      "members": {
+        "Name": "PSParameterName",
+        "Type": "ParameterType",
+        "Value": "PSParameterValue",
+        "Version": "PSParameterVersion",
+        "Selector": "PSParameterSelector",
+        "SourceResult": "String",
+        "LastModifiedDate": "DateTime",
+        "ARN": "String",
+        "DataType": "ParameterDataType"
+      }
+    },
+    "ParameterDataType": {
+      "type": "string"
+    },
+    "ParameterDescription": {
+      "type": "string"
+    },
+    "ParameterHistory": {
+      "type": "structure",
+      "members": {
+        "Name": "PSParameterName",
+        "Type": "ParameterType",
+        "KeyId": "ParameterKeyId",
+        "LastModifiedDate": "DateTime",
+        "LastModifiedUser": "String",
+        "Description": "ParameterDescription",
+        "Value": "PSParameterValue",
+        "AllowedPattern": "AllowedPattern",
+        "Version": "PSParameterVersion",
+        "Labels": "ParameterLabelList",
+        "Tier": "ParameterTier",
+        "Policies": "ParameterPolicyList",
+        "DataType": "ParameterDataType"
+      }
+    },
+    "ParameterHistoryList": {
+      "type": "list",
+      "member": "ParameterHistory"
+    },
+    "ParameterInlinePolicy": {
+      "type": "structure",
+      "members": {
+        "PolicyText": "String",
+        "PolicyType": "String",
+        "PolicyStatus": "String"
+      }
+    },
+    "ParameterKeyId": {
+      "type": "string"
+    },
+    "ParameterLabel": {
+      "type": "string"
+    },
+    "ParameterLabelList": {
+      "type": "list",
+      "member": "ParameterLabel"
+    },
+    "ParameterList": {
+      "type": "list",
+      "member": "Parameter"
+    },
+    "ParameterMetadata": {
+      "type": "structure",
+      "members": {
+        "Name": "PSParameterName",
+        "ARN": "String",
+        "Type": "ParameterType",
+        "KeyId": "ParameterKeyId",
+        "LastModifiedDate": "DateTime",
+        "LastModifiedUser": "String",
+        "Description": "ParameterDescription",
+        "AllowedPattern": "AllowedPattern",
+        "Version": "PSParameterVersion",
+        "Tier": "ParameterTier",
+        "Policies": "ParameterPolicyList",
+        "DataType": "ParameterDataType"
+      }
+    },
+    "ParameterMetadataList": {
+      "type": "list",
+      "member": "ParameterMetadata"
+    },
+    "ParameterNameList": {
+      "type": "list",
+      "member": "PSParameterName"
+    },
+    "ParameterPolicies": {
+      "type": "string"
+    },
+    "ParameterPolicyList": {
+      "type": "list",
+      "member": "ParameterInlinePolicy"
+    },
+    "ParameterStringFilter": {
+      "type": "structure",
+      "members": {
+        "Key": "ParameterStringFilterKey",
+        "Option": "ParameterStringQueryOption",
+        "Values": "ParameterStringFilterValueList"
+      }
+    },
+    "ParameterStringFilterKey": {
+      "type": "string"
+    },
+    "ParameterStringFilterList": {
+      "type": "list",
+      "member": "ParameterStringFilter"
+    },
+    "ParameterStringFilterValue": {
+      "type": "string"
+    },
+    "ParameterStringFilterValueList": {
+      "type": "list",
+      "member": "ParameterStringFilterValue"
+    },
+    "ParameterStringQueryOption": {
+      "type": "string"
+    },
+    "ParameterTier": {
+      "type": "string"
+    },
+    "ParameterType": {
+      "type": "string"
+    },
+    "ParameterValue": {
+      "type": "string"
+    },
+    "ParameterValueList": {
+      "type": "list",
+      "member": "ParameterValue"
+    },
+    "Parameters": {
+      "type": "map",
+      "sensitive": true,
+      "value": "ParameterValueList"
+    },
+    "ParametersFilter": {
+      "type": "structure",
+      "members": {
+        "Key": "ParametersFilterKey",
+        "Values": "ParametersFilterValueList"
+      }
+    },
+    "ParametersFilterKey": {
+      "type": "string"
+    },
+    "ParametersFilterList": {
+      "type": "list",
+      "member": "ParametersFilter"
+    },
+    "ParametersFilterValue": {
+      "type": "string"
+    },
+    "ParametersFilterValueList": {
+      "type": "list",
+      "member": "ParametersFilterValue"
+    },
+    "PatchBaselineIdentity": {
+      "type": "structure",
+      "members": {
+        "BaselineId": "BaselineId",
+        "BaselineName": "BaselineName",
+        "OperatingSystem": "OperatingSystem",
+        "BaselineDescription": "BaselineDescription",
+        "DefaultBaseline": "DefaultBaseline"
+      }
+    },
+    "PatchBaselineIdentityList": {
+      "type": "list",
+      "member": "PatchBaselineIdentity"
+    },
+    "PatchBaselineMaxResults": {
+      "type": "integer"
+    },
+    "PatchOrchestratorFilter": {
+      "type": "structure",
+      "members": {
+        "Key": "PatchOrchestratorFilterKey",
+        "Values": "PatchOrchestratorFilterValues"
+      }
+    },
+    "PatchOrchestratorFilterKey": {
+      "type": "string"
+    },
+    "PatchOrchestratorFilterList": {
+      "type": "list",
+      "member": "PatchOrchestratorFilter"
+    },
+    "PatchOrchestratorFilterValue": {
+      "type": "string"
+    },
+    "PatchOrchestratorFilterValues": {
+      "type": "list",
+      "member": "PatchOrchestratorFilterValue"
+    },
+    "PingStatus": {
+      "type": "string"
+    },
+    "PlatformType": {
+      "type": "string"
+    },
+    "PlatformTypeList": {
+      "type": "list",
+      "member": "PlatformType"
+    },
+    "Policy": {
+      "type": "string"
+    },
+    "PolicyHash": {
+      "type": "string"
+    },
+    "PolicyId": {
+      "type": "string"
+    },
+    "PutParameterRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "PSParameterName",
+        "Description": "ParameterDescription",
+        "Value": "PSParameterValue",
+        "Type": "ParameterType",
+        "KeyId": "ParameterKeyId",
+        "Overwrite": "Boolean",
+        "AllowedPattern": "AllowedPattern",
+        "Tags": "TagList",
+        "Tier": "ParameterTier",
+        "Policies": "ParameterPolicies",
+        "DataType": "ParameterDataType"
+      }
+    },
+    "PutParameterResult": {
+      "type": "structure",
+      "members": {
+        "Version": "PSParameterVersion",
+        "Tier": "ParameterTier"
+      }
+    },
+    "PutResourcePolicyRequest": {
+      "type": "structure",
+      "members": {
+        "ResourceArn": "ResourceArnString",
+        "Policy": "Policy",
+        "PolicyId": "PolicyId",
+        "PolicyHash": "PolicyHash"
+      }
+    },
+    "PutResourcePolicyResponse": {
+      "type": "structure",
+      "members": {
+        "PolicyId": "PolicyId",
+        "PolicyHash": "PolicyHash"
+      }
+    },
+    "Region": {
+      "type": "string"
+    },
+    "Regions": {
+      "type": "list",
+      "member": "Region"
+    },
+    "RemoveTagsFromResourceRequest": {
+      "type": "structure",
+      "members": {
+        "ResourceType": "ResourceTypeForTagging",
+        "ResourceId": "ResourceId",
+        "TagKeys": "KeyList"
+      }
+    },
+    "RemoveTagsFromResourceResult": {
+      "type": "structure",
+      "members": {}
+    },
+    "RequireType": {
+      "type": "string"
+    },
+    "ResetServiceSettingRequest": {
+      "type": "structure",
+      "members": {
+        "SettingId": "ServiceSettingId"
+      }
+    },
+    "ResetServiceSettingResult": {
+      "type": "structure",
+      "members": {
+        "ServiceSetting": "ServiceSetting"
+      }
+    },
+    "ResourceArnString": {
+      "type": "string"
+    },
+    "ResourceId": {
+      "type": "string"
+    },
+    "ResourcePolicyMaxResults": {
+      "type": "integer"
+    },
+    "ResourceType": {
+      "type": "string"
+    },
+    "ResourceTypeForTagging": {
+      "type": "string"
+    },
+    "ResponseCode": {
+      "type": "integer"
+    },
+    "ReviewInformation": {
+      "type": "structure",
+      "members": {
+        "ReviewedTime": "DateTime",
+        "Status": "ReviewStatus",
+        "Reviewer": "Reviewer"
+      }
+    },
+    "ReviewInformationList": {
+      "type": "list",
+      "member": "ReviewInformation"
+    },
+    "ReviewStatus": {
+      "type": "string"
+    },
+    "Reviewer": {
+      "type": "string"
+    },
+    "S3BucketName": {
+      "type": "string"
+    },
+    "S3KeyPrefix": {
+      "type": "string"
+    },
+    "S3OutputLocation": {
+      "type": "structure",
+      "members": {
+        "OutputS3Region": "S3Region",
+        "OutputS3BucketName": "S3BucketName",
+        "OutputS3KeyPrefix": "S3KeyPrefix"
+      }
+    },
+    "S3Region": {
+      "type": "string"
+    },
+    "ScheduleExpression": {
+      "type": "string"
+    },
+    "ScheduleOffset": {
+      "type": "integer"
+    },
+    "SendCommandRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceIds": "InstanceIdList",
+        "Targets": "Targets",
+        "DocumentName": "DocumentARN",
+        "DocumentVersion": "DocumentVersion",
+        "DocumentHash": "DocumentHash",
+        "DocumentHashType": "DocumentHashType",
+        "TimeoutSeconds": "TimeoutSeconds",
+        "Comment": "Comment",
+        "Parameters": "Parameters",
+        "OutputS3Region": "S3Region",
+        "OutputS3BucketName": "S3BucketName",
+        "OutputS3KeyPrefix": "S3KeyPrefix",
+        "MaxConcurrency": "MaxConcurrency",
+        "MaxErrors": "MaxErrors",
+        "ServiceRoleArn": "ServiceRole",
+        "NotificationConfig": "NotificationConfig",
+        "CloudWatchOutputConfig": "CloudWatchOutputConfig",
+        "AlarmConfiguration": "AlarmConfiguration"
+      }
+    },
+    "SendCommandResult": {
+      "type": "structure",
+      "members": {
+        "Command": "Command"
+      }
+    },
+    "ServiceRole": {
+      "type": "string"
+    },
+    "ServiceSetting": {
+      "type": "structure",
+      "members": {
+        "SettingId": "ServiceSettingId",
+        "SettingValue": "ServiceSettingValue",
+        "LastModifiedDate": "DateTime",
+        "LastModifiedUser": "String",
+        "ARN": "String",
+        "Status": "String"
+      }
+    },
+    "ServiceSettingId": {
+      "type": "string"
+    },
+    "ServiceSettingValue": {
+      "type": "string"
+    },
+    "SharedDocumentVersion": {
+      "type": "string"
+    },
+    "SourceId": {
+      "type": "string"
+    },
+    "SourceLocation": {
+      "type": "string"
+    },
+    "SourceType": {
+      "type": "string"
+    },
+    "StandardErrorContent": {
+      "type": "string"
+    },
+    "StandardOutputContent": {
+      "type": "string"
+    },
+    "StatusAdditionalInfo": {
+      "type": "string"
+    },
+    "StatusDetails": {
+      "type": "string"
+    },
+    "StatusMessage": {
+      "type": "string"
+    },
+    "StatusName": {
+      "type": "string"
+    },
+    "String": {
+      "type": "string"
+    },
+    "StringDateTime": {
+      "type": "string"
+    },
+    "Tag": {
+      "type": "structure",
+      "members": {
+        "Key": "TagKey",
+        "Value": "TagValue"
+      }
+    },
+    "TagKey": {
+      "type": "string"
+    },
+    "TagList": {
+      "type": "list",
+      "member": "Tag"
+    },
+    "TagValue": {
+      "type": "string"
+    },
+    "Target": {
+      "type": "structure",
+      "members": {
+        "Key": "TargetKey",
+        "Values": "TargetValues"
+      }
+    },
+    "TargetCount": {
+      "type": "integer"
+    },
+    "TargetKey": {
+      "type": "string"
+    },
+    "TargetLocation": {
+      "type": "structure",
+      "members": {
+        "Accounts": "Accounts",
+        "Regions": "Regions",
+        "TargetLocationMaxConcurrency": "MaxConcurrency",
+        "TargetLocationMaxErrors": "MaxErrors",
+        "ExecutionRoleName": "ExecutionRoleName",
+        "TargetLocationAlarmConfiguration": "AlarmConfiguration",
+        "IncludeChildOrganizationUnits": "Boolean",
+        "ExcludeAccounts": "ExcludeAccounts",
+        "Targets": "AutomationTargets",
+        "TargetsMaxConcurrency": "MaxConcurrency",
+        "TargetsMaxErrors": "MaxErrors"
+      }
+    },
+    "TargetLocations": {
+      "type": "list",
+      "member": "TargetLocation"
+    },
+    "TargetMap": {
+      "type": "map",
+      "value": "TargetMapValueList"
+    },
+    "TargetMapValue": {
+      "type": "string"
+    },
+    "TargetMapValueList": {
+      "type": "list",
+      "member": "TargetMapValue"
+    },
+    "TargetMaps": {
+      "type": "list",
+      "member": "TargetMap"
+    },
+    "TargetType": {
+      "type": "string"
+    },
+    "TargetValue": {
+      "type": "string"
+    },
+    "TargetValues": {
+      "type": "list",
+      "member": "TargetValue"
+    },
+    "Targets": {
+      "type": "list",
+      "member": "Target"
+    },
+    "TimeoutSeconds": {
+      "type": "integer"
+    },
+    "UnlabelParameterVersionRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "PSParameterName",
+        "ParameterVersion": "PSParameterVersion",
+        "Labels": "ParameterLabelList"
+      }
+    },
+    "UnlabelParameterVersionResult": {
+      "type": "structure",
+      "members": {
+        "RemovedLabels": "ParameterLabelList",
+        "InvalidLabels": "ParameterLabelList"
+      }
+    },
+    "UpdateAssociationRequest": {
+      "type": "structure",
+      "members": {
+        "AssociationId": "AssociationId",
+        "Parameters": "Parameters",
+        "DocumentVersion": "DocumentVersion",
+        "ScheduleExpression": "ScheduleExpression",
+        "OutputLocation": "InstanceAssociationOutputLocation",
+        "Name": "DocumentARN",
+        "Targets": "Targets",
+        "AssociationName": "AssociationName",
+        "AssociationVersion": "AssociationVersion",
+        "AutomationTargetParameterName": "AutomationTargetParameterName",
+        "MaxErrors": "MaxErrors",
+        "MaxConcurrency": "MaxConcurrency",
+        "ComplianceSeverity": "AssociationComplianceSeverity",
+        "SyncCompliance": "AssociationSyncCompliance",
+        "ApplyOnlyAtCronInterval": "ApplyOnlyAtCronInterval",
+        "CalendarNames": "CalendarNameOrARNList",
+        "TargetLocations": "TargetLocations",
+        "ScheduleOffset": "ScheduleOffset",
+        "Duration": "Duration",
+        "TargetMaps": "TargetMaps",
+        "AlarmConfiguration": "AlarmConfiguration",
+        "AssociationDispatchAssumeRole": "AssociationDispatchAssumeRoleArn"
+      }
+    },
+    "UpdateAssociationResult": {
+      "type": "structure",
+      "members": {
+        "AssociationDescription": "AssociationDescription"
+      }
+    },
+    "UpdateDocumentRequest": {
+      "type": "structure",
+      "members": {
+        "Content": "DocumentContent",
+        "Attachments": "AttachmentsSourceList",
+        "Name": "DocumentName",
+        "DisplayName": "DocumentDisplayName",
+        "VersionName": "DocumentVersionName",
+        "DocumentVersion": "DocumentVersion",
+        "DocumentFormat": "DocumentFormat",
+        "TargetType": "TargetType",
+        "CloudProviders": "CloudProviderList"
+      }
+    },
+    "UpdateDocumentResult": {
+      "type": "structure",
+      "members": {
+        "DocumentDescription": "DocumentDescription"
+      }
+    },
+    "UpdateServiceSettingRequest": {
+      "type": "structure",
+      "members": {
+        "SettingId": "ServiceSettingId",
+        "SettingValue": "ServiceSettingValue"
+      }
+    },
+    "UpdateServiceSettingResult": {
+      "type": "structure",
+      "members": {}
+    },
+    "Url": {
+      "type": "string"
+    },
+    "Version": {
+      "type": "string"
+    }
+  },
+  "errors": {
+    "AccessDeniedException": "AccessDeniedException",
+    "AlreadyExistsException": "AlreadyExistsException",
+    "AssociatedInstances": "AssociatedInstances",
+    "AssociationAlreadyExists": "AssociationAlreadyExists",
+    "AssociationDoesNotExist": "AssociationDoesNotExist",
+    "AssociationExecutionDoesNotExist": "AssociationExecutionDoesNotExist",
+    "AssociationLimitExceeded": "AssociationLimitExceeded",
+    "AssociationVersionLimitExceeded": "AssociationVersionLimitExceeded",
+    "AutomationDefinitionNotApprovedException": "AutomationDefinitionNotApprovedException",
+    "AutomationDefinitionNotFoundException": "AutomationDefinitionNotFoundException",
+    "AutomationDefinitionVersionNotFoundException": "AutomationDefinitionVersionNotFoundException",
+    "AutomationExecutionLimitExceededException": "AutomationExecutionLimitExceededException",
+    "AutomationExecutionNotFoundException": "AutomationExecutionNotFoundException",
+    "AutomationStepNotFoundException": "AutomationStepNotFoundException",
+    "ComplianceTypeCountLimitExceededException": "ComplianceTypeCountLimitExceededException",
+    "ConflictException": "ConflictException",
+    "CustomSchemaCountLimitExceededException": "CustomSchemaCountLimitExceededException",
+    "DocumentAlreadyExists": "DocumentAlreadyExists",
+    "DocumentLimitExceeded": "DocumentLimitExceeded",
+    "DocumentPermissionLimit": "DocumentPermissionLimit",
+    "DocumentVersionLimitExceeded": "DocumentVersionLimitExceeded",
+    "DoesNotExistException": "DoesNotExistException",
+    "DuplicateDocumentContent": "DuplicateDocumentContent",
+    "DuplicateDocumentVersionName": "DuplicateDocumentVersionName",
+    "DuplicateInstanceId": "DuplicateInstanceId",
+    "FeatureNotAvailableException": "FeatureNotAvailableException",
+    "HierarchyLevelLimitExceededException": "HierarchyLevelLimitExceededException",
+    "HierarchyTypeMismatchException": "HierarchyTypeMismatchException",
+    "IdempotentParameterMismatch": "IdempotentParameterMismatch",
+    "IncompatiblePolicyException": "IncompatiblePolicyException",
+    "InternalServerError": "InternalServerError",
+    "InvalidActivation": "InvalidActivation",
+    "InvalidActivationId": "InvalidActivationId",
+    "InvalidAggregatorException": "InvalidAggregatorException",
+    "InvalidAllowedPatternException": "InvalidAllowedPatternException",
+    "InvalidAssociation": "InvalidAssociation",
+    "InvalidAssociationVersion": "InvalidAssociationVersion",
+    "InvalidAutomationExecutionParametersException": "InvalidAutomationExecutionParametersException",
+    "InvalidAutomationSignalException": "InvalidAutomationSignalException",
+    "InvalidAutomationStatusUpdateException": "InvalidAutomationStatusUpdateException",
+    "InvalidCommandId": "InvalidCommandId",
+    "InvalidDeleteInventoryParametersException": "InvalidDeleteInventoryParametersException",
+    "InvalidDeletionIdException": "InvalidDeletionIdException",
+    "InvalidDocument": "InvalidDocument",
+    "InvalidDocumentContent": "InvalidDocumentContent",
+    "InvalidDocumentOperation": "InvalidDocumentOperation",
+    "InvalidDocumentSchemaVersion": "InvalidDocumentSchemaVersion",
+    "InvalidDocumentType": "InvalidDocumentType",
+    "InvalidDocumentVersion": "InvalidDocumentVersion",
+    "InvalidFilter": "InvalidFilter",
+    "InvalidFilterKey": "InvalidFilterKey",
+    "InvalidFilterOption": "InvalidFilterOption",
+    "InvalidFilterValue": "InvalidFilterValue",
+    "InvalidInstanceId": "InvalidInstanceId",
+    "InvalidInstanceInformationFilterValue": "InvalidInstanceInformationFilterValue",
+    "InvalidInstancePropertyFilterValue": "InvalidInstancePropertyFilterValue",
+    "InvalidInventoryGroupException": "InvalidInventoryGroupException",
+    "InvalidInventoryItemContextException": "InvalidInventoryItemContextException",
+    "InvalidInventoryRequestException": "InvalidInventoryRequestException",
+    "InvalidItemContentException": "InvalidItemContentException",
+    "InvalidKeyId": "InvalidKeyId",
+    "InvalidNextToken": "InvalidNextToken",
+    "InvalidNotificationConfig": "InvalidNotificationConfig",
+    "InvalidOptionException": "InvalidOptionException",
+    "InvalidOutputFolder": "InvalidOutputFolder",
+    "InvalidOutputLocation": "InvalidOutputLocation",
+    "InvalidParameters": "InvalidParameters",
+    "InvalidPermissionType": "InvalidPermissionType",
+    "InvalidPluginName": "InvalidPluginName",
+    "InvalidPolicyAttributeException": "InvalidPolicyAttributeException",
+    "InvalidPolicyTypeException": "InvalidPolicyTypeException",
+    "InvalidResourceId": "InvalidResourceId",
+    "InvalidResourceType": "InvalidResourceType",
+    "InvalidResultAttributeException": "InvalidResultAttributeException",
+    "InvalidRole": "InvalidRole",
+    "InvalidSchedule": "InvalidSchedule",
+    "InvalidTag": "InvalidTag",
+    "InvalidTarget": "InvalidTarget",
+    "InvalidTargetMaps": "InvalidTargetMaps",
+    "InvalidTypeNameException": "InvalidTypeNameException",
+    "InvalidUpdate": "InvalidUpdate",
+    "InvocationDoesNotExist": "InvocationDoesNotExist",
+    "ItemContentMismatchException": "ItemContentMismatchException",
+    "ItemSizeLimitExceededException": "ItemSizeLimitExceededException",
+    "MalformedResourcePolicyDocumentException": "MalformedResourcePolicyDocumentException",
+    "MaxDocumentSizeExceeded": "MaxDocumentSizeExceeded",
+    "NoLongerSupportedException": "NoLongerSupportedException",
+    "OpsItemAccessDeniedException": "OpsItemAccessDeniedException",
+    "OpsItemAlreadyExistsException": "OpsItemAlreadyExistsException",
+    "OpsItemConflictException": "OpsItemConflictException",
+    "OpsItemInvalidParameterException": "OpsItemInvalidParameterException",
+    "OpsItemLimitExceededException": "OpsItemLimitExceededException",
+    "OpsItemNotFoundException": "OpsItemNotFoundException",
+    "OpsItemRelatedItemAlreadyExistsException": "OpsItemRelatedItemAlreadyExistsException",
+    "OpsItemRelatedItemAssociationNotFoundException": "OpsItemRelatedItemAssociationNotFoundException",
+    "OpsMetadataAlreadyExistsException": "OpsMetadataAlreadyExistsException",
+    "OpsMetadataInvalidArgumentException": "OpsMetadataInvalidArgumentException",
+    "OpsMetadataKeyLimitExceededException": "OpsMetadataKeyLimitExceededException",
+    "OpsMetadataLimitExceededException": "OpsMetadataLimitExceededException",
+    "OpsMetadataNotFoundException": "OpsMetadataNotFoundException",
+    "OpsMetadataTooManyUpdatesException": "OpsMetadataTooManyUpdatesException",
+    "ParameterAlreadyExists": "ParameterAlreadyExists",
+    "ParameterLimitExceeded": "ParameterLimitExceeded",
+    "ParameterMaxVersionLimitExceeded": "ParameterMaxVersionLimitExceeded",
+    "ParameterNotFound": "ParameterNotFound",
+    "ParameterPatternMismatchException": "ParameterPatternMismatchException",
+    "ParameterVersionLabelLimitExceeded": "ParameterVersionLabelLimitExceeded",
+    "ParameterVersionNotFound": "ParameterVersionNotFound",
+    "PoliciesLimitExceededException": "PoliciesLimitExceededException",
+    "ResourceDataSyncAlreadyExistsException": "ResourceDataSyncAlreadyExistsException",
+    "ResourceDataSyncConflictException": "ResourceDataSyncConflictException",
+    "ResourceDataSyncCountExceededException": "ResourceDataSyncCountExceededException",
+    "ResourceDataSyncInvalidConfigurationException": "ResourceDataSyncInvalidConfigurationException",
+    "ResourceDataSyncNotFoundException": "ResourceDataSyncNotFoundException",
+    "ResourceInUseException": "ResourceInUseException",
+    "ResourceLimitExceededException": "ResourceLimitExceededException",
+    "ResourceNotFoundException": "ResourceNotFoundException",
+    "ResourcePolicyConflictException": "ResourcePolicyConflictException",
+    "ResourcePolicyInvalidParameterException": "ResourcePolicyInvalidParameterException",
+    "ResourcePolicyLimitExceededException": "ResourcePolicyLimitExceededException",
+    "ResourcePolicyNotFoundException": "ResourcePolicyNotFoundException",
+    "ServiceQuotaExceededException": "ServiceQuotaExceededException",
+    "ServiceSettingNotFound": "ServiceSettingNotFound",
+    "StatusUnchanged": "StatusUnchanged",
+    "SubTypeCountLimitExceededException": "SubTypeCountLimitExceededException",
+    "TargetInUseException": "TargetInUseException",
+    "TargetNotConnected": "TargetNotConnected",
+    "ThrottlingException": "ThrottlingException",
+    "TooManyTagsError": "TooManyTagsError",
+    "TooManyUpdates": "TooManyUpdates",
+    "TotalSizeLimitExceededException": "TotalSizeLimitExceededException",
+    "UnsupportedCalendarException": "UnsupportedCalendarException",
+    "UnsupportedFeatureRequiredException": "UnsupportedFeatureRequiredException",
+    "UnsupportedInventoryItemContextException": "UnsupportedInventoryItemContextException",
+    "UnsupportedInventorySchemaVersionException": "UnsupportedInventorySchemaVersionException",
+    "UnsupportedOperatingSystem": "UnsupportedOperatingSystem",
+    "UnsupportedOperationException": "UnsupportedOperationException",
+    "UnsupportedParameterType": "UnsupportedParameterType",
+    "UnsupportedPlatformType": "UnsupportedPlatformType",
+    "ValidationException": "ValidationException"
+  }
+}

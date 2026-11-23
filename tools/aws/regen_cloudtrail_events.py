@@ -30,6 +30,10 @@ carries, so it stays in SERVICES below, as the guide lists them:
   A record names most of them with the API version they are served under (`CreateFunction20150331`),
   which the file carries as `eventNames`: "the `eventName` might include date and version information,
   but it is still referring to the same public API action".
+- Systems Manager (https://docs.aws.amazon.com/systems-manager/latest/userguide/monitoring-cloudtrail-logs.html):
+  "Systems Manager logs all control plane operations to CloudTrail as management events", so every
+  operation of botocore's SSM model Floci serves. CreateControlChannel, OpenControlChannel and
+  RequestManagedInstanceRoleToken are data events.
 
 Which of them are read-only is the access level AWS's Service Reference gives each action, read as
 `regen_iam_action_resources.py` reads IAM's: an action with none of the Write, Permissions
@@ -258,6 +262,25 @@ SERVICES: dict[str, Service] = {
             "UpdateLogAnomalyDetector",
         ),
         read_only_anchors={"DescribeLogGroups": True, "DeleteLogGroup": False},
+    ),
+    "ssm": Service(
+        guide="https://docs.aws.amazon.com/systems-manager/latest/userguide/monitoring-cloudtrail-logs.html",
+        # Every control plane operation is a management event; these are the ones Floci serves
+        # (tools/aws/regen_ssm_cloudtrail_shapes.py vendors the same list's shapes).
+        management_events=(
+            "AddTagsToResource", "CancelCommand", "CreateAssociation", "CreateDocument", "DeleteAssociation",
+            "DeleteDocument", "DeleteParameter", "DeleteParameters", "DeleteResourcePolicy", "DescribeAssociation",
+            "DescribeDocument", "DescribeDocumentPermission", "DescribeInstanceInformation",
+            "DescribeMaintenanceWindows", "DescribeParameters", "DescribePatchBaselines", "GetCommandInvocation",
+            "GetDefaultPatchBaseline", "GetDocument", "GetParameter", "GetParameterHistory", "GetParameters",
+            "GetParametersByPath", "GetResourcePolicies", "GetServiceSetting", "LabelParameterVersion",
+            "ListAssociations", "ListCommandInvocations", "ListCommands", "ListDocuments", "ListTagsForResource",
+            "ModifyDocumentPermission", "PutParameter", "PutResourcePolicy", "RemoveTagsFromResource",
+            "ResetServiceSetting", "SendCommand", "UnlabelParameterVersion", "UpdateAssociation", "UpdateDocument",
+            "UpdateServiceSetting",
+        ),
+        read_only_anchors={"GetParameter": True, "GetCommandInvocation": True, "SendCommand": False,
+                           "ModifyDocumentPermission": False},
     ),
     "secretsmanager": Service(
         guide="https://docs.aws.amazon.com/secretsmanager/latest/userguide/cloudtrail_log_entries.html",

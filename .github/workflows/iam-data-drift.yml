@@ -53,6 +53,7 @@ on:
       - 'src/main/resources/aws/ec2-cloudtrail-events.json'
       - 'src/main/resources/aws/lambda-cloudtrail-events.json'
       - 'src/main/resources/aws/cloudwatch-cloudtrail-events.json'
+      - 'src/main/resources/aws/ssm-cloudtrail-events.json'
       - 'tools/aws/regen_cloudtrail_events.py'
       - 'tools/aws/test_regen_cloudtrail_events.py'
       - 'src/main/resources/aws/iam-authorized-actions.json'

@@ -278,12 +278,18 @@ public final class CloudTrailShapes {
     /**
      * How a service's CloudTrail records write the members of a JSON call, where they differ from
      * the call as sent: {@code omitBlobs} leaves out every binary member (KMS records no ciphertext,
-     * import token or signature), and {@code timestamps}, when set, writes a timestamp member in that
-     * format rather than as the epoch seconds sent.
+     * import token or signature), {@code timestamps}, when set, writes a timestamp member in that
+     * format rather than as the epoch seconds sent, and {@code hiddenSensitive}, when set, writes a
+     * sensitive member as that text rather than leaving it out.
      */
-    public record JsonStyle(boolean omitBlobs, DateTimeFormatter timestamps) {
+    public record JsonStyle(boolean omitBlobs, DateTimeFormatter timestamps, String hiddenSensitive) {
         /** The members as the call carried them. */
         public static final JsonStyle AS_SENT = new JsonStyle(false, null);
+
+        /** A style that leaves a sensitive member out. */
+        public JsonStyle(boolean omitBlobs, DateTimeFormatter timestamps) {
+            this(omitBlobs, timestamps, null);
+        }
     }
 
     private ObjectNode readJsonStructure(String shapeName, JsonNode value, JsonStyle style) {
@@ -296,8 +302,11 @@ public final class CloudTrailShapes {
 
     private JsonNode readJson(String shapeName, JsonNode value, JsonStyle style) {
         JsonNode shape = shapes.path(shapeName);
-        if (value == null || value.isNull() || shape.path("sensitive").asBoolean()) {
+        if (value == null || value.isNull()) {
             return null;
+        }
+        if (shape.path("sensitive").asBoolean()) {
+            return style.hiddenSensitive() == null ? null : MAPPER.getNodeFactory().textNode(style.hiddenSensitive());
         }
         return switch (shape.path("type").asText()) {
             case "blob" -> style.omitBlobs() ? null : value;

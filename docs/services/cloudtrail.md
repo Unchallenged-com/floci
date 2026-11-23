@@ -335,6 +335,33 @@ not recorded here.
 - A failed call keeps its members, under the code it answered (`ResourceNotFound`); a call IAM enforcement refuses is
   recorded as `AccessDenied` with `"requestParameters": null`.
 
+## Systems Manager Coverage
+
+"Systems Manager logs all control plane operations to CloudTrail as management events"
+([Systems Manager User Guide](https://docs.aws.amazon.com/systems-manager/latest/userguide/monitoring-cloudtrail-logs.html)),
+so every Systems Manager operation Floci serves is recorded (`ssm-cloudtrail-events.json`): one Systems Manager ran, one
+it answered with an error, and, with `floci.services.iam.enforcement-enabled`, one IAM enforcement refused.
+
+- `eventSource` is `ssm.amazonaws.com`. `readOnly` is `true` for the calls AWS's service reference
+  ([`ssm.json`](https://servicereference.us-east-1.amazonaws.com/v1/ssm/ssm.json)) gives no Write, Permissions
+  management or Tagging access level (`GetParameter`, `GetParameters`, `DescribeParameters`, `GetCommandInvocation`,
+  ...).
+- `requestParameters` and `responseElements` hold the request's and the result's members with a lower first letter,
+  typed as botocore's SSM model types them (`"instanceIds": [...]`, `"withDecryption": true`,
+  `ssm-cloudtrail-shapes.json`). A member the model marks sensitive is written `"HIDDEN_DUE_TO_SECURITY_REASONS"`, as
+  `SendCommand` records write its `parameters`: neither the commands a `SendCommand` runs nor the value a
+  `PutParameter` stores reaches a record. A timestamp is written as those records write one
+  (`"expiresAfter": "Aug 2, 2024, 11:08:56 AM"`).
+- `responseElements` is `null` for a read-only call, so no value a `GetParameter` or `GetParameters` decrypts is
+  recorded, for a call that answers nothing (`ModifyDocumentPermission`) and for a failed one.
+- A `GetParameters` record lists the parameters it read in `resources`, each by its `ARN` and `accountId`.
+- An error is recorded under its code (`ParameterNotFound`), with Systems Manager's message. A call IAM enforcement
+  refuses is recorded as `AccessDenied` with `"requestParameters": null` and the message its refusal answers with.
+
+Not recorded: the data events (`CreateControlChannel`, `OpenControlChannel`, `RequestManagedInstanceRoleToken`), the
+calls of the agent's own endpoints (`UpdateInstanceInformation`, `ec2messages`), and the members a record carries that
+the model does not (`SendCommand`'s `interactive`).
+
 ## EventBridge delivery
 
 "CloudTrail sends the following types of events to the default EventBridge event bus", the first of them
