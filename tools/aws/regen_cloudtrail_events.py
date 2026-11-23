@@ -21,6 +21,11 @@ carries, so it stays in SERVICES below, as the guide lists them:
 - EC2 (https://docs.aws.amazon.com/AWSEC2/latest/APIReference/using-cloudtrail.html): every EC2 API call
   is a management event, but an EC2 record's members follow EC2's own schema rather than botocore's,
   so Floci records only the calls whose record a recent capture shows (Ec2CloudTrailEvents).
+- Lambda (https://docs.aws.amazon.com/lambda/latest/dg/logging-using-cloudtrail.html): "Lambda supports
+  logging the following actions as management events in CloudTrail log files", followed by the list.
+  A record names most of them with the API version they are served under (`CreateFunction20150331`),
+  which the file carries as `eventNames`: "the `eventName` might include date and version information,
+  but it is still referring to the same public API action".
 
 Which of them are read-only is the access level AWS's Service Reference gives each action, read as
 `regen_iam_action_resources.py` reads IAM's: an action with none of the Write, Permissions
@@ -73,6 +78,8 @@ class Service:
     read_only_operations: tuple[str, ...] = ()
     # Calls the reference authorizes under other action names, rather than their own.
     reference_actions: dict[str, tuple[str, ...]] = field(default_factory=dict)
+    # The name a call's record gives it, where it is not the call's own.
+    event_names: dict[str, str] = field(default_factory=dict)
 
 
 SERVICES: dict[str, Service] = {
@@ -136,6 +143,72 @@ SERVICES: dict[str, Service] = {
         # "kms:ReEncryptTo permission on the destination KMS key"
         # (https://docs.aws.amazon.com/kms/latest/APIReference/API_ReEncrypt.html).
         reference_actions={"ReEncrypt": ("ReEncryptFrom", "ReEncryptTo")},
+    ),
+    "lambda": Service(
+        guide="https://docs.aws.amazon.com/lambda/latest/dg/logging-using-cloudtrail.html",
+        # The guide's list, but GetLayerVersionPolicy, whose event name no record shows: the guide names it
+        # without a version, as it does calls whose records carry one (GetFunction, AddLayerVersionPermission).
+        # With the calls the guide leaves out that records show as management events: one month of real logs
+        # (July 2025) counts GetAccountSettings20160819, GetEventSourceMapping20150331,
+        # GetFunctionCodeSigningConfig, GetFunctionEventInvokeConfig, ListAliases20150331, ListLayers20181031,
+        # ListTags20170331 and ListVersionsByFunction20150331, as an export of 849 management events
+        # (published July 2025) and a timeline of September 2026 (GetAccountSettings20160819) also name them.
+        management_events=(
+            "AddLayerVersionPermission", "AddPermission", "CreateAlias", "CreateEventSourceMapping",
+            "CreateFunction", "CreateFunctionUrlConfig", "DeleteAlias", "DeleteCodeSigningConfig",
+            "DeleteEventSourceMapping", "DeleteFunction", "DeleteFunctionConcurrency",
+            "DeleteFunctionUrlConfig", "DeleteProvisionedConcurrencyConfig", "GetAccountSettings", "GetAlias",
+            "GetEventSourceMapping", "GetFunction", "GetFunctionCodeSigningConfig", "GetFunctionConfiguration",
+            "GetFunctionEventInvokeConfig", "GetFunctionUrlConfig", "GetPolicy", "ListAliases",
+            "ListEventSourceMappings", "ListFunctionUrlConfigs", "ListFunctions", "ListLayers", "ListTags",
+            "ListVersionsByFunction", "PublishLayerVersion", "PublishVersion", "PutFunctionCodeSigningConfig",
+            "PutFunctionConcurrency", "PutFunctionEventInvokeConfig", "PutProvisionedConcurrencyConfig",
+            "PutRuntimeManagementConfig", "RemovePermission", "TagResource", "UntagResource", "UpdateAlias",
+            "UpdateCodeSigningConfig", "UpdateEventSourceMapping", "UpdateFunctionCode",
+            "UpdateFunctionConfiguration", "UpdateFunctionEventInvokeConfig", "UpdateFunctionUrlConfig",
+        ),
+        read_only_anchors={"GetFunction": True, "ListFunctions": True, "DeleteFunction": False},
+        # The guide's event names, and where a record shows otherwise, the record's: GetFunction,
+        # GetFunctionConfiguration and ListFunctions (2026 and July 2025), ListEventSourceMappings (July 2025),
+        # and AddLayerVersionPermission (2026), which the guide names without a version. GetPolicy is logged
+        # both as GetPolicy20150331v2 and GetPolicy20150331 (July 2025); the first is the one its 2020 records
+        # show for an API call. The
+        # calls the guide names without one and no record contradicts keep their own name, as the
+        # records of CreateFunctionUrlConfig (2026), GetFunctionCodeSigningConfig (2023) and
+        # GetFunctionEventInvokeConfig (2020) keep theirs.
+        event_names={
+            "AddLayerVersionPermission": "AddLayerVersionPermission20181031",
+            "AddPermission": "AddPermission20150331v2",
+            "CreateAlias": "CreateAlias20150331",
+            "CreateEventSourceMapping": "CreateEventSourceMapping20150331",
+            "CreateFunction": "CreateFunction20150331",
+            "DeleteAlias": "DeleteAlias20150331",
+            "DeleteEventSourceMapping": "DeleteEventSourceMapping20150331",
+            "DeleteFunction": "DeleteFunction20150331",
+            "DeleteFunctionConcurrency": "DeleteFunctionConcurrency20171031",
+            "GetAccountSettings": "GetAccountSettings20160819",
+            "GetAlias": "GetAlias20150331",
+            "GetEventSourceMapping": "GetEventSourceMapping20150331",
+            "GetFunction": "GetFunction20150331v2",
+            "GetFunctionConfiguration": "GetFunctionConfiguration20150331v2",
+            "GetPolicy": "GetPolicy20150331v2",
+            "ListAliases": "ListAliases20150331",
+            "ListEventSourceMappings": "ListEventSourceMappings20150331",
+            "ListFunctions": "ListFunctions20150331",
+            "ListLayers": "ListLayers20181031",
+            "ListTags": "ListTags20170331",
+            "ListVersionsByFunction": "ListVersionsByFunction20150331",
+            "PublishLayerVersion": "PublishLayerVersion20181031",
+            "PublishVersion": "PublishVersion20150331",
+            "PutFunctionConcurrency": "PutFunctionConcurrency20171031",
+            "RemovePermission": "RemovePermission20150331v2",
+            "TagResource": "TagResource20170331v2",
+            "UntagResource": "UntagResource20170331v2",
+            "UpdateAlias": "UpdateAlias20150331",
+            "UpdateEventSourceMapping": "UpdateEventSourceMapping20150331",
+            "UpdateFunctionCode": "UpdateFunctionCode20150331v2",
+            "UpdateFunctionConfiguration": "UpdateFunctionConfiguration20150331v2",
+        },
     ),
     "logs": Service(
         guide="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/logging_cw_api_calls_cwl.html",
@@ -223,6 +296,7 @@ def build(service: str, reference: dict, provenance: str) -> dict:
         },
         "managementEvents": sorted(spec.management_events),
         "readOnlyActions": sorted(name for name in spec.management_events if name in read_only),
+        **({"eventNames": dict(sorted(spec.event_names.items()))} if spec.event_names else {}),
     }
 
 
@@ -249,6 +323,12 @@ def validate(service: str, document: dict) -> list[str]:
     for action, expected in spec.read_only_anchors.items():
         if (action in read_only) != expected:
             problems.append(f"{action!r} should {'' if expected else 'not '}be read-only")
+    names = document.get("eventNames", {})
+    if names != dict(sorted(spec.event_names.items())):
+        problems.append("eventNames is not SERVICES' list, sorted")
+    for action in names:
+        if action not in events:
+            problems.append(f"eventNames names {action!r}, which is not a management event")
     return problems
 
 

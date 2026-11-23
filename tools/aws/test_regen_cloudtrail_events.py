@@ -89,3 +89,23 @@ def test_a_call_authorized_under_other_actions_is_verified_against_them():
     published = reference(*[(name, WRITE) for name in kms.management_events])
     document = r.build("kms", published, "test")
     assert any("'ReEncrypt'" in problem for problem in r.verify_against("kms", document, published))
+
+
+LAMBDA_READS = {"GetAlias", "GetFunction", "GetFunctionConfiguration", "GetFunctionUrlConfig", "GetPolicy",
+                "ListEventSourceMappings", "ListFunctionUrlConfigs", "ListFunctions"}
+LAMBDA_REFERENCE = reference(*[(name, READ if name in LAMBDA_READS else WRITE)
+                               for name in r.SERVICES["lambda"].management_events])
+
+
+def test_a_call_its_record_names_otherwise_carries_that_name():
+    document = r.build("lambda", LAMBDA_REFERENCE, "test")
+    assert document["eventNames"]["UpdateFunctionCode"] == "UpdateFunctionCode20150331v2"
+    assert "CreateFunctionUrlConfig" not in document["eventNames"]
+    assert r.validate("lambda", document) == []
+    assert "eventNames" not in r.build("sqs", SQS_REFERENCE, "test")
+
+
+def test_an_event_name_for_a_call_that_is_not_a_management_event_is_a_problem():
+    document = r.build("lambda", LAMBDA_REFERENCE, "test")
+    document["eventNames"] = dict(document["eventNames"], Invoke="Invoke20150331")
+    assert r.validate("lambda", document) != []

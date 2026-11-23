@@ -1,0 +1,2516 @@
+{
+  "_source": {
+    "generator": "tools/aws/regen_lambda_cloudtrail_shapes.py",
+    "botocore": "botocore 1.44.9 (installed package)"
+  },
+  "operations": {
+    "AddLayerVersionPermission": "AddLayerVersionPermissionRequest",
+    "AddPermission": "AddPermissionRequest",
+    "CreateAlias": "CreateAliasRequest",
+    "CreateEventSourceMapping": "CreateEventSourceMappingRequest",
+    "CreateFunction": "CreateFunctionRequest",
+    "CreateFunctionUrlConfig": "CreateFunctionUrlConfigRequest",
+    "DeleteAlias": "DeleteAliasRequest",
+    "DeleteCodeSigningConfig": "DeleteCodeSigningConfigRequest",
+    "DeleteEventSourceMapping": "DeleteEventSourceMappingRequest",
+    "DeleteFunction": "DeleteFunctionRequest",
+    "DeleteFunctionConcurrency": "DeleteFunctionConcurrencyRequest",
+    "DeleteFunctionUrlConfig": "DeleteFunctionUrlConfigRequest",
+    "DeleteProvisionedConcurrencyConfig": "DeleteProvisionedConcurrencyConfigRequest",
+    "GetAccountSettings": "GetAccountSettingsRequest",
+    "GetAlias": "GetAliasRequest",
+    "GetEventSourceMapping": "GetEventSourceMappingRequest",
+    "GetFunction": "GetFunctionRequest",
+    "GetFunctionCodeSigningConfig": "GetFunctionCodeSigningConfigRequest",
+    "GetFunctionConfiguration": "GetFunctionConfigurationRequest",
+    "GetFunctionEventInvokeConfig": "GetFunctionEventInvokeConfigRequest",
+    "GetFunctionUrlConfig": "GetFunctionUrlConfigRequest",
+    "GetPolicy": "GetPolicyRequest",
+    "ListAliases": "ListAliasesRequest",
+    "ListEventSourceMappings": "ListEventSourceMappingsRequest",
+    "ListFunctionUrlConfigs": "ListFunctionUrlConfigsRequest",
+    "ListFunctions": "ListFunctionsRequest",
+    "ListLayers": "ListLayersRequest",
+    "ListTags": "ListTagsRequest",
+    "ListVersionsByFunction": "ListVersionsByFunctionRequest",
+    "PublishLayerVersion": "PublishLayerVersionRequest",
+    "PublishVersion": "PublishVersionRequest",
+    "PutFunctionCodeSigningConfig": "PutFunctionCodeSigningConfigRequest",
+    "PutFunctionConcurrency": "PutFunctionConcurrencyRequest",
+    "PutFunctionEventInvokeConfig": "PutFunctionEventInvokeConfigRequest",
+    "PutProvisionedConcurrencyConfig": "PutProvisionedConcurrencyConfigRequest",
+    "PutRuntimeManagementConfig": "PutRuntimeManagementConfigRequest",
+    "RemovePermission": "RemovePermissionRequest",
+    "TagResource": "TagResourceRequest",
+    "UntagResource": "UntagResourceRequest",
+    "UpdateAlias": "UpdateAliasRequest",
+    "UpdateCodeSigningConfig": "UpdateCodeSigningConfigRequest",
+    "UpdateEventSourceMapping": "UpdateEventSourceMappingRequest",
+    "UpdateFunctionCode": "UpdateFunctionCodeRequest",
+    "UpdateFunctionConfiguration": "UpdateFunctionConfigurationRequest",
+    "UpdateFunctionEventInvokeConfig": "UpdateFunctionEventInvokeConfigRequest",
+    "UpdateFunctionUrlConfig": "UpdateFunctionUrlConfigRequest"
+  },
+  "results": {
+    "AddLayerVersionPermission": {
+      "shape": "AddLayerVersionPermissionResponse",
+      "resultWrapper": null
+    },
+    "AddPermission": {
+      "shape": "AddPermissionResponse",
+      "resultWrapper": null
+    },
+    "CreateAlias": {
+      "shape": "AliasConfiguration",
+      "resultWrapper": null
+    },
+    "CreateEventSourceMapping": {
+      "shape": "EventSourceMappingConfiguration",
+      "resultWrapper": null
+    },
+    "CreateFunction": {
+      "shape": "FunctionConfiguration",
+      "resultWrapper": null
+    },
+    "CreateFunctionUrlConfig": {
+      "shape": "CreateFunctionUrlConfigResponse",
+      "resultWrapper": null
+    },
+    "DeleteCodeSigningConfig": {
+      "shape": "DeleteCodeSigningConfigResponse",
+      "resultWrapper": null
+    },
+    "DeleteEventSourceMapping": {
+      "shape": "EventSourceMappingConfiguration",
+      "resultWrapper": null
+    },
+    "DeleteFunction": {
+      "shape": "DeleteFunctionResponse",
+      "resultWrapper": null
+    },
+    "GetAccountSettings": {
+      "shape": "GetAccountSettingsResponse",
+      "resultWrapper": null
+    },
+    "GetAlias": {
+      "shape": "AliasConfiguration",
+      "resultWrapper": null
+    },
+    "GetEventSourceMapping": {
+      "shape": "EventSourceMappingConfiguration",
+      "resultWrapper": null
+    },
+    "GetFunction": {
+      "shape": "GetFunctionResponse",
+      "resultWrapper": null
+    },
+    "GetFunctionCodeSigningConfig": {
+      "shape": "GetFunctionCodeSigningConfigResponse",
+      "resultWrapper": null
+    },
+    "GetFunctionConfiguration": {
+      "shape": "FunctionConfiguration",
+      "resultWrapper": null
+    },
+    "GetFunctionEventInvokeConfig": {
+      "shape": "FunctionEventInvokeConfig",
+      "resultWrapper": null
+    },
+    "GetFunctionUrlConfig": {
+      "shape": "GetFunctionUrlConfigResponse",
+      "resultWrapper": null
+    },
+    "GetPolicy": {
+      "shape": "GetPolicyResponse",
+      "resultWrapper": null
+    },
+    "ListAliases": {
+      "shape": "ListAliasesResponse",
+      "resultWrapper": null
+    },
+    "ListEventSourceMappings": {
+      "shape": "ListEventSourceMappingsResponse",
+      "resultWrapper": null
+    },
+    "ListFunctionUrlConfigs": {
+      "shape": "ListFunctionUrlConfigsResponse",
+      "resultWrapper": null
+    },
+    "ListFunctions": {
+      "shape": "ListFunctionsResponse",
+      "resultWrapper": null
+    },
+    "ListLayers": {
+      "shape": "ListLayersResponse",
+      "resultWrapper": null
+    },
+    "ListTags": {
+      "shape": "ListTagsResponse",
+      "resultWrapper": null
+    },
+    "ListVersionsByFunction": {
+      "shape": "ListVersionsByFunctionResponse",
+      "resultWrapper": null
+    },
+    "PublishLayerVersion": {
+      "shape": "PublishLayerVersionResponse",
+      "resultWrapper": null
+    },
+    "PublishVersion": {
+      "shape": "FunctionConfiguration",
+      "resultWrapper": null
+    },
+    "PutFunctionCodeSigningConfig": {
+      "shape": "PutFunctionCodeSigningConfigResponse",
+      "resultWrapper": null
+    },
+    "PutFunctionConcurrency": {
+      "shape": "Concurrency",
+      "resultWrapper": null
+    },
+    "PutFunctionEventInvokeConfig": {
+      "shape": "FunctionEventInvokeConfig",
+      "resultWrapper": null
+    },
+    "PutProvisionedConcurrencyConfig": {
+      "shape": "PutProvisionedConcurrencyConfigResponse",
+      "resultWrapper": null
+    },
+    "PutRuntimeManagementConfig": {
+      "shape": "PutRuntimeManagementConfigResponse",
+      "resultWrapper": null
+    },
+    "UpdateAlias": {
+      "shape": "AliasConfiguration",
+      "resultWrapper": null
+    },
+    "UpdateCodeSigningConfig": {
+      "shape": "UpdateCodeSigningConfigResponse",
+      "resultWrapper": null
+    },
+    "UpdateEventSourceMapping": {
+      "shape": "EventSourceMappingConfiguration",
+      "resultWrapper": null
+    },
+    "UpdateFunctionCode": {
+      "shape": "FunctionConfiguration",
+      "resultWrapper": null
+    },
+    "UpdateFunctionConfiguration": {
+      "shape": "FunctionConfiguration",
+      "resultWrapper": null
+    },
+    "UpdateFunctionEventInvokeConfig": {
+      "shape": "FunctionEventInvokeConfig",
+      "resultWrapper": null
+    },
+    "UpdateFunctionUrlConfig": {
+      "shape": "UpdateFunctionUrlConfigResponse",
+      "resultWrapper": null
+    }
+  },
+  "shapes": {
+    "AcceleratorConfig": {
+      "type": "structure",
+      "members": {
+        "AcceleratorMemorySize": "AcceleratorMemoryGB"
+      }
+    },
+    "AcceleratorMemoryGB": {
+      "type": "integer"
+    },
+    "AccountLimit": {
+      "type": "structure",
+      "members": {
+        "TotalCodeSize": "Long",
+        "CodeSizeUnzipped": "Long",
+        "CodeSizeZipped": "Long",
+        "ConcurrentExecutions": "Integer",
+        "UnreservedConcurrentExecutions": "UnreservedConcurrentExecutions"
+      }
+    },
+    "AccountUsage": {
+      "type": "structure",
+      "members": {
+        "TotalCodeSize": "Long",
+        "FunctionCount": "Long"
+      }
+    },
+    "Action": {
+      "type": "string"
+    },
+    "AddLayerVersionPermissionRequest": {
+      "type": "structure",
+      "members": {
+        "LayerName": "LayerNameOrArn",
+        "VersionNumber": "LayerVersionNumber",
+        "StatementId": "StatementId",
+        "Action": "LayerPermissionAllowedAction",
+        "Principal": "LayerPermissionAllowedPrincipal",
+        "OrganizationId": "OrganizationId",
+        "RevisionId": "String"
+      },
+      "locations": {
+        "LayerName": {
+          "location": "uri",
+          "name": "LayerName"
+        },
+        "VersionNumber": {
+          "location": "uri",
+          "name": "VersionNumber"
+        },
+        "RevisionId": {
+          "location": "querystring",
+          "name": "RevisionId"
+        }
+      }
+    },
+    "AddLayerVersionPermissionResponse": {
+      "type": "structure",
+      "members": {
+        "Statement": "String",
+        "RevisionId": "String"
+      }
+    },
+    "AddPermissionRequest": {
+      "type": "structure",
+      "members": {
+        "FunctionName": "NamespacedFunctionName",
+        "StatementId": "StatementId",
+        "Action": "Action",
+        "Principal": "Principal",
+        "SourceArn": "Arn",
+        "FunctionUrlAuthType": "FunctionUrlAuthType",
+        "InvokedViaFunctionUrl": "InvokedViaFunctionUrl",
+        "SourceAccount": "SourceOwner",
+        "EventSourceToken": "EventSourceToken",
+        "Qualifier": "NumericLatestPublishedOrAliasQualifier",
+        "RevisionId": "String",
+        "PrincipalOrgID": "PrincipalOrgID"
+      },
+      "locations": {
+        "FunctionName": {
+          "location": "uri",
+          "name": "FunctionName"
+        },
+        "Qualifier": {
+          "location": "querystring",
+          "name": "Qualifier"
+        }
+      }
+    },
+    "AddPermissionResponse": {
+      "type": "structure",
+      "members": {
+        "Statement": "String"
+      }
+    },
+    "AdditionalVersionWeights": {
+      "type": "map",
+      "value": "Weight"
+    },
+    "Alias": {
+      "type": "string"
+    },
+    "AliasConfiguration": {
+      "type": "structure",
+      "members": {
+        "AliasArn": "FunctionArn",
+        "Name": "Alias",
+        "FunctionVersion": "Version",
+        "Description": "Description",
+        "RoutingConfig": "AliasRoutingConfiguration",
+        "RevisionId": "String"
+      }
+    },
+    "AliasList": {
+      "type": "list",
+      "member": "AliasConfiguration"
+    },
+    "AliasRoutingConfiguration": {
+      "type": "structure",
+      "members": {
+        "AdditionalVersionWeights": "AdditionalVersionWeights"
+      }
+    },
+    "AllowCredentials": {
+      "type": "boolean"
+    },
+    "AllowMethodsList": {
+      "type": "list",
+      "member": "Method"
+    },
+    "AllowOriginsList": {
+      "type": "list",
+      "member": "Origin"
+    },
+    "AllowedPublishers": {
+      "type": "structure",
+      "members": {
+        "SigningProfileVersionArns": "SigningProfileVersionArns"
+      }
+    },
+    "AmazonManagedKafkaEventSourceConfig": {
+      "type": "structure",
+      "members": {
+        "ConsumerGroupId": "URI",
+        "SchemaRegistryConfig": "KafkaSchemaRegistryConfig"
+      }
+    },
+    "ApplicationLogLevel": {
+      "type": "string"
+    },
+    "Architecture": {
+      "type": "string"
+    },
+    "ArchitecturesList": {
+      "type": "list",
+      "member": "Architecture"
+    },
+    "Arn": {
+      "type": "string"
+    },
+    "BatchSize": {
+      "type": "integer"
+    },
+    "BisectBatchOnFunctionError": {
+      "type": "boolean"
+    },
+    "Blob": {
+      "type": "blob",
+      "sensitive": true
+    },
+    "Boolean": {
+      "type": "boolean"
+    },
+    "CapacityProviderArn": {
+      "type": "string"
+    },
+    "CapacityProviderConfig": {
+      "type": "structure",
+      "members": {
+        "LambdaManagedInstancesCapacityProviderConfig": "LambdaManagedInstancesCapacityProviderConfig"
+      }
+    },
+    "CodeSigningConfig": {
+      "type": "structure",
+      "members": {
+        "CodeSigningConfigId": "CodeSigningConfigId",
+        "CodeSigningConfigArn": "CodeSigningConfigArn",
+        "Description": "Description",
+        "AllowedPublishers": "AllowedPublishers",
+        "CodeSigningPolicies": "CodeSigningPolicies",
+        "LastModified": "Timestamp"
+      }
+    },
+    "CodeSigningConfigArn": {
+      "type": "string"
+    },
+    "CodeSigningConfigId": {
+      "type": "string"
+    },
+    "CodeSigningPolicies": {
+      "type": "structure",
+      "members": {
+        "UntrustedArtifactOnDeployment": "CodeSigningPolicy"
+      }
+    },
+    "CodeSigningPolicy": {
+      "type": "string"
+    },
+    "CollectionName": {
+      "type": "string"
+    },
+    "CompatibleArchitectures": {
+      "type": "list",
+      "member": "Architecture"
+    },
+    "CompatibleRuntimes": {
+      "type": "list",
+      "member": "Runtime"
+    },
+    "Concurrency": {
+      "type": "structure",
+      "members": {
+        "ReservedConcurrentExecutions": "ReservedConcurrentExecutions"
+      }
+    },
+    "Cors": {
+      "type": "structure",
+      "members": {
+        "AllowCredentials": "AllowCredentials",
+        "AllowHeaders": "HeadersList",
+        "AllowMethods": "AllowMethodsList",
+        "AllowOrigins": "AllowOriginsList",
+        "ExposeHeaders": "HeadersList",
+        "MaxAge": "MaxAge"
+      }
+    },
+    "CreateAliasRequest": {
+      "type": "structure",
+      "members": {
+        "FunctionName": "FunctionName",
+        "Name": "Alias",
+        "FunctionVersion": "VersionWithLatestPublished",
+        "Description": "Description",
+        "RoutingConfig": "AliasRoutingConfiguration"
+      },
+      "locations": {
+        "FunctionName": {
+          "location": "uri",
+          "name": "FunctionName"
+        }
+      }
+    },
+    "CreateEventSourceMappingRequest": {
+      "type": "structure",
+      "members": {
+        "EventSourceArn": "Arn",
+        "FunctionName": "NamespacedFunctionName",
+        "Enabled": "Enabled",
+        "BatchSize": "BatchSize",
+        "FilterCriteria": "FilterCriteria",
+        "KMSKeyArn": "KMSKeyArn",
+        "MetricsConfig": "EventSourceMappingMetricsConfig",
+        "LoggingConfig": "EventSourceMappingLoggingConfig",
+        "ScalingConfig": "ScalingConfig",
+        "MaximumBatchingWindowInSeconds": "MaximumBatchingWindowInSeconds",
+        "ParallelizationFactor": "ParallelizationFactor",
+        "StartingPosition": "EventSourcePosition",
+        "StartingPositionTimestamp": "Date",
+        "DestinationConfig": "DestinationConfig",
+        "MaximumRecordAgeInSeconds": "MaximumRecordAgeInSeconds",
+        "BisectBatchOnFunctionError": "BisectBatchOnFunctionError",
+        "MaximumRetryAttempts": "MaximumRetryAttemptsEventSourceMapping",
+        "Tags": "Tags",
+        "TumblingWindowInSeconds": "TumblingWindowInSeconds",
+        "Topics": "Topics",
+        "Queues": "Queues",
+        "SourceAccessConfigurations": "SourceAccessConfigurations",
+        "SelfManagedEventSource": "SelfManagedEventSource",
+        "FunctionResponseTypes": "FunctionResponseTypeList",
+        "AmazonManagedKafkaEventSourceConfig": "AmazonManagedKafkaEventSourceConfig",
+        "SelfManagedKafkaEventSourceConfig": "SelfManagedKafkaEventSourceConfig",
+        "DocumentDBEventSourceConfig": "DocumentDBEventSourceConfig",
+        "ProvisionedPollerConfig": "ProvisionedPollerConfig"
+      }
+    },
+    "CreateFunctionRequest": {
+      "type": "structure",
+      "members": {
+        "FunctionName": "FunctionName",
+        "Runtime": "Runtime",
+        "Role": "RoleArn",
+        "Handler": "Handler",
+        "Code": "FunctionCode",
+        "Description": "Description",
+        "Timeout": "Timeout",
+        "MemorySize": "MemorySize",
+        "Publish": "Boolean",
+        "PublishTo": "FunctionVersionLatestPublished",
+        "VpcConfig": "VpcConfig",
+        "PackageType": "PackageType",
+        "DeadLetterConfig": "DeadLetterConfig",
+        "Environment": "Environment",
+        "KMSKeyArn": "KMSKeyArn",
+        "TracingConfig": "TracingConfig",
+        "Tags": "Tags",
+        "Layers": "LayerList",
+        "FileSystemConfigs": "FileSystemConfigList",
+        "CodeSigningConfigArn": "CodeSigningConfigArn",
+        "ImageConfig": "ImageConfig",
+        "Architectures": "ArchitecturesList",
+        "EphemeralStorage": "EphemeralStorage",
+        "SnapStart": "SnapStart",
+        "LoggingConfig": "LoggingConfig",
+        "TenancyConfig": "TenancyConfig",
+        "CapacityProviderConfig": "CapacityProviderConfig",
+        "DurableConfig": "DurableConfig",
+        "RuntimeConfig": "FunctionRuntimeConfig",
+        "AcceleratorConfig": "AcceleratorConfig"
+      }
+    },
+    "CreateFunctionUrlConfigRequest": {
+      "type": "structure",
+      "members": {
+        "FunctionName": "FunctionUrlFunctionName",
+        "Qualifier": "FunctionUrlQualifier",
+        "AuthType": "FunctionUrlAuthType",
+        "Cors": "Cors",
+        "InvokeMode": "InvokeMode"
+      },
+      "locations": {
+        "FunctionName": {
+          "location": "uri",
+          "name": "FunctionName"
+        },
+        "Qualifier": {
+          "location": "querystring",
+          "name": "Qualifier"
+        }
+      }
+    },
+    "CreateFunctionUrlConfigResponse": {
+      "type": "structure",
+      "members": {
+        "FunctionUrl": "FunctionUrl",
+        "FunctionArn": "FunctionArn",
+        "AuthType": "FunctionUrlAuthType",
+        "Cors": "Cors",
+        "CreationTime": "Timestamp",
+        "InvokeMode": "InvokeMode"
+      }
+    },
+    "DatabaseName": {
+      "type": "string"
+    },
+    "Date": {
+      "type": "timestamp"
+    },
+    "DeadLetterConfig": {
+      "type": "structure",
+      "members": {
+        "TargetArn": "ResourceArn"
+      }
+    },
+    "DeleteAliasRequest": {
+      "type": "structure",
+      "members": {
+        "FunctionName": "FunctionName",
+        "Name": "Alias"
+      },
+      "locations": {
+        "FunctionName": {
+          "location": "uri",
+          "name": "FunctionName"
+        },
+        "Name": {
+          "location": "uri",
+          "name": "Name"
+        }
+      }
+    },
+    "DeleteCodeSigningConfigRequest": {
+      "type": "structure",
+      "members": {
+        "CodeSigningConfigArn": "CodeSigningConfigArn"
+      },
+      "locations": {
+        "CodeSigningConfigArn": {
+          "location": "uri",
+          "name": "CodeSigningConfigArn"
+        }
+      }
+    },
+    "DeleteCodeSigningConfigResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "DeleteEventSourceMappingRequest": {
+      "type": "structure",
+      "members": {
+        "UUID": "UUIDString"
+      },
+      "locations": {
+        "UUID": {
+          "location": "uri",
+          "name": "UUID"
+        }
+      }
+    },
+    "DeleteFunctionConcurrencyRequest": {
+      "type": "structure",
+      "members": {
+        "FunctionName": "FunctionName"
+      },
+      "locations": {
+        "FunctionName": {
+          "location": "uri",
+          "name": "FunctionName"
+        }
+      }
+    },
+    "DeleteFunctionRequest": {
+      "type": "structure",
+      "members": {
+        "FunctionName": "NamespacedFunctionName",
+        "Qualifier": "NumericLatestPublishedOrAliasQualifier"
+      },
+      "locations": {
+        "FunctionName": {
+          "location": "uri",
+          "name": "FunctionName"
+        },
+        "Qualifier": {
+          "location": "querystring",
+          "name": "Qualifier"
+        }
+      }
+    },
+    "DeleteFunctionResponse": {
+      "type": "structure",
+      "members": {
+        "StatusCode": "Integer"
+      },
+      "locations": {
+        "StatusCode": {
+          "location": "statusCode",
+          "name": "StatusCode"
+        }
+      }
+    },
+    "DeleteFunctionUrlConfigRequest": {
+      "type": "structure",
+      "members": {
+        "FunctionName": "FunctionUrlFunctionName",
+        "Qualifier": "FunctionUrlQualifier"
+      },
+      "locations": {
+        "FunctionName": {
+          "location": "uri",
+          "name": "FunctionName"
+        },
+        "Qualifier": {
+          "location": "querystring",
+          "name": "Qualifier"
+        }
+      }
+    },
+    "DeleteProvisionedConcurrencyConfigRequest": {
+      "type": "structure",
+      "members": {
+        "FunctionName": "FunctionName",
+        "Qualifier": "Qualifier"
+      },
+      "locations": {
+        "FunctionName": {
+          "location": "uri",
+          "name": "FunctionName"
+        },
+        "Qualifier": {
+          "location": "querystring",
+          "name": "Qualifier"
+        }
+      }
+    },
+    "Description": {
+      "type": "string"
+    },
+    "DestinationArn": {
+      "type": "string"
+    },
+    "DestinationConfig": {
+      "type": "structure",
+      "members": {
+        "OnSuccess": "OnSuccess",
+        "OnFailure": "OnFailure"
+      }
+    },
+    "DirectS3Read": {
+      "type": "string"
+    },
+    "DocumentDBEventSourceConfig": {
+      "type": "structure",
+      "members": {
+        "DatabaseName": "DatabaseName",
+        "CollectionName": "CollectionName",
+        "FullDocument": "FullDocument"
+      }
+    },
+    "DurableConfig": {
+      "type": "structure",
+      "members": {
+        "KMSKeyArn": "KMSKeyArn",
+        "RetentionPeriodInDays": "RetentionPeriodInDays",
+        "ExecutionTimeout": "ExecutionTimeout"
+      }
+    },
+    "Enabled": {
+      "type": "boolean"
+    },
+    "Endpoint": {
+      "type": "string"
+    },
+    "EndpointLists": {
+      "type": "list",
+      "member": "Endpoint"
+    },
+    "Endpoints": {
+      "type": "map",
+      "value": "EndpointLists"
+    },
+    "Environment": {
+      "type": "structure",
+      "members": {
+        "Variables": "EnvironmentVariables"
+      }
+    },
+    "EnvironmentError": {
+      "type": "structure",
+      "members": {
+        "ErrorCode": "String",
+        "Message": "SensitiveString"
+      }
+    },
+    "EnvironmentResponse": {
+      "type": "structure",
+      "members": {
+        "Variables": "EnvironmentVariables",
+        "Error": "EnvironmentError"
+      }
+    },
+    "EnvironmentVariableValue": {
+      "type": "string",
+      "sensitive": true
+    },
+    "EnvironmentVariables": {
+      "type": "map",
+      "sensitive": true,
+      "value": "EnvironmentVariableValue"
+    },
+    "EphemeralStorage": {
+      "type": "structure",
+      "members": {
+        "Size": "EphemeralStorageSize"
+      }
+    },
+    "EphemeralStorageSize": {
+      "type": "integer"
+    },
+    "EventSourceMappingArn": {
+      "type": "string"
+    },
+    "EventSourceMappingConfiguration": {
+      "type": "structure",
+      "members": {
+        "UUID": "UUIDString",
+        "StartingPosition": "EventSourcePosition",
+        "StartingPositionTimestamp": "Date",
+        "BatchSize": "BatchSize",
+        "MaximumBatchingWindowInSeconds": "MaximumBatchingWindowInSeconds",
+        "ParallelizationFactor": "ParallelizationFactor",
+        "EventSourceArn": "Arn",
+        "FilterCriteria": "FilterCriteria",
+        "FilterCriteriaError": "FilterCriteriaError",
+        "KMSKeyArn": "KMSKeyArn",
+        "MetricsConfig": "EventSourceMappingMetricsConfig",
+        "LoggingConfig": "EventSourceMappingLoggingConfig",
+        "ScalingConfig": "ScalingConfig",
+        "FunctionArn": "FunctionArn",
+        "LastModified": "Date",
+        "LastProcessingResult": "String",
+        "State": "String",
+        "StateTransitionReason": "String",
+        "DestinationConfig": "DestinationConfig",
+        "Topics": "Topics",
+        "Queues": "Queues",
+        "SourceAccessConfigurations": "SourceAccessConfigurations",
+        "SelfManagedEventSource": "SelfManagedEventSource",
+        "MaximumRecordAgeInSeconds": "MaximumRecordAgeInSeconds",
+        "BisectBatchOnFunctionError": "BisectBatchOnFunctionError",
+        "MaximumRetryAttempts": "MaximumRetryAttemptsEventSourceMapping",
+        "TumblingWindowInSeconds": "TumblingWindowInSeconds",
+        "FunctionResponseTypes": "FunctionResponseTypeList",
+        "AmazonManagedKafkaEventSourceConfig": "AmazonManagedKafkaEventSourceConfig",
+        "SelfManagedKafkaEventSourceConfig": "SelfManagedKafkaEventSourceConfig",
+        "DocumentDBEventSourceConfig": "DocumentDBEventSourceConfig",
+        "EventSourceMappingArn": "EventSourceMappingArn",
+        "ProvisionedPollerConfig": "ProvisionedPollerConfig"
+      }
+    },
+    "EventSourceMappingLoggingConfig": {
+      "type": "structure",
+      "members": {
+        "SystemLogLevel": "EventSourceMappingSystemLogLevel"
+      }
+    },
+    "EventSourceMappingMetric": {
+      "type": "string"
+    },
+    "EventSourceMappingMetricList": {
+      "type": "list",
+      "member": "EventSourceMappingMetric"
+    },
+    "EventSourceMappingMetricsConfig": {
+      "type": "structure",
+      "members": {
+        "Metrics": "EventSourceMappingMetricList"
+      }
+    },
+    "EventSourceMappingSystemLogLevel": {
+      "type": "string"
+    },
+    "EventSourceMappingsList": {
+      "type": "list",
+      "member": "EventSourceMappingConfiguration"
+    },
+    "EventSourcePosition": {
+      "type": "string"
+    },
+    "EventSourceToken": {
+      "type": "string"
+    },
+    "ExecutionEnvironmentMemoryGiBPerVCpu": {
+      "type": "double"
+    },
+    "ExecutionTimeout": {
+      "type": "integer"
+    },
+    "FileSystemArn": {
+      "type": "string"
+    },
+    "FileSystemConfig": {
+      "type": "structure",
+      "members": {
+        "Arn": "FileSystemArn",
+        "LocalMountPath": "LocalMountPath",
+        "S3FilesConfig": "S3FilesConfig"
+      }
+    },
+    "FileSystemConfigList": {
+      "type": "list",
+      "member": "FileSystemConfig"
+    },
+    "Filter": {
+      "type": "structure",
+      "members": {
+        "Pattern": "Pattern"
+      }
+    },
+    "FilterCriteria": {
+      "type": "structure",
+      "members": {
+        "Filters": "FilterList"
+      }
+    },
+    "FilterCriteriaError": {
+      "type": "structure",
+      "members": {
+        "ErrorCode": "FilterCriteriaErrorCode",
+        "Message": "FilterCriteriaErrorMessage"
+      }
+    },
+    "FilterCriteriaErrorCode": {
+      "type": "string"
+    },
+    "FilterCriteriaErrorMessage": {
+      "type": "string"
+    },
+    "FilterList": {
+      "type": "list",
+      "member": "Filter"
+    },
+    "FullDocument": {
+      "type": "string"
+    },
+    "FunctionArn": {
+      "type": "string"
+    },
+    "FunctionCode": {
+      "type": "structure",
+      "members": {
+        "ZipFile": "Blob",
+        "S3Bucket": "S3Bucket",
+        "S3Key": "S3Key",
+        "S3ObjectVersion": "S3ObjectVersion",
+        "S3ObjectStorageMode": "S3ObjectStorageMode",
+        "ImageUri": "String",
+        "SourceKMSKeyArn": "KMSKeyArn"
+      }
+    },
+    "FunctionCodeLocation": {
+      "type": "structure",
+      "members": {
+        "RepositoryType": "String",
+        "Location": "SensitiveStringOnServerOnly",
+        "ImageUri": "String",
+        "ResolvedImageUri": "String",
+        "ResolvedS3Object": "ResolvedS3Object",
+        "SourceKMSKeyArn": "KMSKeyArn",
+        "Error": "FunctionCodeLocationError"
+      }
+    },
+    "FunctionCodeLocationError": {
+      "type": "structure",
+      "members": {
+        "ErrorCode": "String",
+        "Message": "SensitiveString"
+      }
+    },
+    "FunctionConfiguration": {
+      "type": "structure",
+      "members": {
+        "FunctionName": "NamespacedFunctionName",
+        "FunctionArn": "NameSpacedFunctionArn",
+        "Runtime": "Runtime",
+        "Role": "RoleArn",
+        "Handler": "Handler",
+        "CodeSize": "Long",
+        "Description": "Description",
+        "Timeout": "Timeout",
+        "MemorySize": "MemorySize",
+        "LastModified": "Timestamp",
+        "CodeSha256": "String",
+        "Version": "Version",
+        "VpcConfig": "VpcConfigResponse",
+        "DeadLetterConfig": "DeadLetterConfig",
+        "Environment": "EnvironmentResponse",
+        "KMSKeyArn": "KMSKeyArn",
+        "TracingConfig": "TracingConfigResponse",
+        "MasterArn": "FunctionArn",
+        "RevisionId": "String",
+        "Layers": "LayersReferenceList",
+        "State": "State",
+        "StateReason": "StateReason",
+        "StateReasonCode": "StateReasonCode",
+        "LastUpdateStatus": "LastUpdateStatus",
+        "LastUpdateStatusReason": "LastUpdateStatusReason",
+        "LastUpdateStatusReasonCode": "LastUpdateStatusReasonCode",
+        "FileSystemConfigs": "FileSystemConfigList",
+        "SigningProfileVersionArn": "Arn",
+        "SigningJobArn": "Arn",
+        "PackageType": "PackageType",
+        "ImageConfigResponse": "ImageConfigResponse",
+        "Architectures": "ArchitecturesList",
+        "EphemeralStorage": "EphemeralStorage",
+        "SnapStart": "SnapStartResponse",
+        "RuntimeVersionConfig": "RuntimeVersionConfig",
+        "LoggingConfig": "LoggingConfig",
+        "TenancyConfig": "TenancyConfig",
+        "CapacityProviderConfig": "CapacityProviderConfig",
+        "ConfigSha256": "String",
+        "DurableConfig": "DurableConfig",
+        "RuntimeConfig": "FunctionRuntimeConfig",
+        "AcceleratorConfig": "AcceleratorConfig"
+      }
+    },
+    "FunctionEventInvokeConfig": {
+      "type": "structure",
+      "members": {
+        "LastModified": "Date",
+        "FunctionArn": "FunctionArn",
+        "MaximumRetryAttempts": "MaximumRetryAttempts",
+        "MaximumEventAgeInSeconds": "MaximumEventAgeInSeconds",
+        "DestinationConfig": "DestinationConfig"
+      }
+    },
+    "FunctionList": {
+      "type": "list",
+      "member": "FunctionConfiguration"
+    },
+    "FunctionName": {
+      "type": "string"
+    },
+    "FunctionResponseType": {
+      "type": "string"
+    },
+    "FunctionResponseTypeList": {
+      "type": "list",
+      "member": "FunctionResponseType"
+    },
+    "FunctionRuntimeAlias": {
+      "type": "string"
+    },
+    "FunctionRuntimeArn": {
+      "type": "string"
+    },
+    "FunctionRuntimeConfig": {
+      "type": "structure",
+      "members": {
+        "RuntimeArn": "FunctionRuntimeArn",
+        "RuntimeAlias": "FunctionRuntimeAlias"
+      }
+    },
+    "FunctionUrl": {
+      "type": "string"
+    },
+    "FunctionUrlAuthType": {
+      "type": "string"
+    },
+    "FunctionUrlConfig": {
+      "type": "structure",
+      "members": {
+        "FunctionUrl": "FunctionUrl",
+        "FunctionArn": "FunctionArn",
+        "CreationTime": "Timestamp",
+        "LastModifiedTime": "Timestamp",
+        "Cors": "Cors",
+        "AuthType": "FunctionUrlAuthType",
+        "InvokeMode": "InvokeMode"
+      }
+    },
+    "FunctionUrlConfigList": {
+      "type": "list",
+      "member": "FunctionUrlConfig"
+    },
+    "FunctionUrlFunctionName": {
+      "type": "string"
+    },
+    "FunctionUrlQualifier": {
+      "type": "string"
+    },
+    "FunctionVersion": {
+      "type": "string"
+    },
+    "FunctionVersionLatestPublished": {
+      "type": "string"
+    },
+    "GetAccountSettingsRequest": {
+      "type": "structure",
+      "members": {}
+    },
+    "GetAccountSettingsResponse": {
+      "type": "structure",
+      "members": {
+        "AccountLimit": "AccountLimit",
+        "AccountUsage": "AccountUsage"
+      }
+    },
+    "GetAliasRequest": {
+      "type": "structure",
+      "members": {
+        "FunctionName": "FunctionName",
+        "Name": "Alias"
+      },
+      "locations": {
+        "FunctionName": {
+          "location": "uri",
+          "name": "FunctionName"
+        },
+        "Name": {
+          "location": "uri",
+          "name": "Name"
+        }
+      }
+    },
+    "GetEventSourceMappingRequest": {
+      "type": "structure",
+      "members": {
+        "UUID": "UUIDString"
+      },
+      "locations": {
+        "UUID": {
+          "location": "uri",
+          "name": "UUID"
+        }
+      }
+    },
+    "GetFunctionCodeSigningConfigRequest": {
+      "type": "structure",
+      "members": {
+        "FunctionName": "NamespacedFunctionName"
+      },
+      "locations": {
+        "FunctionName": {
+          "location": "uri",
+          "name": "FunctionName"
+        }
+      }
+    },
+    "GetFunctionCodeSigningConfigResponse": {
+      "type": "structure",
+      "members": {
+        "CodeSigningConfigArn": "CodeSigningConfigArn",
+        "FunctionName": "FunctionName"
+      }
+    },
+    "GetFunctionConfigurationRequest": {
+      "type": "structure",
+      "members": {
+        "FunctionName": "NamespacedFunctionName",
+        "Qualifier": "NumericLatestPublishedOrAliasQualifier"
+      },
+      "locations": {
+        "FunctionName": {
+          "location": "uri",
+          "name": "FunctionName"
+        },
+        "Qualifier": {
+          "location": "querystring",
+          "name": "Qualifier"
+        }
+      }
+    },
+    "GetFunctionEventInvokeConfigRequest": {
+      "type": "structure",
+      "members": {
+        "FunctionName": "NamespacedFunctionName",
+        "Qualifier": "NumericLatestPublishedOrAliasQualifier"
+      },
+      "locations": {
+        "FunctionName": {
+          "location": "uri",
+          "name": "FunctionName"
+        },
+        "Qualifier": {
+          "location": "querystring",
+          "name": "Qualifier"
+        }
+      }
+    },
+    "GetFunctionRequest": {
+      "type": "structure",
+      "members": {
+        "FunctionName": "NamespacedFunctionName",
+        "Qualifier": "NumericLatestPublishedOrAliasQualifier"
+      },
+      "locations": {
+        "FunctionName": {
+          "location": "uri",
+          "name": "FunctionName"
+        },
+        "Qualifier": {
+          "location": "querystring",
+          "name": "Qualifier"
+        }
+      }
+    },
+    "GetFunctionResponse": {
+      "type": "structure",
+      "members": {
+        "Configuration": "FunctionConfiguration",
+        "Code": "FunctionCodeLocation",
+        "Tags": "Tags",
+        "TagsError": "TagsError",
+        "Concurrency": "Concurrency"
+      }
+    },
+    "GetFunctionUrlConfigRequest": {
+      "type": "structure",
+      "members": {
+        "FunctionName": "FunctionUrlFunctionName",
+        "Qualifier": "FunctionUrlQualifier"
+      },
+      "locations": {
+        "FunctionName": {
+          "location": "uri",
+          "name": "FunctionName"
+        },
+        "Qualifier": {
+          "location": "querystring",
+          "name": "Qualifier"
+        }
+      }
+    },
+    "GetFunctionUrlConfigResponse": {
+      "type": "structure",
+      "members": {
+        "FunctionUrl": "FunctionUrl",
+        "FunctionArn": "FunctionArn",
+        "AuthType": "FunctionUrlAuthType",
+        "Cors": "Cors",
+        "CreationTime": "Timestamp",
+        "LastModifiedTime": "Timestamp",
+        "InvokeMode": "InvokeMode"
+      }
+    },
+    "GetPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "FunctionName": "NamespacedFunctionName",
+        "Qualifier": "NumericLatestPublishedOrAliasQualifier"
+      },
+      "locations": {
+        "FunctionName": {
+          "location": "uri",
+          "name": "FunctionName"
+        },
+        "Qualifier": {
+          "location": "querystring",
+          "name": "Qualifier"
+        }
+      }
+    },
+    "GetPolicyResponse": {
+      "type": "structure",
+      "members": {
+        "Policy": "String",
+        "RevisionId": "String"
+      }
+    },
+    "Handler": {
+      "type": "string"
+    },
+    "Header": {
+      "type": "string"
+    },
+    "HeadersList": {
+      "type": "list",
+      "member": "Header"
+    },
+    "ImageConfig": {
+      "type": "structure",
+      "members": {
+        "EntryPoint": "StringList",
+        "Command": "StringList",
+        "WorkingDirectory": "WorkingDirectory"
+      }
+    },
+    "ImageConfigError": {
+      "type": "structure",
+      "members": {
+        "ErrorCode": "String",
+        "Message": "SensitiveString"
+      }
+    },
+    "ImageConfigResponse": {
+      "type": "structure",
+      "members": {
+        "ImageConfig": "ImageConfig",
+        "Error": "ImageConfigError"
+      }
+    },
+    "Integer": {
+      "type": "integer"
+    },
+    "InvokeMode": {
+      "type": "string"
+    },
+    "InvokedViaFunctionUrl": {
+      "type": "boolean"
+    },
+    "KMSKeyArn": {
+      "type": "string"
+    },
+    "KafkaEventSourceMappingConsumptionMode": {
+      "type": "string"
+    },
+    "KafkaSchemaRegistryAccessConfig": {
+      "type": "structure",
+      "members": {
+        "Type": "KafkaSchemaRegistryAuthType",
+        "URI": "Arn"
+      }
+    },
+    "KafkaSchemaRegistryAccessConfigList": {
+      "type": "list",
+      "member": "KafkaSchemaRegistryAccessConfig"
+    },
+    "KafkaSchemaRegistryAuthType": {
+      "type": "string"
+    },
+    "KafkaSchemaRegistryConfig": {
+      "type": "structure",
+      "members": {
+        "SchemaRegistryURI": "SchemaRegistryUri",
+        "EventRecordFormat": "SchemaRegistryEventRecordFormat",
+        "AccessConfigs": "KafkaSchemaRegistryAccessConfigList",
+        "SchemaValidationConfigs": "KafkaSchemaValidationConfigList"
+      }
+    },
+    "KafkaSchemaValidationAttribute": {
+      "type": "string"
+    },
+    "KafkaSchemaValidationConfig": {
+      "type": "structure",
+      "members": {
+        "Attribute": "KafkaSchemaValidationAttribute"
+      }
+    },
+    "KafkaSchemaValidationConfigList": {
+      "type": "list",
+      "member": "KafkaSchemaValidationConfig"
+    },
+    "LambdaManagedInstancesCapacityProviderConfig": {
+      "type": "structure",
+      "members": {
+        "CapacityProviderArn": "CapacityProviderArn",
+        "PerExecutionEnvironmentMaxConcurrency": "PerExecutionEnvironmentMaxConcurrency",
+        "ExecutionEnvironmentMemoryGiBPerVCpu": "ExecutionEnvironmentMemoryGiBPerVCpu"
+      }
+    },
+    "LastUpdateStatus": {
+      "type": "string"
+    },
+    "LastUpdateStatusReason": {
+      "type": "string"
+    },
+    "LastUpdateStatusReasonCode": {
+      "type": "string"
+    },
+    "Layer": {
+      "type": "structure",
+      "members": {
+        "Arn": "LayerVersionArn",
+        "CodeSize": "Long",
+        "SigningProfileVersionArn": "Arn",
+        "SigningJobArn": "Arn"
+      }
+    },
+    "LayerArn": {
+      "type": "string"
+    },
+    "LayerList": {
+      "type": "list",
+      "member": "LayerVersionArn"
+    },
+    "LayerName": {
+      "type": "string"
+    },
+    "LayerNameOrArn": {
+      "type": "string"
+    },
+    "LayerPermissionAllowedAction": {
+      "type": "string"
+    },
+    "LayerPermissionAllowedPrincipal": {
+      "type": "string"
+    },
+    "LayerVersionArn": {
+      "type": "string"
+    },
+    "LayerVersionContentInput": {
+      "type": "structure",
+      "members": {
+        "S3Bucket": "S3Bucket",
+        "S3Key": "S3Key",
+        "S3ObjectVersion": "S3ObjectVersion",
+        "S3ObjectStorageMode": "S3ObjectStorageMode",
+        "ZipFile": "Blob"
+      }
+    },
+    "LayerVersionContentOutput": {
+      "type": "structure",
+      "members": {
+        "Location": "SensitiveStringOnServerOnly",
+        "CodeSha256": "String",
+        "CodeSize": "Long",
+        "SigningProfileVersionArn": "Arn",
+        "SigningJobArn": "Arn",
+        "ResolvedS3Object": "ResolvedS3Object"
+      }
+    },
+    "LayerVersionNumber": {
+      "type": "long"
+    },
+    "LayerVersionsListItem": {
+      "type": "structure",
+      "members": {
+        "LayerVersionArn": "LayerVersionArn",
+        "Version": "LayerVersionNumber",
+        "Description": "Description",
+        "CreatedDate": "Timestamp",
+        "CompatibleArchitectures": "CompatibleArchitectures",
+        "CompatibleRuntimes": "CompatibleRuntimes",
+        "LicenseInfo": "LicenseInfo"
+      }
+    },
+    "LayersList": {
+      "type": "list",
+      "member": "LayersListItem"
+    },
+    "LayersListItem": {
+      "type": "structure",
+      "members": {
+        "LayerName": "LayerName",
+        "LayerArn": "LayerArn",
+        "LatestMatchingVersion": "LayerVersionsListItem"
+      }
+    },
+    "LayersReferenceList": {
+      "type": "list",
+      "member": "Layer"
+    },
+    "LicenseInfo": {
+      "type": "string"
+    },
+    "ListAliasesRequest": {
+      "type": "structure",
+      "members": {
+        "FunctionName": "FunctionName",
+        "FunctionVersion": "VersionWithLatestPublished",
+        "Marker": "String",
+        "MaxItems": "MaxListItems"
+      },
+      "locations": {
+        "FunctionName": {
+          "location": "uri",
+          "name": "FunctionName"
+        },
+        "FunctionVersion": {
+          "location": "querystring",
+          "name": "FunctionVersion"
+        },
+        "Marker": {
+          "location": "querystring",
+          "name": "Marker"
+        },
+        "MaxItems": {
+          "location": "querystring",
+          "name": "MaxItems"
+        }
+      }
+    },
+    "ListAliasesResponse": {
+      "type": "structure",
+      "members": {
+        "NextMarker": "String",
+        "Aliases": "AliasList"
+      }
+    },
+    "ListEventSourceMappingsRequest": {
+      "type": "structure",
+      "members": {
+        "EventSourceArn": "Arn",
+        "FunctionName": "NamespacedFunctionName",
+        "Marker": "String",
+        "MaxItems": "MaxListItems"
+      },
+      "locations": {
+        "EventSourceArn": {
+          "location": "querystring",
+          "name": "EventSourceArn"
+        },
+        "FunctionName": {
+          "location": "querystring",
+          "name": "FunctionName"
+        },
+        "Marker": {
+          "location": "querystring",
+          "name": "Marker"
+        },
+        "MaxItems": {
+          "location": "querystring",
+          "name": "MaxItems"
+        }
+      }
+    },
+    "ListEventSourceMappingsResponse": {
+      "type": "structure",
+      "members": {
+        "NextMarker": "String",
+        "EventSourceMappings": "EventSourceMappingsList"
+      }
+    },
+    "ListFunctionUrlConfigsRequest": {
+      "type": "structure",
+      "members": {
+        "FunctionName": "FunctionUrlFunctionName",
+        "Marker": "String",
+        "MaxItems": "MaxItems"
+      },
+      "locations": {
+        "FunctionName": {
+          "location": "uri",
+          "name": "FunctionName"
+        },
+        "Marker": {
+          "location": "querystring",
+          "name": "Marker"
+        },
+        "MaxItems": {
+          "location": "querystring",
+          "name": "MaxItems"
+        }
+      }
+    },
+    "ListFunctionUrlConfigsResponse": {
+      "type": "structure",
+      "members": {
+        "FunctionUrlConfigs": "FunctionUrlConfigList",
+        "NextMarker": "String"
+      }
+    },
+    "ListFunctionsRequest": {
+      "type": "structure",
+      "members": {
+        "MasterRegion": "MasterRegion",
+        "FunctionVersion": "FunctionVersion",
+        "Marker": "String",
+        "MaxItems": "MaxListItems"
+      },
+      "locations": {
+        "MasterRegion": {
+          "location": "querystring",
+          "name": "MasterRegion"
+        },
+        "FunctionVersion": {
+          "location": "querystring",
+          "name": "FunctionVersion"
+        },
+        "Marker": {
+          "location": "querystring",
+          "name": "Marker"
+        },
+        "MaxItems": {
+          "location": "querystring",
+          "name": "MaxItems"
+        }
+      }
+    },
+    "ListFunctionsResponse": {
+      "type": "structure",
+      "members": {
+        "NextMarker": "String",
+        "Functions": "FunctionList"
+      }
+    },
+    "ListLayersRequest": {
+      "type": "structure",
+      "members": {
+        "CompatibleArchitecture": "Architecture",
+        "CompatibleRuntime": "Runtime",
+        "Marker": "String",
+        "MaxItems": "MaxLayerListItems"
+      },
+      "locations": {
+        "CompatibleArchitecture": {
+          "location": "querystring",
+          "name": "CompatibleArchitecture"
+        },
+        "CompatibleRuntime": {
+          "location": "querystring",
+          "name": "CompatibleRuntime"
+        },
+        "Marker": {
+          "location": "querystring",
+          "name": "Marker"
+        },
+        "MaxItems": {
+          "location": "querystring",
+          "name": "MaxItems"
+        }
+      }
+    },
+    "ListLayersResponse": {
+      "type": "structure",
+      "members": {
+        "NextMarker": "String",
+        "Layers": "LayersList"
+      }
+    },
+    "ListTagsRequest": {
+      "type": "structure",
+      "members": {
+        "Resource": "TaggableResource"
+      },
+      "locations": {
+        "Resource": {
+          "location": "uri",
+          "name": "Resource"
+        }
+      }
+    },
+    "ListTagsResponse": {
+      "type": "structure",
+      "members": {
+        "Tags": "Tags"
+      }
+    },
+    "ListVersionsByFunctionRequest": {
+      "type": "structure",
+      "members": {
+        "FunctionName": "NamespacedFunctionName",
+        "Marker": "String",
+        "MaxItems": "MaxListItems"
+      },
+      "locations": {
+        "FunctionName": {
+          "location": "uri",
+          "name": "FunctionName"
+        },
+        "Marker": {
+          "location": "querystring",
+          "name": "Marker"
+        },
+        "MaxItems": {
+          "location": "querystring",
+          "name": "MaxItems"
+        }
+      }
+    },
+    "ListVersionsByFunctionResponse": {
+      "type": "structure",
+      "members": {
+        "NextMarker": "String",
+        "Versions": "FunctionList"
+      }
+    },
+    "LocalMountPath": {
+      "type": "string"
+    },
+    "LogFormat": {
+      "type": "string"
+    },
+    "LogGroup": {
+      "type": "string"
+    },
+    "LoggingConfig": {
+      "type": "structure",
+      "members": {
+        "LogFormat": "LogFormat",
+        "ApplicationLogLevel": "ApplicationLogLevel",
+        "SystemLogLevel": "SystemLogLevel",
+        "LogGroup": "LogGroup"
+      }
+    },
+    "Long": {
+      "type": "long"
+    },
+    "MasterRegion": {
+      "type": "string"
+    },
+    "MaxAge": {
+      "type": "integer"
+    },
+    "MaxItems": {
+      "type": "integer"
+    },
+    "MaxLayerListItems": {
+      "type": "integer"
+    },
+    "MaxListItems": {
+      "type": "integer"
+    },
+    "MaximumBatchingWindowInSeconds": {
+      "type": "integer"
+    },
+    "MaximumConcurrency": {
+      "type": "integer"
+    },
+    "MaximumEventAgeInSeconds": {
+      "type": "integer"
+    },
+    "MaximumNumberOfPollers": {
+      "type": "integer"
+    },
+    "MaximumRecordAgeInSeconds": {
+      "type": "integer"
+    },
+    "MaximumRetryAttempts": {
+      "type": "integer"
+    },
+    "MaximumRetryAttemptsEventSourceMapping": {
+      "type": "integer"
+    },
+    "MemorySize": {
+      "type": "integer"
+    },
+    "Method": {
+      "type": "string"
+    },
+    "MinimumNumberOfPollers": {
+      "type": "integer"
+    },
+    "NameSpacedFunctionArn": {
+      "type": "string"
+    },
+    "NamespacedFunctionName": {
+      "type": "string"
+    },
+    "NamespacedStatementId": {
+      "type": "string"
+    },
+    "NonNegativeInteger": {
+      "type": "integer"
+    },
+    "NullableBoolean": {
+      "type": "boolean"
+    },
+    "NumericLatestPublishedOrAliasQualifier": {
+      "type": "string"
+    },
+    "OnFailure": {
+      "type": "structure",
+      "members": {
+        "Destination": "DestinationArn"
+      }
+    },
+    "OnSuccess": {
+      "type": "structure",
+      "members": {
+        "Destination": "DestinationArn"
+      }
+    },
+    "OrganizationId": {
+      "type": "string"
+    },
+    "Origin": {
+      "type": "string"
+    },
+    "PackageType": {
+      "type": "string"
+    },
+    "ParallelizationFactor": {
+      "type": "integer"
+    },
+    "Pattern": {
+      "type": "string"
+    },
+    "PerExecutionEnvironmentMaxConcurrency": {
+      "type": "integer"
+    },
+    "PositiveInteger": {
+      "type": "integer"
+    },
+    "Principal": {
+      "type": "string"
+    },
+    "PrincipalOrgID": {
+      "type": "string"
+    },
+    "ProvisionedConcurrencyStatusEnum": {
+      "type": "string"
+    },
+    "ProvisionedPollerConfig": {
+      "type": "structure",
+      "members": {
+        "MinimumPollers": "MinimumNumberOfPollers",
+        "MaximumPollers": "MaximumNumberOfPollers",
+        "PollerGroupName": "ProvisionedPollerGroupName"
+      }
+    },
+    "ProvisionedPollerGroupName": {
+      "type": "string"
+    },
+    "PublishLayerVersionRequest": {
+      "type": "structure",
+      "members": {
+        "LayerName": "LayerNameOrArn",
+        "Description": "Description",
+        "Content": "LayerVersionContentInput",
+        "CompatibleArchitectures": "CompatibleArchitectures",
+        "CompatibleRuntimes": "CompatibleRuntimes",
+        "LicenseInfo": "LicenseInfo"
+      },
+      "locations": {
+        "LayerName": {
+          "location": "uri",
+          "name": "LayerName"
+        }
+      }
+    },
+    "PublishLayerVersionResponse": {
+      "type": "structure",
+      "members": {
+        "Content": "LayerVersionContentOutput",
+        "LayerArn": "LayerArn",
+        "LayerVersionArn": "LayerVersionArn",
+        "Description": "Description",
+        "CreatedDate": "Timestamp",
+        "Version": "LayerVersionNumber",
+        "CompatibleArchitectures": "CompatibleArchitectures",
+        "CompatibleRuntimes": "CompatibleRuntimes",
+        "LicenseInfo": "LicenseInfo"
+      }
+    },
+    "PublishVersionRequest": {
+      "type": "structure",
+      "members": {
+        "FunctionName": "FunctionName",
+        "CodeSha256": "String",
+        "Description": "Description",
+        "RevisionId": "String",
+        "PublishTo": "FunctionVersionLatestPublished"
+      },
+      "locations": {
+        "FunctionName": {
+          "location": "uri",
+          "name": "FunctionName"
+        }
+      }
+    },
+    "PutFunctionCodeSigningConfigRequest": {
+      "type": "structure",
+      "members": {
+        "CodeSigningConfigArn": "CodeSigningConfigArn",
+        "FunctionName": "NamespacedFunctionName"
+      },
+      "locations": {
+        "FunctionName": {
+          "location": "uri",
+          "name": "FunctionName"
+        }
+      }
+    },
+    "PutFunctionCodeSigningConfigResponse": {
+      "type": "structure",
+      "members": {
+        "CodeSigningConfigArn": "CodeSigningConfigArn",
+        "FunctionName": "FunctionName"
+      }
+    },
+    "PutFunctionConcurrencyRequest": {
+      "type": "structure",
+      "members": {
+        "FunctionName": "FunctionName",
+        "ReservedConcurrentExecutions": "ReservedConcurrentExecutions"
+      },
+      "locations": {
+        "FunctionName": {
+          "location": "uri",
+          "name": "FunctionName"
+        }
+      }
+    },
+    "PutFunctionEventInvokeConfigRequest": {
+      "type": "structure",
+      "members": {
+        "FunctionName": "NamespacedFunctionName",
+        "Qualifier": "NumericLatestPublishedOrAliasQualifier",
+        "MaximumRetryAttempts": "MaximumRetryAttempts",
+        "MaximumEventAgeInSeconds": "MaximumEventAgeInSeconds",
+        "DestinationConfig": "DestinationConfig"
+      },
+      "locations": {
+        "FunctionName": {
+          "location": "uri",
+          "name": "FunctionName"
+        },
+        "Qualifier": {
+          "location": "querystring",
+          "name": "Qualifier"
+        }
+      }
+    },
+    "PutProvisionedConcurrencyConfigRequest": {
+      "type": "structure",
+      "members": {
+        "FunctionName": "FunctionName",
+        "Qualifier": "Qualifier",
+        "ProvisionedConcurrentExecutions": "PositiveInteger"
+      },
+      "locations": {
+        "FunctionName": {
+          "location": "uri",
+          "name": "FunctionName"
+        },
+        "Qualifier": {
+          "location": "querystring",
+          "name": "Qualifier"
+        }
+      }
+    },
+    "PutProvisionedConcurrencyConfigResponse": {
+      "type": "structure",
+      "members": {
+        "RequestedProvisionedConcurrentExecutions": "PositiveInteger",
+        "AllocatedProvisionedConcurrentExecutions": "NonNegativeInteger",
+        "AvailableProvisionedConcurrentExecutions": "NonNegativeInteger",
+        "Status": "ProvisionedConcurrencyStatusEnum",
+        "StatusReason": "String",
+        "LastModified": "Timestamp"
+      }
+    },
+    "PutRuntimeManagementConfigRequest": {
+      "type": "structure",
+      "members": {
+        "FunctionName": "NamespacedFunctionName",
+        "Qualifier": "NumericLatestPublishedOrAliasQualifier",
+        "UpdateRuntimeOn": "UpdateRuntimeOn",
+        "RuntimeVersionArn": "RuntimeVersionArn"
+      },
+      "locations": {
+        "FunctionName": {
+          "location": "uri",
+          "name": "FunctionName"
+        },
+        "Qualifier": {
+          "location": "querystring",
+          "name": "Qualifier"
+        }
+      }
+    },
+    "PutRuntimeManagementConfigResponse": {
+      "type": "structure",
+      "members": {
+        "UpdateRuntimeOn": "UpdateRuntimeOn",
+        "FunctionArn": "FunctionArn",
+        "RuntimeVersionArn": "RuntimeVersionArn"
+      }
+    },
+    "Qualifier": {
+      "type": "string"
+    },
+    "Queue": {
+      "type": "string"
+    },
+    "Queues": {
+      "type": "list",
+      "member": "Queue"
+    },
+    "RemovePermissionRequest": {
+      "type": "structure",
+      "members": {
+        "FunctionName": "NamespacedFunctionName",
+        "StatementId": "NamespacedStatementId",
+        "Qualifier": "NumericLatestPublishedOrAliasQualifier",
+        "RevisionId": "String"
+      },
+      "locations": {
+        "FunctionName": {
+          "location": "uri",
+          "name": "FunctionName"
+        },
+        "StatementId": {
+          "location": "uri",
+          "name": "StatementId"
+        },
+        "Qualifier": {
+          "location": "querystring",
+          "name": "Qualifier"
+        },
+        "RevisionId": {
+          "location": "querystring",
+          "name": "RevisionId"
+        }
+      }
+    },
+    "ReservedConcurrentExecutions": {
+      "type": "integer"
+    },
+    "ResolvedS3Object": {
+      "type": "structure",
+      "members": {
+        "S3Bucket": "S3Bucket",
+        "S3Key": "S3Key",
+        "S3ObjectVersion": "S3ObjectVersion"
+      }
+    },
+    "ResourceArn": {
+      "type": "string"
+    },
+    "RetentionPeriodInDays": {
+      "type": "integer"
+    },
+    "RoleArn": {
+      "type": "string"
+    },
+    "Runtime": {
+      "type": "string"
+    },
+    "RuntimeVersionArn": {
+      "type": "string"
+    },
+    "RuntimeVersionConfig": {
+      "type": "structure",
+      "members": {
+        "RuntimeVersionArn": "RuntimeVersionArn",
+        "Error": "RuntimeVersionError"
+      }
+    },
+    "RuntimeVersionError": {
+      "type": "structure",
+      "members": {
+        "ErrorCode": "String",
+        "Message": "SensitiveString"
+      }
+    },
+    "S3Bucket": {
+      "type": "string"
+    },
+    "S3FilesConfig": {
+      "type": "structure",
+      "members": {
+        "DirectS3Read": "DirectS3Read"
+      }
+    },
+    "S3Key": {
+      "type": "string"
+    },
+    "S3ObjectStorageMode": {
+      "type": "string"
+    },
+    "S3ObjectVersion": {
+      "type": "string"
+    },
+    "ScalingConfig": {
+      "type": "structure",
+      "members": {
+        "MaximumConcurrency": "MaximumConcurrency"
+      }
+    },
+    "SchemaRegistryEventRecordFormat": {
+      "type": "string"
+    },
+    "SchemaRegistryUri": {
+      "type": "string"
+    },
+    "SecurityGroupId": {
+      "type": "string"
+    },
+    "SecurityGroupIds": {
+      "type": "list",
+      "member": "SecurityGroupId"
+    },
+    "SelfManagedEventSource": {
+      "type": "structure",
+      "members": {
+        "Endpoints": "Endpoints"
+      }
+    },
+    "SelfManagedKafkaEventSourceConfig": {
+      "type": "structure",
+      "members": {
+        "ConsumerGroupId": "URI",
+        "SchemaRegistryConfig": "KafkaSchemaRegistryConfig",
+        "ConsumptionMode": "KafkaEventSourceMappingConsumptionMode"
+      }
+    },
+    "SensitiveString": {
+      "type": "string",
+      "sensitive": true
+    },
+    "SensitiveStringOnServerOnly": {
+      "type": "string"
+    },
+    "SigningProfileVersionArns": {
+      "type": "list",
+      "member": "Arn"
+    },
+    "SnapStart": {
+      "type": "structure",
+      "members": {
+        "ApplyOn": "SnapStartApplyOn"
+      }
+    },
+    "SnapStartApplyOn": {
+      "type": "string"
+    },
+    "SnapStartOptimizationStatus": {
+      "type": "string"
+    },
+    "SnapStartResponse": {
+      "type": "structure",
+      "members": {
+        "ApplyOn": "SnapStartApplyOn",
+        "OptimizationStatus": "SnapStartOptimizationStatus"
+      }
+    },
+    "SourceAccessConfiguration": {
+      "type": "structure",
+      "members": {
+        "Type": "SourceAccessType",
+        "URI": "URI"
+      }
+    },
+    "SourceAccessConfigurations": {
+      "type": "list",
+      "member": "SourceAccessConfiguration"
+    },
+    "SourceAccessType": {
+      "type": "string"
+    },
+    "SourceOwner": {
+      "type": "string"
+    },
+    "State": {
+      "type": "string"
+    },
+    "StateReason": {
+      "type": "string"
+    },
+    "StateReasonCode": {
+      "type": "string"
+    },
+    "StatementId": {
+      "type": "string"
+    },
+    "String": {
+      "type": "string"
+    },
+    "StringList": {
+      "type": "list",
+      "member": "String"
+    },
+    "SubnetId": {
+      "type": "string"
+    },
+    "SubnetIds": {
+      "type": "list",
+      "member": "SubnetId"
+    },
+    "SystemLogLevel": {
+      "type": "string"
+    },
+    "TagKey": {
+      "type": "string"
+    },
+    "TagKeyList": {
+      "type": "list",
+      "member": "TagKey"
+    },
+    "TagResourceRequest": {
+      "type": "structure",
+      "members": {
+        "Resource": "TaggableResource",
+        "Tags": "Tags"
+      },
+      "locations": {
+        "Resource": {
+          "location": "uri",
+          "name": "Resource"
+        }
+      }
+    },
+    "TagValue": {
+      "type": "string"
+    },
+    "TaggableResource": {
+      "type": "string"
+    },
+    "Tags": {
+      "type": "map",
+      "value": "TagValue"
+    },
+    "TagsError": {
+      "type": "structure",
+      "members": {
+        "ErrorCode": "TagsErrorCode",
+        "Message": "TagsErrorMessage"
+      }
+    },
+    "TagsErrorCode": {
+      "type": "string"
+    },
+    "TagsErrorMessage": {
+      "type": "string"
+    },
+    "TenancyConfig": {
+      "type": "structure",
+      "members": {
+        "TenantIsolationMode": "TenantIsolationMode"
+      }
+    },
+    "TenantIsolationMode": {
+      "type": "string"
+    },
+    "Timeout": {
+      "type": "integer"
+    },
+    "Timestamp": {
+      "type": "string"
+    },
+    "Topic": {
+      "type": "string"
+    },
+    "Topics": {
+      "type": "list",
+      "member": "Topic"
+    },
+    "TracingConfig": {
+      "type": "structure",
+      "members": {
+        "Mode": "TracingMode"
+      }
+    },
+    "TracingConfigResponse": {
+      "type": "structure",
+      "members": {
+        "Mode": "TracingMode"
+      }
+    },
+    "TracingMode": {
+      "type": "string"
+    },
+    "TumblingWindowInSeconds": {
+      "type": "integer"
+    },
+    "URI": {
+      "type": "string"
+    },
+    "UUIDString": {
+      "type": "string"
+    },
+    "UnreservedConcurrentExecutions": {
+      "type": "integer"
+    },
+    "UntagResourceRequest": {
+      "type": "structure",
+      "members": {
+        "Resource": "TaggableResource",
+        "TagKeys": "TagKeyList"
+      },
+      "locations": {
+        "Resource": {
+          "location": "uri",
+          "name": "Resource"
+        },
+        "TagKeys": {
+          "location": "querystring",
+          "name": "tagKeys"
+        }
+      }
+    },
+    "UpdateAliasRequest": {
+      "type": "structure",
+      "members": {
+        "FunctionName": "FunctionName",
+        "Name": "Alias",
+        "FunctionVersion": "VersionWithLatestPublished",
+        "Description": "Description",
+        "RoutingConfig": "AliasRoutingConfiguration",
+        "RevisionId": "String"
+      },
+      "locations": {
+        "FunctionName": {
+          "location": "uri",
+          "name": "FunctionName"
+        },
+        "Name": {
+          "location": "uri",
+          "name": "Name"
+        }
+      }
+    },
+    "UpdateCodeSigningConfigRequest": {
+      "type": "structure",
+      "members": {
+        "CodeSigningConfigArn": "CodeSigningConfigArn",
+        "Description": "Description",
+        "AllowedPublishers": "AllowedPublishers",
+        "CodeSigningPolicies": "CodeSigningPolicies"
+      },
+      "locations": {
+        "CodeSigningConfigArn": {
+          "location": "uri",
+          "name": "CodeSigningConfigArn"
+        }
+      }
+    },
+    "UpdateCodeSigningConfigResponse": {
+      "type": "structure",
+      "members": {
+        "CodeSigningConfig": "CodeSigningConfig"
+      }
+    },
+    "UpdateEventSourceMappingRequest": {
+      "type": "structure",
+      "members": {
+        "UUID": "UUIDString",
+        "FunctionName": "NamespacedFunctionName",
+        "Enabled": "Enabled",
+        "BatchSize": "BatchSize",
+        "FilterCriteria": "FilterCriteria",
+        "KMSKeyArn": "KMSKeyArn",
+        "MetricsConfig": "EventSourceMappingMetricsConfig",
+        "LoggingConfig": "EventSourceMappingLoggingConfig",
+        "ScalingConfig": "ScalingConfig",
+        "MaximumBatchingWindowInSeconds": "MaximumBatchingWindowInSeconds",
+        "ParallelizationFactor": "ParallelizationFactor",
+        "DestinationConfig": "DestinationConfig",
+        "MaximumRecordAgeInSeconds": "MaximumRecordAgeInSeconds",
+        "BisectBatchOnFunctionError": "BisectBatchOnFunctionError",
+        "MaximumRetryAttempts": "MaximumRetryAttemptsEventSourceMapping",
+        "TumblingWindowInSeconds": "TumblingWindowInSeconds",
+        "SourceAccessConfigurations": "SourceAccessConfigurations",
+        "FunctionResponseTypes": "FunctionResponseTypeList",
+        "AmazonManagedKafkaEventSourceConfig": "AmazonManagedKafkaEventSourceConfig",
+        "SelfManagedKafkaEventSourceConfig": "SelfManagedKafkaEventSourceConfig",
+        "DocumentDBEventSourceConfig": "DocumentDBEventSourceConfig",
+        "ProvisionedPollerConfig": "ProvisionedPollerConfig"
+      },
+      "locations": {
+        "UUID": {
+          "location": "uri",
+          "name": "UUID"
+        }
+      }
+    },
+    "UpdateFunctionCodeRequest": {
+      "type": "structure",
+      "members": {
+        "FunctionName": "FunctionName",
+        "ZipFile": "Blob",
+        "S3Bucket": "S3Bucket",
+        "S3Key": "S3Key",
+        "S3ObjectVersion": "S3ObjectVersion",
+        "S3ObjectStorageMode": "S3ObjectStorageMode",
+        "ImageUri": "String",
+        "Architectures": "ArchitecturesList",
+        "Publish": "Boolean",
+        "PublishTo": "FunctionVersionLatestPublished",
+        "DryRun": "Boolean",
+        "RevisionId": "String",
+        "SourceKMSKeyArn": "KMSKeyArn"
+      },
+      "locations": {
+        "FunctionName": {
+          "location": "uri",
+          "name": "FunctionName"
+        }
+      }
+    },
+    "UpdateFunctionConfigurationRequest": {
+      "type": "structure",
+      "members": {
+        "FunctionName": "FunctionName",
+        "Role": "RoleArn",
+        "Handler": "Handler",
+        "Description": "Description",
+        "Timeout": "Timeout",
+        "MemorySize": "MemorySize",
+        "VpcConfig": "VpcConfig",
+        "Environment": "Environment",
+        "Runtime": "Runtime",
+        "DeadLetterConfig": "DeadLetterConfig",
+        "KMSKeyArn": "KMSKeyArn",
+        "TracingConfig": "TracingConfig",
+        "RevisionId": "String",
+        "Layers": "LayerList",
+        "FileSystemConfigs": "FileSystemConfigList",
+        "ImageConfig": "ImageConfig",
+        "EphemeralStorage": "EphemeralStorage",
+        "SnapStart": "SnapStart",
+        "LoggingConfig": "LoggingConfig",
+        "CapacityProviderConfig": "CapacityProviderConfig",
+        "DurableConfig": "DurableConfig",
+        "RuntimeConfig": "FunctionRuntimeConfig",
+        "AcceleratorConfig": "AcceleratorConfig"
+      },
+      "locations": {
+        "FunctionName": {
+          "location": "uri",
+          "name": "FunctionName"
+        }
+      }
+    },
+    "UpdateFunctionEventInvokeConfigRequest": {
+      "type": "structure",
+      "members": {
+        "FunctionName": "NamespacedFunctionName",
+        "Qualifier": "NumericLatestPublishedOrAliasQualifier",
+        "MaximumRetryAttempts": "MaximumRetryAttempts",
+        "MaximumEventAgeInSeconds": "MaximumEventAgeInSeconds",
+        "DestinationConfig": "DestinationConfig"
+      },
+      "locations": {
+        "FunctionName": {
+          "location": "uri",
+          "name": "FunctionName"
+        },
+        "Qualifier": {
+          "location": "querystring",
+          "name": "Qualifier"
+        }
+      }
+    },
+    "UpdateFunctionUrlConfigRequest": {
+      "type": "structure",
+      "members": {
+        "FunctionName": "FunctionUrlFunctionName",
+        "Qualifier": "FunctionUrlQualifier",
+        "AuthType": "FunctionUrlAuthType",
+        "Cors": "Cors",
+        "InvokeMode": "InvokeMode"
+      },
+      "locations": {
+        "FunctionName": {
+          "location": "uri",
+          "name": "FunctionName"
+        },
+        "Qualifier": {
+          "location": "querystring",
+          "name": "Qualifier"
+        }
+      }
+    },
+    "UpdateFunctionUrlConfigResponse": {
+      "type": "structure",
+      "members": {
+        "FunctionUrl": "FunctionUrl",
+        "FunctionArn": "FunctionArn",
+        "AuthType": "FunctionUrlAuthType",
+        "Cors": "Cors",
+        "CreationTime": "Timestamp",
+        "LastModifiedTime": "Timestamp",
+        "InvokeMode": "InvokeMode"
+      }
+    },
+    "UpdateRuntimeOn": {
+      "type": "string"
+    },
+    "Version": {
+      "type": "string"
+    },
+    "VersionWithLatestPublished": {
+      "type": "string"
+    },
+    "VpcConfig": {
+      "type": "structure",
+      "members": {
+        "SubnetIds": "SubnetIds",
+        "SecurityGroupIds": "SecurityGroupIds",
+        "Ipv6AllowedForDualStack": "NullableBoolean"
+      }
+    },
+    "VpcConfigResponse": {
+      "type": "structure",
+      "members": {
+        "SubnetIds": "SubnetIds",
+        "SecurityGroupIds": "SecurityGroupIds",
+        "VpcId": "VpcId",
+        "Ipv6AllowedForDualStack": "NullableBoolean"
+      }
+    },
+    "VpcId": {
+      "type": "string"
+    },
+    "Weight": {
+      "type": "double"
+    },
+    "WorkingDirectory": {
+      "type": "string"
+    }
+  },
+  "errors": {
+    "AliasLimitExceededException": "AliasLimitExceededException",
+    "CallbackTimeoutException": "CallbackTimeoutException",
+    "CapacityProviderLimitExceededException": "CapacityProviderLimitExceededException",
+    "CodeArtifactUserDeletedException": "CodeArtifactUserDeletedException",
+    "CodeArtifactUserFailedException": "CodeArtifactUserFailedException",
+    "CodeArtifactUserPendingException": "CodeArtifactUserPendingException",
+    "CodeSigningConfigNotFoundException": "CodeSigningConfigNotFoundException",
+    "CodeStorageExceededException": "CodeStorageExceededException",
+    "CodeVerificationFailedException": "CodeVerificationFailedException",
+    "DurableExecutionAlreadyStartedException": "DurableExecutionAlreadyStartedException",
+    "EC2AccessDeniedException": "EC2AccessDeniedException",
+    "EC2ThrottledException": "EC2ThrottledException",
+    "EC2UnexpectedException": "EC2UnexpectedException",
+    "EFSIOException": "EFSIOException",
+    "EFSMountConnectivityException": "EFSMountConnectivityException",
+    "EFSMountFailureException": "EFSMountFailureException",
+    "EFSMountTimeoutException": "EFSMountTimeoutException",
+    "ENILimitReachedException": "ENILimitReachedException",
+    "ENINotReadyException": "ENINotReadyException",
+    "FunctionVersionsPerCapacityProviderLimitExceededException": "FunctionVersionsPerCapacityProviderLimitExceededException",
+    "InvalidCodeSignatureException": "InvalidCodeSignatureException",
+    "InvalidParameterValueException": "InvalidParameterValueException",
+    "InvalidRequestContentException": "InvalidRequestContentException",
+    "InvalidRuntimeException": "InvalidRuntimeException",
+    "InvalidSecurityGroupIDException": "InvalidSecurityGroupIDException",
+    "InvalidSubnetIDException": "InvalidSubnetIDException",
+    "InvalidZipFileException": "InvalidZipFileException",
+    "KMSAccessDeniedException": "KMSAccessDeniedException",
+    "KMSDisabledException": "KMSDisabledException",
+    "KMSInvalidStateException": "KMSInvalidStateException",
+    "KMSNotFoundException": "KMSNotFoundException",
+    "ModeNotSupportedException": "ModeNotSupportedException",
+    "NoPublishedVersionException": "NoPublishedVersionException",
+    "PolicyLengthExceededException": "PolicyLengthExceededException",
+    "PreconditionFailedException": "PreconditionFailedException",
+    "ProvisionedConcurrencyConfigNotFoundException": "ProvisionedConcurrencyConfigNotFoundException",
+    "PublicPolicyException": "PublicPolicyException",
+    "RecursiveInvocationException": "RecursiveInvocationException",
+    "RequestTooLargeException": "RequestTooLargeException",
+    "ResourceConflictException": "ResourceConflictException",
+    "ResourceInUseException": "ResourceInUseException",
+    "ResourceNotFoundException": "ResourceNotFoundException",
+    "ResourceNotReadyException": "ResourceNotReadyException",
+    "RuntimeAliasDeletedException": "RuntimeAliasDeletedException",
+    "RuntimeVersionDeletedException": "RuntimeVersionDeletedException",
+    "S3FilesMountConnectivityException": "S3FilesMountConnectivityException",
+    "S3FilesMountFailureException": "S3FilesMountFailureException",
+    "S3FilesMountTimeoutException": "S3FilesMountTimeoutException",
+    "SerializedRequestEntityTooLargeException": "SerializedRequestEntityTooLargeException",
+    "ServiceException": "ServiceException",
+    "ServiceQuotaExceededException": "ServiceQuotaExceededException",
+    "SnapStartException": "SnapStartException",
+    "SnapStartNotReadyException": "SnapStartNotReadyException",
+    "SnapStartRegenerationFailureException": "SnapStartRegenerationFailureException",
+    "SnapStartTimeoutException": "SnapStartTimeoutException",
+    "SubnetIPAddressLimitReachedException": "SubnetIPAddressLimitReachedException",
+    "TooManyRequestsException": "TooManyRequestsException",
+    "UnsupportedMediaTypeException": "UnsupportedMediaTypeException"
+  }
+}

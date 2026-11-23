@@ -1255,7 +1255,7 @@ public class IamConditionContextResolver {
      * Reads the entity fully and puts an equivalent stream back for downstream readers; none for a request that
      * carries no members, whose entity is left to its handler.
      */
-    static byte[] bufferEntity(ContainerRequestContext ctx) {
+    public static byte[] bufferEntity(ContainerRequestContext ctx) {
         if (carriesNoMembers(ctx)) {
             return null;
         }

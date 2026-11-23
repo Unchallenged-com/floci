@@ -658,6 +658,19 @@ public class IamActionRegistry {
     }
 
     /**
+     * The operation whose vendored route a REST request of the credential scope matches, as {@link #resolveRoute}
+     * matches it; null when it matches none. A REST call carries no {@code X-Amz-Target} or {@code Action} that
+     * names it, so its CloudTrail record is named from its route.
+     */
+    public static String routedOperation(String credentialScope, ContainerRequestContext ctx) {
+        IamRestRoutes routes = IamRestRoutes.vendored();
+        if (credentialScope == null || !routes.routes(credentialScope)) {
+            return null;
+        }
+        return matchedRoute(routes, credentialScope, ctx).map(IamRestRoutes.Match::operation).orElse(null);
+    }
+
+    /**
      * Whether a request of the credential scope is taken by a route of a model AWS documents on a page of its own
      * rather than in botocore, as Glue's Iceberg REST endpoint is: such a request is another API's, Apache Iceberg's
      * REST catalog, so it carries none of its operation's members, and one its body gives was added by the caller.

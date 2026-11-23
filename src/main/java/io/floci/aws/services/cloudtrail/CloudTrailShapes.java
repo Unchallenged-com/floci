@@ -212,6 +212,57 @@ public final class CloudTrailShapes {
     }
 
     /**
+     * As {@link #requestParameters(String, JsonNode, JsonStyle)}, for a REST-JSON request: the members the
+     * model locates in the path are read from {@code labels}, by the name the route gives them, and those it
+     * locates in the query from {@code query}, typed as their shapes type them, ahead of the members of
+     * {@code body}. A member it locates in a header is not read.
+     */
+    public ObjectNode requestParameters(String operation, Map<String, String> labels,
+                                        MultivaluedMap<String, String> query, JsonNode body, JsonStyle style) {
+        String input = operations.path(operation).asText("");
+        JsonNode shape = shapes.path(input);
+        ObjectNode request = MAPPER.createObjectNode();
+        for (Map.Entry<String, JsonNode> located : shape.path("locations").properties()) {
+            String name = located.getValue().path("name").asText();
+            String memberShape = shape.path("members").path(located.getKey()).asText();
+            JsonNode value = switch (located.getValue().path("location").asText()) {
+                case "uri" -> labels == null || labels.get(name) == null ? null
+                        : scalar(shapes.path(memberShape).path("type").asText(), labels.get(name), false);
+                case "querystring" -> queryValue(memberShape, query == null ? null : query.get(name));
+                default -> null;
+            };
+            if (value != null) {
+                request.set(located.getKey(), value);
+            }
+        }
+        if (body != null && body.isObject()) {
+            for (Map.Entry<String, JsonNode> member : body.properties()) {
+                if (!request.has(member.getKey())) {
+                    request.set(member.getKey(), member.getValue());
+                }
+            }
+        }
+        return readJsonStructure(input, request, style);
+    }
+
+    /** A query member's values, a list when its shape is one, else its first value as its shape types it. */
+    private JsonNode queryValue(String shapeName, List<String> values) {
+        if (values == null || values.isEmpty()) {
+            return null;
+        }
+        JsonNode shape = shapes.path(shapeName);
+        if (!"list".equals(shape.path("type").asText())) {
+            return scalar(shape.path("type").asText(), values.getFirst(), false);
+        }
+        ArrayNode list = MAPPER.createArrayNode();
+        String elementType = shapes.path(shape.path("member").asText()).path("type").asText();
+        for (String value : values) {
+            list.add(scalar(elementType, value, false));
+        }
+        return list;
+    }
+
+    /**
      * The JSON {@code result} {@code operation} answered with, without the sensitive members; null
      * for an operation without a result and for a result that carries nothing.
      */

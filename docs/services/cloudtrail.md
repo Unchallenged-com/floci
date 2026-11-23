@@ -296,6 +296,30 @@ Other EC2 calls are not recorded yet.
 - An error is recorded as `Client.<code>` (`Client.InvalidNetworkAclID.NotFound`); a call IAM enforcement refuses as
   `Client.UnauthorizedOperation` with EC2's message and its members, as AWS keeps them for a refused EC2 call.
 
+## Lambda Coverage
+
+"Lambda supports logging the following actions as management events in CloudTrail log files"
+([Lambda Developer Guide](https://docs.aws.amazon.com/lambda/latest/dg/logging-using-cloudtrail.html)). Floci records
+those calls (`lambda-cloudtrail-events.json`) under the name a record gives each: most carry the API version they are
+served under (`CreateFunction20150331`, `UpdateFunctionCode20150331v2`, `PublishLayerVersion20181031`), the newer ones
+their own (`CreateFunctionUrlConfig`). Floci also records the calls the guide leaves out that real logs record as
+management events: `GetAccountSettings20160819`, `GetEventSourceMapping20150331`, `GetFunctionCodeSigningConfig`,
+`GetFunctionEventInvokeConfig`, `ListAliases20150331`, `ListLayers20181031`, `ListTags20170331` and
+`ListVersionsByFunction20150331`. `GetLayerVersionPolicy` is not recorded: no record shows its event name, which the
+guide gives without a version where records of its neighbors carry one.
+
+- `requestParameters` are the call's members from its path, its query and its body, with a lower first letter and
+  typed as botocore's Lambda model types them (`"functionName"`, `"maxItems": 10000`). The members the model marks
+  sensitive are left out, as the guide says of `Environment` and `ZipFile`: `"code": {}`, `"environment": {}`.
+  `CreateFunction` and `UpdateFunctionConfiguration` always write `"environment": {}`. `UpdateFunctionCode` names the
+  function by its ARN, adds its `fullyQualifiedArn`, and writes `"dryRun": false` when the request leaves it out.
+- `responseElements` is the answer in the same form, with `"environment": {}` in a function's configuration; `null`
+  for a read-only call, a call that answers nothing (`DeleteFunction`, `RemovePermission`) and a failed one.
+  `PublishLayerVersion` carries `"additionalEventData": {"signatureStatus": "VALID"}`.
+- A failed call keeps its members, under its error's type (`ResourceNotFoundException`); a call IAM enforcement refuses
+  is recorded as `AccessDenied` with `"requestParameters": null`.
+- `Invoke` is a data event, not recorded here.
+
 ## Management events and selectors
 
 New trails include management events by default. Basic selectors honor `IncludeManagementEvents`, `ReadWriteType`
