@@ -359,7 +359,7 @@ class IamEnforcementFilterTest {
         assertEquals(expectedStatus, denied.getValue().getStatus());
         assertEquals(MediaType.APPLICATION_JSON_TYPE, denied.getValue().getMediaType());
         assertTrue(entityString(denied.getValue()).contains("\"__type\":\"AccessDeniedException\""));
-        assertTrue(entityString(denied.getValue()).contains("User is not authorized to perform: dynamodb:PutItem"));
+        assertTrue(entityString(denied.getValue()).contains("is not authorized to perform: dynamodb:PutItem"));
     }
 
     @Test

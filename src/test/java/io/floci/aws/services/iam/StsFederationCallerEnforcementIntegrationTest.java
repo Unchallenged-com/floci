@@ -19,7 +19,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.startsWith;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
@@ -91,7 +95,9 @@ class StsFederationCallerEnforcementIntegrationTest {
             remember(result, "GetFederationToken");
         } else {
             result.then().statusCode(403).body("ErrorResponse.Error.Code", equalTo("AccessDenied"))
-                    .body("ErrorResponse.Error.Message", equalTo("User is not authorized to perform: sts:GetFederationToken"));
+                    .body("ErrorResponse.Error.Message", allOf(startsWith("User: arn:aws:iam::"),
+                            containsString(" is not authorized to perform: sts:GetFederationToken on resource: "),
+                            endsWith("because no identity-based policy allows the sts:GetFederationToken action")));
         }
     }
 
@@ -112,8 +118,9 @@ class StsFederationCallerEnforcementIntegrationTest {
         Credentials user = userWithPolicy(ALLOW_STS_DENY_FEDERATION_TOKEN);
         request(user, "GetFederationToken", Map.of("Name", "still-denied")).then().statusCode(403)
                 .body("ErrorResponse.Error.Code", equalTo("AccessDenied"))
-                .body("ErrorResponse.Error.Message",
-                        equalTo("User is not authorized to perform: sts:GetFederationToken"));
+                .body("ErrorResponse.Error.Message", allOf(startsWith("User: arn:aws:iam::"),
+                        containsString(" is not authorized to perform: sts:GetFederationToken on resource: "),
+                        endsWith("with an explicit deny in an identity-based policy")));
     }
 
     @Test

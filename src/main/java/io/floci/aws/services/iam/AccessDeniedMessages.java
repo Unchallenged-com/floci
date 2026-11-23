@@ -52,9 +52,18 @@ public final class AccessDeniedMessages {
     private AccessDeniedMessages() {
     }
 
-    /** The message, ending with {@code reason} when there is one. */
+    /**
+     * The message, ending with {@code reason} when there is one: "User: arn:aws:iam::123456789012:user/John is not
+     * authorized to perform: codecommit:ListRepositories because no identity-based policy allows the
+     * codecommit:ListRepositories action" (IAM User Guide, "Access denied error message examples"), the caller named
+     * by its ARN, a user's, a role session's assumed-role ARN, the root's or a federated user's. S3 names its resource
+     * in quotes ("User: arn:aws:iam::777788889999:user/MaryMajor is not authorized to perform: s3:GetObject on
+     * resource: "arn:aws:s3:::amzn-s3-demo-bucket1/object-name"", Amazon S3 User Guide, "Troubleshoot access denied
+     * (403 Forbidden) errors"), and no other service does.
+     */
     public static String notAuthorized(String callerArn, String action, String resource, String reason) {
-        return "User: " + callerArn + " is not authorized to perform: " + action + " on resource: " + resource
+        String named = action != null && action.startsWith("s3:") ? "\"" + resource + "\"" : resource;
+        return "User: " + callerArn + " is not authorized to perform: " + action + " on resource: " + named
                 + (reason == null ? "" : " " + reason);
     }
 

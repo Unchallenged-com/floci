@@ -1275,19 +1275,18 @@ public class IamEnforcementFilter implements ContainerRequestFilter {
                     continue;
                 }
                 LOG.infov("IAM enforcement DENY: akid={0} action={1} resource={2}", akid, action, resource);
-                // S3 answers the refusal with the caller, the resource and the policy that refused it, and
-                // CloudTrail records the message S3 answered; S3 Control keeps its own envelope and wording.
-                boolean s3Request = "s3".equals(credentialScope)
-                        && !IamActionRegistry.isS3ControlRequest(credentialScope, ctx);
-                String s3Message = s3Request
-                        ? refusalMessage(caller, caller.principalArn(), akid, accountId, resourceOwnerAccountId, action,
-                                resource, resourcePolicyDecision, effectiveContext)
-                        : null;
+                // AWS answers the refusal with the caller, the resource and the policy that refused it, and
+                // CloudTrail records the message answered; S3 Control keeps its own envelope and wording.
+                boolean s3Control = IamActionRegistry.isS3ControlRequest(credentialScope, ctx);
+                boolean s3Request = "s3".equals(credentialScope) && !s3Control;
+                String denyMessage = s3Control ? null
+                        : refusalMessage(caller, caller.principalArn(), akid, accountId, resourceOwnerAccountId, action,
+                                resource, resourcePolicyDecision, effectiveContext);
                 emitS3DenialIfApplicable(akid, operationAction, resource, ctx, region,
-                        s3Message != null ? s3Message : accessDeniedMessage(action));
-                abortIamAware(ctx, s3Message != null
-                                ? s3XmlAccessDenied(s3Message, formatS3ResourcePath(resource))
-                                : accessDeniedForRequest(action, credentialScope, ctx, resource),
+                        denyMessage != null ? denyMessage : accessDeniedMessage(action));
+                abortIamAware(ctx, s3Request
+                                ? s3XmlAccessDenied(denyMessage, formatS3ResourcePath(resource))
+                                : accessDeniedForRequest(action, credentialScope, ctx, resource, denyMessage),
                         akid, action, credentialScope, region);
                 return true;
             }
@@ -1600,7 +1599,8 @@ public class IamEnforcementFilter implements ContainerRequestFilter {
 
     /**
      * The access denied message for {@code action} on {@code resource}: the caller, the action, the resource and
-     * the policy that refused it, as S3's guide gives them for a caller in the resource's account or organization
+     * the policy that refused it ({@link AccessDeniedMessages#notAuthorized}, which quotes S3's resource alone), as
+     * the IAM guide gives it for every service, and S3's guide for a caller in the resource's account or organization
      * ("This context includes the type of policy that denied access, the reason for denial, and information about
      * the IAM user or role that requested access to the resource", S3 User Guide, "Troubleshoot access denied (403
      * Forbidden) errors"). Across organizations S3 answers {@code Access Denied} alone: "Cross-account requests
@@ -1620,7 +1620,7 @@ public class IamEnforcementFilter implements ContainerRequestFilter {
                 : AccessDeniedMessages.firstRefusal(evaluator, caller, iamService.heldPolicies(akid).orElse(null),
                         action, resource, context);
         return AccessDeniedMessages.notAuthorized(callerArn != null ? callerArn : keyUserArn(accountId, akid), action,
-                "\"" + resource + "\"", reason != null ? reason : PolicyType.RESOURCE_BASED_POLICY.noAllow(action));
+                resource, reason != null ? reason : PolicyType.RESOURCE_BASED_POLICY.noAllow(action));
     }
 
     /** Whether both accounts belong to one organization. */
@@ -1990,20 +1990,31 @@ public class IamEnforcementFilter implements ContainerRequestFilter {
 
     private Response accessDeniedForRequest(String action, String credentialScope,
                                                  ContainerRequestContext ctx, String resourceArn) {
+        return accessDeniedForRequest(action, credentialScope, ctx, resourceArn, null);
+    }
+
+    /**
+     * The answer to a request IAM refused, in its protocol's envelope, carrying {@code message}, AWS's access denied
+     * message that names the caller, the action and the resource ({@link AccessDeniedMessages#notAuthorized}), or,
+     * when the refusal has none, the action alone.
+     */
+    private Response accessDeniedForRequest(String action, String credentialScope, ContainerRequestContext ctx,
+                                            String resourceArn, String message) {
+        String answered = message == null ? accessDeniedMessage(action) : message;
         WireProtocol protocol = claimedProtocol(ctx);
         if (ProtocolErrorResponses.isCbor(protocol)) {
             // 403, the status the Kinesis and CloudWatch common errors give AccessDeniedException.
-            return ProtocolErrorResponses.cbor(ctx, "AccessDeniedException", accessDeniedMessage(action), 403);
+            return ProtocolErrorResponses.cbor(ctx, "AccessDeniedException", answered, 403);
         }
         // The route decides the envelope, not the resolved action: a request on an S3 Control
         // route is S3 Control's however its action reads, and only its ErrorResponse wrapper
         // reaches the s3control SDK deserializers (issue #557).
         if (IamActionRegistry.isS3ControlRequest(credentialScope, ctx)) {
-            return s3ControlXmlAccessDenied(accessDeniedMessage(action));
+            return s3ControlXmlAccessDenied(answered);
         }
         boolean restXml = catalog.byCredentialScope(credentialScope)
                 .filter(descriptor -> descriptor.supportsProtocol(ServiceProtocol.REST_XML)).isPresent();
-        return accessDeniedResponse(action, credentialScope, ctx.getMediaType(), resourceArn, protocol, restXml);
+        return accessDeniedResponse(credentialScope, ctx.getMediaType(), resourceArn, protocol, restXml, answered);
     }
 
     private static String accessDeniedMessage(String action) {
@@ -2012,12 +2023,13 @@ public class IamEnforcementFilter implements ContainerRequestFilter {
 
     static Response accessDeniedResponse(String action, String credentialScope, MediaType requestMediaType,
                                          String resourceArn, WireProtocol protocol) {
-        return accessDeniedResponse(action, credentialScope, requestMediaType, resourceArn, protocol, false);
+        return accessDeniedResponse(credentialScope, requestMediaType, resourceArn, protocol, false,
+                accessDeniedMessage(action));
     }
 
-    private static Response accessDeniedResponse(String action, String credentialScope, MediaType requestMediaType,
-                                                 String resourceArn, WireProtocol protocol, boolean restXml) {
-        String message = accessDeniedMessage(action);
+    private static Response accessDeniedResponse(String credentialScope, MediaType requestMediaType,
+                                                 String resourceArn, WireProtocol protocol, boolean restXml,
+                                                 String message) {
         if ("ec2".equals(credentialScope)) {
             return Ec2ErrorResponses.of("UnauthorizedOperation",
                     "You are not authorized to perform this operation. " + message, 403);

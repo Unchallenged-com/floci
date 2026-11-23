@@ -470,7 +470,7 @@ class LambdaTaskAuthorizerTest {
         when(bucketPolicies.getResourcePolicies("s3", "s3:PutObject", BUCKET))
                 .thenReturn(List.of(new ResourcePolicy(null, FUNCTION_ACCOUNT)));
 
-        assertEquals(Optional.of("User: " + SESSION + " is not authorized to perform: s3:PutObject on resource: " + BUCKET
+        assertEquals(Optional.of("User: " + SESSION + " is not authorized to perform: s3:PutObject on resource: \"" + BUCKET + "\""
                 + " because no resource-based policy allows the s3:PutObject action"),
                 authorizer.refusal(ROLE, "s3:PutObject", BUCKET));
     }
@@ -494,7 +494,7 @@ class LambdaTaskAuthorizerTest {
                         {"Version":"2012-10-17","Statement":[{"Effect":"Deny","Principal":"*",
                           "Action":"s3:PutObject","Resource":"%s"}]}""".formatted(BUCKET), SFN_ACCOUNT)));
 
-        assertEquals(Optional.of("User: " + SESSION + " is not authorized to perform: s3:PutObject on resource: " + BUCKET
+        assertEquals(Optional.of("User: " + SESSION + " is not authorized to perform: s3:PutObject on resource: \"" + BUCKET + "\""
                 + " with an explicit deny in a resource-based policy"),
                 authorizer.refusal(ROLE, "s3:PutObject", BUCKET));
     }

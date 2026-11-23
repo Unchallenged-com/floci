@@ -2496,6 +2496,16 @@ By default Floci accepts any credentials without enforcing IAM policies — all 
 
 Setting `enforcement-enabled: true` activates the policy evaluator as a JAX-RS request filter. Every inbound request is then evaluated against the identity-based policies of the calling IAM user or assumed role before it reaches the service handler. This includes IAM's own management actions (`iam:CreateUser`, `iam:CreateGroup`, `iam:AttachUserPolicy`, `iam:DeleteUser`, ...): a user whose policies only grant, say, `s3:*` receives `AccessDenied` when calling them.
 
+A refusal answers, and a trail records as its `errorMessage`, AWS's access denied message: `User: <caller> is not
+authorized to perform: <action> on resource: <resource> because no identity-based policy allows the <action> action`,
+or, for the first of the caller's policy types that refuses it otherwise, `with an explicit deny in an identity-based
+policy` (or the service control policy, permissions boundary or session policy that refused it).
+The caller is named by its own ARN (`arn:aws:iam::<account>:user/<name>`, a role session's
+`arn:aws:sts::<account>:assumed-role/<role>/<session>`, `arn:aws:iam::<account>:root`, a federated user's
+`arn:aws:sts::<account>:federated-user/<name>`), as the IAM User Guide's access denied examples show, and the resource as
+it is, but for S3, which names it in quotes (`on resource: "arn:aws:s3:::<bucket>/<key>"`), as the Amazon S3 User
+Guide's examples show.
+
 The startup banner reports the effective state (`IAM: policy enforcement enabled` / `disabled`). If requests you expect to be denied keep succeeding, check that line first: the flag is only read under the name below, and any other spelling (for example `FLOCI_IAM_STRICT_VALIDATION`, which does not exist) is silently ignored, leaving the permissive default in place.
 
 Direct calls include `aws:ViaAWSService=false` in the shared authorization context,
