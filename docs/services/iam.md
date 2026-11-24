@@ -3254,6 +3254,7 @@ When `FLOCI_SERVICES_IAM_ENFORCEMENT_ENABLED` is active, Floci also queries regi
 - SNS topic policies take part the same way for a request that names the topic in a JSON-protocol body; a topic with no policy set has the default one AWS gives a new topic. See [SNS](sns.md).
 - Aurora DSQL cluster policies take part the same way for a control plane call on the cluster, and when a client connects to the cluster's endpoint. See [DSQL](dsql.md#authentication).
 - SQS queue policies take part the same way for a call on the queue; see [SQS](sqs.md#queue-policies-under-iam-enforcement).
+- AWS Backup vault access policies take part the same way for a call on the vault or on a recovery point it holds; a call from another account is refused whatever the policy allows, as AWS Backup refuses it. See [AWS Backup](backup.md#iam-enforcement).
 - EventBridge event bus policies, the statements `PutPermission` adds, take part the same way for a call on the bus; see [EventBridge](eventbridge.md#event-bus-policies-under-iam-enforcement).
 - A role's trust policy takes part the same way for `sts:AssumeRole` on the role, with the role as its resource: a trust policy names no `Resource`. It is not consulted for IAM actions on the role, such as `iam:GetRole` or `iam:PassRole`. See [STS trust policy enforcement](sts.md#trust-policy-enforcement).
 - API Gateway REST API policies are stored but not evaluated.

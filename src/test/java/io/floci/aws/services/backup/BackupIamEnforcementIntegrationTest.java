@@ -95,6 +95,50 @@ class BackupIamEnforcementIntegrationTest {
     }
 
     @Test
+    void aVaultPolicyDenyingDeleteRecoveryPointRefusesAnAllowedCaller() {
+        String account = account();
+        String vault = "iam-vault-" + suffix();
+        UserCredentials user = user(account, statement("Allow", "\"backup:*\"", "*"));
+
+        try (BackupClient root = root(account); BackupClient backup = as(user)) {
+            String point = recoveryPoint(root, account, vault);
+            // The Developer Guide's "Deny access to delete recovery points" policy, sparing the account's root.
+            root.putBackupVaultAccessPolicy(request -> request.backupVaultName(vault).policy(
+                    "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Sid\":\"DenyDeleteRecoveryPoint\","
+                            + "\"Effect\":\"Deny\",\"Principal\":\"*\",\"Action\":\"backup:DeleteRecoveryPoint\","
+                            + "\"Resource\":\"*\",\"Condition\":{\"ArnNotEquals\":{\"aws:PrincipalArn\":"
+                            + "[\"arn:aws:iam::" + account + ":root\"]}}}]}"));
+
+            refused(() -> backup.deleteRecoveryPoint(request -> request.backupVaultName(vault)
+                    .recoveryPointArn(point)), "backup:DeleteRecoveryPoint");
+            backup.describeRecoveryPoint(request -> request.backupVaultName(vault).recoveryPointArn(point));
+            root.deleteRecoveryPoint(request -> request.backupVaultName(vault).recoveryPointArn(point));
+        }
+    }
+
+    @Test
+    void aVaultPolicyAllowingAnotherAccountDoesNotLetItIn() {
+        String owner = account();
+        String other = account();
+        String vault = "iam-vault-" + suffix();
+
+        try (BackupClient root = root(owner)) {
+            String arn = vault(owner, root, vault, Map.of("team", "ops"));
+            root.putBackupVaultAccessPolicy(request -> request.backupVaultName(vault).policy(
+                    "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\","
+                            + "\"Principal\":{\"AWS\":\"arn:aws:iam::" + other + ":root\"},"
+                            + "\"Action\":[\"backup:ListTags\",\"backup:TagResource\"],\"Resource\":\"*\"}]}"));
+            UserCredentials user = user(other, statement("Allow", "\"backup:*\"", "*"));
+            try (BackupClient backup = as(user)) {
+                refused(() -> backup.listTags(request -> request.resourceArn(arn)), "backup:ListTags");
+                refused(() -> backup.tagResource(request -> request.resourceArn(arn).tags(Map.of("team", "x"))),
+                        "backup:TagResource");
+            }
+            assertThat(root.listTags(request -> request.resourceArn(arn)).tags(), equalTo(Map.of("team", "ops")));
+        }
+    }
+
+    @Test
     void aGrantOnOneVaultDoesNotReachAnother() {
         String account = account();
         String granted = "iam-granted-" + suffix();

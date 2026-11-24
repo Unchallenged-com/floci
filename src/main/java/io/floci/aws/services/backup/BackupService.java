@@ -384,9 +384,10 @@ public class BackupService {
      * emulator being more permissive than AWS, which is the one direction that costs a user real
      * time -- the configuration passes locally and the deploy is where they find out.
      *
-     * <p>Syntax only. Floci does not evaluate whether the document grants or denies anything, and
-     * PutBackupVaultAccessPolicy does not list MalformedPolicyDocumentException among its errors,
-     * so a bad document is reported as the invalid parameter value it is.
+     * <p>Syntax only: what the document grants or denies is evaluated by IAM enforcement when a call
+     * reaches the vault, not here, and PutBackupVaultAccessPolicy does not list
+     * MalformedPolicyDocumentException among its errors, so a bad document is reported as the invalid
+     * parameter value it is.
      */
     private void requireJsonObject(String policy) {
         try {
@@ -416,6 +417,35 @@ public class BackupService {
     public void deleteBackupVaultAccessPolicy(String vaultName, String region) {
         BackupVault vault = describeBackupVault(vaultName, region);
         accessPolicyStore.delete(subResourceKey(region, vault));
+    }
+
+    /**
+     * The access policy of the vault {@code arn} names, or of the vault holding the recovery point it names, read in
+     * the account and Region of the ARN rather than the caller's: IAM evaluates it for whoever calls. Empty when no
+     * such vault or recovery point exists, or the vault has no policy.
+     */
+    public Optional<String> findVaultAccessPolicy(String arn) {
+        String vaultArn = arn;
+        AwsArnUtils.Arn parsed = AwsArnUtils.parse(arn);
+        if (parsed.resource().startsWith("recovery-point:")) {
+            Optional<RecoveryPoint> point =
+                    AccountAwareStorageBackend.readInAccount(recoveryStore, parsed.accountId(), arn);
+            if (point.isEmpty() || point.get().getBackupVaultArn() == null) {
+                return Optional.empty();
+            }
+            vaultArn = point.get().getBackupVaultArn();
+        }
+        AwsArnUtils.Arn vault = AwsArnUtils.parse(vaultArn);
+        if (!vault.resource().startsWith("backup-vault:")) {
+            return Optional.empty();
+        }
+        String region = vault.region();
+        String name = vault.resource().substring("backup-vault:".length());
+        String target = vaultArn;
+        return AccountAwareStorageBackend.readInAccount(vaultStore, vault.accountId(), vaultKey(region, name))
+                .filter(stored -> target.equals(stored.getBackupVaultArn()))
+                .flatMap(stored -> AccountAwareStorageBackend.readInAccount(accessPolicyStore, vault.accountId(),
+                        subResourceKey(region, stored)));
     }
 
     public void putBackupVaultNotifications(String vaultName, String region,

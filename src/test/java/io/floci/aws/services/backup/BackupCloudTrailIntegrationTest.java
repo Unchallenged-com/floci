@@ -219,6 +219,46 @@ class BackupCloudTrailIntegrationTest {
         assertThat(refused.path("responseElements").isNull(), equalTo(true));
     }
 
+    @Test
+    void aRefusalByTheVaultPolicyIsRecorded() throws IOException {
+        String account = account();
+        String suffix = UUID.randomUUID().toString().substring(0, 8);
+        String logs = "ct-backup-logs-" + suffix;
+        startTrail(account, "ct-backup-" + suffix, logs);
+        String user = "ct-user-" + suffix;
+        String vault = "ct-vault-" + suffix;
+        UserCredentials credentials = EnforcementFixtures.createUser(cleanup, baseUri.getPort(),
+                auth(account, "iam"), user);
+        EnforcementFixtures.putUserPolicy(baseUri.getPort(), auth(account, "iam"), user, "backup",
+                "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":\"backup:*\","
+                        + "\"Resource\":\"*\"}]}");
+
+        try (BackupClient root = AwsTestClients.create(BackupClient.builder(), account, REGION, baseUri);
+             BackupClient backup = AwsTestClients.create(BackupClient.builder(), credentials.accessKeyId(),
+                     credentials.secretAccessKey(), REGION, baseUri)) {
+            root.createBackupVault(request -> request.backupVaultName(vault));
+            cleanup.register(() -> {
+                try (BackupClient owner = AwsTestClients.create(BackupClient.builder(), account, REGION, baseUri)) {
+                    owner.deleteBackupVault(request -> request.backupVaultName(vault));
+                }
+            });
+            root.putBackupVaultAccessPolicy(request -> request.backupVaultName(vault).policy(
+                    "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Deny\",\"Principal\":\"*\","
+                            + "\"Action\":\"backup:DeleteBackupVault\",\"Resource\":\"*\",\"Condition\":"
+                            + "{\"ArnNotEquals\":{\"aws:PrincipalArn\":\"arn:aws:iam::" + account + ":root\"}}}]}"));
+
+            BackupException error = assertThrows(BackupException.class,
+                    () -> backup.deleteBackupVault(request -> request.backupVaultName(vault)));
+            assertThat(error.statusCode(), equalTo(403));
+            assertThat(error.awsErrorDetails().errorCode(), equalTo("AccessDeniedException"));
+        }
+
+        JsonNode refused = only(backupRecords(account, logs), "DeleteBackupVault");
+        assertThat(refused.path("errorCode").asText(), equalTo("AccessDenied"));
+        assertThat(refused.path("errorMessage").asText(), containsString("backup:DeleteBackupVault"));
+        assertThat(refused.path("userIdentity").path("userName").asText(), equalTo(user));
+    }
+
     private static String account() {
         return "6615" + String.format("%08d", (int) (Math.random() * 100_000_000));
     }

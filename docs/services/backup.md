@@ -239,6 +239,13 @@ and a tag call by the ARN it names. A list call naming no vault or plan, `Descri
   Reference lists it among the actions `CreateBackupVault` and `CreateBackupPlan` authorize.
 - `backup:MinRetentionDays`, `backup:MaxRetentionDays` and `backup:ChangeableForDays` are read from a
   `PutBackupVaultLockConfiguration` or `CreateLogicallyAirGappedBackupVault` body.
+- A vault's access policy is evaluated with the caller's own policies for a call on the vault or on a
+  recovery point it holds, as IAM evaluates a resource-based policy: within the account either one's `Allow`
+  grants the call, and a `Deny` in either refuses it, so the Developer Guide's policy denying
+  `backup:DeleteRecoveryPoint` keeps a caller allowed `backup:*` from deleting a recovery point.
+- A call on another account's vault, recovery point or plan is refused whatever the vault's access policy
+  allows: AWS Backup rejects every cross-account request but `backup:CopyIntoBackupVault`, which a copy job
+  checks and Floci does not run (Developer Guide, Vault access policies).
 - A refused call is answered `AccessDeniedException` with HTTP 403, AWS Backup's common error, and recorded
   in CloudTrail as `AccessDenied`, without its request parameters.
 
@@ -261,12 +268,6 @@ and a tag call by the ARN it names. A list call naming no vault or plan, `Descri
   `RESTORE_JOB_*` and `COPY_JOB_*` events -- is stored and reported by
   `GetBackupVaultNotifications` but never published. A failed publish (for example, a topic that does not
   exist) is logged and dropped without affecting the job.
-- **Access policy enforcement.** `PutBackupVaultAccessPolicy` stores a resource policy and
-  `GetBackupVaultAccessPolicy` reports it, but no authorization path consults it: a policy
-  denying a vault operation does not prevent that operation, even with IAM enforcement
-  enabled. This matches the rest of Floci rather than being specific to Backup -- S3 bucket
-  policies are the only resource policies any service enforces today. Stated here because a
-  stored-and-ignored policy is otherwise indistinguishable from an enforced one.
 - Restore jobs (`StartRestoreJob`, `DescribeRestoreJob`, `ListRestoreJobs`)
 - Copy jobs (`StartCopyJob`, `DescribeCopyJob`, `ListCopyJobs`)
 - Report plans (`CreateReportPlan`, `DescribeReportPlan`, etc.)
