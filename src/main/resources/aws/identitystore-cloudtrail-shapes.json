@@ -1,0 +1,753 @@
+{
+  "_source": {
+    "generator": "tools/aws/regen_identitystore_cloudtrail_shapes.py",
+    "botocore": "botocore 1.44.9 (installed package)"
+  },
+  "operations": {
+    "CreateGroup": "CreateGroupRequest",
+    "CreateGroupMembership": "CreateGroupMembershipRequest",
+    "CreateUser": "CreateUserRequest",
+    "DeleteGroup": "DeleteGroupRequest",
+    "DeleteGroupMembership": "DeleteGroupMembershipRequest",
+    "DeleteUser": "DeleteUserRequest",
+    "DescribeGroup": "DescribeGroupRequest",
+    "DescribeGroupMembership": "DescribeGroupMembershipRequest",
+    "DescribeUser": "DescribeUserRequest",
+    "GetGroupId": "GetGroupIdRequest",
+    "GetGroupMembershipId": "GetGroupMembershipIdRequest",
+    "GetUserId": "GetUserIdRequest",
+    "IsMemberInGroups": "IsMemberInGroupsRequest",
+    "ListGroupMemberships": "ListGroupMembershipsRequest",
+    "ListGroupMembershipsForMember": "ListGroupMembershipsForMemberRequest",
+    "ListGroups": "ListGroupsRequest",
+    "ListUsers": "ListUsersRequest",
+    "UpdateGroup": "UpdateGroupRequest",
+    "UpdateUser": "UpdateUserRequest"
+  },
+  "results": {
+    "CreateGroup": {
+      "shape": "CreateGroupResponse",
+      "resultWrapper": null
+    },
+    "CreateGroupMembership": {
+      "shape": "CreateGroupMembershipResponse",
+      "resultWrapper": null
+    },
+    "CreateUser": {
+      "shape": "CreateUserResponse",
+      "resultWrapper": null
+    },
+    "DeleteGroup": {
+      "shape": "DeleteGroupResponse",
+      "resultWrapper": null
+    },
+    "DeleteGroupMembership": {
+      "shape": "DeleteGroupMembershipResponse",
+      "resultWrapper": null
+    },
+    "DeleteUser": {
+      "shape": "DeleteUserResponse",
+      "resultWrapper": null
+    },
+    "DescribeGroup": {
+      "shape": "DescribeGroupResponse",
+      "resultWrapper": null
+    },
+    "DescribeGroupMembership": {
+      "shape": "DescribeGroupMembershipResponse",
+      "resultWrapper": null
+    },
+    "DescribeUser": {
+      "shape": "DescribeUserResponse",
+      "resultWrapper": null
+    },
+    "GetGroupId": {
+      "shape": "GetGroupIdResponse",
+      "resultWrapper": null
+    },
+    "GetGroupMembershipId": {
+      "shape": "GetGroupMembershipIdResponse",
+      "resultWrapper": null
+    },
+    "GetUserId": {
+      "shape": "GetUserIdResponse",
+      "resultWrapper": null
+    },
+    "IsMemberInGroups": {
+      "shape": "IsMemberInGroupsResponse",
+      "resultWrapper": null
+    },
+    "ListGroupMemberships": {
+      "shape": "ListGroupMembershipsResponse",
+      "resultWrapper": null
+    },
+    "ListGroupMembershipsForMember": {
+      "shape": "ListGroupMembershipsForMemberResponse",
+      "resultWrapper": null
+    },
+    "ListGroups": {
+      "shape": "ListGroupsResponse",
+      "resultWrapper": null
+    },
+    "ListUsers": {
+      "shape": "ListUsersResponse",
+      "resultWrapper": null
+    },
+    "UpdateGroup": {
+      "shape": "UpdateGroupResponse",
+      "resultWrapper": null
+    },
+    "UpdateUser": {
+      "shape": "UpdateUserResponse",
+      "resultWrapper": null
+    }
+  },
+  "shapes": {
+    "Address": {
+      "type": "structure",
+      "members": {
+        "StreetAddress": "SensitiveStringType",
+        "Locality": "SensitiveStringType",
+        "Region": "SensitiveStringType",
+        "PostalCode": "SensitiveStringType",
+        "Country": "SensitiveStringType",
+        "Formatted": "SensitiveStringType",
+        "Type": "SensitiveStringType",
+        "Primary": "BooleanType"
+      }
+    },
+    "Addresses": {
+      "type": "list",
+      "member": "Address"
+    },
+    "AlternateIdentifier": {
+      "type": "structure",
+      "members": {
+        "ExternalId": "ExternalId",
+        "UniqueAttribute": "UniqueAttribute"
+      }
+    },
+    "AttributeOperation": {
+      "type": "structure",
+      "members": {
+        "AttributePath": "AttributePath",
+        "AttributeValue": "AttributeValue"
+      }
+    },
+    "AttributeOperations": {
+      "type": "list",
+      "member": "AttributeOperation"
+    },
+    "AttributePath": {
+      "type": "string"
+    },
+    "AttributeValue": {
+      "type": "structure",
+      "sensitive": true,
+      "members": {}
+    },
+    "BooleanType": {
+      "type": "boolean"
+    },
+    "CreateGroupMembershipRequest": {
+      "type": "structure",
+      "members": {
+        "IdentityStoreId": "IdentityStoreId",
+        "GroupId": "ResourceId",
+        "MemberId": "MemberId"
+      }
+    },
+    "CreateGroupMembershipResponse": {
+      "type": "structure",
+      "members": {
+        "IdentityStoreId": "IdentityStoreId",
+        "MembershipId": "ResourceId",
+        "MembershipArn": "ResourceArn"
+      }
+    },
+    "CreateGroupRequest": {
+      "type": "structure",
+      "members": {
+        "IdentityStoreId": "IdentityStoreId",
+        "DisplayName": "GroupDisplayName",
+        "Description": "SensitiveStringType"
+      }
+    },
+    "CreateGroupResponse": {
+      "type": "structure",
+      "members": {
+        "IdentityStoreId": "IdentityStoreId",
+        "GroupId": "ResourceId",
+        "GroupArn": "ResourceArn",
+        "Revision": "ResourceRevision"
+      }
+    },
+    "CreateUserRequest": {
+      "type": "structure",
+      "members": {
+        "IdentityStoreId": "IdentityStoreId",
+        "UserName": "UserName",
+        "Name": "Name",
+        "DisplayName": "SensitiveStringType",
+        "NickName": "SensitiveStringType",
+        "ProfileUrl": "SensitiveStringType",
+        "Emails": "Emails",
+        "Addresses": "Addresses",
+        "PhoneNumbers": "PhoneNumbers",
+        "UserType": "SensitiveStringType",
+        "Title": "SensitiveStringType",
+        "PreferredLanguage": "SensitiveStringType",
+        "Locale": "SensitiveStringType",
+        "Timezone": "SensitiveStringType",
+        "Photos": "Photos",
+        "Website": "SensitiveStringType",
+        "Birthdate": "SensitiveStringType",
+        "Roles": "Roles",
+        "Extensions": "Extensions"
+      }
+    },
+    "CreateUserResponse": {
+      "type": "structure",
+      "members": {
+        "IdentityStoreId": "IdentityStoreId",
+        "UserId": "ResourceId",
+        "UserArn": "ResourceArn",
+        "Revision": "ResourceRevision"
+      }
+    },
+    "DateType": {
+      "type": "timestamp"
+    },
+    "DeleteGroupMembershipRequest": {
+      "type": "structure",
+      "members": {
+        "IdentityStoreId": "IdentityStoreId",
+        "MembershipId": "ResourceId"
+      }
+    },
+    "DeleteGroupMembershipResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "DeleteGroupRequest": {
+      "type": "structure",
+      "members": {
+        "IdentityStoreId": "IdentityStoreId",
+        "GroupId": "ResourceId",
+        "Revision": "ResourceRevision"
+      }
+    },
+    "DeleteGroupResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "DeleteUserRequest": {
+      "type": "structure",
+      "members": {
+        "IdentityStoreId": "IdentityStoreId",
+        "UserId": "ResourceId",
+        "Revision": "ResourceRevision"
+      }
+    },
+    "DeleteUserResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "DescribeGroupMembershipRequest": {
+      "type": "structure",
+      "members": {
+        "IdentityStoreId": "IdentityStoreId",
+        "MembershipId": "ResourceId"
+      }
+    },
+    "DescribeGroupMembershipResponse": {
+      "type": "structure",
+      "members": {
+        "IdentityStoreId": "IdentityStoreId",
+        "MembershipId": "ResourceId",
+        "MembershipArn": "ResourceArn",
+        "GroupId": "ResourceId",
+        "MemberId": "MemberId",
+        "CreatedAt": "DateType",
+        "UpdatedAt": "DateType",
+        "CreatedBy": "StringType",
+        "UpdatedBy": "StringType"
+      }
+    },
+    "DescribeGroupRequest": {
+      "type": "structure",
+      "members": {
+        "IdentityStoreId": "IdentityStoreId",
+        "GroupId": "ResourceId"
+      }
+    },
+    "DescribeGroupResponse": {
+      "type": "structure",
+      "members": {
+        "IdentityStoreId": "IdentityStoreId",
+        "GroupId": "ResourceId",
+        "GroupArn": "ResourceArn",
+        "Revision": "ResourceRevision",
+        "DisplayName": "GroupDisplayName",
+        "ExternalIds": "ExternalIds",
+        "Description": "SensitiveStringType",
+        "CreatedAt": "DateType",
+        "UpdatedAt": "DateType",
+        "CreatedBy": "StringType",
+        "UpdatedBy": "StringType"
+      }
+    },
+    "DescribeUserRequest": {
+      "type": "structure",
+      "members": {
+        "IdentityStoreId": "IdentityStoreId",
+        "UserId": "ResourceId",
+        "Extensions": "ExtensionNames"
+      }
+    },
+    "DescribeUserResponse": {
+      "type": "structure",
+      "members": {
+        "IdentityStoreId": "IdentityStoreId",
+        "UserId": "ResourceId",
+        "UserArn": "ResourceArn",
+        "Revision": "ResourceRevision",
+        "UserName": "UserName",
+        "ExternalIds": "ExternalIds",
+        "Name": "Name",
+        "DisplayName": "SensitiveStringType",
+        "NickName": "SensitiveStringType",
+        "ProfileUrl": "SensitiveStringType",
+        "Emails": "Emails",
+        "Addresses": "Addresses",
+        "PhoneNumbers": "PhoneNumbers",
+        "UserType": "SensitiveStringType",
+        "Title": "SensitiveStringType",
+        "PreferredLanguage": "SensitiveStringType",
+        "Locale": "SensitiveStringType",
+        "Timezone": "SensitiveStringType",
+        "UserStatus": "UserStatus",
+        "Photos": "Photos",
+        "Website": "SensitiveStringType",
+        "Birthdate": "SensitiveStringType",
+        "Roles": "Roles",
+        "CreatedAt": "DateType",
+        "CreatedBy": "StringType",
+        "UpdatedAt": "DateType",
+        "UpdatedBy": "StringType",
+        "Extensions": "Extensions"
+      }
+    },
+    "Email": {
+      "type": "structure",
+      "members": {
+        "Value": "SensitiveStringType",
+        "Type": "SensitiveStringType",
+        "Primary": "BooleanType"
+      }
+    },
+    "Emails": {
+      "type": "list",
+      "member": "Email"
+    },
+    "ExtensionName": {
+      "type": "string"
+    },
+    "ExtensionNames": {
+      "type": "list",
+      "member": "ExtensionName"
+    },
+    "Extensions": {
+      "type": "map",
+      "value": "AttributeValue"
+    },
+    "ExternalId": {
+      "type": "structure",
+      "members": {
+        "Issuer": "ExternalIdIssuer",
+        "Id": "ExternalIdIdentifier"
+      }
+    },
+    "ExternalIdIdentifier": {
+      "type": "string",
+      "sensitive": true
+    },
+    "ExternalIdIssuer": {
+      "type": "string",
+      "sensitive": true
+    },
+    "ExternalIds": {
+      "type": "list",
+      "member": "ExternalId"
+    },
+    "Filter": {
+      "type": "structure",
+      "members": {
+        "AttributePath": "AttributePath",
+        "AttributeValue": "SensitiveStringType"
+      }
+    },
+    "Filters": {
+      "type": "list",
+      "member": "Filter"
+    },
+    "GetGroupIdRequest": {
+      "type": "structure",
+      "members": {
+        "IdentityStoreId": "IdentityStoreId",
+        "AlternateIdentifier": "AlternateIdentifier"
+      }
+    },
+    "GetGroupIdResponse": {
+      "type": "structure",
+      "members": {
+        "IdentityStoreId": "IdentityStoreId",
+        "GroupId": "ResourceId",
+        "GroupArn": "ResourceArn"
+      }
+    },
+    "GetGroupMembershipIdRequest": {
+      "type": "structure",
+      "members": {
+        "IdentityStoreId": "IdentityStoreId",
+        "GroupId": "ResourceId",
+        "MemberId": "MemberId"
+      }
+    },
+    "GetGroupMembershipIdResponse": {
+      "type": "structure",
+      "members": {
+        "IdentityStoreId": "IdentityStoreId",
+        "MembershipId": "ResourceId",
+        "MembershipArn": "ResourceArn"
+      }
+    },
+    "GetUserIdRequest": {
+      "type": "structure",
+      "members": {
+        "IdentityStoreId": "IdentityStoreId",
+        "AlternateIdentifier": "AlternateIdentifier"
+      }
+    },
+    "GetUserIdResponse": {
+      "type": "structure",
+      "members": {
+        "IdentityStoreId": "IdentityStoreId",
+        "UserId": "ResourceId",
+        "UserArn": "ResourceArn"
+      }
+    },
+    "Group": {
+      "type": "structure",
+      "members": {
+        "IdentityStoreId": "IdentityStoreId",
+        "GroupId": "ResourceId",
+        "GroupArn": "ResourceArn",
+        "Revision": "ResourceRevision",
+        "DisplayName": "GroupDisplayName",
+        "ExternalIds": "ExternalIds",
+        "Description": "SensitiveStringType",
+        "CreatedAt": "DateType",
+        "UpdatedAt": "DateType",
+        "CreatedBy": "StringType",
+        "UpdatedBy": "StringType"
+      }
+    },
+    "GroupDisplayName": {
+      "type": "string",
+      "sensitive": true
+    },
+    "GroupIds": {
+      "type": "list",
+      "member": "ResourceId"
+    },
+    "GroupMembership": {
+      "type": "structure",
+      "members": {
+        "IdentityStoreId": "IdentityStoreId",
+        "MembershipId": "ResourceId",
+        "MembershipArn": "ResourceArn",
+        "GroupId": "ResourceId",
+        "MemberId": "MemberId",
+        "CreatedAt": "DateType",
+        "UpdatedAt": "DateType",
+        "CreatedBy": "StringType",
+        "UpdatedBy": "StringType"
+      }
+    },
+    "GroupMembershipExistenceResult": {
+      "type": "structure",
+      "members": {
+        "GroupId": "ResourceId",
+        "MemberId": "MemberId",
+        "MembershipExists": "BooleanType"
+      }
+    },
+    "GroupMembershipExistenceResults": {
+      "type": "list",
+      "member": "GroupMembershipExistenceResult"
+    },
+    "GroupMemberships": {
+      "type": "list",
+      "member": "GroupMembership"
+    },
+    "Groups": {
+      "type": "list",
+      "member": "Group"
+    },
+    "IdentityStoreId": {
+      "type": "string"
+    },
+    "IsMemberInGroupsRequest": {
+      "type": "structure",
+      "members": {
+        "IdentityStoreId": "IdentityStoreId",
+        "MemberId": "MemberId",
+        "GroupIds": "GroupIds"
+      }
+    },
+    "IsMemberInGroupsResponse": {
+      "type": "structure",
+      "members": {
+        "Results": "GroupMembershipExistenceResults"
+      }
+    },
+    "ListGroupMembershipsForMemberRequest": {
+      "type": "structure",
+      "members": {
+        "IdentityStoreId": "IdentityStoreId",
+        "MemberId": "MemberId",
+        "MaxResults": "MaxResults",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListGroupMembershipsForMemberResponse": {
+      "type": "structure",
+      "members": {
+        "GroupMemberships": "GroupMemberships",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListGroupMembershipsRequest": {
+      "type": "structure",
+      "members": {
+        "IdentityStoreId": "IdentityStoreId",
+        "GroupId": "ResourceId",
+        "MaxResults": "MaxResults",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListGroupMembershipsResponse": {
+      "type": "structure",
+      "members": {
+        "GroupMemberships": "GroupMemberships",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListGroupsRequest": {
+      "type": "structure",
+      "members": {
+        "IdentityStoreId": "IdentityStoreId",
+        "MaxResults": "MaxResults",
+        "NextToken": "NextToken",
+        "Filters": "Filters"
+      }
+    },
+    "ListGroupsResponse": {
+      "type": "structure",
+      "members": {
+        "Groups": "Groups",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListUsersRequest": {
+      "type": "structure",
+      "members": {
+        "IdentityStoreId": "IdentityStoreId",
+        "Extensions": "ExtensionNames",
+        "MaxResults": "MaxResults",
+        "NextToken": "NextToken",
+        "Filters": "Filters"
+      }
+    },
+    "ListUsersResponse": {
+      "type": "structure",
+      "members": {
+        "Users": "Users",
+        "NextToken": "NextToken"
+      }
+    },
+    "MaxResults": {
+      "type": "integer"
+    },
+    "MemberId": {
+      "type": "structure",
+      "members": {
+        "UserId": "ResourceId"
+      }
+    },
+    "Name": {
+      "type": "structure",
+      "members": {
+        "Formatted": "SensitiveStringType",
+        "FamilyName": "SensitiveStringType",
+        "GivenName": "SensitiveStringType",
+        "MiddleName": "SensitiveStringType",
+        "HonorificPrefix": "SensitiveStringType",
+        "HonorificSuffix": "SensitiveStringType"
+      }
+    },
+    "NextToken": {
+      "type": "string"
+    },
+    "PhoneNumber": {
+      "type": "structure",
+      "members": {
+        "Value": "SensitiveStringType",
+        "Type": "SensitiveStringType",
+        "Primary": "BooleanType"
+      }
+    },
+    "PhoneNumbers": {
+      "type": "list",
+      "member": "PhoneNumber"
+    },
+    "Photo": {
+      "type": "structure",
+      "members": {
+        "Value": "SensitiveStringType",
+        "Type": "SensitiveStringType",
+        "Display": "SensitiveStringType",
+        "Primary": "BooleanType"
+      }
+    },
+    "Photos": {
+      "type": "list",
+      "member": "Photo"
+    },
+    "ResourceArn": {
+      "type": "string"
+    },
+    "ResourceId": {
+      "type": "string"
+    },
+    "ResourceRevision": {
+      "type": "string"
+    },
+    "Role": {
+      "type": "structure",
+      "members": {
+        "Value": "SensitiveStringType",
+        "Type": "SensitiveStringType",
+        "Primary": "BooleanType"
+      }
+    },
+    "Roles": {
+      "type": "list",
+      "member": "Role"
+    },
+    "SensitiveStringType": {
+      "type": "string",
+      "sensitive": true
+    },
+    "StringType": {
+      "type": "string"
+    },
+    "UniqueAttribute": {
+      "type": "structure",
+      "members": {
+        "AttributePath": "AttributePath",
+        "AttributeValue": "AttributeValue"
+      }
+    },
+    "UpdateGroupRequest": {
+      "type": "structure",
+      "members": {
+        "IdentityStoreId": "IdentityStoreId",
+        "GroupId": "ResourceId",
+        "Operations": "AttributeOperations",
+        "Revision": "ResourceRevision"
+      }
+    },
+    "UpdateGroupResponse": {
+      "type": "structure",
+      "members": {
+        "IdentityStoreId": "IdentityStoreId",
+        "GroupId": "ResourceId",
+        "GroupArn": "ResourceArn",
+        "Revision": "ResourceRevision"
+      }
+    },
+    "UpdateUserRequest": {
+      "type": "structure",
+      "members": {
+        "IdentityStoreId": "IdentityStoreId",
+        "UserId": "ResourceId",
+        "Operations": "AttributeOperations",
+        "Revision": "ResourceRevision"
+      }
+    },
+    "UpdateUserResponse": {
+      "type": "structure",
+      "members": {
+        "IdentityStoreId": "IdentityStoreId",
+        "UserId": "ResourceId",
+        "UserArn": "ResourceArn",
+        "Revision": "ResourceRevision"
+      }
+    },
+    "User": {
+      "type": "structure",
+      "members": {
+        "IdentityStoreId": "IdentityStoreId",
+        "UserId": "ResourceId",
+        "UserArn": "ResourceArn",
+        "Revision": "ResourceRevision",
+        "UserName": "UserName",
+        "ExternalIds": "ExternalIds",
+        "Name": "Name",
+        "DisplayName": "SensitiveStringType",
+        "NickName": "SensitiveStringType",
+        "ProfileUrl": "SensitiveStringType",
+        "Emails": "Emails",
+        "Addresses": "Addresses",
+        "PhoneNumbers": "PhoneNumbers",
+        "UserType": "SensitiveStringType",
+        "Title": "SensitiveStringType",
+        "PreferredLanguage": "SensitiveStringType",
+        "Locale": "SensitiveStringType",
+        "Timezone": "SensitiveStringType",
+        "UserStatus": "UserStatus",
+        "Photos": "Photos",
+        "Website": "SensitiveStringType",
+        "Birthdate": "SensitiveStringType",
+        "Roles": "Roles",
+        "CreatedAt": "DateType",
+        "CreatedBy": "StringType",
+        "UpdatedAt": "DateType",
+        "UpdatedBy": "StringType",
+        "Extensions": "Extensions"
+      }
+    },
+    "UserName": {
+      "type": "string",
+      "sensitive": true
+    },
+    "UserStatus": {
+      "type": "string"
+    },
+    "Users": {
+      "type": "list",
+      "member": "User"
+    }
+  },
+  "errors": {
+    "AccessDeniedException": "AccessDeniedException",
+    "ConflictException": "ConflictException",
+    "InternalServerException": "InternalServerException",
+    "ResourceNotFoundException": "ResourceNotFoundException",
+    "ServiceQuotaExceededException": "ServiceQuotaExceededException",
+    "ThrottlingException": "ThrottlingException",
+    "ValidationException": "ValidationException"
+  }
+}

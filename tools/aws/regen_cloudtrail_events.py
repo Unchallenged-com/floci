@@ -26,6 +26,11 @@ carries, so it stays in SERVICES below, as the guide lists them:
   A record names most of them with the API version they are served under (`CreateFunction20150331`),
   which the file carries as `eventNames`: "the `eventName` might include date and version information,
   but it is still referring to the same public API action".
+- IAM Identity Center (`sso`) and the Identity Store (`identitystore`)
+  (https://docs.aws.amazon.com/singlesignon/latest/userguide/sso-info-in-cloudtrail.html): "The following
+  list contains the CloudTrail events that the public IAM Identity Center operations emit with the
+  sso.amazonaws.com event source", and the same for the public Identity Store operations and
+  identitystore.amazonaws.com, followed by each list.
 
 Which of them are read-only is the access level AWS's Service Reference gives each action, read as
 `regen_iam_action_resources.py` reads IAM's: an action with none of the Write, Permissions
@@ -236,6 +241,51 @@ SERVICES: dict[str, Service] = {
             "UpdateLogAnomalyDetector",
         ),
         read_only_anchors={"DescribeLogGroups": True, "DeleteLogGroup": False},
+    ),
+    "sso": Service(
+        guide="https://docs.aws.amazon.com/singlesignon/latest/userguide/sso-info-in-cloudtrail.html",
+        # The guide's list for the public IAM Identity Center operations. A 2025 record of
+        # CreateAccountAssignment shows it as "readOnly": false.
+        management_events=(
+            "AttachCustomerManagedPolicyReferenceToPermissionSet", "AttachManagedPolicyToPermissionSet",
+            "CreateAccountAssignment", "CreateApplication", "CreateApplicationAssignment", "CreateInstance",
+            "CreateInstanceAccessControlAttributeConfiguration", "CreatePermissionSet", "CreateTrustedTokenIssuer",
+            "DeleteAccountAssignment", "DeleteApplication", "DeleteApplicationAccessScope",
+            "DeleteApplicationAssignment", "DeleteApplicationAuthenticationMethod", "DeleteApplicationGrant",
+            "DeleteInlinePolicyFromPermissionSet", "DeleteInstance", "DeleteInstanceAccessControlAttributeConfiguration",
+            "DeletePermissionSet", "DeletePermissionsBoundaryFromPermissionSet", "DeleteTrustedTokenIssuer",
+            "DescribeAccountAssignmentCreationStatus", "DescribeAccountAssignmentDeletionStatus",
+            "DescribeApplication", "DescribeApplicationAssignment", "DescribeApplicationProvider", "DescribeInstance",
+            "DescribeInstanceAccessControlAttributeConfiguration", "DescribePermissionSet",
+            "DescribePermissionSetProvisioningStatus", "DescribeTrustedTokenIssuer",
+            "DetachCustomerManagedPolicyReferenceFromPermissionSet", "DetachManagedPolicyFromPermissionSet",
+            "GetApplicationAccessScope", "GetApplicationAssignmentConfiguration", "GetApplicationAuthenticationMethod",
+            "GetApplicationGrant", "GetInlinePolicyForPermissionSet", "GetPermissionsBoundaryForPermissionSet",
+            "ListAccountAssignmentCreationStatus", "ListAccountAssignmentDeletionStatus", "ListAccountAssignments",
+            "ListAccountAssignmentsForPrincipal", "ListAccountsForProvisionedPermissionSet",
+            "ListApplicationAccessScopes", "ListApplicationAssignments", "ListApplicationAssignmentsForPrincipal",
+            "ListApplicationAuthenticationMethods", "ListApplicationGrants", "ListApplicationProviders",
+            "ListApplications", "ListCustomerManagedPolicyReferencesInPermissionSet", "ListInstances",
+            "ListManagedPoliciesInPermissionSet", "ListPermissionSetProvisioningStatus", "ListPermissionSets",
+            "ListPermissionSetsProvisionedToAccount", "ListTagsForResource", "ListTrustedTokenIssuers",
+            "ProvisionPermissionSet", "PutApplicationAccessScope", "PutApplicationAssignmentConfiguration",
+            "PutApplicationAuthenticationMethod", "PutApplicationGrant", "PutInlinePolicyToPermissionSet",
+            "PutPermissionsBoundaryToPermissionSet", "TagResource", "UntagResource", "UpdateApplication",
+            "UpdateInstance", "UpdateInstanceAccessControlAttributeConfiguration", "UpdatePermissionSet",
+            "UpdateTrustedTokenIssuer",
+        ),
+        read_only_anchors={"DescribePermissionSet": True, "ListInstances": True, "CreateAccountAssignment": False},
+    ),
+    "identitystore": Service(
+        guide="https://docs.aws.amazon.com/singlesignon/latest/userguide/sso-info-in-cloudtrail.html",
+        # The guide's list for the public Identity Store operations.
+        management_events=(
+            "CreateGroup", "CreateGroupMembership", "CreateUser", "DeleteGroup", "DeleteGroupMembership",
+            "DeleteUser", "DescribeGroup", "DescribeGroupMembership", "DescribeUser", "GetGroupId",
+            "GetGroupMembershipId", "GetUserId", "IsMemberInGroups", "ListGroupMemberships",
+            "ListGroupMembershipsForMember", "ListGroups", "ListUsers", "UpdateGroup", "UpdateUser",
+        ),
+        read_only_anchors={"DescribeUser": True, "CreateUser": False},
     ),
     "secretsmanager": Service(
         guide="https://docs.aws.amazon.com/secretsmanager/latest/userguide/cloudtrail_log_entries.html",

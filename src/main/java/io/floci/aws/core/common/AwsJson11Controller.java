@@ -415,8 +415,8 @@ public class AwsJson11Controller {
             // action is authorized against the calling account, so pass that instead of region.
             case "organizations" ->
                     organizationsJsonHandler.handle(action, request, regionResolver.getAccountId());
-            case "sso" -> ssoAdminJsonHandler.handle(action, request, regionResolver.getAccountId(), region);
-            case "identitystore" -> identityStoreJsonHandler.handle(action, request);
+            case "sso" -> ssoAdminJsonHandler.handleApiCall(action, request, regionResolver.getAccountId(), region);
+            case "identitystore" -> identityStoreJsonHandler.handleApiCall(action, request, region);
             case "budgets" -> budgetsJsonHandler.handle(action, request, regionResolver.getAccountId());
             case "servicequotas" -> serviceQuotasJsonHandler.handle(
                     action, request, region, regionResolver.getAccountId());

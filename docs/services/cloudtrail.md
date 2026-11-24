@@ -360,6 +360,39 @@ records a secret: a token, a client secret, an assertion or a credential is eith
 Not recorded yet: a failed sign-in, `CreateToken` or portal call, the consent page's cancellation, `Logout`, and a
 `CreateTokenWithIAM` IAM enforcement refuses.
 
+## IAM Identity Center Administration and Identity Store Coverage
+
+The public IAM Identity Center operations and the public Identity Store operations the
+[IAM Identity Center guide lists](https://docs.aws.amazon.com/singlesignon/latest/userguide/sso-info-in-cloudtrail.html)
+are recorded as management events: the 73 IAM Identity Center ones under `sso.amazonaws.com` (permission sets,
+account and application assignments, applications, trusted token issuers, instances, tags) and the 19 Identity
+Store ones under `identitystore.amazonaws.com` (users, groups, memberships). The lists are vendored in
+`aws/sso-cloudtrail-events.json` and `aws/identitystore-cloudtrail-events.json`, read-only as AWS's Service
+Reference gives each action's access level, and the members are read through botocore's `sso-admin` and
+`identitystore` models (`aws/sso-admin-cloudtrail-shapes.json`, `aws/identitystore-cloudtrail-shapes.json`).
+
+- A call is its signer's, in the Region it was signed for. `requestParameters` are the request's members with a
+  lower first letter and `responseElements` the answer in the same form (`accountAssignmentCreationStatus`), null
+  for a read-only call and for a call that answers nothing, as a 2025 record of `CreateAccountAssignment` shows.
+- A timestamp in an IAM Identity Center answer (`permissionSet.createdDate`) is written `May 24, 2025, 2:51:14 PM`,
+  with a narrow no-break space before `PM`, as IAM Identity Center's 2025 directory records write theirs. An
+  `actorPolicy` document is written as sent.
+- In Identity Store records, every member botocore's model marks sensitive is written
+  `HIDDEN_DUE_TO_SECURITY_REASONS`: the user name and attributes (`displayName`, `name.givenName`,
+  `emails[].value`, ...), a group's `displayName` and `description`, and external IDs. So is every
+  `attributeValue` (`UpdateUser`, `UpdateGroup`, `GetUserId`, `GetGroupId`), which carries one of those
+  attributes. AWS writes a group's display name so in `CreateGroup` and `UpdateGroup` since July 14, 2025
+  ([AWS Security Blog](https://aws.amazon.com/blogs/security/modifications-to-aws-cloudtrail-event-data-of-iam-identity-center/)),
+  and the user's names and attributes in the SCIM `CreateUser` event
+  ([example](https://docs.aws.amazon.com/singlesignon/latest/userguide/scim-logging-using-cloudtrail.html)).
+- A failed call keeps its members under its error's type (`ResourceNotFoundException`), with its message and
+  `"responseElements": null`; a call IAM enforcement refuses is `AccessDenied` with `"requestParameters": null`.
+
+Not recorded: the IAM Identity Center operations the guide's list does not name (`AddRegion`, `RemoveRegion`,
+`DescribeRegion`, `ListRegions`, `GetApplicationSessionConfiguration`, `PutApplicationSessionConfiguration`), the
+console's `sso-directory.amazonaws.com` events, which have no public API, and the SCIM endpoint's
+`identitystore-scim.amazonaws.com` events.
+
 ## EventBridge delivery
 
 "CloudTrail sends the following types of events to the default EventBridge event bus", the first of them

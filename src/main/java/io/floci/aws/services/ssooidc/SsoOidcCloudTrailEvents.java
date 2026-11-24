@@ -70,7 +70,7 @@ public class SsoOidcCloudTrailEvents implements ContainerRequestFilter, Containe
 
     private static final Logger LOG = Logger.getLogger(SsoOidcCloudTrailEvents.class);
     /** What CloudTrail writes in place of a secret member of IAM Identity Center's calls. */
-    static final String HIDDEN = "HIDDEN_DUE_TO_SECURITY_REASONS";
+    public static final String HIDDEN = "HIDDEN_DUE_TO_SECURITY_REASONS";
     private static final String CREATE_TOKEN_SOURCE = "sso.amazonaws.com";
     private static final String CREATE_TOKEN_WITH_IAM_SOURCE = "sso-oauth.amazonaws.com";
     private static final String CALL = SsoOidcCloudTrailEvents.class.getName() + ".call";

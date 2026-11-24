@@ -35,11 +35,30 @@ import java.util.Map;
 public class SsoAdminJsonHandler {
     private final SsoAdminService service;
     private final ObjectMapper mapper;
+    private final SsoAdminCloudTrailEvents cloudTrailEvents;
 
     @Inject
-    public SsoAdminJsonHandler(SsoAdminService service, ObjectMapper mapper) {
+    public SsoAdminJsonHandler(SsoAdminService service, ObjectMapper mapper,
+                               SsoAdminCloudTrailEvents cloudTrailEvents) {
         this.service = service;
         this.mapper = mapper;
+        this.cloudTrailEvents = cloudTrailEvents;
+    }
+
+    /**
+     * Answers a call a client made to IAM Identity Center's endpoint, signed for {@code region}, and records it in
+     * CloudTrail ({@link SsoAdminCloudTrailEvents}).
+     */
+    public Response handleApiCall(String action, JsonNode request, String callerAccountId, String region) {
+        Response response;
+        try {
+            response = handle(action, request, callerAccountId, region);
+        } catch (AwsException e) {
+            cloudTrailEvents.record(action, request, region, null, e);
+            throw e;
+        }
+        cloudTrailEvents.record(action, request, region, response, null);
+        return response;
     }
 
     public Response handle(String action, JsonNode request, String callerAccountId, String region) {

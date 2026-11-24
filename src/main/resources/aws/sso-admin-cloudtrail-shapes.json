@@ -1,0 +1,2079 @@
+{
+  "_source": {
+    "generator": "tools/aws/regen_sso_admin_cloudtrail_shapes.py",
+    "botocore": "botocore 1.44.9 (installed package)"
+  },
+  "operations": {
+    "AttachCustomerManagedPolicyReferenceToPermissionSet": "AttachCustomerManagedPolicyReferenceToPermissionSetRequest",
+    "AttachManagedPolicyToPermissionSet": "AttachManagedPolicyToPermissionSetRequest",
+    "CreateAccountAssignment": "CreateAccountAssignmentRequest",
+    "CreateApplication": "CreateApplicationRequest",
+    "CreateApplicationAssignment": "CreateApplicationAssignmentRequest",
+    "CreateInstance": "CreateInstanceRequest",
+    "CreateInstanceAccessControlAttributeConfiguration": "CreateInstanceAccessControlAttributeConfigurationRequest",
+    "CreatePermissionSet": "CreatePermissionSetRequest",
+    "CreateTrustedTokenIssuer": "CreateTrustedTokenIssuerRequest",
+    "DeleteAccountAssignment": "DeleteAccountAssignmentRequest",
+    "DeleteApplication": "DeleteApplicationRequest",
+    "DeleteApplicationAccessScope": "DeleteApplicationAccessScopeRequest",
+    "DeleteApplicationAssignment": "DeleteApplicationAssignmentRequest",
+    "DeleteApplicationAuthenticationMethod": "DeleteApplicationAuthenticationMethodRequest",
+    "DeleteApplicationGrant": "DeleteApplicationGrantRequest",
+    "DeleteInlinePolicyFromPermissionSet": "DeleteInlinePolicyFromPermissionSetRequest",
+    "DeleteInstance": "DeleteInstanceRequest",
+    "DeleteInstanceAccessControlAttributeConfiguration": "DeleteInstanceAccessControlAttributeConfigurationRequest",
+    "DeletePermissionSet": "DeletePermissionSetRequest",
+    "DeletePermissionsBoundaryFromPermissionSet": "DeletePermissionsBoundaryFromPermissionSetRequest",
+    "DeleteTrustedTokenIssuer": "DeleteTrustedTokenIssuerRequest",
+    "DescribeAccountAssignmentCreationStatus": "DescribeAccountAssignmentCreationStatusRequest",
+    "DescribeAccountAssignmentDeletionStatus": "DescribeAccountAssignmentDeletionStatusRequest",
+    "DescribeApplication": "DescribeApplicationRequest",
+    "DescribeApplicationAssignment": "DescribeApplicationAssignmentRequest",
+    "DescribeApplicationProvider": "DescribeApplicationProviderRequest",
+    "DescribeInstance": "DescribeInstanceRequest",
+    "DescribeInstanceAccessControlAttributeConfiguration": "DescribeInstanceAccessControlAttributeConfigurationRequest",
+    "DescribePermissionSet": "DescribePermissionSetRequest",
+    "DescribePermissionSetProvisioningStatus": "DescribePermissionSetProvisioningStatusRequest",
+    "DescribeTrustedTokenIssuer": "DescribeTrustedTokenIssuerRequest",
+    "DetachCustomerManagedPolicyReferenceFromPermissionSet": "DetachCustomerManagedPolicyReferenceFromPermissionSetRequest",
+    "DetachManagedPolicyFromPermissionSet": "DetachManagedPolicyFromPermissionSetRequest",
+    "GetApplicationAccessScope": "GetApplicationAccessScopeRequest",
+    "GetApplicationAssignmentConfiguration": "GetApplicationAssignmentConfigurationRequest",
+    "GetApplicationAuthenticationMethod": "GetApplicationAuthenticationMethodRequest",
+    "GetApplicationGrant": "GetApplicationGrantRequest",
+    "GetInlinePolicyForPermissionSet": "GetInlinePolicyForPermissionSetRequest",
+    "GetPermissionsBoundaryForPermissionSet": "GetPermissionsBoundaryForPermissionSetRequest",
+    "ListAccountAssignmentCreationStatus": "ListAccountAssignmentCreationStatusRequest",
+    "ListAccountAssignmentDeletionStatus": "ListAccountAssignmentDeletionStatusRequest",
+    "ListAccountAssignments": "ListAccountAssignmentsRequest",
+    "ListAccountAssignmentsForPrincipal": "ListAccountAssignmentsForPrincipalRequest",
+    "ListAccountsForProvisionedPermissionSet": "ListAccountsForProvisionedPermissionSetRequest",
+    "ListApplicationAccessScopes": "ListApplicationAccessScopesRequest",
+    "ListApplicationAssignments": "ListApplicationAssignmentsRequest",
+    "ListApplicationAssignmentsForPrincipal": "ListApplicationAssignmentsForPrincipalRequest",
+    "ListApplicationAuthenticationMethods": "ListApplicationAuthenticationMethodsRequest",
+    "ListApplicationGrants": "ListApplicationGrantsRequest",
+    "ListApplicationProviders": "ListApplicationProvidersRequest",
+    "ListApplications": "ListApplicationsRequest",
+    "ListCustomerManagedPolicyReferencesInPermissionSet": "ListCustomerManagedPolicyReferencesInPermissionSetRequest",
+    "ListInstances": "ListInstancesRequest",
+    "ListManagedPoliciesInPermissionSet": "ListManagedPoliciesInPermissionSetRequest",
+    "ListPermissionSetProvisioningStatus": "ListPermissionSetProvisioningStatusRequest",
+    "ListPermissionSets": "ListPermissionSetsRequest",
+    "ListPermissionSetsProvisionedToAccount": "ListPermissionSetsProvisionedToAccountRequest",
+    "ListTagsForResource": "ListTagsForResourceRequest",
+    "ListTrustedTokenIssuers": "ListTrustedTokenIssuersRequest",
+    "ProvisionPermissionSet": "ProvisionPermissionSetRequest",
+    "PutApplicationAccessScope": "PutApplicationAccessScopeRequest",
+    "PutApplicationAssignmentConfiguration": "PutApplicationAssignmentConfigurationRequest",
+    "PutApplicationAuthenticationMethod": "PutApplicationAuthenticationMethodRequest",
+    "PutApplicationGrant": "PutApplicationGrantRequest",
+    "PutInlinePolicyToPermissionSet": "PutInlinePolicyToPermissionSetRequest",
+    "PutPermissionsBoundaryToPermissionSet": "PutPermissionsBoundaryToPermissionSetRequest",
+    "TagResource": "TagResourceRequest",
+    "UntagResource": "UntagResourceRequest",
+    "UpdateApplication": "UpdateApplicationRequest",
+    "UpdateInstance": "UpdateInstanceRequest",
+    "UpdateInstanceAccessControlAttributeConfiguration": "UpdateInstanceAccessControlAttributeConfigurationRequest",
+    "UpdatePermissionSet": "UpdatePermissionSetRequest",
+    "UpdateTrustedTokenIssuer": "UpdateTrustedTokenIssuerRequest"
+  },
+  "results": {
+    "AttachCustomerManagedPolicyReferenceToPermissionSet": {
+      "shape": "AttachCustomerManagedPolicyReferenceToPermissionSetResponse",
+      "resultWrapper": null
+    },
+    "AttachManagedPolicyToPermissionSet": {
+      "shape": "AttachManagedPolicyToPermissionSetResponse",
+      "resultWrapper": null
+    },
+    "CreateAccountAssignment": {
+      "shape": "CreateAccountAssignmentResponse",
+      "resultWrapper": null
+    },
+    "CreateApplication": {
+      "shape": "CreateApplicationResponse",
+      "resultWrapper": null
+    },
+    "CreateApplicationAssignment": {
+      "shape": "CreateApplicationAssignmentResponse",
+      "resultWrapper": null
+    },
+    "CreateInstance": {
+      "shape": "CreateInstanceResponse",
+      "resultWrapper": null
+    },
+    "CreateInstanceAccessControlAttributeConfiguration": {
+      "shape": "CreateInstanceAccessControlAttributeConfigurationResponse",
+      "resultWrapper": null
+    },
+    "CreatePermissionSet": {
+      "shape": "CreatePermissionSetResponse",
+      "resultWrapper": null
+    },
+    "CreateTrustedTokenIssuer": {
+      "shape": "CreateTrustedTokenIssuerResponse",
+      "resultWrapper": null
+    },
+    "DeleteAccountAssignment": {
+      "shape": "DeleteAccountAssignmentResponse",
+      "resultWrapper": null
+    },
+    "DeleteApplication": {
+      "shape": "DeleteApplicationResponse",
+      "resultWrapper": null
+    },
+    "DeleteApplicationAssignment": {
+      "shape": "DeleteApplicationAssignmentResponse",
+      "resultWrapper": null
+    },
+    "DeleteInlinePolicyFromPermissionSet": {
+      "shape": "DeleteInlinePolicyFromPermissionSetResponse",
+      "resultWrapper": null
+    },
+    "DeleteInstance": {
+      "shape": "DeleteInstanceResponse",
+      "resultWrapper": null
+    },
+    "DeleteInstanceAccessControlAttributeConfiguration": {
+      "shape": "DeleteInstanceAccessControlAttributeConfigurationResponse",
+      "resultWrapper": null
+    },
+    "DeletePermissionSet": {
+      "shape": "DeletePermissionSetResponse",
+      "resultWrapper": null
+    },
+    "DeletePermissionsBoundaryFromPermissionSet": {
+      "shape": "DeletePermissionsBoundaryFromPermissionSetResponse",
+      "resultWrapper": null
+    },
+    "DeleteTrustedTokenIssuer": {
+      "shape": "DeleteTrustedTokenIssuerResponse",
+      "resultWrapper": null
+    },
+    "DescribeAccountAssignmentCreationStatus": {
+      "shape": "DescribeAccountAssignmentCreationStatusResponse",
+      "resultWrapper": null
+    },
+    "DescribeAccountAssignmentDeletionStatus": {
+      "shape": "DescribeAccountAssignmentDeletionStatusResponse",
+      "resultWrapper": null
+    },
+    "DescribeApplication": {
+      "shape": "DescribeApplicationResponse",
+      "resultWrapper": null
+    },
+    "DescribeApplicationAssignment": {
+      "shape": "DescribeApplicationAssignmentResponse",
+      "resultWrapper": null
+    },
+    "DescribeApplicationProvider": {
+      "shape": "DescribeApplicationProviderResponse",
+      "resultWrapper": null
+    },
+    "DescribeInstance": {
+      "shape": "DescribeInstanceResponse",
+      "resultWrapper": null
+    },
+    "DescribeInstanceAccessControlAttributeConfiguration": {
+      "shape": "DescribeInstanceAccessControlAttributeConfigurationResponse",
+      "resultWrapper": null
+    },
+    "DescribePermissionSet": {
+      "shape": "DescribePermissionSetResponse",
+      "resultWrapper": null
+    },
+    "DescribePermissionSetProvisioningStatus": {
+      "shape": "DescribePermissionSetProvisioningStatusResponse",
+      "resultWrapper": null
+    },
+    "DescribeTrustedTokenIssuer": {
+      "shape": "DescribeTrustedTokenIssuerResponse",
+      "resultWrapper": null
+    },
+    "DetachCustomerManagedPolicyReferenceFromPermissionSet": {
+      "shape": "DetachCustomerManagedPolicyReferenceFromPermissionSetResponse",
+      "resultWrapper": null
+    },
+    "DetachManagedPolicyFromPermissionSet": {
+      "shape": "DetachManagedPolicyFromPermissionSetResponse",
+      "resultWrapper": null
+    },
+    "GetApplicationAccessScope": {
+      "shape": "GetApplicationAccessScopeResponse",
+      "resultWrapper": null
+    },
+    "GetApplicationAssignmentConfiguration": {
+      "shape": "GetApplicationAssignmentConfigurationResponse",
+      "resultWrapper": null
+    },
+    "GetApplicationAuthenticationMethod": {
+      "shape": "GetApplicationAuthenticationMethodResponse",
+      "resultWrapper": null
+    },
+    "GetApplicationGrant": {
+      "shape": "GetApplicationGrantResponse",
+      "resultWrapper": null
+    },
+    "GetInlinePolicyForPermissionSet": {
+      "shape": "GetInlinePolicyForPermissionSetResponse",
+      "resultWrapper": null
+    },
+    "GetPermissionsBoundaryForPermissionSet": {
+      "shape": "GetPermissionsBoundaryForPermissionSetResponse",
+      "resultWrapper": null
+    },
+    "ListAccountAssignmentCreationStatus": {
+      "shape": "ListAccountAssignmentCreationStatusResponse",
+      "resultWrapper": null
+    },
+    "ListAccountAssignmentDeletionStatus": {
+      "shape": "ListAccountAssignmentDeletionStatusResponse",
+      "resultWrapper": null
+    },
+    "ListAccountAssignments": {
+      "shape": "ListAccountAssignmentsResponse",
+      "resultWrapper": null
+    },
+    "ListAccountAssignmentsForPrincipal": {
+      "shape": "ListAccountAssignmentsForPrincipalResponse",
+      "resultWrapper": null
+    },
+    "ListAccountsForProvisionedPermissionSet": {
+      "shape": "ListAccountsForProvisionedPermissionSetResponse",
+      "resultWrapper": null
+    },
+    "ListApplicationAccessScopes": {
+      "shape": "ListApplicationAccessScopesResponse",
+      "resultWrapper": null
+    },
+    "ListApplicationAssignments": {
+      "shape": "ListApplicationAssignmentsResponse",
+      "resultWrapper": null
+    },
+    "ListApplicationAssignmentsForPrincipal": {
+      "shape": "ListApplicationAssignmentsForPrincipalResponse",
+      "resultWrapper": null
+    },
+    "ListApplicationAuthenticationMethods": {
+      "shape": "ListApplicationAuthenticationMethodsResponse",
+      "resultWrapper": null
+    },
+    "ListApplicationGrants": {
+      "shape": "ListApplicationGrantsResponse",
+      "resultWrapper": null
+    },
+    "ListApplicationProviders": {
+      "shape": "ListApplicationProvidersResponse",
+      "resultWrapper": null
+    },
+    "ListApplications": {
+      "shape": "ListApplicationsResponse",
+      "resultWrapper": null
+    },
+    "ListCustomerManagedPolicyReferencesInPermissionSet": {
+      "shape": "ListCustomerManagedPolicyReferencesInPermissionSetResponse",
+      "resultWrapper": null
+    },
+    "ListInstances": {
+      "shape": "ListInstancesResponse",
+      "resultWrapper": null
+    },
+    "ListManagedPoliciesInPermissionSet": {
+      "shape": "ListManagedPoliciesInPermissionSetResponse",
+      "resultWrapper": null
+    },
+    "ListPermissionSetProvisioningStatus": {
+      "shape": "ListPermissionSetProvisioningStatusResponse",
+      "resultWrapper": null
+    },
+    "ListPermissionSets": {
+      "shape": "ListPermissionSetsResponse",
+      "resultWrapper": null
+    },
+    "ListPermissionSetsProvisionedToAccount": {
+      "shape": "ListPermissionSetsProvisionedToAccountResponse",
+      "resultWrapper": null
+    },
+    "ListTagsForResource": {
+      "shape": "ListTagsForResourceResponse",
+      "resultWrapper": null
+    },
+    "ListTrustedTokenIssuers": {
+      "shape": "ListTrustedTokenIssuersResponse",
+      "resultWrapper": null
+    },
+    "ProvisionPermissionSet": {
+      "shape": "ProvisionPermissionSetResponse",
+      "resultWrapper": null
+    },
+    "PutApplicationAssignmentConfiguration": {
+      "shape": "PutApplicationAssignmentConfigurationResponse",
+      "resultWrapper": null
+    },
+    "PutInlinePolicyToPermissionSet": {
+      "shape": "PutInlinePolicyToPermissionSetResponse",
+      "resultWrapper": null
+    },
+    "PutPermissionsBoundaryToPermissionSet": {
+      "shape": "PutPermissionsBoundaryToPermissionSetResponse",
+      "resultWrapper": null
+    },
+    "TagResource": {
+      "shape": "TagResourceResponse",
+      "resultWrapper": null
+    },
+    "UntagResource": {
+      "shape": "UntagResourceResponse",
+      "resultWrapper": null
+    },
+    "UpdateApplication": {
+      "shape": "UpdateApplicationResponse",
+      "resultWrapper": null
+    },
+    "UpdateInstance": {
+      "shape": "UpdateInstanceResponse",
+      "resultWrapper": null
+    },
+    "UpdateInstanceAccessControlAttributeConfiguration": {
+      "shape": "UpdateInstanceAccessControlAttributeConfigurationResponse",
+      "resultWrapper": null
+    },
+    "UpdatePermissionSet": {
+      "shape": "UpdatePermissionSetResponse",
+      "resultWrapper": null
+    },
+    "UpdateTrustedTokenIssuer": {
+      "shape": "UpdateTrustedTokenIssuerResponse",
+      "resultWrapper": null
+    }
+  },
+  "shapes": {
+    "AccessControlAttribute": {
+      "type": "structure",
+      "members": {
+        "Key": "AccessControlAttributeKey",
+        "Value": "AccessControlAttributeValue"
+      }
+    },
+    "AccessControlAttributeKey": {
+      "type": "string"
+    },
+    "AccessControlAttributeList": {
+      "type": "list",
+      "member": "AccessControlAttribute"
+    },
+    "AccessControlAttributeValue": {
+      "type": "structure",
+      "members": {
+        "Source": "AccessControlAttributeValueSourceList"
+      }
+    },
+    "AccessControlAttributeValueSource": {
+      "type": "string"
+    },
+    "AccessControlAttributeValueSourceList": {
+      "type": "list",
+      "member": "AccessControlAttributeValueSource"
+    },
+    "AccountAssignment": {
+      "type": "structure",
+      "members": {
+        "AccountId": "AccountId",
+        "PermissionSetArn": "PermissionSetArn",
+        "PrincipalType": "PrincipalType",
+        "PrincipalId": "PrincipalId"
+      }
+    },
+    "AccountAssignmentForPrincipal": {
+      "type": "structure",
+      "members": {
+        "AccountId": "AccountId",
+        "PermissionSetArn": "PermissionSetArn",
+        "PrincipalId": "PrincipalId",
+        "PrincipalType": "PrincipalType"
+      }
+    },
+    "AccountAssignmentList": {
+      "type": "list",
+      "member": "AccountAssignment"
+    },
+    "AccountAssignmentListForPrincipal": {
+      "type": "list",
+      "member": "AccountAssignmentForPrincipal"
+    },
+    "AccountAssignmentOperationStatus": {
+      "type": "structure",
+      "members": {
+        "Status": "StatusValues",
+        "RequestId": "UUId",
+        "FailureReason": "Reason",
+        "TargetId": "TargetId",
+        "TargetType": "TargetType",
+        "PermissionSetArn": "PermissionSetArn",
+        "PrincipalType": "PrincipalType",
+        "PrincipalId": "PrincipalId",
+        "CreatedDate": "Date"
+      }
+    },
+    "AccountAssignmentOperationStatusList": {
+      "type": "list",
+      "member": "AccountAssignmentOperationStatusMetadata"
+    },
+    "AccountAssignmentOperationStatusMetadata": {
+      "type": "structure",
+      "members": {
+        "Status": "StatusValues",
+        "RequestId": "UUId",
+        "CreatedDate": "Date"
+      }
+    },
+    "AccountId": {
+      "type": "string"
+    },
+    "AccountList": {
+      "type": "list",
+      "member": "AccountId"
+    },
+    "ActorPolicyDocument": {
+      "type": "structure",
+      "document": true,
+      "members": {}
+    },
+    "Application": {
+      "type": "structure",
+      "members": {
+        "ApplicationArn": "ApplicationArn",
+        "ApplicationProviderArn": "ApplicationProviderArn",
+        "Name": "ApplicationNameType",
+        "ApplicationAccount": "AccountId",
+        "InstanceArn": "InstanceArn",
+        "IdentityStoreArn": "IdentityStoreArn",
+        "Status": "ApplicationStatus",
+        "PortalOptions": "PortalOptions",
+        "Description": "Description",
+        "CreatedDate": "Date",
+        "CreatedFrom": "RegionName"
+      }
+    },
+    "ApplicationArn": {
+      "type": "string"
+    },
+    "ApplicationArnList": {
+      "type": "list",
+      "member": "FirstOrThirdPartyApplicationArnType"
+    },
+    "ApplicationAssignment": {
+      "type": "structure",
+      "members": {
+        "ApplicationArn": "ApplicationArn",
+        "PrincipalId": "PrincipalId",
+        "PrincipalType": "PrincipalType"
+      }
+    },
+    "ApplicationAssignmentForPrincipal": {
+      "type": "structure",
+      "members": {
+        "ApplicationArn": "ApplicationArn",
+        "PrincipalId": "PrincipalId",
+        "PrincipalType": "PrincipalType"
+      }
+    },
+    "ApplicationAssignmentListForPrincipal": {
+      "type": "list",
+      "member": "ApplicationAssignmentForPrincipal"
+    },
+    "ApplicationAssignmentsList": {
+      "type": "list",
+      "member": "ApplicationAssignment"
+    },
+    "ApplicationList": {
+      "type": "list",
+      "member": "Application"
+    },
+    "ApplicationNameType": {
+      "type": "string"
+    },
+    "ApplicationProvider": {
+      "type": "structure",
+      "members": {
+        "ApplicationProviderArn": "ApplicationProviderArn",
+        "FederationProtocol": "FederationProtocol",
+        "DisplayData": "DisplayData",
+        "ResourceServerConfig": "ResourceServerConfig"
+      }
+    },
+    "ApplicationProviderArn": {
+      "type": "string"
+    },
+    "ApplicationProviderList": {
+      "type": "list",
+      "member": "ApplicationProvider"
+    },
+    "ApplicationStatus": {
+      "type": "string"
+    },
+    "ApplicationUrl": {
+      "type": "string"
+    },
+    "ApplicationVisibility": {
+      "type": "string"
+    },
+    "AssignmentRequired": {
+      "type": "boolean"
+    },
+    "AttachCustomerManagedPolicyReferenceToPermissionSetRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "PermissionSetArn": "PermissionSetArn",
+        "CustomerManagedPolicyReference": "CustomerManagedPolicyReference"
+      }
+    },
+    "AttachCustomerManagedPolicyReferenceToPermissionSetResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "AttachManagedPolicyToPermissionSetRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "PermissionSetArn": "PermissionSetArn",
+        "ManagedPolicyArn": "ManagedPolicyArn"
+      }
+    },
+    "AttachManagedPolicyToPermissionSetResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "AttachedManagedPolicy": {
+      "type": "structure",
+      "members": {
+        "Name": "Name",
+        "Arn": "ManagedPolicyArn"
+      }
+    },
+    "AttachedManagedPolicyList": {
+      "type": "list",
+      "member": "AttachedManagedPolicy"
+    },
+    "AuthenticationMethod": {
+      "type": "structure",
+      "members": {
+        "Iam": "IamAuthenticationMethod"
+      }
+    },
+    "AuthenticationMethodItem": {
+      "type": "structure",
+      "members": {
+        "AuthenticationMethodType": "AuthenticationMethodType",
+        "AuthenticationMethod": "AuthenticationMethod"
+      }
+    },
+    "AuthenticationMethodType": {
+      "type": "string"
+    },
+    "AuthenticationMethods": {
+      "type": "list",
+      "member": "AuthenticationMethodItem"
+    },
+    "AuthorizationCodeGrant": {
+      "type": "structure",
+      "members": {
+        "RedirectUris": "RedirectUris"
+      }
+    },
+    "AuthorizedTokenIssuer": {
+      "type": "structure",
+      "members": {
+        "TrustedTokenIssuerArn": "TrustedTokenIssuerArn",
+        "AuthorizedAudiences": "TokenIssuerAudiences"
+      }
+    },
+    "AuthorizedTokenIssuers": {
+      "type": "list",
+      "member": "AuthorizedTokenIssuer"
+    },
+    "Boolean": {
+      "type": "boolean"
+    },
+    "ClaimAttributePath": {
+      "type": "string"
+    },
+    "ClientToken": {
+      "type": "string"
+    },
+    "CreateAccountAssignmentRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "TargetId": "TargetId",
+        "TargetType": "TargetType",
+        "PermissionSetArn": "PermissionSetArn",
+        "PrincipalType": "PrincipalType",
+        "PrincipalId": "PrincipalId"
+      }
+    },
+    "CreateAccountAssignmentResponse": {
+      "type": "structure",
+      "members": {
+        "AccountAssignmentCreationStatus": "AccountAssignmentOperationStatus"
+      }
+    },
+    "CreateApplicationAssignmentRequest": {
+      "type": "structure",
+      "members": {
+        "ApplicationArn": "ApplicationArn",
+        "PrincipalId": "PrincipalId",
+        "PrincipalType": "PrincipalType"
+      }
+    },
+    "CreateApplicationAssignmentResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "CreateApplicationRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "ApplicationProviderArn": "ApplicationProviderArn",
+        "Name": "ApplicationNameType",
+        "Description": "Description",
+        "PortalOptions": "PortalOptions",
+        "Tags": "TagList",
+        "Status": "ApplicationStatus",
+        "ClientToken": "ClientToken"
+      }
+    },
+    "CreateApplicationResponse": {
+      "type": "structure",
+      "members": {
+        "ApplicationArn": "ApplicationArn",
+        "InstanceArn": "InstanceArn",
+        "IdentityStoreArn": "IdentityStoreArn"
+      }
+    },
+    "CreateInstanceAccessControlAttributeConfigurationRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "InstanceAccessControlAttributeConfiguration": "InstanceAccessControlAttributeConfiguration"
+      }
+    },
+    "CreateInstanceAccessControlAttributeConfigurationResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "CreateInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "NameType",
+        "ClientToken": "ClientToken",
+        "Tags": "TagList"
+      }
+    },
+    "CreateInstanceResponse": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn"
+      }
+    },
+    "CreatePermissionSetRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "PermissionSetName",
+        "Description": "PermissionSetDescription",
+        "InstanceArn": "InstanceArn",
+        "SessionDuration": "Duration",
+        "RelayState": "RelayState",
+        "Tags": "TagList"
+      }
+    },
+    "CreatePermissionSetResponse": {
+      "type": "structure",
+      "members": {
+        "PermissionSet": "PermissionSet"
+      }
+    },
+    "CreateTrustedTokenIssuerRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "Name": "TrustedTokenIssuerName",
+        "TrustedTokenIssuerType": "TrustedTokenIssuerType",
+        "TrustedTokenIssuerConfiguration": "TrustedTokenIssuerConfiguration",
+        "ClientToken": "ClientToken",
+        "Tags": "TagList"
+      }
+    },
+    "CreateTrustedTokenIssuerResponse": {
+      "type": "structure",
+      "members": {
+        "TrustedTokenIssuerArn": "TrustedTokenIssuerArn"
+      }
+    },
+    "CustomerManagedPolicyReference": {
+      "type": "structure",
+      "members": {
+        "Name": "ManagedPolicyName",
+        "Path": "ManagedPolicyPath"
+      }
+    },
+    "CustomerManagedPolicyReferenceList": {
+      "type": "list",
+      "member": "CustomerManagedPolicyReference"
+    },
+    "Date": {
+      "type": "timestamp"
+    },
+    "DeleteAccountAssignmentRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "TargetId": "TargetId",
+        "TargetType": "TargetType",
+        "PermissionSetArn": "PermissionSetArn",
+        "PrincipalType": "PrincipalType",
+        "PrincipalId": "PrincipalId"
+      }
+    },
+    "DeleteAccountAssignmentResponse": {
+      "type": "structure",
+      "members": {
+        "AccountAssignmentDeletionStatus": "AccountAssignmentOperationStatus"
+      }
+    },
+    "DeleteApplicationAccessScopeRequest": {
+      "type": "structure",
+      "members": {
+        "ApplicationArn": "ApplicationArn",
+        "Scope": "Scope"
+      }
+    },
+    "DeleteApplicationAssignmentRequest": {
+      "type": "structure",
+      "members": {
+        "ApplicationArn": "ApplicationArn",
+        "PrincipalId": "PrincipalId",
+        "PrincipalType": "PrincipalType"
+      }
+    },
+    "DeleteApplicationAssignmentResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "DeleteApplicationAuthenticationMethodRequest": {
+      "type": "structure",
+      "members": {
+        "ApplicationArn": "ApplicationArn",
+        "AuthenticationMethodType": "AuthenticationMethodType"
+      }
+    },
+    "DeleteApplicationGrantRequest": {
+      "type": "structure",
+      "members": {
+        "ApplicationArn": "ApplicationArn",
+        "GrantType": "GrantType"
+      }
+    },
+    "DeleteApplicationRequest": {
+      "type": "structure",
+      "members": {
+        "ApplicationArn": "ApplicationArn"
+      }
+    },
+    "DeleteApplicationResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "DeleteInlinePolicyFromPermissionSetRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "PermissionSetArn": "PermissionSetArn"
+      }
+    },
+    "DeleteInlinePolicyFromPermissionSetResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "DeleteInstanceAccessControlAttributeConfigurationRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn"
+      }
+    },
+    "DeleteInstanceAccessControlAttributeConfigurationResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "DeleteInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn"
+      }
+    },
+    "DeleteInstanceResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "DeletePermissionSetRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "PermissionSetArn": "PermissionSetArn"
+      }
+    },
+    "DeletePermissionSetResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "DeletePermissionsBoundaryFromPermissionSetRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "PermissionSetArn": "PermissionSetArn"
+      }
+    },
+    "DeletePermissionsBoundaryFromPermissionSetResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "DeleteTrustedTokenIssuerRequest": {
+      "type": "structure",
+      "members": {
+        "TrustedTokenIssuerArn": "TrustedTokenIssuerArn"
+      }
+    },
+    "DeleteTrustedTokenIssuerResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "DescribeAccountAssignmentCreationStatusRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "AccountAssignmentCreationRequestId": "UUId"
+      }
+    },
+    "DescribeAccountAssignmentCreationStatusResponse": {
+      "type": "structure",
+      "members": {
+        "AccountAssignmentCreationStatus": "AccountAssignmentOperationStatus"
+      }
+    },
+    "DescribeAccountAssignmentDeletionStatusRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "AccountAssignmentDeletionRequestId": "UUId"
+      }
+    },
+    "DescribeAccountAssignmentDeletionStatusResponse": {
+      "type": "structure",
+      "members": {
+        "AccountAssignmentDeletionStatus": "AccountAssignmentOperationStatus"
+      }
+    },
+    "DescribeApplicationAssignmentRequest": {
+      "type": "structure",
+      "members": {
+        "ApplicationArn": "ApplicationArn",
+        "PrincipalId": "PrincipalId",
+        "PrincipalType": "PrincipalType"
+      }
+    },
+    "DescribeApplicationAssignmentResponse": {
+      "type": "structure",
+      "members": {
+        "PrincipalType": "PrincipalType",
+        "PrincipalId": "PrincipalId",
+        "ApplicationArn": "ApplicationArn"
+      }
+    },
+    "DescribeApplicationProviderRequest": {
+      "type": "structure",
+      "members": {
+        "ApplicationProviderArn": "ApplicationProviderArn"
+      }
+    },
+    "DescribeApplicationProviderResponse": {
+      "type": "structure",
+      "members": {
+        "ApplicationProviderArn": "ApplicationProviderArn",
+        "FederationProtocol": "FederationProtocol",
+        "DisplayData": "DisplayData",
+        "ResourceServerConfig": "ResourceServerConfig"
+      }
+    },
+    "DescribeApplicationRequest": {
+      "type": "structure",
+      "members": {
+        "ApplicationArn": "ApplicationArn"
+      }
+    },
+    "DescribeApplicationResponse": {
+      "type": "structure",
+      "members": {
+        "ApplicationArn": "ApplicationArn",
+        "ApplicationProviderArn": "ApplicationProviderArn",
+        "Name": "ApplicationNameType",
+        "ApplicationAccount": "AccountId",
+        "InstanceArn": "InstanceArn",
+        "IdentityStoreArn": "IdentityStoreArn",
+        "Status": "ApplicationStatus",
+        "PortalOptions": "PortalOptions",
+        "Description": "Description",
+        "CreatedDate": "Date",
+        "CreatedFrom": "RegionName"
+      }
+    },
+    "DescribeInstanceAccessControlAttributeConfigurationRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn"
+      }
+    },
+    "DescribeInstanceAccessControlAttributeConfigurationResponse": {
+      "type": "structure",
+      "members": {
+        "Status": "InstanceAccessControlAttributeConfigurationStatus",
+        "StatusReason": "InstanceAccessControlAttributeConfigurationStatusReason",
+        "InstanceAccessControlAttributeConfiguration": "InstanceAccessControlAttributeConfiguration"
+      }
+    },
+    "DescribeInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn"
+      }
+    },
+    "DescribeInstanceResponse": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "IdentityStoreId": "Id",
+        "IdentityStoreArn": "InstanceIdentityStoreArn",
+        "OwnerAccountId": "AccountId",
+        "Name": "NameType",
+        "CreatedDate": "Date",
+        "Status": "InstanceStatus",
+        "StatusReason": "Reason",
+        "PrimaryRegion": "RegionName",
+        "Regions": "RegionMetadataList",
+        "EncryptionConfigurationDetails": "EncryptionConfigurationDetails",
+        "NetworkConfigurationDetails": "NetworkConfigurationInfo",
+        "PermissionSetsEnabled": "Boolean"
+      }
+    },
+    "DescribePermissionSetProvisioningStatusRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "ProvisionPermissionSetRequestId": "UUId"
+      }
+    },
+    "DescribePermissionSetProvisioningStatusResponse": {
+      "type": "structure",
+      "members": {
+        "PermissionSetProvisioningStatus": "PermissionSetProvisioningStatus"
+      }
+    },
+    "DescribePermissionSetRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "PermissionSetArn": "PermissionSetArn"
+      }
+    },
+    "DescribePermissionSetResponse": {
+      "type": "structure",
+      "members": {
+        "PermissionSet": "PermissionSet"
+      }
+    },
+    "DescribeTrustedTokenIssuerRequest": {
+      "type": "structure",
+      "members": {
+        "TrustedTokenIssuerArn": "TrustedTokenIssuerArn"
+      }
+    },
+    "DescribeTrustedTokenIssuerResponse": {
+      "type": "structure",
+      "members": {
+        "TrustedTokenIssuerArn": "TrustedTokenIssuerArn",
+        "Name": "TrustedTokenIssuerName",
+        "TrustedTokenIssuerType": "TrustedTokenIssuerType",
+        "TrustedTokenIssuerConfiguration": "TrustedTokenIssuerConfiguration"
+      }
+    },
+    "Description": {
+      "type": "string"
+    },
+    "DetachCustomerManagedPolicyReferenceFromPermissionSetRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "PermissionSetArn": "PermissionSetArn",
+        "CustomerManagedPolicyReference": "CustomerManagedPolicyReference"
+      }
+    },
+    "DetachCustomerManagedPolicyReferenceFromPermissionSetResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "DetachManagedPolicyFromPermissionSetRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "PermissionSetArn": "PermissionSetArn",
+        "ManagedPolicyArn": "ManagedPolicyArn"
+      }
+    },
+    "DetachManagedPolicyFromPermissionSetResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "DisplayData": {
+      "type": "structure",
+      "members": {
+        "DisplayName": "Name",
+        "IconUrl": "IconUrl",
+        "Description": "Description"
+      }
+    },
+    "Duration": {
+      "type": "string"
+    },
+    "EncryptionConfiguration": {
+      "type": "structure",
+      "members": {
+        "KeyType": "KmsKeyType",
+        "KmsKeyArn": "KmsKeyArn"
+      }
+    },
+    "EncryptionConfigurationDetails": {
+      "type": "structure",
+      "members": {
+        "KeyType": "KmsKeyType",
+        "KmsKeyArn": "KmsKeyArn",
+        "EncryptionStatus": "KmsKeyStatus",
+        "EncryptionStatusReason": "Reason"
+      }
+    },
+    "FederationProtocol": {
+      "type": "string"
+    },
+    "FirstOrThirdPartyApplicationArnType": {
+      "type": "string"
+    },
+    "GetApplicationAccessScopeRequest": {
+      "type": "structure",
+      "members": {
+        "ApplicationArn": "ApplicationArn",
+        "Scope": "Scope"
+      }
+    },
+    "GetApplicationAccessScopeResponse": {
+      "type": "structure",
+      "members": {
+        "Scope": "Scope",
+        "AuthorizedTargets": "ScopeTargets"
+      }
+    },
+    "GetApplicationAssignmentConfigurationRequest": {
+      "type": "structure",
+      "members": {
+        "ApplicationArn": "ApplicationArn"
+      }
+    },
+    "GetApplicationAssignmentConfigurationResponse": {
+      "type": "structure",
+      "members": {
+        "AssignmentRequired": "AssignmentRequired"
+      }
+    },
+    "GetApplicationAuthenticationMethodRequest": {
+      "type": "structure",
+      "members": {
+        "ApplicationArn": "ApplicationArn",
+        "AuthenticationMethodType": "AuthenticationMethodType"
+      }
+    },
+    "GetApplicationAuthenticationMethodResponse": {
+      "type": "structure",
+      "members": {
+        "AuthenticationMethod": "AuthenticationMethod"
+      }
+    },
+    "GetApplicationGrantRequest": {
+      "type": "structure",
+      "members": {
+        "ApplicationArn": "ApplicationArn",
+        "GrantType": "GrantType"
+      }
+    },
+    "GetApplicationGrantResponse": {
+      "type": "structure",
+      "members": {
+        "Grant": "Grant"
+      }
+    },
+    "GetInlinePolicyForPermissionSetRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "PermissionSetArn": "PermissionSetArn"
+      }
+    },
+    "GetInlinePolicyForPermissionSetResponse": {
+      "type": "structure",
+      "members": {
+        "InlinePolicy": "PermissionSetPolicyDocument"
+      }
+    },
+    "GetPermissionsBoundaryForPermissionSetRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "PermissionSetArn": "PermissionSetArn"
+      }
+    },
+    "GetPermissionsBoundaryForPermissionSetResponse": {
+      "type": "structure",
+      "members": {
+        "PermissionsBoundary": "PermissionsBoundary"
+      }
+    },
+    "Grant": {
+      "type": "structure",
+      "members": {
+        "AuthorizationCode": "AuthorizationCodeGrant",
+        "JwtBearer": "JwtBearerGrant",
+        "RefreshToken": "RefreshTokenGrant",
+        "TokenExchange": "TokenExchangeGrant"
+      }
+    },
+    "GrantItem": {
+      "type": "structure",
+      "members": {
+        "GrantType": "GrantType",
+        "Grant": "Grant"
+      }
+    },
+    "GrantType": {
+      "type": "string"
+    },
+    "Grants": {
+      "type": "list",
+      "member": "GrantItem"
+    },
+    "IamAuthenticationMethod": {
+      "type": "structure",
+      "members": {
+        "ActorPolicy": "ActorPolicyDocument"
+      }
+    },
+    "IconUrl": {
+      "type": "string"
+    },
+    "Id": {
+      "type": "string"
+    },
+    "IdentityStoreArn": {
+      "type": "string"
+    },
+    "InstanceAccessControlAttributeConfiguration": {
+      "type": "structure",
+      "members": {
+        "AccessControlAttributes": "AccessControlAttributeList"
+      }
+    },
+    "InstanceAccessControlAttributeConfigurationStatus": {
+      "type": "string"
+    },
+    "InstanceAccessControlAttributeConfigurationStatusReason": {
+      "type": "string"
+    },
+    "InstanceArn": {
+      "type": "string"
+    },
+    "InstanceIdentityStoreArn": {
+      "type": "string"
+    },
+    "InstanceList": {
+      "type": "list",
+      "member": "InstanceMetadata"
+    },
+    "InstanceMetadata": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "IdentityStoreId": "Id",
+        "IdentityStoreArn": "InstanceIdentityStoreArn",
+        "OwnerAccountId": "AccountId",
+        "Name": "NameType",
+        "CreatedDate": "Date",
+        "Status": "InstanceStatus",
+        "StatusReason": "Reason",
+        "PrimaryRegion": "RegionName",
+        "Regions": "RegionMetadataList"
+      }
+    },
+    "InstanceStatus": {
+      "type": "string"
+    },
+    "IpCidrList": {
+      "type": "list",
+      "member": "IpCidrType"
+    },
+    "IpCidrType": {
+      "type": "string"
+    },
+    "IsPrimaryRegion": {
+      "type": "boolean"
+    },
+    "JMESPath": {
+      "type": "string"
+    },
+    "JwksRetrievalOption": {
+      "type": "string"
+    },
+    "JwtBearerGrant": {
+      "type": "structure",
+      "members": {
+        "AuthorizedTokenIssuers": "AuthorizedTokenIssuers"
+      }
+    },
+    "KmsKeyArn": {
+      "type": "string"
+    },
+    "KmsKeyStatus": {
+      "type": "string"
+    },
+    "KmsKeyType": {
+      "type": "string"
+    },
+    "ListAccountAssignmentCreationStatusRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "MaxResults": "MaxResults",
+        "NextToken": "Token",
+        "Filter": "OperationStatusFilter"
+      }
+    },
+    "ListAccountAssignmentCreationStatusResponse": {
+      "type": "structure",
+      "members": {
+        "AccountAssignmentsCreationStatus": "AccountAssignmentOperationStatusList",
+        "NextToken": "Token"
+      }
+    },
+    "ListAccountAssignmentDeletionStatusRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "MaxResults": "MaxResults",
+        "NextToken": "Token",
+        "Filter": "OperationStatusFilter"
+      }
+    },
+    "ListAccountAssignmentDeletionStatusResponse": {
+      "type": "structure",
+      "members": {
+        "AccountAssignmentsDeletionStatus": "AccountAssignmentOperationStatusList",
+        "NextToken": "Token"
+      }
+    },
+    "ListAccountAssignmentsFilter": {
+      "type": "structure",
+      "members": {
+        "AccountId": "AccountId"
+      }
+    },
+    "ListAccountAssignmentsForPrincipalRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "PrincipalId": "PrincipalId",
+        "PrincipalType": "PrincipalType",
+        "Filter": "ListAccountAssignmentsFilter",
+        "NextToken": "Token",
+        "MaxResults": "MaxResults"
+      }
+    },
+    "ListAccountAssignmentsForPrincipalResponse": {
+      "type": "structure",
+      "members": {
+        "AccountAssignments": "AccountAssignmentListForPrincipal",
+        "NextToken": "Token"
+      }
+    },
+    "ListAccountAssignmentsRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "AccountId": "TargetId",
+        "PermissionSetArn": "PermissionSetArn",
+        "MaxResults": "MaxResults",
+        "NextToken": "Token"
+      }
+    },
+    "ListAccountAssignmentsResponse": {
+      "type": "structure",
+      "members": {
+        "AccountAssignments": "AccountAssignmentList",
+        "NextToken": "Token"
+      }
+    },
+    "ListAccountsForProvisionedPermissionSetRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "PermissionSetArn": "PermissionSetArn",
+        "ProvisioningStatus": "ProvisioningStatus",
+        "MaxResults": "MaxResults",
+        "NextToken": "Token"
+      }
+    },
+    "ListAccountsForProvisionedPermissionSetResponse": {
+      "type": "structure",
+      "members": {
+        "AccountIds": "AccountList",
+        "NextToken": "Token"
+      }
+    },
+    "ListApplicationAccessScopesRequest": {
+      "type": "structure",
+      "members": {
+        "ApplicationArn": "ApplicationArn",
+        "MaxResults": "ListApplicationAccessScopesRequestMaxResultsInteger",
+        "NextToken": "Token"
+      }
+    },
+    "ListApplicationAccessScopesRequestMaxResultsInteger": {
+      "type": "integer"
+    },
+    "ListApplicationAccessScopesResponse": {
+      "type": "structure",
+      "members": {
+        "Scopes": "Scopes",
+        "NextToken": "Token"
+      }
+    },
+    "ListApplicationAssignmentsFilter": {
+      "type": "structure",
+      "members": {
+        "ApplicationArn": "ApplicationArn"
+      }
+    },
+    "ListApplicationAssignmentsForPrincipalRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "PrincipalId": "PrincipalId",
+        "PrincipalType": "PrincipalType",
+        "Filter": "ListApplicationAssignmentsFilter",
+        "NextToken": "Token",
+        "MaxResults": "MaxResults"
+      }
+    },
+    "ListApplicationAssignmentsForPrincipalResponse": {
+      "type": "structure",
+      "members": {
+        "ApplicationAssignments": "ApplicationAssignmentListForPrincipal",
+        "NextToken": "Token"
+      }
+    },
+    "ListApplicationAssignmentsRequest": {
+      "type": "structure",
+      "members": {
+        "ApplicationArn": "ApplicationArn",
+        "MaxResults": "MaxResults",
+        "NextToken": "Token"
+      }
+    },
+    "ListApplicationAssignmentsResponse": {
+      "type": "structure",
+      "members": {
+        "ApplicationAssignments": "ApplicationAssignmentsList",
+        "NextToken": "Token"
+      }
+    },
+    "ListApplicationAuthenticationMethodsRequest": {
+      "type": "structure",
+      "members": {
+        "ApplicationArn": "ApplicationArn",
+        "NextToken": "Token"
+      }
+    },
+    "ListApplicationAuthenticationMethodsResponse": {
+      "type": "structure",
+      "members": {
+        "AuthenticationMethods": "AuthenticationMethods",
+        "NextToken": "Token"
+      }
+    },
+    "ListApplicationGrantsRequest": {
+      "type": "structure",
+      "members": {
+        "ApplicationArn": "ApplicationArn",
+        "NextToken": "Token"
+      }
+    },
+    "ListApplicationGrantsResponse": {
+      "type": "structure",
+      "members": {
+        "Grants": "Grants",
+        "NextToken": "Token"
+      }
+    },
+    "ListApplicationProvidersRequest": {
+      "type": "structure",
+      "members": {
+        "MaxResults": "MaxResults",
+        "NextToken": "Token"
+      }
+    },
+    "ListApplicationProvidersResponse": {
+      "type": "structure",
+      "members": {
+        "ApplicationProviders": "ApplicationProviderList",
+        "NextToken": "Token"
+      }
+    },
+    "ListApplicationsFilter": {
+      "type": "structure",
+      "members": {
+        "ApplicationAccount": "AccountId",
+        "ApplicationProvider": "ApplicationProviderArn"
+      }
+    },
+    "ListApplicationsRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "MaxResults": "MaxResults",
+        "NextToken": "Token",
+        "Filter": "ListApplicationsFilter"
+      }
+    },
+    "ListApplicationsResponse": {
+      "type": "structure",
+      "members": {
+        "Applications": "ApplicationList",
+        "NextToken": "Token"
+      }
+    },
+    "ListCustomerManagedPolicyReferencesInPermissionSetRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "PermissionSetArn": "PermissionSetArn",
+        "MaxResults": "MaxResults",
+        "NextToken": "Token"
+      }
+    },
+    "ListCustomerManagedPolicyReferencesInPermissionSetResponse": {
+      "type": "structure",
+      "members": {
+        "CustomerManagedPolicyReferences": "CustomerManagedPolicyReferenceList",
+        "NextToken": "Token"
+      }
+    },
+    "ListInstancesRequest": {
+      "type": "structure",
+      "members": {
+        "MaxResults": "MaxResults",
+        "NextToken": "Token",
+        "RegionScope": "RegionScope"
+      }
+    },
+    "ListInstancesResponse": {
+      "type": "structure",
+      "members": {
+        "Instances": "InstanceList",
+        "NextToken": "Token"
+      }
+    },
+    "ListManagedPoliciesInPermissionSetRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "PermissionSetArn": "PermissionSetArn",
+        "MaxResults": "MaxResults",
+        "NextToken": "Token"
+      }
+    },
+    "ListManagedPoliciesInPermissionSetResponse": {
+      "type": "structure",
+      "members": {
+        "AttachedManagedPolicies": "AttachedManagedPolicyList",
+        "NextToken": "Token"
+      }
+    },
+    "ListPermissionSetProvisioningStatusRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "MaxResults": "MaxResults",
+        "NextToken": "Token",
+        "Filter": "OperationStatusFilter"
+      }
+    },
+    "ListPermissionSetProvisioningStatusResponse": {
+      "type": "structure",
+      "members": {
+        "PermissionSetsProvisioningStatus": "PermissionSetProvisioningStatusList",
+        "NextToken": "Token"
+      }
+    },
+    "ListPermissionSetsProvisionedToAccountRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "AccountId": "AccountId",
+        "ProvisioningStatus": "ProvisioningStatus",
+        "MaxResults": "MaxResults",
+        "NextToken": "Token"
+      }
+    },
+    "ListPermissionSetsProvisionedToAccountResponse": {
+      "type": "structure",
+      "members": {
+        "NextToken": "Token",
+        "PermissionSets": "PermissionSetList"
+      }
+    },
+    "ListPermissionSetsRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "NextToken": "Token",
+        "MaxResults": "MaxResults"
+      }
+    },
+    "ListPermissionSetsResponse": {
+      "type": "structure",
+      "members": {
+        "PermissionSets": "PermissionSetList",
+        "NextToken": "Token"
+      }
+    },
+    "ListTagsForResourceRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "ResourceArn": "TaggableResourceArn",
+        "NextToken": "Token"
+      }
+    },
+    "ListTagsForResourceResponse": {
+      "type": "structure",
+      "members": {
+        "Tags": "TagList",
+        "NextToken": "Token"
+      }
+    },
+    "ListTrustedTokenIssuersRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "MaxResults": "MaxResults",
+        "NextToken": "Token"
+      }
+    },
+    "ListTrustedTokenIssuersResponse": {
+      "type": "structure",
+      "members": {
+        "TrustedTokenIssuers": "TrustedTokenIssuerList",
+        "NextToken": "Token"
+      }
+    },
+    "ManagedPolicyArn": {
+      "type": "string"
+    },
+    "ManagedPolicyName": {
+      "type": "string"
+    },
+    "ManagedPolicyPath": {
+      "type": "string"
+    },
+    "MaxResults": {
+      "type": "integer"
+    },
+    "Name": {
+      "type": "string"
+    },
+    "NameType": {
+      "type": "string"
+    },
+    "NetworkConfigurationInfo": {
+      "type": "structure",
+      "members": {
+        "VpceAccessRequired": "Boolean",
+        "RestrictSourceVpcs": "VpcArnList",
+        "AllowSourceIps": "IpCidrList",
+        "ExcludeApplicationArns": "ApplicationArnList"
+      }
+    },
+    "OidcJwtConfiguration": {
+      "type": "structure",
+      "members": {
+        "IssuerUrl": "TrustedTokenIssuerUrl",
+        "ClaimAttributePath": "ClaimAttributePath",
+        "IdentityStoreAttributePath": "JMESPath",
+        "JwksRetrievalOption": "JwksRetrievalOption"
+      }
+    },
+    "OidcJwtUpdateConfiguration": {
+      "type": "structure",
+      "members": {
+        "ClaimAttributePath": "ClaimAttributePath",
+        "IdentityStoreAttributePath": "JMESPath",
+        "JwksRetrievalOption": "JwksRetrievalOption"
+      }
+    },
+    "OperationStatusFilter": {
+      "type": "structure",
+      "members": {
+        "Status": "StatusValues"
+      }
+    },
+    "PermissionSet": {
+      "type": "structure",
+      "members": {
+        "Name": "PermissionSetName",
+        "PermissionSetArn": "PermissionSetArn",
+        "Description": "PermissionSetDescription",
+        "CreatedDate": "Date",
+        "SessionDuration": "Duration",
+        "RelayState": "RelayState"
+      }
+    },
+    "PermissionSetArn": {
+      "type": "string"
+    },
+    "PermissionSetDescription": {
+      "type": "string"
+    },
+    "PermissionSetList": {
+      "type": "list",
+      "member": "PermissionSetArn"
+    },
+    "PermissionSetName": {
+      "type": "string"
+    },
+    "PermissionSetPolicyDocument": {
+      "type": "string"
+    },
+    "PermissionSetProvisioningStatus": {
+      "type": "structure",
+      "members": {
+        "Status": "StatusValues",
+        "RequestId": "UUId",
+        "AccountId": "AccountId",
+        "PermissionSetArn": "PermissionSetArn",
+        "FailureReason": "Reason",
+        "CreatedDate": "Date"
+      }
+    },
+    "PermissionSetProvisioningStatusList": {
+      "type": "list",
+      "member": "PermissionSetProvisioningStatusMetadata"
+    },
+    "PermissionSetProvisioningStatusMetadata": {
+      "type": "structure",
+      "members": {
+        "Status": "StatusValues",
+        "RequestId": "UUId",
+        "CreatedDate": "Date"
+      }
+    },
+    "PermissionsBoundary": {
+      "type": "structure",
+      "members": {
+        "CustomerManagedPolicyReference": "CustomerManagedPolicyReference",
+        "ManagedPolicyArn": "ManagedPolicyArn"
+      }
+    },
+    "PortalOptions": {
+      "type": "structure",
+      "members": {
+        "SignInOptions": "SignInOptions",
+        "Visibility": "ApplicationVisibility"
+      }
+    },
+    "PrincipalId": {
+      "type": "string"
+    },
+    "PrincipalType": {
+      "type": "string"
+    },
+    "ProvisionPermissionSetRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "PermissionSetArn": "PermissionSetArn",
+        "TargetId": "TargetId",
+        "TargetType": "ProvisionTargetType"
+      }
+    },
+    "ProvisionPermissionSetResponse": {
+      "type": "structure",
+      "members": {
+        "PermissionSetProvisioningStatus": "PermissionSetProvisioningStatus"
+      }
+    },
+    "ProvisionTargetType": {
+      "type": "string"
+    },
+    "ProvisioningStatus": {
+      "type": "string"
+    },
+    "PutApplicationAccessScopeRequest": {
+      "type": "structure",
+      "members": {
+        "Scope": "Scope",
+        "AuthorizedTargets": "ScopeTargets",
+        "ApplicationArn": "ApplicationArn"
+      }
+    },
+    "PutApplicationAssignmentConfigurationRequest": {
+      "type": "structure",
+      "members": {
+        "ApplicationArn": "ApplicationArn",
+        "AssignmentRequired": "AssignmentRequired"
+      }
+    },
+    "PutApplicationAssignmentConfigurationResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "PutApplicationAuthenticationMethodRequest": {
+      "type": "structure",
+      "members": {
+        "ApplicationArn": "ApplicationArn",
+        "AuthenticationMethodType": "AuthenticationMethodType",
+        "AuthenticationMethod": "AuthenticationMethod"
+      }
+    },
+    "PutApplicationGrantRequest": {
+      "type": "structure",
+      "members": {
+        "ApplicationArn": "ApplicationArn",
+        "GrantType": "GrantType",
+        "Grant": "Grant"
+      }
+    },
+    "PutInlinePolicyToPermissionSetRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "PermissionSetArn": "PermissionSetArn",
+        "InlinePolicy": "PermissionSetPolicyDocument"
+      }
+    },
+    "PutInlinePolicyToPermissionSetResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "PutPermissionsBoundaryToPermissionSetRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "PermissionSetArn": "PermissionSetArn",
+        "PermissionsBoundary": "PermissionsBoundary"
+      }
+    },
+    "PutPermissionsBoundaryToPermissionSetResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "Reason": {
+      "type": "string"
+    },
+    "RedirectUris": {
+      "type": "list",
+      "member": "URI"
+    },
+    "RefreshTokenGrant": {
+      "type": "structure",
+      "members": {}
+    },
+    "RegionMetadata": {
+      "type": "structure",
+      "members": {
+        "RegionName": "RegionName",
+        "Status": "RegionStatus",
+        "AddedDate": "Date",
+        "IsPrimaryRegion": "IsPrimaryRegion"
+      }
+    },
+    "RegionMetadataList": {
+      "type": "list",
+      "member": "RegionMetadata"
+    },
+    "RegionName": {
+      "type": "string"
+    },
+    "RegionScope": {
+      "type": "string"
+    },
+    "RegionStatus": {
+      "type": "string"
+    },
+    "RelayState": {
+      "type": "string"
+    },
+    "ResourceServerConfig": {
+      "type": "structure",
+      "members": {
+        "Scopes": "ResourceServerScopes"
+      }
+    },
+    "ResourceServerScopeDetails": {
+      "type": "structure",
+      "members": {
+        "LongDescription": "Description",
+        "DetailedTitle": "Description"
+      }
+    },
+    "ResourceServerScopes": {
+      "type": "map",
+      "value": "ResourceServerScopeDetails"
+    },
+    "Scope": {
+      "type": "string"
+    },
+    "ScopeDetails": {
+      "type": "structure",
+      "members": {
+        "Scope": "Scope",
+        "AuthorizedTargets": "ScopeTargets"
+      }
+    },
+    "ScopeTarget": {
+      "type": "string"
+    },
+    "ScopeTargets": {
+      "type": "list",
+      "member": "ScopeTarget"
+    },
+    "Scopes": {
+      "type": "list",
+      "member": "ScopeDetails"
+    },
+    "SignInOptions": {
+      "type": "structure",
+      "members": {
+        "Origin": "SignInOrigin",
+        "ApplicationUrl": "ApplicationUrl"
+      }
+    },
+    "SignInOrigin": {
+      "type": "string"
+    },
+    "StatusValues": {
+      "type": "string"
+    },
+    "Tag": {
+      "type": "structure",
+      "members": {
+        "Key": "TagKey",
+        "Value": "TagValue"
+      }
+    },
+    "TagKey": {
+      "type": "string"
+    },
+    "TagKeyList": {
+      "type": "list",
+      "member": "TagKey"
+    },
+    "TagList": {
+      "type": "list",
+      "member": "Tag"
+    },
+    "TagResourceRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "ResourceArn": "TaggableResourceArn",
+        "Tags": "TagList"
+      }
+    },
+    "TagResourceResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "TagValue": {
+      "type": "string"
+    },
+    "TaggableResourceArn": {
+      "type": "string"
+    },
+    "TargetId": {
+      "type": "string"
+    },
+    "TargetType": {
+      "type": "string"
+    },
+    "Token": {
+      "type": "string"
+    },
+    "TokenExchangeGrant": {
+      "type": "structure",
+      "members": {}
+    },
+    "TokenIssuerAudience": {
+      "type": "string"
+    },
+    "TokenIssuerAudiences": {
+      "type": "list",
+      "member": "TokenIssuerAudience"
+    },
+    "TrustedTokenIssuerArn": {
+      "type": "string"
+    },
+    "TrustedTokenIssuerConfiguration": {
+      "type": "structure",
+      "members": {
+        "OidcJwtConfiguration": "OidcJwtConfiguration"
+      }
+    },
+    "TrustedTokenIssuerList": {
+      "type": "list",
+      "member": "TrustedTokenIssuerMetadata"
+    },
+    "TrustedTokenIssuerMetadata": {
+      "type": "structure",
+      "members": {
+        "TrustedTokenIssuerArn": "TrustedTokenIssuerArn",
+        "Name": "TrustedTokenIssuerName",
+        "TrustedTokenIssuerType": "TrustedTokenIssuerType"
+      }
+    },
+    "TrustedTokenIssuerName": {
+      "type": "string"
+    },
+    "TrustedTokenIssuerType": {
+      "type": "string"
+    },
+    "TrustedTokenIssuerUpdateConfiguration": {
+      "type": "structure",
+      "members": {
+        "OidcJwtConfiguration": "OidcJwtUpdateConfiguration"
+      }
+    },
+    "TrustedTokenIssuerUrl": {
+      "type": "string"
+    },
+    "URI": {
+      "type": "string"
+    },
+    "UUId": {
+      "type": "string"
+    },
+    "UntagResourceRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "ResourceArn": "TaggableResourceArn",
+        "TagKeys": "TagKeyList"
+      }
+    },
+    "UntagResourceResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "UpdateApplicationPortalOptions": {
+      "type": "structure",
+      "members": {
+        "SignInOptions": "SignInOptions"
+      }
+    },
+    "UpdateApplicationRequest": {
+      "type": "structure",
+      "members": {
+        "ApplicationArn": "ApplicationArn",
+        "Name": "ApplicationNameType",
+        "Description": "Description",
+        "Status": "ApplicationStatus",
+        "PortalOptions": "UpdateApplicationPortalOptions"
+      }
+    },
+    "UpdateApplicationResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "UpdateInstanceAccessControlAttributeConfigurationRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "InstanceAccessControlAttributeConfiguration": "InstanceAccessControlAttributeConfiguration"
+      }
+    },
+    "UpdateInstanceAccessControlAttributeConfigurationResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "UpdateInstanceRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "NameType",
+        "InstanceArn": "InstanceArn",
+        "EncryptionConfiguration": "EncryptionConfiguration",
+        "PermissionSetsEnabled": "Boolean",
+        "NetworkConfiguration": "NetworkConfigurationInfo"
+      }
+    },
+    "UpdateInstanceResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "UpdatePermissionSetRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "PermissionSetArn": "PermissionSetArn",
+        "Description": "PermissionSetDescription",
+        "SessionDuration": "Duration",
+        "RelayState": "RelayState"
+      }
+    },
+    "UpdatePermissionSetResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "UpdateTrustedTokenIssuerRequest": {
+      "type": "structure",
+      "members": {
+        "TrustedTokenIssuerArn": "TrustedTokenIssuerArn",
+        "Name": "TrustedTokenIssuerName",
+        "TrustedTokenIssuerConfiguration": "TrustedTokenIssuerUpdateConfiguration"
+      }
+    },
+    "UpdateTrustedTokenIssuerResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "VpcArn": {
+      "type": "string"
+    },
+    "VpcArnList": {
+      "type": "list",
+      "member": "VpcArn"
+    }
+  },
+  "errors": {
+    "AccessDeniedException": "AccessDeniedException",
+    "ConflictException": "ConflictException",
+    "InternalServerException": "InternalServerException",
+    "ResourceNotFoundException": "ResourceNotFoundException",
+    "ServiceQuotaExceededException": "ServiceQuotaExceededException",
+    "ThrottlingException": "ThrottlingException",
+    "ValidationException": "ValidationException"
+  }
+}

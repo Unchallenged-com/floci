@@ -22,11 +22,30 @@ public class IdentityStoreJsonHandler {
 
     private final IdentityStoreService service;
     private final ObjectMapper mapper;
+    private final IdentityStoreCloudTrailEvents cloudTrailEvents;
 
     @Inject
-    public IdentityStoreJsonHandler(IdentityStoreService service, ObjectMapper mapper) {
+    public IdentityStoreJsonHandler(IdentityStoreService service, ObjectMapper mapper,
+                                    IdentityStoreCloudTrailEvents cloudTrailEvents) {
         this.service = service;
         this.mapper = mapper;
+        this.cloudTrailEvents = cloudTrailEvents;
+    }
+
+    /**
+     * Answers a call a client made to the Identity Store's endpoint, signed for {@code region}, and records it in
+     * CloudTrail ({@link IdentityStoreCloudTrailEvents}).
+     */
+    public Response handleApiCall(String action, JsonNode request, String region) {
+        Response response;
+        try {
+            response = handle(action, request);
+        } catch (AwsException e) {
+            cloudTrailEvents.record(action, request, region, null, e);
+            throw e;
+        }
+        cloudTrailEvents.record(action, request, region, response, null);
+        return response;
     }
 
     public Response handle(String action, JsonNode request) {

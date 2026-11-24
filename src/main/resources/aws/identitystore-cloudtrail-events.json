@@ -1,0 +1,42 @@
+{
+  "_source": {
+    "generator": "tools/aws/regen_cloudtrail_events.py",
+    "managementEvents": "https://docs.aws.amazon.com/singlesignon/latest/userguide/sso-info-in-cloudtrail.html",
+    "reference": "https://servicereference.us-east-1.amazonaws.com/v1/identitystore/identitystore.json",
+    "retrieved": "2026-11-24"
+  },
+  "managementEvents": [
+    "CreateGroup",
+    "CreateGroupMembership",
+    "CreateUser",
+    "DeleteGroup",
+    "DeleteGroupMembership",
+    "DeleteUser",
+    "DescribeGroup",
+    "DescribeGroupMembership",
+    "DescribeUser",
+    "GetGroupId",
+    "GetGroupMembershipId",
+    "GetUserId",
+    "IsMemberInGroups",
+    "ListGroupMemberships",
+    "ListGroupMembershipsForMember",
+    "ListGroups",
+    "ListUsers",
+    "UpdateGroup",
+    "UpdateUser"
+  ],
+  "readOnlyActions": [
+    "DescribeGroup",
+    "DescribeGroupMembership",
+    "DescribeUser",
+    "GetGroupId",
+    "GetGroupMembershipId",
+    "GetUserId",
+    "IsMemberInGroups",
+    "ListGroupMemberships",
+    "ListGroupMembershipsForMember",
+    "ListGroups",
+    "ListUsers"
+  ]
+}
