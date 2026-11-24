@@ -1,0 +1,1131 @@
+{
+  "_source": {
+    "generator": "tools/aws/regen_guardduty_cloudtrail_shapes.py",
+    "botocore": "botocore 1.44.9 (installed package)"
+  },
+  "operations": {
+    "CreateDetector": "CreateDetectorRequest",
+    "CreateMalwareProtectionPlan": "CreateMalwareProtectionPlanRequest",
+    "CreateMembers": "CreateMembersRequest",
+    "CreatePublishingDestination": "CreatePublishingDestinationRequest",
+    "DeleteDetector": "DeleteDetectorRequest",
+    "DeleteMalwareProtectionPlan": "DeleteMalwareProtectionPlanRequest",
+    "DeletePublishingDestination": "DeletePublishingDestinationRequest",
+    "DescribeOrganizationConfiguration": "DescribeOrganizationConfigurationRequest",
+    "DescribePublishingDestination": "DescribePublishingDestinationRequest",
+    "DisableOrganizationAdminAccount": "DisableOrganizationAdminAccountRequest",
+    "EnableOrganizationAdminAccount": "EnableOrganizationAdminAccountRequest",
+    "GetDetector": "GetDetectorRequest",
+    "GetMalwareProtectionPlan": "GetMalwareProtectionPlanRequest",
+    "ListDetectors": "ListDetectorsRequest",
+    "ListMalwareProtectionPlans": "ListMalwareProtectionPlansRequest",
+    "ListMembers": "ListMembersRequest",
+    "ListPublishingDestinations": "ListPublishingDestinationsRequest",
+    "ListTagsForResource": "ListTagsForResourceRequest",
+    "TagResource": "TagResourceRequest",
+    "UntagResource": "UntagResourceRequest",
+    "UpdateDetector": "UpdateDetectorRequest",
+    "UpdateMalwareProtectionPlan": "UpdateMalwareProtectionPlanRequest",
+    "UpdateOrganizationConfiguration": "UpdateOrganizationConfigurationRequest",
+    "UpdatePublishingDestination": "UpdatePublishingDestinationRequest"
+  },
+  "results": {
+    "CreateDetector": {
+      "shape": "CreateDetectorResponse",
+      "resultWrapper": null
+    },
+    "CreateMalwareProtectionPlan": {
+      "shape": "CreateMalwareProtectionPlanResponse",
+      "resultWrapper": null
+    },
+    "CreateMembers": {
+      "shape": "CreateMembersResponse",
+      "resultWrapper": null
+    },
+    "CreatePublishingDestination": {
+      "shape": "CreatePublishingDestinationResponse",
+      "resultWrapper": null
+    },
+    "DeleteDetector": {
+      "shape": "DeleteDetectorResponse",
+      "resultWrapper": null
+    },
+    "DeletePublishingDestination": {
+      "shape": "DeletePublishingDestinationResponse",
+      "resultWrapper": null
+    },
+    "DescribeOrganizationConfiguration": {
+      "shape": "DescribeOrganizationConfigurationResponse",
+      "resultWrapper": null
+    },
+    "DescribePublishingDestination": {
+      "shape": "DescribePublishingDestinationResponse",
+      "resultWrapper": null
+    },
+    "DisableOrganizationAdminAccount": {
+      "shape": "DisableOrganizationAdminAccountResponse",
+      "resultWrapper": null
+    },
+    "EnableOrganizationAdminAccount": {
+      "shape": "EnableOrganizationAdminAccountResponse",
+      "resultWrapper": null
+    },
+    "GetDetector": {
+      "shape": "GetDetectorResponse",
+      "resultWrapper": null
+    },
+    "GetMalwareProtectionPlan": {
+      "shape": "GetMalwareProtectionPlanResponse",
+      "resultWrapper": null
+    },
+    "ListDetectors": {
+      "shape": "ListDetectorsResponse",
+      "resultWrapper": null
+    },
+    "ListMalwareProtectionPlans": {
+      "shape": "ListMalwareProtectionPlansResponse",
+      "resultWrapper": null
+    },
+    "ListMembers": {
+      "shape": "ListMembersResponse",
+      "resultWrapper": null
+    },
+    "ListPublishingDestinations": {
+      "shape": "ListPublishingDestinationsResponse",
+      "resultWrapper": null
+    },
+    "ListTagsForResource": {
+      "shape": "ListTagsForResourceResponse",
+      "resultWrapper": null
+    },
+    "TagResource": {
+      "shape": "TagResourceResponse",
+      "resultWrapper": null
+    },
+    "UntagResource": {
+      "shape": "UntagResourceResponse",
+      "resultWrapper": null
+    },
+    "UpdateDetector": {
+      "shape": "UpdateDetectorResponse",
+      "resultWrapper": null
+    },
+    "UpdateOrganizationConfiguration": {
+      "shape": "UpdateOrganizationConfigurationResponse",
+      "resultWrapper": null
+    },
+    "UpdatePublishingDestination": {
+      "shape": "UpdatePublishingDestinationResponse",
+      "resultWrapper": null
+    }
+  },
+  "shapes": {
+    "AccountDetail": {
+      "type": "structure",
+      "members": {
+        "accountId": "AccountId",
+        "email": "Email"
+      }
+    },
+    "AccountDetails": {
+      "type": "list",
+      "member": "AccountDetail"
+    },
+    "AccountId": {
+      "type": "string"
+    },
+    "AutoEnableMembers": {
+      "type": "string"
+    },
+    "Boolean": {
+      "type": "boolean"
+    },
+    "ClientToken": {
+      "type": "string"
+    },
+    "CloudTrailConfigurationResult": {
+      "type": "structure",
+      "members": {
+        "status": "DataSourceStatus"
+      }
+    },
+    "CreateDetectorRequest": {
+      "type": "structure",
+      "members": {
+        "enable": "Boolean",
+        "clientToken": "ClientToken",
+        "findingPublishingFrequency": "FindingPublishingFrequency",
+        "dataSources": "DataSourceConfigurations",
+        "tags": "TagMap",
+        "features": "DetectorFeatureConfigurations"
+      }
+    },
+    "CreateDetectorResponse": {
+      "type": "structure",
+      "members": {
+        "detectorId": "DetectorId",
+        "unprocessedDataSources": "UnprocessedDataSourcesResult"
+      }
+    },
+    "CreateMalwareProtectionPlanRequest": {
+      "type": "structure",
+      "members": {
+        "clientToken": "ClientToken",
+        "role": "String",
+        "protectedResource": "CreateProtectedResource",
+        "actions": "MalwareProtectionPlanActions",
+        "tags": "TagMap"
+      }
+    },
+    "CreateMalwareProtectionPlanResponse": {
+      "type": "structure",
+      "members": {
+        "malwareProtectionPlanId": "String"
+      }
+    },
+    "CreateMembersRequest": {
+      "type": "structure",
+      "members": {
+        "DetectorId": "DetectorId",
+        "accountDetails": "AccountDetails"
+      },
+      "locations": {
+        "DetectorId": {
+          "location": "uri",
+          "name": "DetectorId"
+        }
+      }
+    },
+    "CreateMembersResponse": {
+      "type": "structure",
+      "members": {
+        "unprocessedAccounts": "UnprocessedAccounts"
+      }
+    },
+    "CreateProtectedResource": {
+      "type": "structure",
+      "members": {
+        "s3Bucket": "CreateS3BucketResource"
+      }
+    },
+    "CreatePublishingDestinationRequest": {
+      "type": "structure",
+      "members": {
+        "DetectorId": "DetectorId",
+        "destinationType": "DestinationType",
+        "destinationProperties": "DestinationProperties",
+        "clientToken": "ClientToken",
+        "tags": "TagMap"
+      },
+      "locations": {
+        "DetectorId": {
+          "location": "uri",
+          "name": "DetectorId"
+        }
+      }
+    },
+    "CreatePublishingDestinationResponse": {
+      "type": "structure",
+      "members": {
+        "destinationId": "String"
+      }
+    },
+    "CreateS3BucketResource": {
+      "type": "structure",
+      "members": {
+        "bucketName": "String",
+        "objectPrefixes": "MalwareProtectionPlanObjectPrefixesList"
+      }
+    },
+    "DNSLogsConfigurationResult": {
+      "type": "structure",
+      "members": {
+        "status": "DataSourceStatus"
+      }
+    },
+    "DataSourceConfigurations": {
+      "type": "structure",
+      "members": {
+        "s3Logs": "S3LogsConfiguration",
+        "kubernetes": "KubernetesConfiguration",
+        "malwareProtection": "MalwareProtectionConfiguration"
+      }
+    },
+    "DataSourceConfigurationsResult": {
+      "type": "structure",
+      "members": {
+        "cloudTrail": "CloudTrailConfigurationResult",
+        "dnsLogs": "DNSLogsConfigurationResult",
+        "flowLogs": "FlowLogsConfigurationResult",
+        "s3Logs": "S3LogsConfigurationResult",
+        "kubernetes": "KubernetesConfigurationResult",
+        "malwareProtection": "MalwareProtectionConfigurationResult"
+      }
+    },
+    "DataSourceStatus": {
+      "type": "string"
+    },
+    "DeleteDetectorRequest": {
+      "type": "structure",
+      "members": {
+        "DetectorId": "DetectorId"
+      },
+      "locations": {
+        "DetectorId": {
+          "location": "uri",
+          "name": "DetectorId"
+        }
+      }
+    },
+    "DeleteDetectorResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "DeleteMalwareProtectionPlanRequest": {
+      "type": "structure",
+      "members": {
+        "MalwareProtectionPlanId": "String"
+      },
+      "locations": {
+        "MalwareProtectionPlanId": {
+          "location": "uri",
+          "name": "MalwareProtectionPlanId"
+        }
+      }
+    },
+    "DeletePublishingDestinationRequest": {
+      "type": "structure",
+      "members": {
+        "DetectorId": "DetectorId",
+        "DestinationId": "String"
+      },
+      "locations": {
+        "DetectorId": {
+          "location": "uri",
+          "name": "DetectorId"
+        },
+        "DestinationId": {
+          "location": "uri",
+          "name": "DestinationId"
+        }
+      }
+    },
+    "DeletePublishingDestinationResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "DescribeOrganizationConfigurationRequest": {
+      "type": "structure",
+      "members": {
+        "DetectorId": "DetectorId",
+        "MaxResults": "MaxResults",
+        "NextToken": "String"
+      },
+      "locations": {
+        "DetectorId": {
+          "location": "uri",
+          "name": "DetectorId"
+        },
+        "MaxResults": {
+          "location": "querystring",
+          "name": "maxResults"
+        },
+        "NextToken": {
+          "location": "querystring",
+          "name": "nextToken"
+        }
+      }
+    },
+    "DescribeOrganizationConfigurationResponse": {
+      "type": "structure",
+      "members": {
+        "autoEnable": "Boolean",
+        "memberAccountLimitReached": "Boolean",
+        "dataSources": "OrganizationDataSourceConfigurationsResult",
+        "features": "OrganizationFeaturesConfigurationsResults",
+        "nextToken": "String",
+        "autoEnableOrganizationMembers": "AutoEnableMembers"
+      }
+    },
+    "DescribePublishingDestinationRequest": {
+      "type": "structure",
+      "members": {
+        "DetectorId": "DetectorId",
+        "DestinationId": "String"
+      },
+      "locations": {
+        "DetectorId": {
+          "location": "uri",
+          "name": "DetectorId"
+        },
+        "DestinationId": {
+          "location": "uri",
+          "name": "DestinationId"
+        }
+      }
+    },
+    "DescribePublishingDestinationResponse": {
+      "type": "structure",
+      "members": {
+        "destinationId": "String",
+        "destinationType": "DestinationType",
+        "status": "PublishingStatus",
+        "publishingFailureStartTimestamp": "Long",
+        "destinationProperties": "DestinationProperties",
+        "tags": "TagMap"
+      }
+    },
+    "Destination": {
+      "type": "structure",
+      "members": {
+        "destinationId": "String",
+        "destinationType": "DestinationType",
+        "status": "PublishingStatus"
+      }
+    },
+    "DestinationProperties": {
+      "type": "structure",
+      "members": {
+        "destinationArn": "String",
+        "kmsKeyArn": "String",
+        "expectedBucketOwner": "AccountId"
+      }
+    },
+    "DestinationType": {
+      "type": "string"
+    },
+    "Destinations": {
+      "type": "list",
+      "member": "Destination"
+    },
+    "DetectorAdditionalConfiguration": {
+      "type": "structure",
+      "members": {
+        "name": "FeatureAdditionalConfiguration",
+        "status": "FeatureStatus"
+      }
+    },
+    "DetectorAdditionalConfigurationResult": {
+      "type": "structure",
+      "members": {
+        "name": "FeatureAdditionalConfiguration",
+        "status": "FeatureStatus",
+        "updatedAt": "Timestamp",
+        "managedBy": "ManagedBy"
+      }
+    },
+    "DetectorAdditionalConfigurationResults": {
+      "type": "list",
+      "member": "DetectorAdditionalConfigurationResult"
+    },
+    "DetectorAdditionalConfigurations": {
+      "type": "list",
+      "member": "DetectorAdditionalConfiguration"
+    },
+    "DetectorFeature": {
+      "type": "string"
+    },
+    "DetectorFeatureConfiguration": {
+      "type": "structure",
+      "members": {
+        "name": "DetectorFeature",
+        "status": "FeatureStatus",
+        "additionalConfiguration": "DetectorAdditionalConfigurations"
+      }
+    },
+    "DetectorFeatureConfigurationResult": {
+      "type": "structure",
+      "members": {
+        "name": "DetectorFeatureResult",
+        "status": "FeatureStatus",
+        "updatedAt": "Timestamp",
+        "additionalConfiguration": "DetectorAdditionalConfigurationResults",
+        "managedBy": "ManagedBy"
+      }
+    },
+    "DetectorFeatureConfigurations": {
+      "type": "list",
+      "member": "DetectorFeatureConfiguration"
+    },
+    "DetectorFeatureConfigurationsResults": {
+      "type": "list",
+      "member": "DetectorFeatureConfigurationResult"
+    },
+    "DetectorFeatureResult": {
+      "type": "string"
+    },
+    "DetectorId": {
+      "type": "string"
+    },
+    "DetectorIds": {
+      "type": "list",
+      "member": "DetectorId"
+    },
+    "DetectorStatus": {
+      "type": "string"
+    },
+    "DisableOrganizationAdminAccountRequest": {
+      "type": "structure",
+      "members": {
+        "adminAccountId": "String"
+      }
+    },
+    "DisableOrganizationAdminAccountResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "EbsVolumesResult": {
+      "type": "structure",
+      "members": {
+        "status": "DataSourceStatus",
+        "reason": "String"
+      }
+    },
+    "Email": {
+      "type": "string",
+      "sensitive": true
+    },
+    "EnableOrganizationAdminAccountRequest": {
+      "type": "structure",
+      "members": {
+        "adminAccountId": "String"
+      }
+    },
+    "EnableOrganizationAdminAccountResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "FeatureAdditionalConfiguration": {
+      "type": "string"
+    },
+    "FeatureStatus": {
+      "type": "string"
+    },
+    "FindingPublishingFrequency": {
+      "type": "string"
+    },
+    "FlowLogsConfigurationResult": {
+      "type": "structure",
+      "members": {
+        "status": "DataSourceStatus"
+      }
+    },
+    "GetDetectorRequest": {
+      "type": "structure",
+      "members": {
+        "DetectorId": "DetectorId"
+      },
+      "locations": {
+        "DetectorId": {
+          "location": "uri",
+          "name": "DetectorId"
+        }
+      }
+    },
+    "GetDetectorResponse": {
+      "type": "structure",
+      "members": {
+        "createdAt": "String",
+        "findingPublishingFrequency": "FindingPublishingFrequency",
+        "serviceRole": "String",
+        "status": "DetectorStatus",
+        "updatedAt": "String",
+        "dataSources": "DataSourceConfigurationsResult",
+        "tags": "TagMap",
+        "features": "DetectorFeatureConfigurationsResults"
+      }
+    },
+    "GetMalwareProtectionPlanRequest": {
+      "type": "structure",
+      "members": {
+        "MalwareProtectionPlanId": "String"
+      },
+      "locations": {
+        "MalwareProtectionPlanId": {
+          "location": "uri",
+          "name": "MalwareProtectionPlanId"
+        }
+      }
+    },
+    "GetMalwareProtectionPlanResponse": {
+      "type": "structure",
+      "members": {
+        "arn": "String",
+        "role": "String",
+        "protectedResource": "CreateProtectedResource",
+        "actions": "MalwareProtectionPlanActions",
+        "createdAt": "Timestamp",
+        "status": "MalwareProtectionPlanStatus",
+        "statusReasons": "MalwareProtectionPlanStatusReasonsList",
+        "tags": "TagMap"
+      }
+    },
+    "GuardDutyArn": {
+      "type": "string"
+    },
+    "KubernetesAuditLogsConfiguration": {
+      "type": "structure",
+      "members": {
+        "enable": "Boolean"
+      }
+    },
+    "KubernetesAuditLogsConfigurationResult": {
+      "type": "structure",
+      "members": {
+        "status": "DataSourceStatus"
+      }
+    },
+    "KubernetesConfiguration": {
+      "type": "structure",
+      "members": {
+        "auditLogs": "KubernetesAuditLogsConfiguration"
+      }
+    },
+    "KubernetesConfigurationResult": {
+      "type": "structure",
+      "members": {
+        "auditLogs": "KubernetesAuditLogsConfigurationResult"
+      }
+    },
+    "ListDetectorsRequest": {
+      "type": "structure",
+      "members": {
+        "MaxResults": "MaxResults",
+        "NextToken": "String"
+      },
+      "locations": {
+        "MaxResults": {
+          "location": "querystring",
+          "name": "maxResults"
+        },
+        "NextToken": {
+          "location": "querystring",
+          "name": "nextToken"
+        }
+      }
+    },
+    "ListDetectorsResponse": {
+      "type": "structure",
+      "members": {
+        "detectorIds": "DetectorIds",
+        "nextToken": "String"
+      }
+    },
+    "ListMalwareProtectionPlansRequest": {
+      "type": "structure",
+      "members": {
+        "NextToken": "String"
+      },
+      "locations": {
+        "NextToken": {
+          "location": "querystring",
+          "name": "nextToken"
+        }
+      }
+    },
+    "ListMalwareProtectionPlansResponse": {
+      "type": "structure",
+      "members": {
+        "malwareProtectionPlans": "MalwareProtectionPlansSummary",
+        "nextToken": "String"
+      }
+    },
+    "ListMembersRequest": {
+      "type": "structure",
+      "members": {
+        "DetectorId": "DetectorId",
+        "MaxResults": "MaxResults",
+        "NextToken": "String",
+        "OnlyAssociated": "String"
+      },
+      "locations": {
+        "DetectorId": {
+          "location": "uri",
+          "name": "DetectorId"
+        },
+        "MaxResults": {
+          "location": "querystring",
+          "name": "maxResults"
+        },
+        "NextToken": {
+          "location": "querystring",
+          "name": "nextToken"
+        },
+        "OnlyAssociated": {
+          "location": "querystring",
+          "name": "onlyAssociated"
+        }
+      }
+    },
+    "ListMembersResponse": {
+      "type": "structure",
+      "members": {
+        "members": "Members",
+        "nextToken": "String"
+      }
+    },
+    "ListPublishingDestinationsRequest": {
+      "type": "structure",
+      "members": {
+        "DetectorId": "DetectorId",
+        "MaxResults": "MaxResults",
+        "NextToken": "String"
+      },
+      "locations": {
+        "DetectorId": {
+          "location": "uri",
+          "name": "DetectorId"
+        },
+        "MaxResults": {
+          "location": "querystring",
+          "name": "maxResults"
+        },
+        "NextToken": {
+          "location": "querystring",
+          "name": "nextToken"
+        }
+      }
+    },
+    "ListPublishingDestinationsResponse": {
+      "type": "structure",
+      "members": {
+        "destinations": "Destinations",
+        "nextToken": "String"
+      }
+    },
+    "ListTagsForResourceRequest": {
+      "type": "structure",
+      "members": {
+        "ResourceArn": "GuardDutyArn"
+      },
+      "locations": {
+        "ResourceArn": {
+          "location": "uri",
+          "name": "ResourceArn"
+        }
+      }
+    },
+    "ListTagsForResourceResponse": {
+      "type": "structure",
+      "members": {
+        "tags": "TagMap"
+      }
+    },
+    "Long": {
+      "type": "long"
+    },
+    "MalwareProtectionConfiguration": {
+      "type": "structure",
+      "members": {
+        "scanEc2InstanceWithFindings": "ScanEc2InstanceWithFindings"
+      }
+    },
+    "MalwareProtectionConfigurationResult": {
+      "type": "structure",
+      "members": {
+        "scanEc2InstanceWithFindings": "ScanEc2InstanceWithFindingsResult",
+        "serviceRole": "String"
+      }
+    },
+    "MalwareProtectionPlanActions": {
+      "type": "structure",
+      "members": {
+        "tagging": "MalwareProtectionPlanTaggingAction"
+      }
+    },
+    "MalwareProtectionPlanObjectPrefixesList": {
+      "type": "list",
+      "member": "String"
+    },
+    "MalwareProtectionPlanStatus": {
+      "type": "string"
+    },
+    "MalwareProtectionPlanStatusReason": {
+      "type": "structure",
+      "members": {
+        "code": "String",
+        "message": "String"
+      }
+    },
+    "MalwareProtectionPlanStatusReasonsList": {
+      "type": "list",
+      "member": "MalwareProtectionPlanStatusReason"
+    },
+    "MalwareProtectionPlanSummary": {
+      "type": "structure",
+      "members": {
+        "malwareProtectionPlanId": "String"
+      }
+    },
+    "MalwareProtectionPlanTaggingAction": {
+      "type": "structure",
+      "members": {
+        "status": "MalwareProtectionPlanTaggingActionStatus"
+      }
+    },
+    "MalwareProtectionPlanTaggingActionStatus": {
+      "type": "string"
+    },
+    "MalwareProtectionPlansSummary": {
+      "type": "list",
+      "member": "MalwareProtectionPlanSummary"
+    },
+    "ManagedBy": {
+      "type": "string"
+    },
+    "MaxResults": {
+      "type": "integer"
+    },
+    "Member": {
+      "type": "structure",
+      "members": {
+        "accountId": "AccountId",
+        "detectorId": "DetectorId",
+        "masterId": "String",
+        "email": "Email",
+        "relationshipStatus": "String",
+        "invitedAt": "String",
+        "updatedAt": "String",
+        "administratorId": "String"
+      }
+    },
+    "Members": {
+      "type": "list",
+      "member": "Member"
+    },
+    "OrgFeature": {
+      "type": "string"
+    },
+    "OrgFeatureAdditionalConfiguration": {
+      "type": "string"
+    },
+    "OrgFeatureStatus": {
+      "type": "string"
+    },
+    "OrganizationAdditionalConfiguration": {
+      "type": "structure",
+      "members": {
+        "name": "OrgFeatureAdditionalConfiguration",
+        "autoEnable": "OrgFeatureStatus"
+      }
+    },
+    "OrganizationAdditionalConfigurationResult": {
+      "type": "structure",
+      "members": {
+        "name": "OrgFeatureAdditionalConfiguration",
+        "autoEnable": "OrgFeatureStatus"
+      }
+    },
+    "OrganizationAdditionalConfigurationResults": {
+      "type": "list",
+      "member": "OrganizationAdditionalConfigurationResult"
+    },
+    "OrganizationAdditionalConfigurations": {
+      "type": "list",
+      "member": "OrganizationAdditionalConfiguration"
+    },
+    "OrganizationDataSourceConfigurations": {
+      "type": "structure",
+      "members": {
+        "s3Logs": "OrganizationS3LogsConfiguration",
+        "kubernetes": "OrganizationKubernetesConfiguration",
+        "malwareProtection": "OrganizationMalwareProtectionConfiguration"
+      }
+    },
+    "OrganizationDataSourceConfigurationsResult": {
+      "type": "structure",
+      "members": {
+        "s3Logs": "OrganizationS3LogsConfigurationResult",
+        "kubernetes": "OrganizationKubernetesConfigurationResult",
+        "malwareProtection": "OrganizationMalwareProtectionConfigurationResult"
+      }
+    },
+    "OrganizationEbsVolumes": {
+      "type": "structure",
+      "members": {
+        "autoEnable": "Boolean"
+      }
+    },
+    "OrganizationEbsVolumesResult": {
+      "type": "structure",
+      "members": {
+        "autoEnable": "Boolean"
+      }
+    },
+    "OrganizationFeatureConfiguration": {
+      "type": "structure",
+      "members": {
+        "name": "OrgFeature",
+        "autoEnable": "OrgFeatureStatus",
+        "additionalConfiguration": "OrganizationAdditionalConfigurations"
+      }
+    },
+    "OrganizationFeatureConfigurationResult": {
+      "type": "structure",
+      "members": {
+        "name": "OrgFeature",
+        "autoEnable": "OrgFeatureStatus",
+        "additionalConfiguration": "OrganizationAdditionalConfigurationResults"
+      }
+    },
+    "OrganizationFeaturesConfigurations": {
+      "type": "list",
+      "member": "OrganizationFeatureConfiguration"
+    },
+    "OrganizationFeaturesConfigurationsResults": {
+      "type": "list",
+      "member": "OrganizationFeatureConfigurationResult"
+    },
+    "OrganizationKubernetesAuditLogsConfiguration": {
+      "type": "structure",
+      "members": {
+        "autoEnable": "Boolean"
+      }
+    },
+    "OrganizationKubernetesAuditLogsConfigurationResult": {
+      "type": "structure",
+      "members": {
+        "autoEnable": "Boolean"
+      }
+    },
+    "OrganizationKubernetesConfiguration": {
+      "type": "structure",
+      "members": {
+        "auditLogs": "OrganizationKubernetesAuditLogsConfiguration"
+      }
+    },
+    "OrganizationKubernetesConfigurationResult": {
+      "type": "structure",
+      "members": {
+        "auditLogs": "OrganizationKubernetesAuditLogsConfigurationResult"
+      }
+    },
+    "OrganizationMalwareProtectionConfiguration": {
+      "type": "structure",
+      "members": {
+        "scanEc2InstanceWithFindings": "OrganizationScanEc2InstanceWithFindings"
+      }
+    },
+    "OrganizationMalwareProtectionConfigurationResult": {
+      "type": "structure",
+      "members": {
+        "scanEc2InstanceWithFindings": "OrganizationScanEc2InstanceWithFindingsResult"
+      }
+    },
+    "OrganizationS3LogsConfiguration": {
+      "type": "structure",
+      "members": {
+        "autoEnable": "Boolean"
+      }
+    },
+    "OrganizationS3LogsConfigurationResult": {
+      "type": "structure",
+      "members": {
+        "autoEnable": "Boolean"
+      }
+    },
+    "OrganizationScanEc2InstanceWithFindings": {
+      "type": "structure",
+      "members": {
+        "ebsVolumes": "OrganizationEbsVolumes"
+      }
+    },
+    "OrganizationScanEc2InstanceWithFindingsResult": {
+      "type": "structure",
+      "members": {
+        "ebsVolumes": "OrganizationEbsVolumesResult"
+      }
+    },
+    "PublishingStatus": {
+      "type": "string"
+    },
+    "S3LogsConfiguration": {
+      "type": "structure",
+      "members": {
+        "enable": "Boolean"
+      }
+    },
+    "S3LogsConfigurationResult": {
+      "type": "structure",
+      "members": {
+        "status": "DataSourceStatus"
+      }
+    },
+    "ScanEc2InstanceWithFindings": {
+      "type": "structure",
+      "members": {
+        "ebsVolumes": "Boolean"
+      }
+    },
+    "ScanEc2InstanceWithFindingsResult": {
+      "type": "structure",
+      "members": {
+        "ebsVolumes": "EbsVolumesResult"
+      }
+    },
+    "String": {
+      "type": "string"
+    },
+    "TagKey": {
+      "type": "string"
+    },
+    "TagKeyList": {
+      "type": "list",
+      "member": "TagKey"
+    },
+    "TagMap": {
+      "type": "map",
+      "value": "TagValue"
+    },
+    "TagResourceRequest": {
+      "type": "structure",
+      "members": {
+        "ResourceArn": "GuardDutyArn",
+        "tags": "TagMap"
+      },
+      "locations": {
+        "ResourceArn": {
+          "location": "uri",
+          "name": "ResourceArn"
+        }
+      }
+    },
+    "TagResourceResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "TagValue": {
+      "type": "string"
+    },
+    "Timestamp": {
+      "type": "timestamp"
+    },
+    "UnprocessedAccount": {
+      "type": "structure",
+      "members": {
+        "accountId": "AccountId",
+        "result": "String"
+      }
+    },
+    "UnprocessedAccounts": {
+      "type": "list",
+      "member": "UnprocessedAccount"
+    },
+    "UnprocessedDataSourcesResult": {
+      "type": "structure",
+      "members": {
+        "malwareProtection": "MalwareProtectionConfigurationResult"
+      }
+    },
+    "UntagResourceRequest": {
+      "type": "structure",
+      "members": {
+        "ResourceArn": "GuardDutyArn",
+        "TagKeys": "TagKeyList"
+      },
+      "locations": {
+        "ResourceArn": {
+          "location": "uri",
+          "name": "ResourceArn"
+        },
+        "TagKeys": {
+          "location": "querystring",
+          "name": "tagKeys"
+        }
+      }
+    },
+    "UntagResourceResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "UpdateDetectorRequest": {
+      "type": "structure",
+      "members": {
+        "DetectorId": "DetectorId",
+        "enable": "Boolean",
+        "findingPublishingFrequency": "FindingPublishingFrequency",
+        "dataSources": "DataSourceConfigurations",
+        "features": "DetectorFeatureConfigurations"
+      },
+      "locations": {
+        "DetectorId": {
+          "location": "uri",
+          "name": "DetectorId"
+        }
+      }
+    },
+    "UpdateDetectorResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "UpdateMalwareProtectionPlanRequest": {
+      "type": "structure",
+      "members": {
+        "MalwareProtectionPlanId": "String",
+        "role": "String",
+        "actions": "MalwareProtectionPlanActions",
+        "protectedResource": "UpdateProtectedResource"
+      },
+      "locations": {
+        "MalwareProtectionPlanId": {
+          "location": "uri",
+          "name": "MalwareProtectionPlanId"
+        }
+      }
+    },
+    "UpdateOrganizationConfigurationRequest": {
+      "type": "structure",
+      "members": {
+        "DetectorId": "DetectorId",
+        "autoEnable": "Boolean",
+        "dataSources": "OrganizationDataSourceConfigurations",
+        "features": "OrganizationFeaturesConfigurations",
+        "autoEnableOrganizationMembers": "AutoEnableMembers"
+      },
+      "locations": {
+        "DetectorId": {
+          "location": "uri",
+          "name": "DetectorId"
+        }
+      }
+    },
+    "UpdateOrganizationConfigurationResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "UpdateProtectedResource": {
+      "type": "structure",
+      "members": {
+        "s3Bucket": "UpdateS3BucketResource"
+      }
+    },
+    "UpdatePublishingDestinationRequest": {
+      "type": "structure",
+      "members": {
+        "DetectorId": "DetectorId",
+        "DestinationId": "String",
+        "destinationProperties": "DestinationProperties"
+      },
+      "locations": {
+        "DetectorId": {
+          "location": "uri",
+          "name": "DetectorId"
+        },
+        "DestinationId": {
+          "location": "uri",
+          "name": "DestinationId"
+        }
+      }
+    },
+    "UpdatePublishingDestinationResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "UpdateS3BucketResource": {
+      "type": "structure",
+      "members": {
+        "objectPrefixes": "MalwareProtectionPlanObjectPrefixesList"
+      }
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "_source": {
+    "generator": "tools/aws/regen_cloudtrail_events.py",
+    "managementEvents": "https://docs.aws.amazon.com/guardduty/latest/ug/logging-using-cloudtrail.html",
+    "reference": "https://servicereference.us-east-1.amazonaws.com/v1/guardduty/guardduty.json",
+    "retrieved": "2026-11-24"
+  },
+  "managementEvents": [
+    "CreateDetector",
+    "CreateMalwareProtectionPlan",
+    "CreateMembers",
+    "CreatePublishingDestination",
+    "DeleteDetector",
+    "DeleteMalwareProtectionPlan",
+    "DeletePublishingDestination",
+    "DescribeOrganizationConfiguration",
+    "DescribePublishingDestination",
+    "DisableOrganizationAdminAccount",
+    "EnableOrganizationAdminAccount",
+    "GetDetector",
+    "GetMalwareProtectionPlan",
+    "ListDetectors",
+    "ListMalwareProtectionPlans",
+    "ListMembers",
+    "ListPublishingDestinations",
+    "ListTagsForResource",
+    "TagResource",
+    "UntagResource",
+    "UpdateDetector",
+    "UpdateMalwareProtectionPlan",
+    "UpdateOrganizationConfiguration",
+    "UpdatePublishingDestination"
+  ],
+  "readOnlyActions": [
+    "DescribeOrganizationConfiguration",
+    "DescribePublishingDestination",
+    "GetDetector",
+    "GetMalwareProtectionPlan",
+    "ListDetectors",
+    "ListMalwareProtectionPlans",
+    "ListMembers",
+    "ListPublishingDestinations",
+    "ListTagsForResource"
+  ]
+}

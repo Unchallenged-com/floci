@@ -79,7 +79,7 @@ def record_check(member_traits: set[str]) -> Callable[[str, dict], None]:
 def build(model: dict, provenance: str, generator: str, outputs: bool = False, required: bool = False,
           results: bool = False, sensitive: bool = False, errors: bool = False,
           check: Callable[[str, dict], None] | None = None, subset: tuple[str, ...] | None = None,
-          xml_names: bool = False, located: bool = False) -> dict:
+          xml_names: bool = False, located: bool = False, json_names: bool = False) -> dict:
     """The input shape of every operation and every shape reachable from one, reduced to its type and
     the shapes of its members, list elements or map values.
 
@@ -93,7 +93,10 @@ def build(model: dict, provenance: str, generator: str, outputs: bool = False, r
     requests it reads some other way: `operations` then names each input shape without vendoring it.
     `located` keeps the members a REST model binds to the URI, the query string or a header, which a
     record writes as members all the same (Lambda's `"functionName"`), and gives the structure
-    `locations`: each such member's `location` and the name it has there."""
+    `locations`: each such member's `location` and the name it has there. `json_names` keys each
+    structure's body members by the name its JSON gives them (`locationName`), for a REST-JSON model
+    whose body names differ from its member names (GuardDuty's `"detectorId"`, `"dnsLogs"` for
+    `DNSLogs`); the members it locates elsewhere keep their own names."""
     shapes = model["shapes"]
     kept: dict[str, dict] = {}
 
@@ -113,7 +116,8 @@ def build(model: dict, provenance: str, generator: str, outputs: bool = False, r
                        if located or not (body_only and "location" in spec)}
             if required and "required" in shape:
                 entry["required"] = [member for member in shape["required"] if member in members]
-            entry["members"] = {(spec.get("locationName", member) if xml_names else member): spec["shape"]
+            entry["members"] = {(spec.get("locationName", member)
+                                 if xml_names or (json_names and "location" not in spec) else member): spec["shape"]
                                 for member, spec in members.items()}
             if located and any("location" in spec for spec in members.values()):
                 entry["locations"] = {member: {"location": spec["location"],
@@ -252,7 +256,7 @@ def main(argv: list[str] | None, *, script: str, model: Path, output: Path,
          prepare: Callable[[dict], dict] | None = None,
          results: bool = False, sensitive: bool = False, errors: bool = False,
          check: Callable[[str, dict], None] | None = None, subset: tuple[str, ...] | None = None,
-         xml_names: bool = False, located: bool = False) -> int:
+         xml_names: bool = False, located: bool = False, json_names: bool = False) -> int:
     """Drives one generator: parse the flags, read the model, write or check the vendored file.
 
     `operations` picks the constraints flavour, keeping those operations' declared constraints
@@ -268,8 +272,8 @@ def main(argv: list[str] | None, *, script: str, model: Path, output: Path,
     it vendors in part: IAM reduces a paged request to its paging members, the rest of it keeping
     the reading it has today.
 
-    `results`, `sensitive`, `errors`, `check`, `subset`, `xml_names` and `located` are `build`'s, for a generator
-    that keeps every operation's member types."""
+    `results`, `sensitive`, `errors`, `check`, `subset`, `xml_names`, `located` and `json_names` are `build`'s,
+    for a generator that keeps every operation's member types."""
     parser = argparse.ArgumentParser(description=description, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--check", action="store_true", help="exit 1 when the vendored file differs from a fresh generation")
     parser.add_argument("--botocore-data", type=Path, help="botocore data directory")
@@ -286,7 +290,7 @@ def main(argv: list[str] | None, *, script: str, model: Path, output: Path,
     fresh = render(build_constraints(loaded, operations, provenance, generator) if operations is not None
                    else build(loaded, provenance, generator, outputs, required,
                               results=results, sensitive=sensitive, errors=errors, check=check,
-                              subset=subset, xml_names=xml_names, located=located))
+                              subset=subset, xml_names=xml_names, located=located, json_names=json_names))
 
     if args.check:
         current = args.output.read_text(encoding="utf-8") if args.output.exists() else ""

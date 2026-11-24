@@ -26,6 +26,9 @@ carries, so it stays in SERVICES below, as the guide lists them:
   A record names most of them with the API version they are served under (`CreateFunction20150331`),
   which the file carries as `eventNames`: "the `eventName` might include date and version information,
   but it is still referring to the same public API action".
+- GuardDuty (https://docs.aws.amazon.com/guardduty/latest/ug/logging-using-cloudtrail.html): "CloudTrail
+  logs all the GuardDuty API operations", so every call; the file lists the ones Floci serves, which
+  regen_guardduty_cloudtrail_shapes.py vendors the shapes of.
 
 Which of them are read-only is the access level AWS's Service Reference gives each action, read as
 `regen_iam_action_resources.py` reads IAM's: an action with none of the Write, Permissions
@@ -143,6 +146,22 @@ SERVICES: dict[str, Service] = {
         # "kms:ReEncryptTo permission on the destination KMS key"
         # (https://docs.aws.amazon.com/kms/latest/APIReference/API_ReEncrypt.html).
         reference_actions={"ReEncrypt": ("ReEncryptFrom", "ReEncryptTo")},
+    ),
+    "guardduty": Service(
+        guide="https://docs.aws.amazon.com/guardduty/latest/ug/logging-using-cloudtrail.html",
+        # Every GuardDuty call is a management event; these are the ones Floci serves. Records since 2024
+        # name each by its own name (CreateDetector, UpdateDetector, DeletePublishingDestination).
+        management_events=(
+            "CreateDetector", "CreateMalwareProtectionPlan", "CreateMembers", "CreatePublishingDestination",
+            "DeleteDetector", "DeleteMalwareProtectionPlan", "DeletePublishingDestination",
+            "DescribeOrganizationConfiguration", "DescribePublishingDestination",
+            "DisableOrganizationAdminAccount", "EnableOrganizationAdminAccount", "GetDetector",
+            "GetMalwareProtectionPlan", "ListDetectors", "ListMalwareProtectionPlans", "ListMembers",
+            "ListPublishingDestinations", "ListTagsForResource", "TagResource", "UntagResource",
+            "UpdateDetector", "UpdateMalwareProtectionPlan", "UpdateOrganizationConfiguration",
+            "UpdatePublishingDestination",
+        ),
+        read_only_anchors={"GetDetector": True, "ListDetectors": True, "DeleteDetector": False},
     ),
     "lambda": Service(
         guide="https://docs.aws.amazon.com/lambda/latest/dg/logging-using-cloudtrail.html",

@@ -318,6 +318,22 @@ guide gives without a version where records of its neighbors carry one.
   is recorded as `AccessDenied` with `"requestParameters": null`.
 - `Invoke` is a data event, not recorded here.
 
+## GuardDuty Coverage
+
+"By default, CloudTrail logs all the GuardDuty API operations provided in the Amazon GuardDuty API Reference"
+([GuardDuty User Guide](https://docs.aws.amazon.com/guardduty/latest/ug/logging-using-cloudtrail.html)). Floci records
+every GuardDuty call it serves (`guardduty-cloudtrail-events.json`) under the call's own name: detectors, members,
+publishing destinations, organization configuration and admin account, Malware Protection plans and tags.
+
+- `requestParameters` are the call's members from its path, its query and its body, named as GuardDuty's JSON names
+  them (`"detectorId"`, `"findingPublishingFrequency"`, `"accountIds"`) and typed as botocore's GuardDuty model types
+  them (`"maxResults": 5`). The members the model marks sensitive, a member's `email`, are left out.
+- `responseElements` is the answer in the same form (`CreateDetector`'s `"detectorId"`); `null` for a read-only call
+  and for an answer that carries nothing (`UpdateDetector`, `DeleteDetector`).
+- A call IAM enforcement refuses is recorded as `AccessDenied` with its members and no `errorMessage`: a write carries
+  the refusal's message as `"responseElements": {"message": "..."}`, a read-only call `"responseElements": null`.
+- A call that fails otherwise is not recorded yet.
+
 ## EventBridge delivery
 
 "CloudTrail sends the following types of events to the default EventBridge event bus", the first of them
