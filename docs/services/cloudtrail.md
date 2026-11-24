@@ -4,7 +4,7 @@
 **Endpoint:** `POST http://localhost:4566/`
 
 Floci emulates a CloudTrail trail's full life cycle and emits S3 data events, IAM API calls, SQS control plane calls,
-Secrets Manager, KMS and CloudWatch Logs API calls and some EC2 calls to the trail's destination bucket as gzipped JSON log files at the
+Secrets Manager, KMS, CloudWatch Logs and Lambda API calls and some EC2 calls to the trail's destination bucket as gzipped JSON log files at the
 AWS-shaped key path:
 
 ```

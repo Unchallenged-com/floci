@@ -3,6 +3,7 @@ package io.floci.aws.services.cloudtrail;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.floci.aws.core.common.RequestScopes;
 import io.floci.aws.core.common.Resettable;
+import io.floci.aws.core.common.ServicePrincipals;
 import io.floci.aws.services.eventbridge.EventBridgeService;
 import jakarta.annotation.PreDestroy;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -49,7 +50,6 @@ public class CloudTrailEventBridgeDelivery implements Resettable {
             "AwsConsoleAction", "AWS Console Action via CloudTrail",
             "AwsCloudTrailInsight", "AWS Insight via CloudTrail",
             "AwsVpceEvent", "AWS Network Activity Event via CloudTrail");
-    private static final String SERVICE_DOMAIN = ".amazonaws.com";
     private static final long RESET_DRAIN_TIMEOUT_SECONDS = 30;
 
     private final EventBridgeService eventBridge;
@@ -156,8 +156,9 @@ public class CloudTrailEventBridgeDelivery implements Resettable {
 
     /** {@code aws.<service>} for a record's {@code <service>.amazonaws.com}; null for any other source. */
     static String source(String eventSource) {
-        return eventSource.endsWith(SERVICE_DOMAIN) && eventSource.length() > SERVICE_DOMAIN.length()
-                ? "aws." + eventSource.substring(0, eventSource.length() - SERVICE_DOMAIN.length()) : null;
+        String service = ServicePrincipals.serviceName(eventSource);
+        return service != null && !service.isEmpty() && ServicePrincipals.of(service).equals(eventSource)
+                ? "aws." + service : null;
     }
 
     private void queueEvent(String eventName, String source, String detailType, String detail, String accountId,
