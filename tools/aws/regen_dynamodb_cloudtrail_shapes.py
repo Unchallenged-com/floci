@@ -7,9 +7,9 @@ CloudTrail records DynamoDB's control plane calls, and `DynamoDbCloudTrailEvents
 shape, its result shape, every shape they reach with its type and the `sensitive` flag, and every error
 DynamoDB models, from the code it answers with to its shape's name.
 
-Only the calls the DynamoDB guide lists as management events are vendored (`OPERATIONS`), as
-`regen_cloudtrail_events.py` lists them for the service, without the DynamoDB Streams ones, whose model is
-another (`regen_dynamodbstreams_cloudtrail_shapes.py`).
+Only the calls recorded as management events are vendored (`OPERATIONS`), as `regen_cloudtrail_events.py`
+lists them for the service, without the DynamoDB Streams ones, whose model is another
+(`regen_dynamodbstreams_cloudtrail_shapes.py`).
 
 DynamoDB's model is a JSON one. Beside the shape a member names, these member traits say nothing of how a
 record names, types or redacts it: `contextParam`, which only says the endpoint rules read the member, and
@@ -35,13 +35,19 @@ from request_shapes import REPO_ROOT
 OUTPUT = REPO_ROOT / "src/main/resources/aws/dynamodb-cloudtrail-shapes.json"
 MODEL = Path("dynamodb/2012-08-10")
 
-# The DynamoDB calls the guide lists as management events, whose shapes are vendored.
+# The DynamoDB calls recorded as management events, whose shapes are vendored: the guide's list, then the
+# other calls Floci serves that its data plane list leaves out.
 OPERATIONS = (
     "CreateBackup", "CreateGlobalTable", "CreateTable", "DeleteBackup", "DeleteTable", "DescribeBackup",
     "DescribeContinuousBackups", "DescribeGlobalTable", "DescribeLimits", "DescribeTable",
     "DescribeTimeToLive", "ListBackups", "ListGlobalTables", "ListTables", "ListTagsOfResource",
     "RestoreTableFromBackup", "RestoreTableToPointInTime", "TagResource", "UntagResource",
     "UpdateGlobalTable", "UpdateTable", "UpdateTimeToLive",
+    "DeleteResourcePolicy", "DescribeContributorInsights", "DescribeEndpoints", "DescribeExport",
+    "DescribeImport", "DescribeKinesisStreamingDestination", "DisableKinesisStreamingDestination",
+    "EnableKinesisStreamingDestination", "ExportTableToPointInTime", "GetResourcePolicy", "ImportTable",
+    "ListContributorInsights", "ListExports", "ListImports", "PutResourcePolicy", "UpdateContinuousBackups",
+    "UpdateContributorInsights", "UpdateKinesisStreamingDestination",
 )
 
 MEMBER_TRAITS = {"shape", "documentation", "contextParam", "idempotencyToken"}

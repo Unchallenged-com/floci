@@ -26,14 +26,15 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 
 /**
- * Records DynamoDB's and DynamoDB Streams' control plane calls as CloudTrail management events: "The
- * following API actions are logged by default as events in CloudTrail files", followed by the DynamoDB and
- * the DynamoDB Streams lists
+ * Records DynamoDB's and DynamoDB Streams' control plane calls as CloudTrail management events: "CloudTrail
+ * captures all API calls for DynamoDB as events", and "The following API actions are logged by default as
+ * events in CloudTrail files", followed by the DynamoDB and the DynamoDB Streams lists
  * (https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/logging-using-cloudtrail.html). Which
  * those are, and which are read-only, is the vendored {@code aws/dynamodb-cloudtrail-events.json}
- * ({@link CloudTrailEventCatalog}): the guide's list, and AWS's Service Reference's access level. The item
- * calls, PartiQL, transactions and the Streams reads ({@code GetRecords}, {@code GetShardIterator}) are data
- * events, which this does not record, as are the calls the list leaves out.
+ * ({@link CloudTrailEventCatalog}): the guide's lists, the other calls Floci serves that its data plane list
+ * leaves out ({@code UpdateContinuousBackups}, {@code ExportTableToPointInTime}, {@code PutResourcePolicy}),
+ * and AWS's Service Reference's access level. The item calls, PartiQL, transactions and the Streams reads
+ * ({@code GetRecords}, {@code GetShardIterator}) are data events, which this does not record.
  *
  * <p>A call is recorded whether it succeeds, fails, or is refused by IAM enforcement, a trail or not, since
  * event history keeps every management event. The record follows the log entries the guide shows

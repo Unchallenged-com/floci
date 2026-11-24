@@ -321,16 +321,20 @@ guide gives without a version where records of its neighbors carry one.
 
 ## DynamoDB Coverage
 
-"The following API actions are logged by default as events in CloudTrail files"
+"CloudTrail captures all API calls for DynamoDB as events", and "The following API actions are logged by default as
+events in CloudTrail files"
 ([DynamoDB Developer Guide](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/logging-using-cloudtrail.html)),
 followed by the DynamoDB list (`CreateTable`, `UpdateTable`, `DeleteTable`, `CreateBackup`, `DeleteBackup`,
 `RestoreTableFromBackup`, `RestoreTableToPointInTime`, `UpdateTimeToLive`, `TagResource`, the global table calls, the
 `Describe*` and `List*` calls) and the DynamoDB Streams one (`DescribeStream`, `ListStreams`). Floci records those
-calls made over DynamoDB's JSON protocol (`dynamodb-cloudtrail-events.json`): one DynamoDB ran, one it answered with an
-error, and, with `floci.services.iam.enforcement-enabled`, one IAM enforcement refused. The list's reserved capacity,
-Application Auto Scaling and DAX calls are not DynamoDB API calls. The item calls, PartiQL, transactions and the Streams
-reads (`GetRecords`, `GetShardIterator`) are data events, and are not recorded; nor are the calls the list leaves out,
-such as `ExportTableToPointInTime` or `UpdateContinuousBackups`.
+calls, and the other calls it serves that the guide's data plane list leaves out (`UpdateContinuousBackups`,
+`ExportTableToPointInTime`, `DescribeExport`, `ListExports`, `ImportTable`, `DescribeImport`, `ListImports`,
+`PutResourcePolicy`, `GetResourcePolicy`, `DeleteResourcePolicy`, the Kinesis streaming destination and contributor
+insights calls, `DescribeEndpoints`), made over DynamoDB's JSON protocol (`dynamodb-cloudtrail-events.json`): one
+DynamoDB ran, one it answered with an error, and, with `floci.services.iam.enforcement-enabled`, one IAM enforcement
+refused. The list's reserved capacity, Application Auto Scaling and DAX calls are not DynamoDB API calls. The item
+calls, PartiQL, transactions and the Streams reads (`GetRecords`, `GetShardIterator`) are data events, and are not
+recorded.
 
 - `eventSource` is `dynamodb.amazonaws.com`, a Streams call's too, and the record carries `"apiVersion": "2012-08-10"`,
   as the guide's [log entries](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/understanding-ddb-log-entries.html)

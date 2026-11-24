@@ -8,22 +8,40 @@
     "CreateGlobalTable": "CreateGlobalTableInput",
     "CreateTable": "CreateTableInput",
     "DeleteBackup": "DeleteBackupInput",
+    "DeleteResourcePolicy": "DeleteResourcePolicyInput",
     "DeleteTable": "DeleteTableInput",
     "DescribeBackup": "DescribeBackupInput",
     "DescribeContinuousBackups": "DescribeContinuousBackupsInput",
+    "DescribeContributorInsights": "DescribeContributorInsightsInput",
+    "DescribeEndpoints": "DescribeEndpointsRequest",
+    "DescribeExport": "DescribeExportInput",
     "DescribeGlobalTable": "DescribeGlobalTableInput",
+    "DescribeImport": "DescribeImportInput",
+    "DescribeKinesisStreamingDestination": "DescribeKinesisStreamingDestinationInput",
     "DescribeLimits": "DescribeLimitsInput",
     "DescribeTable": "DescribeTableInput",
     "DescribeTimeToLive": "DescribeTimeToLiveInput",
+    "DisableKinesisStreamingDestination": "KinesisStreamingDestinationInput",
+    "EnableKinesisStreamingDestination": "KinesisStreamingDestinationInput",
+    "ExportTableToPointInTime": "ExportTableToPointInTimeInput",
+    "GetResourcePolicy": "GetResourcePolicyInput",
+    "ImportTable": "ImportTableInput",
     "ListBackups": "ListBackupsInput",
+    "ListContributorInsights": "ListContributorInsightsInput",
+    "ListExports": "ListExportsInput",
     "ListGlobalTables": "ListGlobalTablesInput",
+    "ListImports": "ListImportsInput",
     "ListTables": "ListTablesInput",
     "ListTagsOfResource": "ListTagsOfResourceInput",
+    "PutResourcePolicy": "PutResourcePolicyInput",
     "RestoreTableFromBackup": "RestoreTableFromBackupInput",
     "RestoreTableToPointInTime": "RestoreTableToPointInTimeInput",
     "TagResource": "TagResourceInput",
     "UntagResource": "UntagResourceInput",
+    "UpdateContinuousBackups": "UpdateContinuousBackupsInput",
+    "UpdateContributorInsights": "UpdateContributorInsightsInput",
     "UpdateGlobalTable": "UpdateGlobalTableInput",
+    "UpdateKinesisStreamingDestination": "UpdateKinesisStreamingDestinationInput",
     "UpdateTable": "UpdateTableInput",
     "UpdateTimeToLive": "UpdateTimeToLiveInput"
   },
@@ -44,6 +62,10 @@
       "shape": "DeleteBackupOutput",
       "resultWrapper": null
     },
+    "DeleteResourcePolicy": {
+      "shape": "DeleteResourcePolicyOutput",
+      "resultWrapper": null
+    },
     "DeleteTable": {
       "shape": "DeleteTableOutput",
       "resultWrapper": null
@@ -56,8 +78,28 @@
       "shape": "DescribeContinuousBackupsOutput",
       "resultWrapper": null
     },
+    "DescribeContributorInsights": {
+      "shape": "DescribeContributorInsightsOutput",
+      "resultWrapper": null
+    },
+    "DescribeEndpoints": {
+      "shape": "DescribeEndpointsResponse",
+      "resultWrapper": null
+    },
+    "DescribeExport": {
+      "shape": "DescribeExportOutput",
+      "resultWrapper": null
+    },
     "DescribeGlobalTable": {
       "shape": "DescribeGlobalTableOutput",
+      "resultWrapper": null
+    },
+    "DescribeImport": {
+      "shape": "DescribeImportOutput",
+      "resultWrapper": null
+    },
+    "DescribeKinesisStreamingDestination": {
+      "shape": "DescribeKinesisStreamingDestinationOutput",
       "resultWrapper": null
     },
     "DescribeLimits": {
@@ -72,12 +114,44 @@
       "shape": "DescribeTimeToLiveOutput",
       "resultWrapper": null
     },
+    "DisableKinesisStreamingDestination": {
+      "shape": "KinesisStreamingDestinationOutput",
+      "resultWrapper": null
+    },
+    "EnableKinesisStreamingDestination": {
+      "shape": "KinesisStreamingDestinationOutput",
+      "resultWrapper": null
+    },
+    "ExportTableToPointInTime": {
+      "shape": "ExportTableToPointInTimeOutput",
+      "resultWrapper": null
+    },
+    "GetResourcePolicy": {
+      "shape": "GetResourcePolicyOutput",
+      "resultWrapper": null
+    },
+    "ImportTable": {
+      "shape": "ImportTableOutput",
+      "resultWrapper": null
+    },
     "ListBackups": {
       "shape": "ListBackupsOutput",
       "resultWrapper": null
     },
+    "ListContributorInsights": {
+      "shape": "ListContributorInsightsOutput",
+      "resultWrapper": null
+    },
+    "ListExports": {
+      "shape": "ListExportsOutput",
+      "resultWrapper": null
+    },
     "ListGlobalTables": {
       "shape": "ListGlobalTablesOutput",
+      "resultWrapper": null
+    },
+    "ListImports": {
+      "shape": "ListImportsOutput",
       "resultWrapper": null
     },
     "ListTables": {
@@ -88,6 +162,10 @@
       "shape": "ListTagsOfResourceOutput",
       "resultWrapper": null
     },
+    "PutResourcePolicy": {
+      "shape": "PutResourcePolicyOutput",
+      "resultWrapper": null
+    },
     "RestoreTableFromBackup": {
       "shape": "RestoreTableFromBackupOutput",
       "resultWrapper": null
@@ -96,8 +174,20 @@
       "shape": "RestoreTableToPointInTimeOutput",
       "resultWrapper": null
     },
+    "UpdateContinuousBackups": {
+      "shape": "UpdateContinuousBackupsOutput",
+      "resultWrapper": null
+    },
+    "UpdateContributorInsights": {
+      "shape": "UpdateContributorInsightsOutput",
+      "resultWrapper": null
+    },
     "UpdateGlobalTable": {
       "shape": "UpdateGlobalTableOutput",
+      "resultWrapper": null
+    },
+    "UpdateKinesisStreamingDestination": {
+      "shape": "UpdateKinesisStreamingDestinationOutput",
       "resultWrapper": null
     },
     "UpdateTable": {
@@ -110,6 +200,9 @@
     }
   },
   "shapes": {
+    "ApproximateCreationDateTimePrecision": {
+      "type": "string"
+    },
     "ArchivalReason": {
       "type": "string"
     },
@@ -134,6 +227,21 @@
     },
     "AttributeName": {
       "type": "string"
+    },
+    "AttributeValue": {
+      "type": "structure",
+      "members": {
+        "S": "StringAttributeValue",
+        "N": "NumberAttributeValue",
+        "B": "BinaryAttributeValue",
+        "SS": "StringSetAttributeValue",
+        "NS": "NumberSetAttributeValue",
+        "BS": "BinarySetAttributeValue",
+        "M": "MapAttributeValue",
+        "L": "ListAttributeValue",
+        "NULL": "NullAttributeValue",
+        "BOOL": "BooleanAttributeValue"
+      }
     },
     "Backfilling": {
       "type": "boolean"
@@ -201,6 +309,9 @@
     "BackupsInputLimit": {
       "type": "integer"
     },
+    "BilledSizeBytes": {
+      "type": "long"
+    },
     "BillingMode": {
       "type": "string"
     },
@@ -211,7 +322,29 @@
         "LastUpdateToPayPerRequestDateTime": "Date"
       }
     },
+    "BinaryAttributeValue": {
+      "type": "blob"
+    },
+    "BinarySetAttributeValue": {
+      "type": "list",
+      "member": "BinaryAttributeValue"
+    },
+    "BooleanAttributeValue": {
+      "type": "boolean"
+    },
     "BooleanObject": {
+      "type": "boolean"
+    },
+    "ClientToken": {
+      "type": "string"
+    },
+    "CloudWatchLogGroupArn": {
+      "type": "string"
+    },
+    "ConditionExpression": {
+      "type": "string"
+    },
+    "ConfirmRemoveSelfResourceAccess": {
       "type": "boolean"
     },
     "ContinuousBackupsDescription": {
@@ -223,6 +356,35 @@
     },
     "ContinuousBackupsStatus": {
       "type": "string"
+    },
+    "ContributorInsightsAction": {
+      "type": "string"
+    },
+    "ContributorInsightsMode": {
+      "type": "string"
+    },
+    "ContributorInsightsRule": {
+      "type": "string"
+    },
+    "ContributorInsightsRuleList": {
+      "type": "list",
+      "member": "ContributorInsightsRule"
+    },
+    "ContributorInsightsStatus": {
+      "type": "string"
+    },
+    "ContributorInsightsSummaries": {
+      "type": "list",
+      "member": "ContributorInsightsSummary"
+    },
+    "ContributorInsightsSummary": {
+      "type": "structure",
+      "members": {
+        "TableName": "TableName",
+        "IndexName": "IndexName",
+        "ContributorInsightsStatus": "ContributorInsightsStatus",
+        "ContributorInsightsMode": "ContributorInsightsMode"
+      }
     },
     "CreateBackupInput": {
       "type": "structure",
@@ -324,6 +486,23 @@
         "DistanceFunction": "VectorDistanceFunction"
       }
     },
+    "CsvDelimiter": {
+      "type": "string"
+    },
+    "CsvHeader": {
+      "type": "string"
+    },
+    "CsvHeaderList": {
+      "type": "list",
+      "member": "CsvHeader"
+    },
+    "CsvOptions": {
+      "type": "structure",
+      "members": {
+        "Delimiter": "CsvDelimiter",
+        "HeaderList": "CsvHeaderList"
+      }
+    },
     "Date": {
       "type": "timestamp"
     },
@@ -361,6 +540,19 @@
       "type": "structure",
       "members": {
         "RegionName": "RegionName"
+      }
+    },
+    "DeleteResourcePolicyInput": {
+      "type": "structure",
+      "members": {
+        "ResourceArn": "ResourceArnString",
+        "ExpectedRevisionId": "PolicyRevisionId"
+      }
+    },
+    "DeleteResourcePolicyOutput": {
+      "type": "structure",
+      "members": {
+        "RevisionId": "PolicyRevisionId"
       }
     },
     "DeleteTableInput": {
@@ -408,6 +600,47 @@
         "ContinuousBackupsDescription": "ContinuousBackupsDescription"
       }
     },
+    "DescribeContributorInsightsInput": {
+      "type": "structure",
+      "members": {
+        "TableName": "TableArn",
+        "IndexName": "IndexName"
+      }
+    },
+    "DescribeContributorInsightsOutput": {
+      "type": "structure",
+      "members": {
+        "TableName": "TableName",
+        "IndexName": "IndexName",
+        "ContributorInsightsRuleList": "ContributorInsightsRuleList",
+        "ContributorInsightsStatus": "ContributorInsightsStatus",
+        "LastUpdateDateTime": "LastUpdateDateTime",
+        "FailureException": "FailureException",
+        "ContributorInsightsMode": "ContributorInsightsMode"
+      }
+    },
+    "DescribeEndpointsRequest": {
+      "type": "structure",
+      "members": {}
+    },
+    "DescribeEndpointsResponse": {
+      "type": "structure",
+      "members": {
+        "Endpoints": "Endpoints"
+      }
+    },
+    "DescribeExportInput": {
+      "type": "structure",
+      "members": {
+        "ExportArn": "ExportArn"
+      }
+    },
+    "DescribeExportOutput": {
+      "type": "structure",
+      "members": {
+        "ExportDescription": "ExportDescription"
+      }
+    },
     "DescribeGlobalTableInput": {
       "type": "structure",
       "members": {
@@ -418,6 +651,31 @@
       "type": "structure",
       "members": {
         "GlobalTableDescription": "GlobalTableDescription"
+      }
+    },
+    "DescribeImportInput": {
+      "type": "structure",
+      "members": {
+        "ImportArn": "ImportArn"
+      }
+    },
+    "DescribeImportOutput": {
+      "type": "structure",
+      "members": {
+        "ImportTableDescription": "ImportTableDescription"
+      }
+    },
+    "DescribeKinesisStreamingDestinationInput": {
+      "type": "structure",
+      "members": {
+        "TableName": "TableArn"
+      }
+    },
+    "DescribeKinesisStreamingDestinationOutput": {
+      "type": "structure",
+      "members": {
+        "TableName": "TableName",
+        "KinesisDataStreamDestinations": "KinesisDataStreamDestinations"
       }
     },
     "DescribeLimitsInput": {
@@ -457,6 +715,9 @@
         "TimeToLiveDescription": "TimeToLiveDescription"
       }
     },
+    "DestinationStatus": {
+      "type": "string"
+    },
     "DisassociateReplicationGroupMemberAction": {
       "type": "structure",
       "members": {
@@ -469,6 +730,174 @@
     },
     "DisassociationProtectionEnabled": {
       "type": "boolean"
+    },
+    "EnableKinesisStreamingConfiguration": {
+      "type": "structure",
+      "members": {
+        "ApproximateCreationDateTimePrecision": "ApproximateCreationDateTimePrecision"
+      }
+    },
+    "Endpoint": {
+      "type": "structure",
+      "members": {
+        "Address": "String",
+        "CachePeriodInMinutes": "Long"
+      }
+    },
+    "Endpoints": {
+      "type": "list",
+      "member": "Endpoint"
+    },
+    "ErrorCount": {
+      "type": "long"
+    },
+    "ExceptionDescription": {
+      "type": "string"
+    },
+    "ExceptionName": {
+      "type": "string"
+    },
+    "ExportArn": {
+      "type": "string"
+    },
+    "ExportDescription": {
+      "type": "structure",
+      "members": {
+        "ExportArn": "ExportArn",
+        "ExportStatus": "ExportStatus",
+        "StartTime": "ExportStartTime",
+        "EndTime": "ExportEndTime",
+        "ExportManifest": "ExportManifest",
+        "TableArn": "TableArn",
+        "TableId": "TableId",
+        "ExportTime": "ExportTime",
+        "ClientToken": "ClientToken",
+        "S3Bucket": "S3Bucket",
+        "S3BucketOwner": "S3BucketOwner",
+        "S3Prefix": "S3Prefix",
+        "S3SseAlgorithm": "S3SseAlgorithm",
+        "S3SseKmsKeyId": "S3SseKmsKeyId",
+        "FailureCode": "FailureCode",
+        "FailureMessage": "FailureMessage",
+        "ExportFormat": "ExportFormat",
+        "BilledSizeBytes": "BilledSizeBytes",
+        "ItemCount": "ItemCount",
+        "ExportType": "ExportType",
+        "IncrementalExportSpecification": "IncrementalExportSpecification",
+        "FilterSpecification": "FilterSpecification"
+      }
+    },
+    "ExportEndTime": {
+      "type": "timestamp"
+    },
+    "ExportFormat": {
+      "type": "string"
+    },
+    "ExportFromTime": {
+      "type": "timestamp"
+    },
+    "ExportManifest": {
+      "type": "string"
+    },
+    "ExportNextToken": {
+      "type": "string"
+    },
+    "ExportStartTime": {
+      "type": "timestamp"
+    },
+    "ExportStatus": {
+      "type": "string"
+    },
+    "ExportSummaries": {
+      "type": "list",
+      "member": "ExportSummary"
+    },
+    "ExportSummary": {
+      "type": "structure",
+      "members": {
+        "ExportArn": "ExportArn",
+        "ExportStatus": "ExportStatus",
+        "ExportType": "ExportType"
+      }
+    },
+    "ExportTableToPointInTimeInput": {
+      "type": "structure",
+      "members": {
+        "TableArn": "TableArn",
+        "ExportTime": "ExportTime",
+        "ClientToken": "ClientToken",
+        "S3Bucket": "S3Bucket",
+        "S3BucketOwner": "S3BucketOwner",
+        "S3Prefix": "S3Prefix",
+        "S3SseAlgorithm": "S3SseAlgorithm",
+        "S3SseKmsKeyId": "S3SseKmsKeyId",
+        "ExportFormat": "ExportFormat",
+        "ExportType": "ExportType",
+        "IncrementalExportSpecification": "IncrementalExportSpecification",
+        "FilterSpecification": "FilterSpecification"
+      }
+    },
+    "ExportTableToPointInTimeOutput": {
+      "type": "structure",
+      "members": {
+        "ExportDescription": "ExportDescription"
+      }
+    },
+    "ExportTime": {
+      "type": "timestamp"
+    },
+    "ExportToTime": {
+      "type": "timestamp"
+    },
+    "ExportType": {
+      "type": "string"
+    },
+    "ExportViewType": {
+      "type": "string"
+    },
+    "ExpressionAttributeNameMap": {
+      "type": "map",
+      "value": "AttributeName"
+    },
+    "ExpressionAttributeValueMap": {
+      "type": "map",
+      "value": "AttributeValue"
+    },
+    "FailureCode": {
+      "type": "string"
+    },
+    "FailureException": {
+      "type": "structure",
+      "members": {
+        "ExceptionName": "ExceptionName",
+        "ExceptionDescription": "ExceptionDescription"
+      }
+    },
+    "FailureMessage": {
+      "type": "string"
+    },
+    "FilterSpecification": {
+      "type": "structure",
+      "members": {
+        "FilterExpression": "ConditionExpression",
+        "ProjectionExpression": "ProjectionExpression",
+        "KeyConditionExpression": "KeyExpression",
+        "ExpressionAttributeNames": "ExpressionAttributeNameMap",
+        "ExpressionAttributeValues": "ExpressionAttributeValueMap"
+      }
+    },
+    "GetResourcePolicyInput": {
+      "type": "structure",
+      "members": {
+        "ResourceArn": "ResourceArnString"
+      }
+    },
+    "GetResourcePolicyOutput": {
+      "type": "structure",
+      "members": {
+        "Policy": "ResourcePolicy",
+        "RevisionId": "PolicyRevisionId"
+      }
     },
     "GlobalSecondaryIndex": {
       "type": "structure",
@@ -591,11 +1020,107 @@
       "type": "list",
       "member": "GlobalTableWitnessGroupUpdate"
     },
+    "ImportArn": {
+      "type": "string"
+    },
+    "ImportEndTime": {
+      "type": "timestamp"
+    },
+    "ImportNextToken": {
+      "type": "string"
+    },
+    "ImportStartTime": {
+      "type": "timestamp"
+    },
+    "ImportStatus": {
+      "type": "string"
+    },
+    "ImportSummary": {
+      "type": "structure",
+      "members": {
+        "ImportArn": "ImportArn",
+        "ImportStatus": "ImportStatus",
+        "TableArn": "TableArn",
+        "S3BucketSource": "S3BucketSource",
+        "CloudWatchLogGroupArn": "CloudWatchLogGroupArn",
+        "InputFormat": "InputFormat",
+        "StartTime": "ImportStartTime",
+        "EndTime": "ImportEndTime"
+      }
+    },
+    "ImportSummaryList": {
+      "type": "list",
+      "member": "ImportSummary"
+    },
+    "ImportTableDescription": {
+      "type": "structure",
+      "members": {
+        "ImportArn": "ImportArn",
+        "ImportStatus": "ImportStatus",
+        "TableArn": "TableArn",
+        "TableId": "TableId",
+        "ClientToken": "ClientToken",
+        "S3BucketSource": "S3BucketSource",
+        "ErrorCount": "ErrorCount",
+        "CloudWatchLogGroupArn": "CloudWatchLogGroupArn",
+        "InputFormat": "InputFormat",
+        "InputFormatOptions": "InputFormatOptions",
+        "InputCompressionType": "InputCompressionType",
+        "TableCreationParameters": "TableCreationParameters",
+        "StartTime": "ImportStartTime",
+        "EndTime": "ImportEndTime",
+        "ProcessedSizeBytes": "LongObject",
+        "ProcessedItemCount": "ProcessedItemCount",
+        "ImportedItemCount": "ImportedItemCount",
+        "FailureCode": "FailureCode",
+        "FailureMessage": "FailureMessage"
+      }
+    },
+    "ImportTableInput": {
+      "type": "structure",
+      "members": {
+        "ClientToken": "ClientToken",
+        "S3BucketSource": "S3BucketSource",
+        "InputFormat": "InputFormat",
+        "InputFormatOptions": "InputFormatOptions",
+        "InputCompressionType": "InputCompressionType",
+        "TableCreationParameters": "TableCreationParameters"
+      }
+    },
+    "ImportTableOutput": {
+      "type": "structure",
+      "members": {
+        "ImportTableDescription": "ImportTableDescription"
+      }
+    },
+    "ImportedItemCount": {
+      "type": "long"
+    },
+    "IncrementalExportSpecification": {
+      "type": "structure",
+      "members": {
+        "ExportFromTime": "ExportFromTime",
+        "ExportToTime": "ExportToTime",
+        "ExportViewType": "ExportViewType"
+      }
+    },
     "IndexName": {
       "type": "string"
     },
     "IndexStatus": {
       "type": "string"
+    },
+    "InputCompressionType": {
+      "type": "string"
+    },
+    "InputFormat": {
+      "type": "string"
+    },
+    "InputFormatOptions": {
+      "type": "structure",
+      "members": {
+        "Csv": "CsvOptions"
+      }
     },
     "ItemCount": {
       "type": "long"
@@ -604,6 +1129,9 @@
       "type": "string"
     },
     "KMSMasterKeyId": {
+      "type": "string"
+    },
+    "KeyExpression": {
       "type": "string"
     },
     "KeySchema": {
@@ -623,6 +1151,43 @@
     "KeyType": {
       "type": "string"
     },
+    "KinesisDataStreamDestination": {
+      "type": "structure",
+      "members": {
+        "StreamArn": "StreamArn",
+        "DestinationStatus": "DestinationStatus",
+        "DestinationStatusDescription": "String",
+        "ApproximateCreationDateTimePrecision": "ApproximateCreationDateTimePrecision"
+      }
+    },
+    "KinesisDataStreamDestinations": {
+      "type": "list",
+      "member": "KinesisDataStreamDestination"
+    },
+    "KinesisStreamingDestinationInput": {
+      "type": "structure",
+      "members": {
+        "TableName": "TableArn",
+        "StreamArn": "StreamArn",
+        "EnableKinesisStreamingConfiguration": "EnableKinesisStreamingConfiguration"
+      }
+    },
+    "KinesisStreamingDestinationOutput": {
+      "type": "structure",
+      "members": {
+        "TableName": "TableName",
+        "StreamArn": "StreamArn",
+        "DestinationStatus": "DestinationStatus",
+        "EnableKinesisStreamingConfiguration": "EnableKinesisStreamingConfiguration"
+      }
+    },
+    "LastUpdateDateTime": {
+      "type": "timestamp"
+    },
+    "ListAttributeValue": {
+      "type": "list",
+      "member": "AttributeValue"
+    },
     "ListBackupsInput": {
       "type": "structure",
       "members": {
@@ -641,6 +1206,42 @@
         "LastEvaluatedBackupArn": "BackupArn"
       }
     },
+    "ListContributorInsightsInput": {
+      "type": "structure",
+      "members": {
+        "TableName": "TableArn",
+        "NextToken": "NextTokenString",
+        "MaxResults": "ListContributorInsightsLimit"
+      }
+    },
+    "ListContributorInsightsLimit": {
+      "type": "integer"
+    },
+    "ListContributorInsightsOutput": {
+      "type": "structure",
+      "members": {
+        "ContributorInsightsSummaries": "ContributorInsightsSummaries",
+        "NextToken": "NextTokenString"
+      }
+    },
+    "ListExportsInput": {
+      "type": "structure",
+      "members": {
+        "TableArn": "TableArn",
+        "MaxResults": "ListExportsMaxLimit",
+        "NextToken": "ExportNextToken"
+      }
+    },
+    "ListExportsMaxLimit": {
+      "type": "integer"
+    },
+    "ListExportsOutput": {
+      "type": "structure",
+      "members": {
+        "ExportSummaries": "ExportSummaries",
+        "NextToken": "ExportNextToken"
+      }
+    },
     "ListGlobalTablesInput": {
       "type": "structure",
       "members": {
@@ -654,6 +1255,24 @@
       "members": {
         "GlobalTables": "GlobalTableList",
         "LastEvaluatedGlobalTableName": "TableName"
+      }
+    },
+    "ListImportsInput": {
+      "type": "structure",
+      "members": {
+        "TableArn": "TableArn",
+        "PageSize": "ListImportsMaxLimit",
+        "NextToken": "ImportNextToken"
+      }
+    },
+    "ListImportsMaxLimit": {
+      "type": "integer"
+    },
+    "ListImportsOutput": {
+      "type": "structure",
+      "members": {
+        "ImportSummaryList": "ImportSummaryList",
+        "NextToken": "ImportNextToken"
       }
     },
     "ListTablesInput": {
@@ -726,8 +1345,15 @@
       "type": "list",
       "member": "LocalSecondaryIndexInfo"
     },
+    "Long": {
+      "type": "long"
+    },
     "LongObject": {
       "type": "long"
+    },
+    "MapAttributeValue": {
+      "type": "map",
+      "value": "AttributeValue"
     },
     "MultiRegionConsistency": {
       "type": "string"
@@ -744,6 +1370,16 @@
     },
     "NonNegativeLongObject": {
       "type": "long"
+    },
+    "NullAttributeValue": {
+      "type": "boolean"
+    },
+    "NumberAttributeValue": {
+      "type": "string"
+    },
+    "NumberSetAttributeValue": {
+      "type": "list",
+      "member": "NumberAttributeValue"
     },
     "OnDemandThroughput": {
       "type": "structure",
@@ -767,7 +1403,17 @@
         "LatestRestorableDateTime": "Date"
       }
     },
+    "PointInTimeRecoverySpecification": {
+      "type": "structure",
+      "members": {
+        "PointInTimeRecoveryEnabled": "BooleanObject",
+        "RecoveryPeriodInDays": "RecoveryPeriodInDays"
+      }
+    },
     "PointInTimeRecoveryStatus": {
+      "type": "string"
+    },
+    "PolicyRevisionId": {
       "type": "string"
     },
     "PositiveIntegerObject": {
@@ -776,12 +1422,18 @@
     "PositiveLongObject": {
       "type": "long"
     },
+    "ProcessedItemCount": {
+      "type": "long"
+    },
     "Projection": {
       "type": "structure",
       "members": {
         "ProjectionType": "ProjectionType",
         "NonKeyAttributes": "NonKeyAttributeNameList"
       }
+    },
+    "ProjectionExpression": {
+      "type": "string"
     },
     "ProjectionType": {
       "type": "string"
@@ -807,6 +1459,21 @@
       "type": "structure",
       "members": {
         "ReadCapacityUnits": "PositiveLongObject"
+      }
+    },
+    "PutResourcePolicyInput": {
+      "type": "structure",
+      "members": {
+        "ResourceArn": "ResourceArnString",
+        "Policy": "ResourcePolicy",
+        "ExpectedRevisionId": "PolicyRevisionId",
+        "ConfirmRemoveSelfResourceAccess": "ConfirmRemoveSelfResourceAccess"
+      }
+    },
+    "PutResourcePolicyOutput": {
+      "type": "structure",
+      "members": {
+        "RevisionId": "PolicyRevisionId"
       }
     },
     "RecoveryPeriodInDays": {
@@ -966,6 +1633,29 @@
         "TableDescription": "TableDescription"
       }
     },
+    "S3Bucket": {
+      "type": "string"
+    },
+    "S3BucketOwner": {
+      "type": "string"
+    },
+    "S3BucketSource": {
+      "type": "structure",
+      "members": {
+        "S3BucketOwner": "S3BucketOwner",
+        "S3Bucket": "S3Bucket",
+        "S3KeyPrefix": "S3Prefix"
+      }
+    },
+    "S3Prefix": {
+      "type": "string"
+    },
+    "S3SseAlgorithm": {
+      "type": "string"
+    },
+    "S3SseKmsKeyId": {
+      "type": "string"
+    },
     "SSEDescription": {
       "type": "structure",
       "members": {
@@ -1054,6 +1744,13 @@
     "String": {
       "type": "string"
     },
+    "StringAttributeValue": {
+      "type": "string"
+    },
+    "StringSetAttributeValue": {
+      "type": "list",
+      "member": "StringAttributeValue"
+    },
     "TableArn": {
       "type": "string"
     },
@@ -1069,6 +1766,20 @@
     },
     "TableCreationDateTime": {
       "type": "timestamp"
+    },
+    "TableCreationParameters": {
+      "type": "structure",
+      "members": {
+        "TableName": "TableName",
+        "AttributeDefinitions": "AttributeDefinitions",
+        "KeySchema": "KeySchema",
+        "BillingMode": "BillingMode",
+        "ProvisionedThroughput": "ProvisionedThroughput",
+        "OnDemandThroughput": "OnDemandThroughput",
+        "SSESpecification": "SSESpecification",
+        "GlobalSecondaryIndexes": "GlobalSecondaryIndexList",
+        "VectorIndexes": "VectorIndexList"
+      }
     },
     "TableDescription": {
       "type": "structure",
@@ -1190,6 +1901,37 @@
         "TagKeys": "TagKeyList"
       }
     },
+    "UpdateContinuousBackupsInput": {
+      "type": "structure",
+      "members": {
+        "TableName": "TableArn",
+        "PointInTimeRecoverySpecification": "PointInTimeRecoverySpecification"
+      }
+    },
+    "UpdateContinuousBackupsOutput": {
+      "type": "structure",
+      "members": {
+        "ContinuousBackupsDescription": "ContinuousBackupsDescription"
+      }
+    },
+    "UpdateContributorInsightsInput": {
+      "type": "structure",
+      "members": {
+        "TableName": "TableArn",
+        "IndexName": "IndexName",
+        "ContributorInsightsAction": "ContributorInsightsAction",
+        "ContributorInsightsMode": "ContributorInsightsMode"
+      }
+    },
+    "UpdateContributorInsightsOutput": {
+      "type": "structure",
+      "members": {
+        "TableName": "TableName",
+        "IndexName": "IndexName",
+        "ContributorInsightsStatus": "ContributorInsightsStatus",
+        "ContributorInsightsMode": "ContributorInsightsMode"
+      }
+    },
     "UpdateGlobalSecondaryIndexAction": {
       "type": "structure",
       "members": {
@@ -1210,6 +1952,29 @@
       "type": "structure",
       "members": {
         "GlobalTableDescription": "GlobalTableDescription"
+      }
+    },
+    "UpdateKinesisStreamingConfiguration": {
+      "type": "structure",
+      "members": {
+        "ApproximateCreationDateTimePrecision": "ApproximateCreationDateTimePrecision"
+      }
+    },
+    "UpdateKinesisStreamingDestinationInput": {
+      "type": "structure",
+      "members": {
+        "TableName": "TableArn",
+        "StreamArn": "StreamArn",
+        "UpdateKinesisStreamingConfiguration": "UpdateKinesisStreamingConfiguration"
+      }
+    },
+    "UpdateKinesisStreamingDestinationOutput": {
+      "type": "structure",
+      "members": {
+        "TableName": "TableName",
+        "StreamArn": "StreamArn",
+        "DestinationStatus": "DestinationStatus",
+        "UpdateKinesisStreamingConfiguration": "UpdateKinesisStreamingConfiguration"
       }
     },
     "UpdateReplicationGroupMemberAction": {

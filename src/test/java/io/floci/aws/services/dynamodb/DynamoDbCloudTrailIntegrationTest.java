@@ -34,9 +34,9 @@ import static org.hamcrest.Matchers.matchesPattern;
 import static org.hamcrest.Matchers.not;
 
 /**
- * The DynamoDB and DynamoDB Streams calls the DynamoDB guide lists as control plane events reach a trail's
- * log files as management events, and its data plane calls, such as {@code PutItem} and
- * {@code GetShardIterator}, do not.
+ * The DynamoDB and DynamoDB Streams calls the DynamoDB guide lists as control plane events, and the other
+ * calls outside its data plane list, reach a trail's log files as management events, and its data plane
+ * calls, such as {@code PutItem} and {@code GetShardIterator}, do not.
  */
 @QuarkusTest
 @TestProfile(IamEnforcementProfile.class)
@@ -120,6 +120,62 @@ class DynamoDbCloudTrailIntegrationTest {
                 equalTo(table));
 
         assertThat(named(records, "PutItem"), hasSize(0));
+    }
+
+    @Test
+    void callsTheListLeavesOutAreRecordedToo() throws IOException {
+        String account = account();
+        String suffix = UUID.randomUUID().toString().substring(0, 8);
+        String logs = "ct-ddbx-logs-" + suffix;
+        String table = "ct-ddbx-" + suffix;
+        startTrail(account, "ct-ddbx-" + suffix, logs);
+
+        String tableArn = dynamoDb(account, "CreateTable", "{\"TableName\": \"" + table + "\", " + KEY_SCHEMA + "}")
+                .statusCode(200).extract().path("TableDescription.TableArn");
+        cleanup.register(() -> dynamoDb(account, "DeleteTable", "{\"TableName\": \"" + table + "\"}"));
+        dynamoDb(account, "UpdateContinuousBackups", "{\"TableName\": \"" + table + "\", "
+                + "\"PointInTimeRecoverySpecification\": {\"PointInTimeRecoveryEnabled\": true}}").statusCode(200);
+        String exportArn = dynamoDb(account, "ExportTableToPointInTime", "{\"TableArn\": \"" + tableArn
+                + "\", \"S3Bucket\": \"" + logs + "\", \"S3Prefix\": \"exports\"}")
+                .statusCode(200).extract().path("ExportDescription.ExportArn");
+        String policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":"
+                + "\"arn:aws:iam::" + account + ":root\"},\"Action\":\"dynamodb:GetItem\",\"Resource\":\""
+                + tableArn + "\"}]}";
+        String revisionId = dynamoDb(account, "PutResourcePolicy", "{\"ResourceArn\": \"" + tableArn
+                + "\", \"Policy\": " + quoted(policy) + "}")
+                .statusCode(200).extract().path("RevisionId");
+        dynamoDb(account, "GetResourcePolicy", "{\"ResourceArn\": \"" + tableArn + "\"}").statusCode(200);
+
+        List<JsonNode> records = dynamoDbRecords(account, logs);
+
+        JsonNode recovery = only(records, "UpdateContinuousBackups", false);
+        assertThat(recovery.path("managementEvent").asBoolean(), equalTo(true));
+        assertThat(recovery.path("readOnly").asBoolean(), equalTo(false));
+        assertThat(recovery.path("requestParameters").path("pointInTimeRecoverySpecification")
+                .path("pointInTimeRecoveryEnabled").asBoolean(), equalTo(true));
+        assertThat(recovery.path("responseElements").path("continuousBackupsDescription")
+                .path("continuousBackupsStatus").asText(), equalTo("ENABLED"));
+
+        JsonNode export = only(records, "ExportTableToPointInTime", false);
+        assertThat(export.path("readOnly").asBoolean(), equalTo(false));
+        assertThat(export.path("requestParameters").path("tableArn").asText(), equalTo(tableArn));
+        assertThat(export.path("requestParameters").path("s3Bucket").asText(), equalTo(logs));
+        assertThat(export.path("responseElements").path("exportDescription").path("exportArn").asText(),
+                equalTo(exportArn));
+
+        JsonNode put = only(records, "PutResourcePolicy", false);
+        assertThat(put.path("readOnly").asBoolean(), equalTo(false));
+        assertThat(put.path("requestParameters").path("resourceArn").asText(), equalTo(tableArn));
+        assertThat(put.path("requestParameters").path("policy").asText(), equalTo(policy));
+        assertThat(put.path("responseElements").path("revisionId").asText(), equalTo(revisionId));
+
+        JsonNode read = only(records, "GetResourcePolicy", false);
+        assertThat(read.path("readOnly").asBoolean(), equalTo(true));
+        assertThat(read.path("responseElements").isNull(), equalTo(true));
+    }
+
+    private static String quoted(String text) {
+        return "\"" + text.replace("\\", "\\\\").replace("\"", "\\\"") + "\"";
     }
 
     @Test
