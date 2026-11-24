@@ -4,7 +4,8 @@
 **Endpoint:** `POST http://localhost:4566/`
 
 Floci emulates a CloudTrail trail's full life cycle and emits S3 data events, IAM API calls, SQS control plane calls,
-Secrets Manager, KMS and CloudWatch Logs API calls and some EC2 calls to the trail's destination bucket as gzipped JSON log files at the
+Secrets Manager, KMS and CloudWatch Logs API calls, DynamoDB control plane calls and some EC2 calls to the trail's
+destination bucket as gzipped JSON log files at the
 AWS-shaped key path:
 
 ```
@@ -317,6 +318,33 @@ guide gives without a version where records of its neighbors carry one.
 - A failed call keeps its members, under its error's type (`ResourceNotFoundException`); a call IAM enforcement refuses
   is recorded as `AccessDenied` with `"requestParameters": null`.
 - `Invoke` is a data event, not recorded here.
+
+## DynamoDB Coverage
+
+"The following API actions are logged by default as events in CloudTrail files"
+([DynamoDB Developer Guide](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/logging-using-cloudtrail.html)),
+followed by the DynamoDB list (`CreateTable`, `UpdateTable`, `DeleteTable`, `CreateBackup`, `DeleteBackup`,
+`RestoreTableFromBackup`, `RestoreTableToPointInTime`, `UpdateTimeToLive`, `TagResource`, the global table calls, the
+`Describe*` and `List*` calls) and the DynamoDB Streams one (`DescribeStream`, `ListStreams`). Floci records those
+calls made over DynamoDB's JSON protocol (`dynamodb-cloudtrail-events.json`): one DynamoDB ran, one it answered with an
+error, and, with `floci.services.iam.enforcement-enabled`, one IAM enforcement refused. The list's reserved capacity,
+Application Auto Scaling and DAX calls are not DynamoDB API calls. The item calls, PartiQL, transactions and the Streams
+reads (`GetRecords`, `GetShardIterator`) are data events, and are not recorded; nor are the calls the list leaves out,
+such as `ExportTableToPointInTime` or `UpdateContinuousBackups`.
+
+- `eventSource` is `dynamodb.amazonaws.com`, a Streams call's too, and the record carries `"apiVersion": "2012-08-10"`,
+  as the guide's [log entries](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/understanding-ddb-log-entries.html)
+  do.
+- `readOnly` is `true` for the calls AWS's service reference
+  ([`dynamodb.json`](https://servicereference.us-east-1.amazonaws.com/v1/dynamodb/dynamodb.json)) gives no mutating
+  access level (`make cloudtrail-events-sync`).
+- `requestParameters` and `responseElements` hold the members as botocore's DynamoDB and DynamoDB Streams models name
+  and type them (`"tableName"`, `"tableDescription"`, `dynamodb-cloudtrail-shapes.json`,
+  `dynamodbstreams-cloudtrail-shapes.json`), timestamps in an answer written as the guide's `UpdateTable` entry writes
+  them (`"creationDateTime": "May 3, 2015 11:34:14 PM"`); `responseElements` is `null` for a read-only call, for a call
+  that answers nothing and for a failed one.
+- An error is recorded under its shape's name (`ResourceNotFoundException`); a call IAM enforcement refuses as
+  `AccessDenied` with `"requestParameters": null` and the message its refusal answers with.
 
 ## EventBridge delivery
 

@@ -1,0 +1,158 @@
+{
+  "_source": {
+    "generator": "tools/aws/regen_dynamodbstreams_cloudtrail_shapes.py",
+    "botocore": "botocore 1.44.9 (installed package)"
+  },
+  "operations": {
+    "DescribeStream": "DescribeStreamInput",
+    "ListStreams": "ListStreamsInput"
+  },
+  "results": {
+    "DescribeStream": {
+      "shape": "DescribeStreamOutput",
+      "resultWrapper": null
+    },
+    "ListStreams": {
+      "shape": "ListStreamsOutput",
+      "resultWrapper": null
+    }
+  },
+  "shapes": {
+    "Date": {
+      "type": "timestamp"
+    },
+    "DescribeStreamInput": {
+      "type": "structure",
+      "members": {
+        "StreamArn": "StreamArn",
+        "Limit": "PositiveIntegerObject",
+        "ExclusiveStartShardId": "ShardId",
+        "ShardFilter": "ShardFilter"
+      }
+    },
+    "DescribeStreamOutput": {
+      "type": "structure",
+      "members": {
+        "StreamDescription": "StreamDescription"
+      }
+    },
+    "KeySchema": {
+      "type": "list",
+      "member": "KeySchemaElement"
+    },
+    "KeySchemaAttributeName": {
+      "type": "string"
+    },
+    "KeySchemaElement": {
+      "type": "structure",
+      "members": {
+        "AttributeName": "KeySchemaAttributeName",
+        "KeyType": "KeyType"
+      }
+    },
+    "KeyType": {
+      "type": "string"
+    },
+    "ListStreamsInput": {
+      "type": "structure",
+      "members": {
+        "TableName": "TableName",
+        "Limit": "PositiveIntegerObject",
+        "ExclusiveStartStreamArn": "StreamArn"
+      }
+    },
+    "ListStreamsOutput": {
+      "type": "structure",
+      "members": {
+        "Streams": "StreamList",
+        "LastEvaluatedStreamArn": "StreamArn"
+      }
+    },
+    "PositiveIntegerObject": {
+      "type": "integer"
+    },
+    "SequenceNumber": {
+      "type": "string"
+    },
+    "SequenceNumberRange": {
+      "type": "structure",
+      "members": {
+        "StartingSequenceNumber": "SequenceNumber",
+        "EndingSequenceNumber": "SequenceNumber"
+      }
+    },
+    "Shard": {
+      "type": "structure",
+      "members": {
+        "ShardId": "ShardId",
+        "SequenceNumberRange": "SequenceNumberRange",
+        "ParentShardId": "ShardId"
+      }
+    },
+    "ShardDescriptionList": {
+      "type": "list",
+      "member": "Shard"
+    },
+    "ShardFilter": {
+      "type": "structure",
+      "members": {
+        "Type": "ShardFilterType",
+        "ShardId": "ShardId"
+      }
+    },
+    "ShardFilterType": {
+      "type": "string"
+    },
+    "ShardId": {
+      "type": "string"
+    },
+    "Stream": {
+      "type": "structure",
+      "members": {
+        "StreamArn": "StreamArn",
+        "TableName": "TableName",
+        "StreamLabel": "String"
+      }
+    },
+    "StreamArn": {
+      "type": "string"
+    },
+    "StreamDescription": {
+      "type": "structure",
+      "members": {
+        "StreamArn": "StreamArn",
+        "StreamLabel": "String",
+        "StreamStatus": "StreamStatus",
+        "StreamViewType": "StreamViewType",
+        "CreationRequestDateTime": "Date",
+        "TableName": "TableName",
+        "KeySchema": "KeySchema",
+        "Shards": "ShardDescriptionList",
+        "LastEvaluatedShardId": "ShardId"
+      }
+    },
+    "StreamList": {
+      "type": "list",
+      "member": "Stream"
+    },
+    "StreamStatus": {
+      "type": "string"
+    },
+    "StreamViewType": {
+      "type": "string"
+    },
+    "String": {
+      "type": "string"
+    },
+    "TableName": {
+      "type": "string"
+    }
+  },
+  "errors": {
+    "ExpiredIteratorException": "ExpiredIteratorException",
+    "InternalServerError": "InternalServerError",
+    "LimitExceededException": "LimitExceededException",
+    "ResourceNotFoundException": "ResourceNotFoundException",
+    "TrimmedDataAccessException": "TrimmedDataAccessException"
+  }
+}

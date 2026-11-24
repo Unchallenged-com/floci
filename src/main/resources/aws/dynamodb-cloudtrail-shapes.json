@@ -1,0 +1,1387 @@
+{
+  "_source": {
+    "generator": "tools/aws/regen_dynamodb_cloudtrail_shapes.py",
+    "botocore": "botocore 1.44.9 (installed package)"
+  },
+  "operations": {
+    "CreateBackup": "CreateBackupInput",
+    "CreateGlobalTable": "CreateGlobalTableInput",
+    "CreateTable": "CreateTableInput",
+    "DeleteBackup": "DeleteBackupInput",
+    "DeleteTable": "DeleteTableInput",
+    "DescribeBackup": "DescribeBackupInput",
+    "DescribeContinuousBackups": "DescribeContinuousBackupsInput",
+    "DescribeGlobalTable": "DescribeGlobalTableInput",
+    "DescribeLimits": "DescribeLimitsInput",
+    "DescribeTable": "DescribeTableInput",
+    "DescribeTimeToLive": "DescribeTimeToLiveInput",
+    "ListBackups": "ListBackupsInput",
+    "ListGlobalTables": "ListGlobalTablesInput",
+    "ListTables": "ListTablesInput",
+    "ListTagsOfResource": "ListTagsOfResourceInput",
+    "RestoreTableFromBackup": "RestoreTableFromBackupInput",
+    "RestoreTableToPointInTime": "RestoreTableToPointInTimeInput",
+    "TagResource": "TagResourceInput",
+    "UntagResource": "UntagResourceInput",
+    "UpdateGlobalTable": "UpdateGlobalTableInput",
+    "UpdateTable": "UpdateTableInput",
+    "UpdateTimeToLive": "UpdateTimeToLiveInput"
+  },
+  "results": {
+    "CreateBackup": {
+      "shape": "CreateBackupOutput",
+      "resultWrapper": null
+    },
+    "CreateGlobalTable": {
+      "shape": "CreateGlobalTableOutput",
+      "resultWrapper": null
+    },
+    "CreateTable": {
+      "shape": "CreateTableOutput",
+      "resultWrapper": null
+    },
+    "DeleteBackup": {
+      "shape": "DeleteBackupOutput",
+      "resultWrapper": null
+    },
+    "DeleteTable": {
+      "shape": "DeleteTableOutput",
+      "resultWrapper": null
+    },
+    "DescribeBackup": {
+      "shape": "DescribeBackupOutput",
+      "resultWrapper": null
+    },
+    "DescribeContinuousBackups": {
+      "shape": "DescribeContinuousBackupsOutput",
+      "resultWrapper": null
+    },
+    "DescribeGlobalTable": {
+      "shape": "DescribeGlobalTableOutput",
+      "resultWrapper": null
+    },
+    "DescribeLimits": {
+      "shape": "DescribeLimitsOutput",
+      "resultWrapper": null
+    },
+    "DescribeTable": {
+      "shape": "DescribeTableOutput",
+      "resultWrapper": null
+    },
+    "DescribeTimeToLive": {
+      "shape": "DescribeTimeToLiveOutput",
+      "resultWrapper": null
+    },
+    "ListBackups": {
+      "shape": "ListBackupsOutput",
+      "resultWrapper": null
+    },
+    "ListGlobalTables": {
+      "shape": "ListGlobalTablesOutput",
+      "resultWrapper": null
+    },
+    "ListTables": {
+      "shape": "ListTablesOutput",
+      "resultWrapper": null
+    },
+    "ListTagsOfResource": {
+      "shape": "ListTagsOfResourceOutput",
+      "resultWrapper": null
+    },
+    "RestoreTableFromBackup": {
+      "shape": "RestoreTableFromBackupOutput",
+      "resultWrapper": null
+    },
+    "RestoreTableToPointInTime": {
+      "shape": "RestoreTableToPointInTimeOutput",
+      "resultWrapper": null
+    },
+    "UpdateGlobalTable": {
+      "shape": "UpdateGlobalTableOutput",
+      "resultWrapper": null
+    },
+    "UpdateTable": {
+      "shape": "UpdateTableOutput",
+      "resultWrapper": null
+    },
+    "UpdateTimeToLive": {
+      "shape": "UpdateTimeToLiveOutput",
+      "resultWrapper": null
+    }
+  },
+  "shapes": {
+    "ArchivalReason": {
+      "type": "string"
+    },
+    "ArchivalSummary": {
+      "type": "structure",
+      "members": {
+        "ArchivalDateTime": "Date",
+        "ArchivalReason": "ArchivalReason",
+        "ArchivalBackupArn": "BackupArn"
+      }
+    },
+    "AttributeDefinition": {
+      "type": "structure",
+      "members": {
+        "AttributeName": "KeySchemaAttributeName",
+        "AttributeType": "ScalarAttributeType"
+      }
+    },
+    "AttributeDefinitions": {
+      "type": "list",
+      "member": "AttributeDefinition"
+    },
+    "AttributeName": {
+      "type": "string"
+    },
+    "Backfilling": {
+      "type": "boolean"
+    },
+    "BackupArn": {
+      "type": "string"
+    },
+    "BackupCreationDateTime": {
+      "type": "timestamp"
+    },
+    "BackupDescription": {
+      "type": "structure",
+      "members": {
+        "BackupDetails": "BackupDetails",
+        "SourceTableDetails": "SourceTableDetails",
+        "SourceTableFeatureDetails": "SourceTableFeatureDetails"
+      }
+    },
+    "BackupDetails": {
+      "type": "structure",
+      "members": {
+        "BackupArn": "BackupArn",
+        "BackupName": "BackupName",
+        "BackupSizeBytes": "BackupSizeBytes",
+        "BackupStatus": "BackupStatus",
+        "BackupType": "BackupType",
+        "BackupCreationDateTime": "BackupCreationDateTime",
+        "BackupExpiryDateTime": "Date"
+      }
+    },
+    "BackupName": {
+      "type": "string"
+    },
+    "BackupSizeBytes": {
+      "type": "long"
+    },
+    "BackupStatus": {
+      "type": "string"
+    },
+    "BackupSummaries": {
+      "type": "list",
+      "member": "BackupSummary"
+    },
+    "BackupSummary": {
+      "type": "structure",
+      "members": {
+        "TableName": "TableName",
+        "TableId": "TableId",
+        "TableArn": "TableArn",
+        "BackupArn": "BackupArn",
+        "BackupName": "BackupName",
+        "BackupCreationDateTime": "BackupCreationDateTime",
+        "BackupExpiryDateTime": "Date",
+        "BackupStatus": "BackupStatus",
+        "BackupType": "BackupType",
+        "BackupSizeBytes": "BackupSizeBytes"
+      }
+    },
+    "BackupType": {
+      "type": "string"
+    },
+    "BackupTypeFilter": {
+      "type": "string"
+    },
+    "BackupsInputLimit": {
+      "type": "integer"
+    },
+    "BillingMode": {
+      "type": "string"
+    },
+    "BillingModeSummary": {
+      "type": "structure",
+      "members": {
+        "BillingMode": "BillingMode",
+        "LastUpdateToPayPerRequestDateTime": "Date"
+      }
+    },
+    "BooleanObject": {
+      "type": "boolean"
+    },
+    "ContinuousBackupsDescription": {
+      "type": "structure",
+      "members": {
+        "ContinuousBackupsStatus": "ContinuousBackupsStatus",
+        "PointInTimeRecoveryDescription": "PointInTimeRecoveryDescription"
+      }
+    },
+    "ContinuousBackupsStatus": {
+      "type": "string"
+    },
+    "CreateBackupInput": {
+      "type": "structure",
+      "members": {
+        "TableName": "TableArn",
+        "BackupName": "BackupName"
+      }
+    },
+    "CreateBackupOutput": {
+      "type": "structure",
+      "members": {
+        "BackupDetails": "BackupDetails"
+      }
+    },
+    "CreateGlobalSecondaryIndexAction": {
+      "type": "structure",
+      "members": {
+        "IndexName": "IndexName",
+        "KeySchema": "KeySchema",
+        "Projection": "Projection",
+        "ProvisionedThroughput": "ProvisionedThroughput",
+        "OnDemandThroughput": "OnDemandThroughput",
+        "WarmThroughput": "WarmThroughput"
+      }
+    },
+    "CreateGlobalTableInput": {
+      "type": "structure",
+      "members": {
+        "GlobalTableName": "TableName",
+        "ReplicationGroup": "ReplicaList"
+      }
+    },
+    "CreateGlobalTableOutput": {
+      "type": "structure",
+      "members": {
+        "GlobalTableDescription": "GlobalTableDescription"
+      }
+    },
+    "CreateGlobalTableWitnessGroupMemberAction": {
+      "type": "structure",
+      "members": {
+        "RegionName": "RegionName"
+      }
+    },
+    "CreateReplicaAction": {
+      "type": "structure",
+      "members": {
+        "RegionName": "RegionName"
+      }
+    },
+    "CreateReplicationGroupMemberAction": {
+      "type": "structure",
+      "members": {
+        "RegionName": "RegionName",
+        "KMSMasterKeyId": "KMSMasterKeyId",
+        "ProvisionedThroughputOverride": "ProvisionedThroughputOverride",
+        "OnDemandThroughputOverride": "OnDemandThroughputOverride",
+        "GlobalSecondaryIndexes": "ReplicaGlobalSecondaryIndexList",
+        "TableClassOverride": "TableClass"
+      }
+    },
+    "CreateTableInput": {
+      "type": "structure",
+      "members": {
+        "AttributeDefinitions": "AttributeDefinitions",
+        "TableName": "TableArn",
+        "KeySchema": "KeySchema",
+        "LocalSecondaryIndexes": "LocalSecondaryIndexList",
+        "GlobalSecondaryIndexes": "GlobalSecondaryIndexList",
+        "BillingMode": "BillingMode",
+        "ProvisionedThroughput": "ProvisionedThroughput",
+        "StreamSpecification": "StreamSpecification",
+        "SSESpecification": "SSESpecification",
+        "Tags": "TagList",
+        "TableClass": "TableClass",
+        "DeletionProtectionEnabled": "DeletionProtectionEnabled",
+        "WarmThroughput": "WarmThroughput",
+        "ResourcePolicy": "ResourcePolicy",
+        "OnDemandThroughput": "OnDemandThroughput",
+        "GlobalTableSourceArn": "TableArn",
+        "GlobalTableSettingsReplicationMode": "GlobalTableSettingsReplicationMode",
+        "VectorIndexes": "VectorIndexList"
+      }
+    },
+    "CreateTableOutput": {
+      "type": "structure",
+      "members": {
+        "TableDescription": "TableDescription"
+      }
+    },
+    "CreateVectorIndexAction": {
+      "type": "structure",
+      "members": {
+        "IndexName": "IndexName",
+        "VectorAttribute": "VectorAttributeDefinition",
+        "SearchSchema": "SearchSchema",
+        "Projection": "Projection",
+        "Dimensions": "PositiveLongObject",
+        "DistanceFunction": "VectorDistanceFunction"
+      }
+    },
+    "Date": {
+      "type": "timestamp"
+    },
+    "DeleteBackupInput": {
+      "type": "structure",
+      "members": {
+        "BackupArn": "BackupArn"
+      }
+    },
+    "DeleteBackupOutput": {
+      "type": "structure",
+      "members": {
+        "BackupDescription": "BackupDescription"
+      }
+    },
+    "DeleteGlobalSecondaryIndexAction": {
+      "type": "structure",
+      "members": {
+        "IndexName": "IndexName"
+      }
+    },
+    "DeleteGlobalTableWitnessGroupMemberAction": {
+      "type": "structure",
+      "members": {
+        "RegionName": "RegionName"
+      }
+    },
+    "DeleteReplicaAction": {
+      "type": "structure",
+      "members": {
+        "RegionName": "RegionName"
+      }
+    },
+    "DeleteReplicationGroupMemberAction": {
+      "type": "structure",
+      "members": {
+        "RegionName": "RegionName"
+      }
+    },
+    "DeleteTableInput": {
+      "type": "structure",
+      "members": {
+        "TableName": "TableArn"
+      }
+    },
+    "DeleteTableOutput": {
+      "type": "structure",
+      "members": {
+        "TableDescription": "TableDescription"
+      }
+    },
+    "DeleteVectorIndexAction": {
+      "type": "structure",
+      "members": {
+        "IndexName": "IndexName"
+      }
+    },
+    "DeletionProtectionEnabled": {
+      "type": "boolean"
+    },
+    "DescribeBackupInput": {
+      "type": "structure",
+      "members": {
+        "BackupArn": "BackupArn"
+      }
+    },
+    "DescribeBackupOutput": {
+      "type": "structure",
+      "members": {
+        "BackupDescription": "BackupDescription"
+      }
+    },
+    "DescribeContinuousBackupsInput": {
+      "type": "structure",
+      "members": {
+        "TableName": "TableArn"
+      }
+    },
+    "DescribeContinuousBackupsOutput": {
+      "type": "structure",
+      "members": {
+        "ContinuousBackupsDescription": "ContinuousBackupsDescription"
+      }
+    },
+    "DescribeGlobalTableInput": {
+      "type": "structure",
+      "members": {
+        "GlobalTableName": "TableName"
+      }
+    },
+    "DescribeGlobalTableOutput": {
+      "type": "structure",
+      "members": {
+        "GlobalTableDescription": "GlobalTableDescription"
+      }
+    },
+    "DescribeLimitsInput": {
+      "type": "structure",
+      "members": {}
+    },
+    "DescribeLimitsOutput": {
+      "type": "structure",
+      "members": {
+        "AccountMaxReadCapacityUnits": "PositiveLongObject",
+        "AccountMaxWriteCapacityUnits": "PositiveLongObject",
+        "TableMaxReadCapacityUnits": "PositiveLongObject",
+        "TableMaxWriteCapacityUnits": "PositiveLongObject"
+      }
+    },
+    "DescribeTableInput": {
+      "type": "structure",
+      "members": {
+        "TableName": "TableArn"
+      }
+    },
+    "DescribeTableOutput": {
+      "type": "structure",
+      "members": {
+        "Table": "TableDescription"
+      }
+    },
+    "DescribeTimeToLiveInput": {
+      "type": "structure",
+      "members": {
+        "TableName": "TableArn"
+      }
+    },
+    "DescribeTimeToLiveOutput": {
+      "type": "structure",
+      "members": {
+        "TimeToLiveDescription": "TimeToLiveDescription"
+      }
+    },
+    "DisassociateReplicationGroupMemberAction": {
+      "type": "structure",
+      "members": {
+        "RegionName": "RegionName",
+        "DisassociationMode": "DisassociationMode"
+      }
+    },
+    "DisassociationMode": {
+      "type": "string"
+    },
+    "DisassociationProtectionEnabled": {
+      "type": "boolean"
+    },
+    "GlobalSecondaryIndex": {
+      "type": "structure",
+      "members": {
+        "IndexName": "IndexName",
+        "KeySchema": "KeySchema",
+        "Projection": "Projection",
+        "ProvisionedThroughput": "ProvisionedThroughput",
+        "OnDemandThroughput": "OnDemandThroughput",
+        "WarmThroughput": "WarmThroughput"
+      }
+    },
+    "GlobalSecondaryIndexDescription": {
+      "type": "structure",
+      "members": {
+        "IndexName": "IndexName",
+        "KeySchema": "KeySchema",
+        "Projection": "Projection",
+        "IndexStatus": "IndexStatus",
+        "Backfilling": "Backfilling",
+        "ProvisionedThroughput": "ProvisionedThroughputDescription",
+        "IndexSizeBytes": "LongObject",
+        "ItemCount": "LongObject",
+        "IndexArn": "String",
+        "OnDemandThroughput": "OnDemandThroughput",
+        "WarmThroughput": "GlobalSecondaryIndexWarmThroughputDescription"
+      }
+    },
+    "GlobalSecondaryIndexDescriptionList": {
+      "type": "list",
+      "member": "GlobalSecondaryIndexDescription"
+    },
+    "GlobalSecondaryIndexInfo": {
+      "type": "structure",
+      "members": {
+        "IndexName": "IndexName",
+        "KeySchema": "KeySchema",
+        "Projection": "Projection",
+        "ProvisionedThroughput": "ProvisionedThroughput",
+        "OnDemandThroughput": "OnDemandThroughput"
+      }
+    },
+    "GlobalSecondaryIndexList": {
+      "type": "list",
+      "member": "GlobalSecondaryIndex"
+    },
+    "GlobalSecondaryIndexUpdate": {
+      "type": "structure",
+      "members": {
+        "Update": "UpdateGlobalSecondaryIndexAction",
+        "Create": "CreateGlobalSecondaryIndexAction",
+        "Delete": "DeleteGlobalSecondaryIndexAction"
+      }
+    },
+    "GlobalSecondaryIndexUpdateList": {
+      "type": "list",
+      "member": "GlobalSecondaryIndexUpdate"
+    },
+    "GlobalSecondaryIndexWarmThroughputDescription": {
+      "type": "structure",
+      "members": {
+        "ReadUnitsPerSecond": "PositiveLongObject",
+        "WriteUnitsPerSecond": "PositiveLongObject",
+        "Status": "IndexStatus"
+      }
+    },
+    "GlobalSecondaryIndexes": {
+      "type": "list",
+      "member": "GlobalSecondaryIndexInfo"
+    },
+    "GlobalTable": {
+      "type": "structure",
+      "members": {
+        "GlobalTableName": "TableName",
+        "ReplicationGroup": "ReplicaList"
+      }
+    },
+    "GlobalTableArnString": {
+      "type": "string"
+    },
+    "GlobalTableDescription": {
+      "type": "structure",
+      "members": {
+        "ReplicationGroup": "ReplicaDescriptionList",
+        "GlobalTableArn": "GlobalTableArnString",
+        "CreationDateTime": "Date",
+        "GlobalTableStatus": "GlobalTableStatus",
+        "GlobalTableName": "TableName"
+      }
+    },
+    "GlobalTableList": {
+      "type": "list",
+      "member": "GlobalTable"
+    },
+    "GlobalTableSettingsReplicationMode": {
+      "type": "string"
+    },
+    "GlobalTableStatus": {
+      "type": "string"
+    },
+    "GlobalTableWitnessDescription": {
+      "type": "structure",
+      "members": {
+        "RegionName": "RegionName",
+        "WitnessStatus": "WitnessStatus"
+      }
+    },
+    "GlobalTableWitnessDescriptionList": {
+      "type": "list",
+      "member": "GlobalTableWitnessDescription"
+    },
+    "GlobalTableWitnessGroupUpdate": {
+      "type": "structure",
+      "members": {
+        "Create": "CreateGlobalTableWitnessGroupMemberAction",
+        "Delete": "DeleteGlobalTableWitnessGroupMemberAction"
+      }
+    },
+    "GlobalTableWitnessGroupUpdateList": {
+      "type": "list",
+      "member": "GlobalTableWitnessGroupUpdate"
+    },
+    "IndexName": {
+      "type": "string"
+    },
+    "IndexStatus": {
+      "type": "string"
+    },
+    "ItemCount": {
+      "type": "long"
+    },
+    "KMSMasterKeyArn": {
+      "type": "string"
+    },
+    "KMSMasterKeyId": {
+      "type": "string"
+    },
+    "KeySchema": {
+      "type": "list",
+      "member": "KeySchemaElement"
+    },
+    "KeySchemaAttributeName": {
+      "type": "string"
+    },
+    "KeySchemaElement": {
+      "type": "structure",
+      "members": {
+        "AttributeName": "KeySchemaAttributeName",
+        "KeyType": "KeyType"
+      }
+    },
+    "KeyType": {
+      "type": "string"
+    },
+    "ListBackupsInput": {
+      "type": "structure",
+      "members": {
+        "TableName": "TableArn",
+        "Limit": "BackupsInputLimit",
+        "TimeRangeLowerBound": "TimeRangeLowerBound",
+        "TimeRangeUpperBound": "TimeRangeUpperBound",
+        "ExclusiveStartBackupArn": "BackupArn",
+        "BackupType": "BackupTypeFilter"
+      }
+    },
+    "ListBackupsOutput": {
+      "type": "structure",
+      "members": {
+        "BackupSummaries": "BackupSummaries",
+        "LastEvaluatedBackupArn": "BackupArn"
+      }
+    },
+    "ListGlobalTablesInput": {
+      "type": "structure",
+      "members": {
+        "ExclusiveStartGlobalTableName": "TableName",
+        "Limit": "PositiveIntegerObject",
+        "RegionName": "RegionName"
+      }
+    },
+    "ListGlobalTablesOutput": {
+      "type": "structure",
+      "members": {
+        "GlobalTables": "GlobalTableList",
+        "LastEvaluatedGlobalTableName": "TableName"
+      }
+    },
+    "ListTablesInput": {
+      "type": "structure",
+      "members": {
+        "ExclusiveStartTableName": "TableName",
+        "Limit": "ListTablesInputLimit"
+      }
+    },
+    "ListTablesInputLimit": {
+      "type": "integer"
+    },
+    "ListTablesOutput": {
+      "type": "structure",
+      "members": {
+        "TableNames": "TableNameList",
+        "LastEvaluatedTableName": "TableName"
+      }
+    },
+    "ListTagsOfResourceInput": {
+      "type": "structure",
+      "members": {
+        "ResourceArn": "ResourceArnString",
+        "NextToken": "NextTokenString"
+      }
+    },
+    "ListTagsOfResourceOutput": {
+      "type": "structure",
+      "members": {
+        "Tags": "TagList",
+        "NextToken": "NextTokenString"
+      }
+    },
+    "LocalSecondaryIndex": {
+      "type": "structure",
+      "members": {
+        "IndexName": "IndexName",
+        "KeySchema": "KeySchema",
+        "Projection": "Projection"
+      }
+    },
+    "LocalSecondaryIndexDescription": {
+      "type": "structure",
+      "members": {
+        "IndexName": "IndexName",
+        "KeySchema": "KeySchema",
+        "Projection": "Projection",
+        "IndexSizeBytes": "LongObject",
+        "ItemCount": "LongObject",
+        "IndexArn": "String"
+      }
+    },
+    "LocalSecondaryIndexDescriptionList": {
+      "type": "list",
+      "member": "LocalSecondaryIndexDescription"
+    },
+    "LocalSecondaryIndexInfo": {
+      "type": "structure",
+      "members": {
+        "IndexName": "IndexName",
+        "KeySchema": "KeySchema",
+        "Projection": "Projection"
+      }
+    },
+    "LocalSecondaryIndexList": {
+      "type": "list",
+      "member": "LocalSecondaryIndex"
+    },
+    "LocalSecondaryIndexes": {
+      "type": "list",
+      "member": "LocalSecondaryIndexInfo"
+    },
+    "LongObject": {
+      "type": "long"
+    },
+    "MultiRegionConsistency": {
+      "type": "string"
+    },
+    "NextTokenString": {
+      "type": "string"
+    },
+    "NonKeyAttributeName": {
+      "type": "string"
+    },
+    "NonKeyAttributeNameList": {
+      "type": "list",
+      "member": "NonKeyAttributeName"
+    },
+    "NonNegativeLongObject": {
+      "type": "long"
+    },
+    "OnDemandThroughput": {
+      "type": "structure",
+      "members": {
+        "MaxReadRequestUnits": "LongObject",
+        "MaxWriteRequestUnits": "LongObject"
+      }
+    },
+    "OnDemandThroughputOverride": {
+      "type": "structure",
+      "members": {
+        "MaxReadRequestUnits": "LongObject"
+      }
+    },
+    "PointInTimeRecoveryDescription": {
+      "type": "structure",
+      "members": {
+        "PointInTimeRecoveryStatus": "PointInTimeRecoveryStatus",
+        "RecoveryPeriodInDays": "RecoveryPeriodInDays",
+        "EarliestRestorableDateTime": "Date",
+        "LatestRestorableDateTime": "Date"
+      }
+    },
+    "PointInTimeRecoveryStatus": {
+      "type": "string"
+    },
+    "PositiveIntegerObject": {
+      "type": "integer"
+    },
+    "PositiveLongObject": {
+      "type": "long"
+    },
+    "Projection": {
+      "type": "structure",
+      "members": {
+        "ProjectionType": "ProjectionType",
+        "NonKeyAttributes": "NonKeyAttributeNameList"
+      }
+    },
+    "ProjectionType": {
+      "type": "string"
+    },
+    "ProvisionedThroughput": {
+      "type": "structure",
+      "members": {
+        "ReadCapacityUnits": "PositiveLongObject",
+        "WriteCapacityUnits": "PositiveLongObject"
+      }
+    },
+    "ProvisionedThroughputDescription": {
+      "type": "structure",
+      "members": {
+        "LastIncreaseDateTime": "Date",
+        "LastDecreaseDateTime": "Date",
+        "NumberOfDecreasesToday": "PositiveLongObject",
+        "ReadCapacityUnits": "NonNegativeLongObject",
+        "WriteCapacityUnits": "NonNegativeLongObject"
+      }
+    },
+    "ProvisionedThroughputOverride": {
+      "type": "structure",
+      "members": {
+        "ReadCapacityUnits": "PositiveLongObject"
+      }
+    },
+    "RecoveryPeriodInDays": {
+      "type": "integer"
+    },
+    "RegionName": {
+      "type": "string"
+    },
+    "Replica": {
+      "type": "structure",
+      "members": {
+        "RegionName": "RegionName"
+      }
+    },
+    "ReplicaDescription": {
+      "type": "structure",
+      "members": {
+        "RegionName": "RegionName",
+        "ReplicaStatus": "ReplicaStatus",
+        "ReplicaArn": "String",
+        "ReplicaStatusDescription": "ReplicaStatusDescription",
+        "ReplicaStatusPercentProgress": "ReplicaStatusPercentProgress",
+        "KMSMasterKeyId": "KMSMasterKeyId",
+        "ProvisionedThroughputOverride": "ProvisionedThroughputOverride",
+        "OnDemandThroughputOverride": "OnDemandThroughputOverride",
+        "WarmThroughput": "TableWarmThroughputDescription",
+        "GlobalSecondaryIndexes": "ReplicaGlobalSecondaryIndexDescriptionList",
+        "ReplicaInaccessibleDateTime": "Date",
+        "ReplicaTableClassSummary": "TableClassSummary",
+        "GlobalTableSettingsReplicationMode": "GlobalTableSettingsReplicationMode"
+      }
+    },
+    "ReplicaDescriptionList": {
+      "type": "list",
+      "member": "ReplicaDescription"
+    },
+    "ReplicaGlobalSecondaryIndex": {
+      "type": "structure",
+      "members": {
+        "IndexName": "IndexName",
+        "ProvisionedThroughputOverride": "ProvisionedThroughputOverride",
+        "OnDemandThroughputOverride": "OnDemandThroughputOverride"
+      }
+    },
+    "ReplicaGlobalSecondaryIndexDescription": {
+      "type": "structure",
+      "members": {
+        "IndexName": "IndexName",
+        "ProvisionedThroughputOverride": "ProvisionedThroughputOverride",
+        "OnDemandThroughputOverride": "OnDemandThroughputOverride",
+        "WarmThroughput": "GlobalSecondaryIndexWarmThroughputDescription"
+      }
+    },
+    "ReplicaGlobalSecondaryIndexDescriptionList": {
+      "type": "list",
+      "member": "ReplicaGlobalSecondaryIndexDescription"
+    },
+    "ReplicaGlobalSecondaryIndexList": {
+      "type": "list",
+      "member": "ReplicaGlobalSecondaryIndex"
+    },
+    "ReplicaList": {
+      "type": "list",
+      "member": "Replica"
+    },
+    "ReplicaStatus": {
+      "type": "string"
+    },
+    "ReplicaStatusDescription": {
+      "type": "string"
+    },
+    "ReplicaStatusPercentProgress": {
+      "type": "string"
+    },
+    "ReplicaUpdate": {
+      "type": "structure",
+      "members": {
+        "Create": "CreateReplicaAction",
+        "Delete": "DeleteReplicaAction"
+      }
+    },
+    "ReplicaUpdateList": {
+      "type": "list",
+      "member": "ReplicaUpdate"
+    },
+    "ReplicationGroupUpdate": {
+      "type": "structure",
+      "members": {
+        "Create": "CreateReplicationGroupMemberAction",
+        "Update": "UpdateReplicationGroupMemberAction",
+        "Delete": "DeleteReplicationGroupMemberAction",
+        "Disassociate": "DisassociateReplicationGroupMemberAction"
+      }
+    },
+    "ReplicationGroupUpdateList": {
+      "type": "list",
+      "member": "ReplicationGroupUpdate"
+    },
+    "ResourceArnString": {
+      "type": "string"
+    },
+    "ResourcePolicy": {
+      "type": "string"
+    },
+    "RestoreInProgress": {
+      "type": "boolean"
+    },
+    "RestoreSummary": {
+      "type": "structure",
+      "members": {
+        "SourceBackupArn": "BackupArn",
+        "SourceTableArn": "TableArn",
+        "RestoreDateTime": "Date",
+        "RestoreInProgress": "RestoreInProgress"
+      }
+    },
+    "RestoreTableFromBackupInput": {
+      "type": "structure",
+      "members": {
+        "TargetTableName": "TableName",
+        "BackupArn": "BackupArn",
+        "BillingModeOverride": "BillingMode",
+        "GlobalSecondaryIndexOverride": "GlobalSecondaryIndexList",
+        "LocalSecondaryIndexOverride": "LocalSecondaryIndexList",
+        "ProvisionedThroughputOverride": "ProvisionedThroughput",
+        "OnDemandThroughputOverride": "OnDemandThroughput",
+        "SSESpecificationOverride": "SSESpecification",
+        "VectorIndexOverride": "VectorIndexList"
+      }
+    },
+    "RestoreTableFromBackupOutput": {
+      "type": "structure",
+      "members": {
+        "TableDescription": "TableDescription"
+      }
+    },
+    "RestoreTableToPointInTimeInput": {
+      "type": "structure",
+      "members": {
+        "SourceTableArn": "TableArn",
+        "SourceTableName": "TableName",
+        "TargetTableName": "TableName",
+        "UseLatestRestorableTime": "BooleanObject",
+        "RestoreDateTime": "Date",
+        "BillingModeOverride": "BillingMode",
+        "GlobalSecondaryIndexOverride": "GlobalSecondaryIndexList",
+        "LocalSecondaryIndexOverride": "LocalSecondaryIndexList",
+        "ProvisionedThroughputOverride": "ProvisionedThroughput",
+        "OnDemandThroughputOverride": "OnDemandThroughput",
+        "SSESpecificationOverride": "SSESpecification",
+        "VectorIndexOverride": "VectorIndexList"
+      }
+    },
+    "RestoreTableToPointInTimeOutput": {
+      "type": "structure",
+      "members": {
+        "TableDescription": "TableDescription"
+      }
+    },
+    "SSEDescription": {
+      "type": "structure",
+      "members": {
+        "Status": "SSEStatus",
+        "SSEType": "SSEType",
+        "KMSMasterKeyArn": "KMSMasterKeyArn",
+        "InaccessibleEncryptionDateTime": "Date"
+      }
+    },
+    "SSEEnabled": {
+      "type": "boolean"
+    },
+    "SSESpecification": {
+      "type": "structure",
+      "members": {
+        "Enabled": "SSEEnabled",
+        "SSEType": "SSEType",
+        "KMSMasterKeyId": "KMSMasterKeyId"
+      }
+    },
+    "SSEStatus": {
+      "type": "string"
+    },
+    "SSEType": {
+      "type": "string"
+    },
+    "ScalarAttributeType": {
+      "type": "string"
+    },
+    "SearchSchema": {
+      "type": "list",
+      "member": "SearchSchemaElement"
+    },
+    "SearchSchemaElement": {
+      "type": "structure",
+      "members": {
+        "AttributeName": "AttributeName",
+        "SearchSchemaElementType": "SearchSchemaElementType"
+      }
+    },
+    "SearchSchemaElementType": {
+      "type": "string"
+    },
+    "SourceTableDetails": {
+      "type": "structure",
+      "members": {
+        "TableName": "TableName",
+        "TableId": "TableId",
+        "TableArn": "TableArn",
+        "TableSizeBytes": "LongObject",
+        "KeySchema": "KeySchema",
+        "TableCreationDateTime": "TableCreationDateTime",
+        "ProvisionedThroughput": "ProvisionedThroughput",
+        "OnDemandThroughput": "OnDemandThroughput",
+        "ItemCount": "ItemCount",
+        "BillingMode": "BillingMode"
+      }
+    },
+    "SourceTableFeatureDetails": {
+      "type": "structure",
+      "members": {
+        "LocalSecondaryIndexes": "LocalSecondaryIndexes",
+        "GlobalSecondaryIndexes": "GlobalSecondaryIndexes",
+        "StreamDescription": "StreamSpecification",
+        "TimeToLiveDescription": "TimeToLiveDescription",
+        "SSEDescription": "SSEDescription",
+        "VectorIndexes": "VectorIndexes"
+      }
+    },
+    "StreamArn": {
+      "type": "string"
+    },
+    "StreamEnabled": {
+      "type": "boolean"
+    },
+    "StreamSpecification": {
+      "type": "structure",
+      "members": {
+        "StreamEnabled": "StreamEnabled",
+        "StreamViewType": "StreamViewType"
+      }
+    },
+    "StreamViewType": {
+      "type": "string"
+    },
+    "String": {
+      "type": "string"
+    },
+    "TableArn": {
+      "type": "string"
+    },
+    "TableClass": {
+      "type": "string"
+    },
+    "TableClassSummary": {
+      "type": "structure",
+      "members": {
+        "TableClass": "TableClass",
+        "LastUpdateDateTime": "Date"
+      }
+    },
+    "TableCreationDateTime": {
+      "type": "timestamp"
+    },
+    "TableDescription": {
+      "type": "structure",
+      "members": {
+        "AttributeDefinitions": "AttributeDefinitions",
+        "TableName": "TableName",
+        "KeySchema": "KeySchema",
+        "TableStatus": "TableStatus",
+        "CreationDateTime": "Date",
+        "ProvisionedThroughput": "ProvisionedThroughputDescription",
+        "TableSizeBytes": "LongObject",
+        "ItemCount": "LongObject",
+        "TableArn": "String",
+        "TableId": "TableId",
+        "BillingModeSummary": "BillingModeSummary",
+        "LocalSecondaryIndexes": "LocalSecondaryIndexDescriptionList",
+        "GlobalSecondaryIndexes": "GlobalSecondaryIndexDescriptionList",
+        "StreamSpecification": "StreamSpecification",
+        "LatestStreamLabel": "String",
+        "LatestStreamArn": "StreamArn",
+        "GlobalTableVersion": "String",
+        "Replicas": "ReplicaDescriptionList",
+        "GlobalTableWitnesses": "GlobalTableWitnessDescriptionList",
+        "GlobalTableSettingsReplicationMode": "GlobalTableSettingsReplicationMode",
+        "RestoreSummary": "RestoreSummary",
+        "SSEDescription": "SSEDescription",
+        "ArchivalSummary": "ArchivalSummary",
+        "TableClassSummary": "TableClassSummary",
+        "DeletionProtectionEnabled": "DeletionProtectionEnabled",
+        "DisassociationProtectionEnabled": "DisassociationProtectionEnabled",
+        "OnDemandThroughput": "OnDemandThroughput",
+        "WarmThroughput": "TableWarmThroughputDescription",
+        "MultiRegionConsistency": "MultiRegionConsistency",
+        "VectorIndexes": "VectorIndexDescriptionList"
+      }
+    },
+    "TableId": {
+      "type": "string"
+    },
+    "TableName": {
+      "type": "string"
+    },
+    "TableNameList": {
+      "type": "list",
+      "member": "TableName"
+    },
+    "TableStatus": {
+      "type": "string"
+    },
+    "TableWarmThroughputDescription": {
+      "type": "structure",
+      "members": {
+        "ReadUnitsPerSecond": "PositiveLongObject",
+        "WriteUnitsPerSecond": "PositiveLongObject",
+        "Status": "TableStatus"
+      }
+    },
+    "Tag": {
+      "type": "structure",
+      "members": {
+        "Key": "TagKeyString",
+        "Value": "TagValueString"
+      }
+    },
+    "TagKeyList": {
+      "type": "list",
+      "member": "TagKeyString"
+    },
+    "TagKeyString": {
+      "type": "string"
+    },
+    "TagList": {
+      "type": "list",
+      "member": "Tag"
+    },
+    "TagResourceInput": {
+      "type": "structure",
+      "members": {
+        "ResourceArn": "ResourceArnString",
+        "Tags": "TagList"
+      }
+    },
+    "TagValueString": {
+      "type": "string"
+    },
+    "TimeRangeLowerBound": {
+      "type": "timestamp"
+    },
+    "TimeRangeUpperBound": {
+      "type": "timestamp"
+    },
+    "TimeToLiveAttributeName": {
+      "type": "string"
+    },
+    "TimeToLiveDescription": {
+      "type": "structure",
+      "members": {
+        "TimeToLiveStatus": "TimeToLiveStatus",
+        "AttributeName": "TimeToLiveAttributeName"
+      }
+    },
+    "TimeToLiveEnabled": {
+      "type": "boolean"
+    },
+    "TimeToLiveSpecification": {
+      "type": "structure",
+      "members": {
+        "Enabled": "TimeToLiveEnabled",
+        "AttributeName": "TimeToLiveAttributeName"
+      }
+    },
+    "TimeToLiveStatus": {
+      "type": "string"
+    },
+    "UntagResourceInput": {
+      "type": "structure",
+      "members": {
+        "ResourceArn": "ResourceArnString",
+        "TagKeys": "TagKeyList"
+      }
+    },
+    "UpdateGlobalSecondaryIndexAction": {
+      "type": "structure",
+      "members": {
+        "IndexName": "IndexName",
+        "ProvisionedThroughput": "ProvisionedThroughput",
+        "OnDemandThroughput": "OnDemandThroughput",
+        "WarmThroughput": "WarmThroughput"
+      }
+    },
+    "UpdateGlobalTableInput": {
+      "type": "structure",
+      "members": {
+        "GlobalTableName": "TableName",
+        "ReplicaUpdates": "ReplicaUpdateList"
+      }
+    },
+    "UpdateGlobalTableOutput": {
+      "type": "structure",
+      "members": {
+        "GlobalTableDescription": "GlobalTableDescription"
+      }
+    },
+    "UpdateReplicationGroupMemberAction": {
+      "type": "structure",
+      "members": {
+        "RegionName": "RegionName",
+        "KMSMasterKeyId": "KMSMasterKeyId",
+        "ProvisionedThroughputOverride": "ProvisionedThroughputOverride",
+        "OnDemandThroughputOverride": "OnDemandThroughputOverride",
+        "GlobalSecondaryIndexes": "ReplicaGlobalSecondaryIndexList",
+        "TableClassOverride": "TableClass"
+      }
+    },
+    "UpdateTableInput": {
+      "type": "structure",
+      "members": {
+        "AttributeDefinitions": "AttributeDefinitions",
+        "TableName": "TableArn",
+        "BillingMode": "BillingMode",
+        "ProvisionedThroughput": "ProvisionedThroughput",
+        "GlobalSecondaryIndexUpdates": "GlobalSecondaryIndexUpdateList",
+        "StreamSpecification": "StreamSpecification",
+        "SSESpecification": "SSESpecification",
+        "ReplicaUpdates": "ReplicationGroupUpdateList",
+        "TableClass": "TableClass",
+        "DeletionProtectionEnabled": "DeletionProtectionEnabled",
+        "MultiRegionConsistency": "MultiRegionConsistency",
+        "GlobalTableWitnessUpdates": "GlobalTableWitnessGroupUpdateList",
+        "OnDemandThroughput": "OnDemandThroughput",
+        "WarmThroughput": "WarmThroughput",
+        "GlobalTableSettingsReplicationMode": "GlobalTableSettingsReplicationMode",
+        "DisassociationProtectionEnabled": "DisassociationProtectionEnabled",
+        "VectorIndexUpdates": "VectorIndexUpdateList"
+      }
+    },
+    "UpdateTableOutput": {
+      "type": "structure",
+      "members": {
+        "TableDescription": "TableDescription"
+      }
+    },
+    "UpdateTimeToLiveInput": {
+      "type": "structure",
+      "members": {
+        "TableName": "TableArn",
+        "TimeToLiveSpecification": "TimeToLiveSpecification"
+      }
+    },
+    "UpdateTimeToLiveOutput": {
+      "type": "structure",
+      "members": {
+        "TimeToLiveSpecification": "TimeToLiveSpecification"
+      }
+    },
+    "VectorAttributeDefinition": {
+      "type": "structure",
+      "members": {
+        "AttributeName": "VectorAttributeName"
+      }
+    },
+    "VectorAttributeName": {
+      "type": "string"
+    },
+    "VectorDistanceFunction": {
+      "type": "string"
+    },
+    "VectorIndex": {
+      "type": "structure",
+      "members": {
+        "IndexName": "IndexName",
+        "VectorAttribute": "VectorAttributeDefinition",
+        "SearchSchema": "SearchSchema",
+        "Projection": "Projection",
+        "Dimensions": "PositiveLongObject",
+        "DistanceFunction": "VectorDistanceFunction"
+      }
+    },
+    "VectorIndexDescription": {
+      "type": "structure",
+      "members": {
+        "IndexName": "IndexName",
+        "SearchSchema": "SearchSchema",
+        "Projection": "Projection",
+        "VectorAttribute": "VectorAttributeDefinition",
+        "Dimensions": "PositiveLongObject",
+        "DistanceFunction": "VectorDistanceFunction",
+        "IndexStatus": "IndexStatus",
+        "Backfilling": "Backfilling",
+        "IndexSizeBytes": "LongObject",
+        "ItemCount": "LongObject",
+        "IndexArn": "String"
+      }
+    },
+    "VectorIndexDescriptionList": {
+      "type": "list",
+      "member": "VectorIndexDescription"
+    },
+    "VectorIndexInfo": {
+      "type": "structure",
+      "members": {
+        "IndexName": "IndexName",
+        "VectorAttribute": "VectorAttributeDefinition",
+        "SearchSchema": "SearchSchema",
+        "Projection": "Projection",
+        "Dimensions": "PositiveLongObject",
+        "DistanceFunction": "VectorDistanceFunction"
+      }
+    },
+    "VectorIndexList": {
+      "type": "list",
+      "member": "VectorIndex"
+    },
+    "VectorIndexUpdate": {
+      "type": "structure",
+      "members": {
+        "Create": "CreateVectorIndexAction",
+        "Delete": "DeleteVectorIndexAction"
+      }
+    },
+    "VectorIndexUpdateList": {
+      "type": "list",
+      "member": "VectorIndexUpdate"
+    },
+    "VectorIndexes": {
+      "type": "list",
+      "member": "VectorIndexInfo"
+    },
+    "WarmThroughput": {
+      "type": "structure",
+      "members": {
+        "ReadUnitsPerSecond": "LongObject",
+        "WriteUnitsPerSecond": "LongObject"
+      }
+    },
+    "WitnessStatus": {
+      "type": "string"
+    }
+  },
+  "errors": {
+    "BackupInUseException": "BackupInUseException",
+    "BackupNotFoundException": "BackupNotFoundException",
+    "ConditionalCheckFailedException": "ConditionalCheckFailedException",
+    "ContinuousBackupsUnavailableException": "ContinuousBackupsUnavailableException",
+    "DuplicateItemException": "DuplicateItemException",
+    "ExportConflictException": "ExportConflictException",
+    "ExportNotFoundException": "ExportNotFoundException",
+    "GlobalTableAlreadyExistsException": "GlobalTableAlreadyExistsException",
+    "GlobalTableNotFoundException": "GlobalTableNotFoundException",
+    "IdempotentParameterMismatchException": "IdempotentParameterMismatchException",
+    "ImportConflictException": "ImportConflictException",
+    "ImportNotFoundException": "ImportNotFoundException",
+    "IndexNotFoundException": "IndexNotFoundException",
+    "InternalServerError": "InternalServerError",
+    "InvalidExportTimeException": "InvalidExportTimeException",
+    "InvalidRestoreTimeException": "InvalidRestoreTimeException",
+    "ItemCollectionSizeLimitExceededException": "ItemCollectionSizeLimitExceededException",
+    "LimitExceededException": "LimitExceededException",
+    "PointInTimeRecoveryUnavailableException": "PointInTimeRecoveryUnavailableException",
+    "PolicyNotFoundException": "PolicyNotFoundException",
+    "ProvisionedThroughputExceededException": "ProvisionedThroughputExceededException",
+    "ReplicaAlreadyExistsException": "ReplicaAlreadyExistsException",
+    "ReplicaNotFoundException": "ReplicaNotFoundException",
+    "ReplicatedWriteConflictException": "ReplicatedWriteConflictException",
+    "RequestLimitExceeded": "RequestLimitExceeded",
+    "ResourceInUseException": "ResourceInUseException",
+    "ResourceNotFoundException": "ResourceNotFoundException",
+    "TableAlreadyExistsException": "TableAlreadyExistsException",
+    "TableInUseException": "TableInUseException",
+    "TableNotFoundException": "TableNotFoundException",
+    "ThrottlingException": "ThrottlingException",
+    "TransactionCanceledException": "TransactionCanceledException",
+    "TransactionConflictException": "TransactionConflictException",
+    "TransactionInProgressException": "TransactionInProgressException"
+  }
+}

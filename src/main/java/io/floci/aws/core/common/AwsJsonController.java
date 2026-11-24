@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import io.floci.aws.services.bcmpricingcalculator.BcmPricingCalculatorJsonHandler;
 import io.floci.aws.services.cloudcontrol.CloudControlJsonHandler;
 import io.floci.aws.services.cloudwatch.metrics.CloudWatchMetricsJsonHandler;
+import io.floci.aws.services.dynamodb.DynamoDbCloudTrailEvents;
 import io.floci.aws.services.dynamodb.DynamoDbJsonHandler;
 import io.floci.aws.services.dynamodb.DynamoDbRequestShapes;
 import io.floci.aws.services.dynamodb.DynamoDbResponses;
@@ -61,6 +62,7 @@ public class AwsJsonController {
     private final RegionResolver regionResolver;
     private final DynamoDbJsonHandler dynamoDbJsonHandler;
     private final DynamoDbStreamsJsonHandler dynamoDbStreamsJsonHandler;
+    private final DynamoDbCloudTrailEvents dynamoDbCloudTrailEvents;
     private final SqsJsonHandler sqsJsonHandler;
     private final SnsJsonHandler snsJsonHandler;
     private final StepFunctionsJsonHandler sfnJsonHandler;
@@ -80,6 +82,7 @@ public class AwsJsonController {
                              RegionResolver regionResolver,
                              DynamoDbJsonHandler dynamoDbJsonHandler,
                              DynamoDbStreamsJsonHandler dynamoDbStreamsJsonHandler,
+                             DynamoDbCloudTrailEvents dynamoDbCloudTrailEvents,
                              SqsJsonHandler sqsJsonHandler, SnsJsonHandler snsJsonHandler,
                              StepFunctionsJsonHandler sfnJsonHandler,
                              CloudWatchMetricsJsonHandler cloudWatchMetricsJsonHandler,
@@ -98,6 +101,7 @@ public class AwsJsonController {
         this.regionResolver = regionResolver;
         this.dynamoDbJsonHandler = dynamoDbJsonHandler;
         this.dynamoDbStreamsJsonHandler = dynamoDbStreamsJsonHandler;
+        this.dynamoDbCloudTrailEvents = dynamoDbCloudTrailEvents;
         this.sqsJsonHandler = sqsJsonHandler;
         this.snsJsonHandler = snsJsonHandler;
         this.sfnJsonHandler = sfnJsonHandler;
@@ -223,13 +227,16 @@ public class AwsJsonController {
         return switch (serviceKey) {
             case "dynamodb" -> {
                 if (targetMatch.prefix().startsWith("DynamoDBStreams_")) {
-                    yield dynamoDbStreamsJsonHandler.handle(action, request, region);
+                    yield dynamoDbCloudTrailEvents.recorded(action, request, region,
+                            () -> dynamoDbStreamsJsonHandler.handle(action, request, region));
                 }
                 if (targetMatch.jsonOnly()) {
                     yield dynamoDbJsonHandler.handleLegacy(action, request, region);
                 }
-                DynamoDbRequestShapes.check(action, request, body);
-                yield dynamoDbJsonHandler.handle(action, request, region);
+                yield dynamoDbCloudTrailEvents.recorded(action, request, region, () -> {
+                    DynamoDbRequestShapes.check(action, request, body);
+                    return dynamoDbJsonHandler.handle(action, request, region);
+                });
             }
             case "sqs" -> sqsJsonHandler.handleApiCall(action, request, region);
             case "sns" -> snsJsonHandler.handle(action, request, region);

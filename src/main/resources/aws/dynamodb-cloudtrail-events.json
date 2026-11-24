@@ -1,0 +1,48 @@
+{
+  "_source": {
+    "generator": "tools/aws/regen_cloudtrail_events.py",
+    "managementEvents": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/logging-using-cloudtrail.html",
+    "reference": "https://servicereference.us-east-1.amazonaws.com/v1/dynamodb/dynamodb.json",
+    "retrieved": "2026-11-24"
+  },
+  "managementEvents": [
+    "CreateBackup",
+    "CreateGlobalTable",
+    "CreateTable",
+    "DeleteBackup",
+    "DeleteTable",
+    "DescribeBackup",
+    "DescribeContinuousBackups",
+    "DescribeGlobalTable",
+    "DescribeLimits",
+    "DescribeStream",
+    "DescribeTable",
+    "DescribeTimeToLive",
+    "ListBackups",
+    "ListGlobalTables",
+    "ListStreams",
+    "ListTables",
+    "ListTagsOfResource",
+    "RestoreTableFromBackup",
+    "RestoreTableToPointInTime",
+    "TagResource",
+    "UntagResource",
+    "UpdateGlobalTable",
+    "UpdateTable",
+    "UpdateTimeToLive"
+  ],
+  "readOnlyActions": [
+    "DescribeBackup",
+    "DescribeContinuousBackups",
+    "DescribeGlobalTable",
+    "DescribeLimits",
+    "DescribeStream",
+    "DescribeTable",
+    "DescribeTimeToLive",
+    "ListBackups",
+    "ListGlobalTables",
+    "ListStreams",
+    "ListTables",
+    "ListTagsOfResource"
+  ]
+}

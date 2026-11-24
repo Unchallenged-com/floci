@@ -26,6 +26,11 @@ carries, so it stays in SERVICES below, as the guide lists them:
   A record names most of them with the API version they are served under (`CreateFunction20150331`),
   which the file carries as `eventNames`: "the `eventName` might include date and version information,
   but it is still referring to the same public API action".
+- DynamoDB (https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/logging-using-cloudtrail.html):
+  "The following API actions are logged by default as events in CloudTrail files", followed by the
+  DynamoDB and DynamoDB Streams lists. The item calls, PartiQL, transactions and the Streams reads
+  (`GetRecords`, `GetShardIterator`) are data events. The list's reserved capacity, Application Auto
+  Scaling and DAX calls are not DynamoDB API operations, so they are not in it here.
 
 Which of them are read-only is the access level AWS's Service Reference gives each action, read as
 `regen_iam_action_resources.py` reads IAM's: an action with none of the Write, Permissions
@@ -99,6 +104,19 @@ SERVICES: dict[str, Service] = {
             "UntagQueue",
         ),
         read_only_anchors={"ListMessageMoveTasks": True, "DeleteQueue": False},
+    ),
+    "dynamodb": Service(
+        guide="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/logging-using-cloudtrail.html",
+        # The guide's Amazon DynamoDB list, then its DynamoDB Streams one.
+        management_events=(
+            "CreateBackup", "CreateGlobalTable", "CreateTable", "DeleteBackup", "DeleteTable", "DescribeBackup",
+            "DescribeContinuousBackups", "DescribeGlobalTable", "DescribeLimits", "DescribeTable",
+            "DescribeTimeToLive", "ListBackups", "ListGlobalTables", "ListTables", "ListTagsOfResource",
+            "RestoreTableFromBackup", "RestoreTableToPointInTime", "TagResource", "UntagResource",
+            "UpdateGlobalTable", "UpdateTable", "UpdateTimeToLive",
+            "DescribeStream", "ListStreams",
+        ),
+        read_only_anchors={"DescribeTable": True, "DescribeStream": True, "DeleteTable": False},
     ),
     "ec2": Service(
         guide="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/using-cloudtrail.html",
