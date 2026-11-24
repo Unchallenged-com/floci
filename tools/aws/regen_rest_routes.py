@@ -65,6 +65,7 @@ MODELS: dict[str, str] = {
     "amp": "aps",
     "apigateway": "apigateway",
     "apigatewayv2": "apigateway",
+    "backup": "backup",
     "bedrock": "bedrock",
     "bedrock-agent": "bedrock",
     "bedrock-runtime": "bedrock",
@@ -112,6 +113,7 @@ MODELS: dict[str, str] = {
 # records (SignedServiceRoute).
 SHARED_ROUTES: dict[str, frozenset[str]] = {
     "apigateway": frozenset({"TagResource", "UntagResource", "GetTags"}),
+    "backup": frozenset({"TagResource", "ListTags"}),
     "controltower": frozenset({"TagResource", "UntagResource", "ListTagsForResource"}),
     "fis": frozenset({"TagResource", "UntagResource", "ListTagsForResource"}),
     "resource-explorer-2": frozenset({"TagResource", "UntagResource", "ListTagsForResource"}),
@@ -122,9 +124,11 @@ SHARED_ROUTES: dict[str, frozenset[str]] = {
 # the slashes the ARN holds: a request may send the ARN unencoded and still reach the operation, so its
 # route has to take that request too or it would go unchecked. API Gateway v2's tag routes are
 # `/v2/tags/{resourceArn: .+}` in its controller, and OAM's `/tags/{resourceArn:.+}` in its own and in the
-# shared tags controller, which takes every `/tags/{arn}` request.
+# shared tags controller, which takes every `/tags/{arn}` request. AWS Backup's untag route is
+# `/untag/{resourceArn: .*}` in its controller.
 ARN_SPANNING_ROUTES: dict[str, frozenset[str]] = {
     "apigatewayv2": frozenset({"TagResource", "UntagResource", "GetTags"}),
+    "backup": frozenset({"UntagResource"}),
     "oam": frozenset({"TagResource", "UntagResource", "ListTagsForResource"}),
 }
 

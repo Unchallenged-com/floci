@@ -898,6 +898,31 @@ public class BackupService {
         applyTags(resourceArn, tags);
     }
 
+    /**
+     * The tags of the vault or the plan stored under {@code arn}, as {@link #listTags} answers them; empty, rather
+     * than an error, when no vault or undeleted plan has that ARN.
+     */
+    public Map<String, String> storedTags(String arn) {
+        Optional<BackupVault> vault = vaultStore.scan(k -> true).stream()
+                .filter(v -> arn.equals(v.getBackupVaultArn()))
+                .findFirst();
+        if (vault.isPresent()) {
+            return new HashMap<>(vault.get().getTags());
+        }
+        Optional<String> planId = AwsArnUtils.resourceIfArnFor(arn, "backup")
+                .filter(resource -> resource.startsWith("backup-plan:"))
+                .map(resource -> resource.substring("backup-plan:".length()));
+        if (planId.isEmpty()) {
+            return Map.of();
+        }
+        synchronized (lockFor(planLockKey(planId.get()))) {
+            return planStore.get(planId.get())
+                    .filter(plan -> arn.equals(plan.getBackupPlanArn()) && plan.getDeletionDate() == null)
+                    .<Map<String, String>>map(plan -> new HashMap<>(plan.getTags()))
+                    .orElse(Map.of());
+        }
+    }
+
     public void untagResource(String resourceArn, List<String> tagKeys) {
         removeTags(resourceArn, tagKeys);
     }

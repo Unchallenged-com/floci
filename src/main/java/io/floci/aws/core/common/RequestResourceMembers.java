@@ -1129,12 +1129,16 @@ final class RequestResourceMembers {
         return pattern(format, Set.of());
     }
 
+    /**
+     * The pattern of the ARNs a format gives. A {@code *} the format writes as a whole segment stands for any value of
+     * it, as AWS Backup's recovery point does for its account ({@code arn:${Partition}:${Vendor}:${Region}:*:...}).
+     */
     private static Pattern pattern(String format, Set<String> integers) {
         StringBuilder regex = new StringBuilder("^");
         Matcher variable = VARIABLE.matcher(format);
         int at = 0;
         while (variable.find()) {
-            regex.append(Pattern.quote(format.substring(at, variable.start())));
+            regex.append(literal(format.substring(at, variable.start())));
             String value = switch (variable.group(1)) {
                 case "Partition" -> "[^:]+";
                 case "Region", "Account" -> "[^:]*";
@@ -1143,6 +1147,11 @@ final class RequestResourceMembers {
             regex.append(integers.contains(variable.group(1)) ? "(" + value + ")" : value);
             at = variable.end();
         }
-        return Pattern.compile(regex.append(Pattern.quote(format.substring(at))).append('$').toString());
+        return Pattern.compile(regex.append(literal(format.substring(at))).append('$').toString());
+    }
+
+    /** The text between two variables of a format, quoted, with each segment it writes as {@code *} open. */
+    private static String literal(String text) {
+        return Pattern.quote(text).replace(":*:", ":\\E[^:]*\\Q:");
     }
 }

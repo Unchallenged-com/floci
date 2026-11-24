@@ -256,6 +256,14 @@ class RequestResourceMembersTest {
     }
 
     @Test
+    void aSegmentAFormatWritesAsAWildcardMatchesAnyValue() {
+        ArnFormat point = format("arn:${Partition}:${Vendor}:${Region}:*:${ResourceType}:${RecoveryPointId}");
+        assertTrue(point.pattern().matcher("arn:aws:backup:us-east-1:000000000000:recovery-point:abc").matches());
+        assertTrue(point.pattern().matcher("arn:aws:backup:us-east-1::recovery-point:abc").matches());
+        assertFalse(point.pattern().matcher("arn:aws:backup:us-east-1:recovery-point:abc").matches());
+    }
+
+    @Test
     void anUnqualifiedTypesArnIsCheckedWithoutItsQualifier() {
         String machine = "arn:aws:states:us-east-1:000000000000:stateMachine:orders";
         String format = "arn:${Partition}:states:${Region}:${Account}:stateMachine:${StateMachineName}";
@@ -818,10 +826,14 @@ class RequestResourceMembersTest {
         return member.field() == null ? name : name + "." + parameter(member.field());
     }
 
-    /** An ARN of the format in the test's partition, Region and account, each other variable {@code x}. */
+    /**
+     * An ARN of the format in the test's partition, Region and account, each other variable {@code x}; a segment the
+     * format leaves open ({@code *}) is the account too.
+     */
     private static String example(String format) {
         return format.replace("${Partition}", "aws").replace("${Region}", "us-east-1")
-                .replace("${Account}", "000000000000").replaceAll("\\$\\{\\w+}", "x");
+                .replace("${Account}", "000000000000").replace(":*:", ":000000000000:")
+                .replaceAll("\\$\\{\\w+}", "x");
     }
 
     /** The format in the account with each variable the resource fills {@code x}, and each other open. */

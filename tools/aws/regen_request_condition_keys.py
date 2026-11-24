@@ -4,6 +4,11 @@
 Some service condition keys take their value from the request, or from the resource the request acts on before
 it. `SERVICES` names, for each namespace, the keys read and where:
 
+- `backup`: a PutBackupVaultLockConfiguration or CreateLogicallyAirGappedBackupVault request is checked with the
+  retention it sets in its JSON body, as `backup:MinRetentionDays`, `backup:MaxRetentionDays` and
+  `backup:ChangeableForDays`; a member it leaves out names nothing. `backup:CopyTargets`,
+  `backup:CopyTargetOrgPaths`, `backup:FrameworkArns`, `backup:Index` and `backup:MpaApprovalTeamArn` are not
+  read: Floci serves none of the operations that take them.
 - `eks`: a CreateCluster or UpdateClusterConfig request is checked with the access configuration and endpoint
   flags it names in its JSON body, as `eks:authenticationMode`, `eks:bootstrapClusterCreatorAdminPermissions`,
   `eks:endpointPrivateAccess` and `eks:endpointPublicAccess`; a member it leaves out names nothing.
@@ -81,6 +86,16 @@ FLAT_PROTOCOLS = ("query", "ec2")
 # carries it, each key read from the stored resource, and the actions that take a key their request does not
 # carry, with the reason.
 SERVICES = {
+    "backup": {
+        "model": "backup",
+        "request": {
+            "backup:ChangeableForDays": "ChangeableForDays",
+            "backup:MaxRetentionDays": "MaxRetentionDays",
+            "backup:MinRetentionDays": "MinRetentionDays",
+        },
+        "stored": (),
+        "not_in_request": {},
+    },
     "eks": {
         "model": "eks",
         "request": {

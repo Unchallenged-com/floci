@@ -6,6 +6,7 @@ import io.floci.aws.testing.AwsTestClients;
 import io.floci.aws.testing.CloudTrailLogFiles;
 import io.floci.aws.testing.CloudTrailRequests;
 import io.floci.aws.testing.EnforcementFixtures;
+import io.floci.aws.testing.EnforcementFixtures.UserCredentials;
 import io.floci.aws.testing.IamEnforcementProfile;
 import io.floci.aws.testing.PartitionCleanup;
 import io.floci.aws.testing.RestAssuredJsonUtils;
@@ -188,6 +189,34 @@ class BackupCloudTrailIntegrationTest {
             assertThat(missing.path("errorCode").asText(), equalTo("ResourceNotFoundException"));
             assertThat(missing.path("requestParameters").path("backupVaultName").asText(), equalTo(vault));
         }
+    }
+
+    @Test
+    void aRefusedCallIsRecordedWithoutItsMembers() throws IOException {
+        String account = account();
+        String suffix = UUID.randomUUID().toString().substring(0, 8);
+        String logs = "ct-backup-logs-" + suffix;
+        startTrail(account, "ct-backup-" + suffix, logs);
+        String user = "ct-user-" + suffix;
+        String vault = "ct-vault-" + suffix;
+        UserCredentials credentials = EnforcementFixtures.createUser(cleanup, baseUri.getPort(),
+                auth(account, "iam"), user);
+
+        try (BackupClient backup = AwsTestClients.create(BackupClient.builder(), credentials.accessKeyId(),
+                credentials.secretAccessKey(), REGION, baseUri)) {
+            BackupException error = assertThrows(BackupException.class,
+                    () -> backup.deleteBackupVault(request -> request.backupVaultName(vault)));
+            assertThat(error.statusCode(), equalTo(403));
+            assertThat(error.awsErrorDetails().errorCode(), equalTo("AccessDeniedException"));
+        }
+
+        JsonNode refused = only(backupRecords(account, logs), "DeleteBackupVault");
+        assertThat(refused.path("errorCode").asText(), equalTo("AccessDenied"));
+        assertThat(refused.path("errorMessage").asText(), containsString("backup:DeleteBackupVault"));
+        assertThat(refused.path("userIdentity").path("userName").asText(), equalTo(user));
+        assertThat(refused.path("readOnly").asBoolean(true), equalTo(false));
+        assertThat(refused.path("requestParameters").isNull(), equalTo(true));
+        assertThat(refused.path("responseElements").isNull(), equalTo(true));
     }
 
     private static String account() {

@@ -13,6 +13,7 @@ import io.floci.aws.core.common.SharedTagsController;
 import io.floci.aws.services.cloudtrail.CloudTrailEventCatalog;
 import io.floci.aws.services.cloudtrail.CloudTrailService;
 import io.floci.aws.services.cloudtrail.CloudTrailShapes;
+import io.floci.aws.services.cloudtrail.ManagementEventSource;
 import io.quarkus.vertx.http.runtime.CurrentVertxRequest;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.ext.web.RoutingContext;
@@ -27,6 +28,7 @@ import jakarta.ws.rs.container.ResourceInfo;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.Provider;
 import org.jboss.logging.Logger;
 
@@ -59,6 +61,9 @@ import java.util.Map;
  *   read-only call, a call that answers nothing (the guide's DeleteRecoveryPoint example) and a failed one.</li>
  *   <li>A failed call keeps its members and is recorded under its error's type
  *   ({@code ResourceNotFoundException}).</li>
+ *   <li>A call IAM enforcement refuses never reaches the controller: it is recorded by {@link #refused}, as
+ *   {@code AccessDenied} with {@code "requestParameters": null}, as the other REST-JSON services record a
+ *   refusal.</li>
  * </ul>
  *
  * <p>The tag routes are the shared tags controller's: a call there is AWS Backup's when it is signed for it.
@@ -67,7 +72,7 @@ import java.util.Map;
  */
 @Provider
 @Priority(Priorities.USER + 100)
-public class BackupCloudTrailEvents implements ContainerRequestFilter, ContainerResponseFilter {
+public class BackupCloudTrailEvents implements ContainerRequestFilter, ContainerResponseFilter, ManagementEventSource {
 
     private static final Logger LOG = Logger.getLogger(BackupCloudTrailEvents.class);
     private static final String SERVICE = "backup";
@@ -155,6 +160,28 @@ public class BackupCloudTrailEvents implements ContainerRequestFilter, Container
             // The call is answered either way; a record that could not be written is logged, not raised.
             LOG.warnv(e, "Failed to record CloudTrail call {0}", call.operation());
         }
+    }
+
+    @Override
+    public String credentialScope() {
+        return SERVICE;
+    }
+
+    /**
+     * The record of a call IAM enforcement refused with {@code refusal} before AWS Backup ran it, with
+     * {@code "requestParameters": null} and the code and message the refusal answered with; null for a call
+     * that is not a management event.
+     */
+    @Override
+    public CloudTrailService.ManagementEventInput refused(String operation, String accessKeyId, String region,
+                                                          RoutingContext routingContext, Response refusal) {
+        CloudTrailEventCatalog catalog = CloudTrailEventCatalog.of(SERVICE);
+        if (!catalog.isManagementEvent(operation)) {
+            return null;
+        }
+        return new CloudTrailService.ManagementEventInput(EVENT_SOURCE, catalog.eventName(operation), region,
+                accessKeyId, null, null, catalog.isReadOnly(operation), sourceIp(routingContext),
+                userAgent(routingContext), null, REFUSED, refusalMessage(refusal));
     }
 
     /**

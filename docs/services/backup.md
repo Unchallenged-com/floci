@@ -224,6 +224,24 @@ Actual backup is simulated — no data is read from or written to the referenced
   `MaxRetentionDays`) are on the vault, also matching AWS. A standard vault reports
   `VaultType` `BACKUP_VAULT` in `DescribeBackupVault` and `ListBackupVaults`.
 
+## IAM Enforcement
+
+With `FLOCI_SERVICES_IAM_ENFORCEMENT_ENABLED=true`, every AWS Backup call Floci serves is checked as the
+action AWS's Service Reference gives its operation, on the resource its request names: a vault by the name in
+its path (`arn:aws:backup:<region>:<account>:backup-vault:<name>`), a plan or a selection by the plan id in its
+path (`backup-plan:<id>`), a recovery point by the ARN in its path, a `StartBackupJob` by the vault it names,
+and a tag call by the ARN it names. A list call naming no vault or plan, `DescribeBackupJob` and
+`StopBackupJob` are checked on `*`, as AWS lists no resource type for them.
+
+- `aws:ResourceTag/<key>` is read from the tags of the vault or the plan the request names.
+- `aws:RequestTag/<key>` and `aws:TagKeys` are read from the tags a create (`BackupVaultTags`,
+  `BackupPlanTags`) carries. A create that carries tags also needs `backup:TagResource`, as the Service
+  Reference lists it among the actions `CreateBackupVault` and `CreateBackupPlan` authorize.
+- `backup:MinRetentionDays`, `backup:MaxRetentionDays` and `backup:ChangeableForDays` are read from a
+  `PutBackupVaultLockConfiguration` or `CreateLogicallyAirGappedBackupVault` body.
+- A refused call is answered `AccessDeniedException` with HTTP 403, AWS Backup's common error, and recorded
+  in CloudTrail as `AccessDenied`, without its request parameters.
+
 ## Configuration
 
 | Property | Env var | Default | Description |

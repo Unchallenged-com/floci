@@ -235,6 +235,20 @@ def test_shared_tag_alternative_keeps_actual_member_source(name, operation, meth
     assert json.loads(r.render(doc)) == doc
 
 
+def test_backup_tag_routes_are_the_shared_controllers_and_its_untag_route_spans_the_arn():
+    # AWS Backup tags and lists tags on /tags/{resourceArn}, which the shared tags controller serves, and untags on
+    # its own /untag/{resourceArn: .*}, so each takes an ARN with its slashes.
+    doc = r.build({"backup": model("rest-json", "2018-11-15", TagResource=("POST", "/tags/{resourceArn}"),
+                                   ListTags=("GET", "/tags/{resourceArn}/"),
+                                   UntagResource=("POST", "/untag/{resourceArn}"))}, "test")
+    operations = doc["models"]["backup"]["operations"]
+    assert operations["TagResource"] == {"method": "POST", "requestUri": "/tags/{resourceArn+}",
+                                         "alternatives": [{"requestUri": "/tags", "located": {"resourceArn": "body"}}]}
+    assert operations["ListTags"] == {"method": "GET", "requestUri": "/tags/{resourceArn+}/", "alternatives": [
+        {"requestUri": "/tags", "located": {"resourceArn": "?resourceArn"}}]}
+    assert operations["UntagResource"] == {"method": "POST", "requestUri": "/untag/{resourceArn+}"}
+
+
 def test_shared_tag_alternative_collision_is_rejected():
     with pytest.raises(SystemExit, match="one route names more than one operation"):
         r.build({"controltower": model("rest-json", "2020-01-01",

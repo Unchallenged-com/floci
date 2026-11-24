@@ -737,7 +737,9 @@ public final class RequestResources {
     /**
      * Whether an ARN fits the format of a type of the namespace the resource does not read, longer than every one of
      * its own that it fits: an endpoint group's ARN under its accelerator's, {@code accelerator/<id>/listener/...},
-     * is the endpoint group's, not the accelerator's.
+     * is the endpoint group's, not the accelerator's. A format's length is that of the text it fixes, without its
+     * variables, so one that leaves its service and resource type open (AWS Backup's recovery point,
+     * {@code arn:${Partition}:${Vendor}:${Region}:*:${ResourceType}:${RecoveryPointId}}) is not longer than a vault's.
      */
     private static boolean longerFormat(String arn, List<String> types,
                                         Map<String, RequestResourceMembers.ArnFormat> formats) {
@@ -747,9 +749,14 @@ public final class RequestResources {
         if (fits.stream().anyMatch(RequestResourceMembers.ArnFormat::unqualified)) {
             return false;
         }
-        int own = fits.stream().mapToInt(format -> format.format().length()).max().orElse(Integer.MAX_VALUE);
+        int own = fits.stream().mapToInt(RequestResources::fixedLength).max().orElse(Integer.MAX_VALUE);
         return formats.entrySet().stream().anyMatch(other -> !types.contains(other.getKey())
-                && other.getValue().format().length() > own && other.getValue().pattern().matcher(arn).matches());
+                && fixedLength(other.getValue()) > own && other.getValue().pattern().matcher(arn).matches());
+    }
+
+    /** The length of the text a format fixes, without its variables. */
+    private static int fixedLength(RequestResourceMembers.ArnFormat format) {
+        return VARIABLE.matcher(format.format()).replaceAll("").length();
     }
 
     /**
