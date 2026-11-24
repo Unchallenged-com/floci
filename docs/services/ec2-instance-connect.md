@@ -37,7 +37,7 @@ IMDS serves the agent's paths under `/latest/meta-data/`:
 | Path | Content |
 | --- | --- |
 | `services/domain` | `amazonaws.com` |
-| `managed-ssh-keys/active-keys/<user>/` | The user's live keys, each as `#Timestamp=`, `#Instance=`, `#Caller=` and `#Request=` lines, the key, and a base64 RSA-PSS (SHA-256, salt 32) signature; answers `HEAD`, and `404` when there is none |
+| `managed-ssh-keys/active-keys/<user>/` | The user's live keys, each as `#Timestamp=`, `#Instance=`, `#Caller=` and `#Request=` lines, the key, and a base64 RSA-PSS (SHA-256, salt 32) signature; answers `HEAD`, and `404` when there is none. `#Caller=` is the identity that signed `SendSSHPublicKey`, which the agent logs as the key's IAM principal: the user's ARN for an IAM user, `arn:<partition>:sts::<account>:assumed-role/<role>/<session>` for a role session, the account's root for the root |
 | `managed-ssh-keys/signer-cert/` | PEM chain: the signer (`CN=managed-ssh-signer.<region>.amazonaws.com`), a Floci intermediate, Floci's local CA |
 | `managed-ssh-keys/signer-ocsp/` | The upper-case SHA-1 fingerprints of the signer and the intermediate |
 | `managed-ssh-keys/signer-ocsp/<fingerprint>` | A base64 DER OCSP response, `good`, signed by that certificate's issuer |

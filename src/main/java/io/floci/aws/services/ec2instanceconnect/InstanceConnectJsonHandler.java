@@ -4,10 +4,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.floci.aws.core.common.AwsException;
-import io.floci.aws.core.common.RegionResolver;
 import io.floci.aws.core.common.SshPublicKeys;
 import io.floci.aws.services.ec2.Ec2Service;
 import io.floci.aws.services.ec2.model.Instance;
+import io.floci.aws.services.iam.RequestCallerResolver;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
@@ -25,6 +25,10 @@ import java.util.regex.Pattern;
  * instance's agent through IMDS for {@link InstanceConnectKeys#KEY_LIFETIME}. The serial console
  * operation is answered with {@code SerialConsoleSessionUnsupportedException} once the instance is
  * found: Docker-backed instances have no serial console.
+ *
+ * <p>A key is stored under the identity that signed the request, which the active-keys document
+ * names on its {@code #Caller=} line: the IAM user's ARN for an IAM user, the
+ * {@code assumed-role} session ARN for a role session, the account root's ARN for the root.
  */
 @ApplicationScoped
 public class InstanceConnectJsonHandler {
@@ -42,21 +46,21 @@ public class InstanceConnectJsonHandler {
 
     private final Ec2Service ec2Service;
     private final InstanceConnectKeys keys;
-    private final RegionResolver regionResolver;
+    private final RequestCallerResolver callers;
     private final ObjectMapper objectMapper;
     private final Clock clock;
 
     @Inject
     public InstanceConnectJsonHandler(Ec2Service ec2Service, InstanceConnectKeys keys,
-                                      RegionResolver regionResolver, ObjectMapper objectMapper) {
-        this(ec2Service, keys, regionResolver, objectMapper, Clock.systemUTC());
+                                      RequestCallerResolver callers, ObjectMapper objectMapper) {
+        this(ec2Service, keys, callers, objectMapper, Clock.systemUTC());
     }
 
-    InstanceConnectJsonHandler(Ec2Service ec2Service, InstanceConnectKeys keys, RegionResolver regionResolver,
+    InstanceConnectJsonHandler(Ec2Service ec2Service, InstanceConnectKeys keys, RequestCallerResolver callers,
                                ObjectMapper objectMapper, Clock clock) {
         this.ec2Service = ec2Service;
         this.keys = keys;
-        this.regionResolver = regionResolver;
+        this.callers = callers;
         this.objectMapper = objectMapper;
         this.clock = clock;
     }
@@ -110,7 +114,7 @@ public class InstanceConnectJsonHandler {
         }
 
         String requestId = UUID.randomUUID().toString();
-        String caller = regionResolver.buildGlobalArn("iam", "root");
+        String caller = callers.caller().callerArn();
         keys.add(new InstanceConnectKeys.ActiveKey(instanceId, osUser, publicKey.trim(),
                 clock.instant().plus(InstanceConnectKeys.KEY_LIFETIME), caller, requestId));
 

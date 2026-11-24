@@ -3,10 +3,11 @@ package io.floci.aws.services.ec2instanceconnect;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.floci.aws.core.common.AwsException;
-import io.floci.aws.core.common.RegionResolver;
 import io.floci.aws.services.ec2.Ec2Service;
 import io.floci.aws.services.ec2.model.Instance;
 import io.floci.aws.services.ec2.model.InstanceState;
+import io.floci.aws.services.iam.IamService.CallerArns;
+import io.floci.aws.services.iam.RequestCallerResolver;
 import jakarta.ws.rs.core.Response;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,6 +38,7 @@ class InstanceConnectJsonHandlerTest {
     private static final String REGION = "us-east-1";
     private static final String INSTANCE = "i-0123456789abcdef0";
     private static final Instant NOW = Instant.parse("2026-10-16T12:00:00Z");
+    private static final String CALLER = "arn:aws:sts::000000000000:assumed-role/admin/session";
     private static final String ED25519 =
             "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl user@host";
 
@@ -50,7 +52,7 @@ class InstanceConnectJsonHandlerTest {
     void setUp() {
         ec2 = mock(Ec2Service.class);
         keys = mock(InstanceConnectKeys.class);
-        handler = handlerIn("us-east-1");
+        handler = handler();
         instance = new Instance();
         instance.setInstanceId(INSTANCE);
         instance.setState(InstanceState.running());
@@ -68,21 +70,15 @@ class InstanceConnectJsonHandlerTest {
         assertEquals("admin", stored.getValue().osUser());
         assertEquals(NOW.plusSeconds(60), stored.getValue().expiresAt());
         assertEquals(((ObjectNode) response.getEntity()).get("RequestId").asText(), stored.getValue().requestId());
-        assertEquals("arn:aws:iam::000000000000:root", stored.getValue().caller());
+        assertEquals(CALLER, stored.getValue().caller());
     }
 
-    @Test
-    void theCallerArnIsInTheDeploymentsPartition() {
-        handlerIn("us-gov-west-1").handle("SendSSHPublicKey", request(INSTANCE, "admin", ED25519), REGION);
-
-        ArgumentCaptor<InstanceConnectKeys.ActiveKey> stored = ArgumentCaptor.forClass(InstanceConnectKeys.ActiveKey.class);
-        verify(keys).add(stored.capture());
-        assertEquals("arn:aws-us-gov:iam::000000000000:root", stored.getValue().caller());
-    }
-
-    private InstanceConnectJsonHandler handlerIn(String defaultRegion) {
-        return new InstanceConnectJsonHandler(ec2, keys, new RegionResolver(defaultRegion, "000000000000"), mapper,
-                Clock.fixed(NOW, ZoneOffset.UTC));
+    /** A handler whose requests are signed by the {@link #CALLER} role session. */
+    private InstanceConnectJsonHandler handler() {
+        RequestCallerResolver callers = mock(RequestCallerResolver.class);
+        when(callers.caller()).thenReturn(new CallerArns(CALLER, "arn:aws:iam::000000000000:role/admin",
+                CallerArns.TYPE_ASSUMED_ROLE, "AROAEXAMPLE:session", null));
+        return new InstanceConnectJsonHandler(ec2, keys, callers, mapper, Clock.fixed(NOW, ZoneOffset.UTC));
     }
 
     @Test
