@@ -21,6 +21,9 @@ carries, so it stays in SERVICES below, as the guide lists them:
 - EC2 (https://docs.aws.amazon.com/AWSEC2/latest/APIReference/using-cloudtrail.html): every EC2 API call
   is a management event, but an EC2 record's members follow EC2's own schema rather than botocore's,
   so Floci records only the calls whose record a recent capture shows (Ec2CloudTrailEvents).
+- EventBridge (https://docs.aws.amazon.com/eventbridge/latest/userguide/logging-using-cloudtrail.html):
+  "All Amazon EventBridge API operations except PutEvents and PutPartnerEvents are control plane
+  operations", so every other operation of botocore's EventBridge model (`events/2015-10-07/`).
 - Lambda (https://docs.aws.amazon.com/lambda/latest/dg/logging-using-cloudtrail.html): "Lambda supports
   logging the following actions as management events in CloudTrail log files", followed by the list.
   A record names most of them with the API version they are served under (`CreateFunction20150331`),
@@ -114,6 +117,25 @@ SERVICES: dict[str, Service] = {
             "TerminateInstances",
         ),
         read_only_anchors={"GetPasswordData": True, "TerminateInstances": False},
+    ),
+    "events": Service(
+        guide="https://docs.aws.amazon.com/eventbridge/latest/userguide/logging-using-cloudtrail.html",
+        # Every operation of botocore's EventBridge model but PutEvents and PutPartnerEvents, the data events.
+        management_events=(
+            "ActivateEventSource", "CancelReplay", "CreateApiDestination", "CreateArchive", "CreateConnection",
+            "CreateEndpoint", "CreateEventBus", "CreatePartnerEventSource", "DeactivateEventSource",
+            "DeauthorizeConnection", "DeleteApiDestination", "DeleteArchive", "DeleteConnection", "DeleteEndpoint",
+            "DeleteEventBus", "DeletePartnerEventSource", "DeleteRule", "DescribeApiDestination", "DescribeArchive",
+            "DescribeConnection", "DescribeEndpoint", "DescribeEventBus", "DescribeEventSource",
+            "DescribePartnerEventSource", "DescribeReplay", "DescribeRule", "DisableRule", "EnableRule",
+            "ListApiDestinations", "ListArchives", "ListConnections", "ListEndpoints", "ListEventBuses",
+            "ListEventSources", "ListPartnerEventSourceAccounts", "ListPartnerEventSources", "ListReplays",
+            "ListRuleNamesByTarget", "ListRules", "ListTagsForResource", "ListTargetsByRule", "PutPermission",
+            "PutRule", "PutTargets", "RemovePermission", "RemoveTargets", "StartReplay", "TagResource",
+            "TestEventPattern", "UntagResource", "UpdateApiDestination", "UpdateArchive", "UpdateConnection",
+            "UpdateEndpoint", "UpdateEventBus",
+        ),
+        read_only_anchors={"DescribeRule": True, "ListRules": True, "DeleteRule": False},
     ),
     "kms": Service(
         guide="https://docs.aws.amazon.com/kms/latest/developerguide/logging-using-cloudtrail.html",

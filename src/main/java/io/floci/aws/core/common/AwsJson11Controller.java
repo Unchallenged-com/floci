@@ -32,6 +32,7 @@ import io.floci.aws.services.ec2instanceconnect.InstanceConnectJsonHandler;
 import io.floci.aws.services.ecr.EcrJsonHandler;
 import io.floci.aws.services.ecs.EcsJsonHandler;
 import io.floci.aws.services.emr.EmrHandler;
+import io.floci.aws.services.eventbridge.EventBridgeCloudTrailEvents;
 import io.floci.aws.services.eventbridge.EventBridgeHandler;
 import io.floci.aws.services.firehose.FirehoseJsonHandler;
 import io.floci.aws.services.globalaccelerator.GlobalAcceleratorJsonHandler;
@@ -99,6 +100,7 @@ public class AwsJson11Controller {
     private final RegionResolver regionResolver;
     private final SsmJsonHandler ssmJsonHandler;
     private final EventBridgeHandler eventBridgeHandler;
+    private final EventBridgeCloudTrailEvents eventBridgeCloudTrailEvents;
     private final CloudMapHandler cloudMapHandler;
     private final EmrHandler emrHandler;
     private final MemoryDbHandler memoryDbHandler;
@@ -161,6 +163,7 @@ public class AwsJson11Controller {
     public AwsJson11Controller(ObjectMapper objectMapper, ResolvedServiceCatalog catalog,
                                RegionResolver regionResolver,
                                SsmJsonHandler ssmJsonHandler, EventBridgeHandler eventBridgeHandler,
+                               EventBridgeCloudTrailEvents eventBridgeCloudTrailEvents,
                                CloudMapHandler cloudMapHandler,
                                EmrHandler emrHandler,
                                MemoryDbHandler memoryDbHandler,
@@ -221,6 +224,7 @@ public class AwsJson11Controller {
         this.regionResolver = regionResolver;
         this.ssmJsonHandler = ssmJsonHandler;
         this.eventBridgeHandler = eventBridgeHandler;
+        this.eventBridgeCloudTrailEvents = eventBridgeCloudTrailEvents;
         this.cloudMapHandler = cloudMapHandler;
         this.emrHandler = emrHandler;
         this.memoryDbHandler = memoryDbHandler;
@@ -354,7 +358,8 @@ public class AwsJson11Controller {
         return switch (serviceKey) {
             case "ssm" -> ssmJsonHandler.handle(
                     action, request, region, authorization);
-            case "events" -> eventBridgeHandler.handle(action, request, region);
+            case "events" -> eventBridgeCloudTrailEvents.recorded(action, request, region, authorization,
+                    () -> eventBridgeHandler.handle(action, request, region));
             case "servicediscovery" -> cloudMapHandler.handle(action, request, region);
             case "elasticmapreduce" -> emrHandler.handle(action, request, region);
             case "wafv2" -> wafV2Handler.handle(action, request, region);

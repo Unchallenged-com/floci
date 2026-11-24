@@ -4,7 +4,7 @@
 **Endpoint:** `POST http://localhost:4566/`
 
 Floci emulates a CloudTrail trail's full life cycle and emits S3 data events, IAM API calls, SQS control plane calls,
-Secrets Manager, KMS and CloudWatch Logs API calls and some EC2 calls to the trail's destination bucket as gzipped JSON log files at the
+Secrets Manager, KMS, CloudWatch Logs and EventBridge API calls and some EC2 calls to the trail's destination bucket as gzipped JSON log files at the
 AWS-shaped key path:
 
 ```
@@ -317,6 +317,33 @@ guide gives without a version where records of its neighbors carry one.
 - A failed call keeps its members, under its error's type (`ResourceNotFoundException`); a call IAM enforcement refuses
   is recorded as `AccessDenied` with `"requestParameters": null`.
 - `Invoke` is a data event, not recorded here.
+
+## EventBridge Coverage
+
+"All Amazon EventBridge API operations except PutEvents and PutPartnerEvents are control plane operations"
+([EventBridge User Guide](https://docs.aws.amazon.com/eventbridge/latest/userguide/logging-using-cloudtrail.html)), so
+every other operation of botocore's EventBridge model is recorded as a management event (`PutRule`, `PutTargets`,
+`DisableRule`, `DeleteRule`, `PutPermission`, `CreateConnection`, `DeleteEventBus` and the rest,
+`events-cloudtrail-events.json`): one EventBridge ran, one it answered with an error, and, with
+`floci.services.iam.enforcement-enabled`, one IAM enforcement refused. `PutEvents` and `PutPartnerEvents`, data events,
+are not recorded.
+
+- `eventSource` is `events.amazonaws.com`, and the record carries `"apiVersion": "2015-10-07"`, as the guide's
+  `PutRule` example does.
+- `readOnly` is `true` for the calls AWS's service reference
+  ([`events.json`](https://servicereference.us-east-1.amazonaws.com/v1/events/events.json)) gives no mutating access
+  level (`Describe*`, `List*`, `TestEventPattern`).
+- `requestParameters` and `responseElements` hold the members as botocore's model names and types them (`name`,
+  `eventPattern`, `state`, `"ruleArn"`, `events-cloudtrail-shapes.json`). A timestamp is written as the guide's
+  `PutPartnerEvents` example writes one (`"Mar 7, 2026, 12:51:07 AM"`). The members the model marks sensitive are left
+  out: a connection's API key value, password and client secret, its sensitive header, query string and body values,
+  a Redshift target's SQL and an AppSync target's GraphQL operation. `responseElements` is `null` for a read-only call,
+  for a call that answers nothing and for a failed one.
+- An error is recorded under its `__type` (`ResourceNotFoundException`); a call IAM enforcement refuses as
+  `AccessDenied` with `"requestParameters": null`, the message its refusal answers with and no `apiVersion`. A call an
+  API Gateway integration makes is recorded too, without `invokedBy`.
+- An EventBridge record a logging trail selects reaches the default bus as any other
+  ([EventBridge delivery](#eventbridge-delivery)), as `aws.events`; that delivery is not a call, so it records nothing.
 
 ## EventBridge delivery
 

@@ -9,6 +9,7 @@ import io.floci.aws.services.cloudwatch.logs.LogsCloudTrailEvents;
 import io.floci.aws.services.cloudwatch.metrics.CloudWatchMetricsJsonHandler;
 import io.floci.aws.services.cognito.CognitoJsonHandler;
 import io.floci.aws.services.dynamodb.DynamoDbJsonHandler;
+import io.floci.aws.services.eventbridge.EventBridgeCloudTrailEvents;
 import io.floci.aws.services.eventbridge.EventBridgeHandler;
 import io.floci.aws.services.kinesis.KinesisJsonHandler;
 import io.floci.aws.services.kms.KmsJsonHandler;
@@ -45,6 +46,7 @@ public class AwsServiceRouter {
     private final SqsQueryHandler sqsQueryHandler;
     private final SnsJsonHandler snsHandler;
     private final EventBridgeHandler eventBridgeHandler;
+    private final EventBridgeCloudTrailEvents eventBridgeCloudTrailEvents;
     private final SsmJsonHandler ssmHandler;
     private final KinesisJsonHandler kinesisHandler;
     private final CloudWatchLogsHandler logsHandler;
@@ -62,6 +64,7 @@ public class AwsServiceRouter {
                             SqsQueryHandler sqsQueryHandler,
                             SnsJsonHandler snsHandler,
                             EventBridgeHandler eventBridgeHandler,
+                            EventBridgeCloudTrailEvents eventBridgeCloudTrailEvents,
                             SsmJsonHandler ssmHandler,
                             KinesisJsonHandler kinesisHandler,
                             CloudWatchLogsHandler logsHandler,
@@ -77,6 +80,7 @@ public class AwsServiceRouter {
         this.sqsQueryHandler = sqsQueryHandler;
         this.snsHandler = snsHandler;
         this.eventBridgeHandler = eventBridgeHandler;
+        this.eventBridgeCloudTrailEvents = eventBridgeCloudTrailEvents;
         this.ssmHandler = ssmHandler;
         this.kinesisHandler = kinesisHandler;
         this.logsHandler = logsHandler;
@@ -156,7 +160,8 @@ public class AwsServiceRouter {
                 case "dynamodb" -> dynamoDbHandler.handle(action, requestBody, region);
                 case "sqs" -> sqsHandler.handle(action, requestBody, region);
                 case "sns" -> snsHandler.handle(action, requestBody, region);
-                case "events" -> eventBridgeHandler.handle(action, requestBody, region);
+                case "events" -> eventBridgeCloudTrailEvents.recorded(action, requestBody, region, null,
+                        () -> eventBridgeHandler.handle(action, requestBody, region));
                 case "ssm" -> ssmHandler.handle(action, requestBody, region, null);
                 case "kinesis" -> kinesisHandler.handle(action, requestBody, region);
                 case "logs" -> logsCloudTrailEvents.recorded(action, requestBody, region, null,

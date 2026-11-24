@@ -1,0 +1,2304 @@
+{
+  "_source": {
+    "generator": "tools/aws/regen_events_cloudtrail_shapes.py",
+    "botocore": "botocore 1.44.9 (installed package)"
+  },
+  "operations": {
+    "ActivateEventSource": "ActivateEventSourceRequest",
+    "CancelReplay": "CancelReplayRequest",
+    "CreateApiDestination": "CreateApiDestinationRequest",
+    "CreateArchive": "CreateArchiveRequest",
+    "CreateConnection": "CreateConnectionRequest",
+    "CreateEndpoint": "CreateEndpointRequest",
+    "CreateEventBus": "CreateEventBusRequest",
+    "CreatePartnerEventSource": "CreatePartnerEventSourceRequest",
+    "DeactivateEventSource": "DeactivateEventSourceRequest",
+    "DeauthorizeConnection": "DeauthorizeConnectionRequest",
+    "DeleteApiDestination": "DeleteApiDestinationRequest",
+    "DeleteArchive": "DeleteArchiveRequest",
+    "DeleteConnection": "DeleteConnectionRequest",
+    "DeleteEndpoint": "DeleteEndpointRequest",
+    "DeleteEventBus": "DeleteEventBusRequest",
+    "DeletePartnerEventSource": "DeletePartnerEventSourceRequest",
+    "DeleteRule": "DeleteRuleRequest",
+    "DescribeApiDestination": "DescribeApiDestinationRequest",
+    "DescribeArchive": "DescribeArchiveRequest",
+    "DescribeConnection": "DescribeConnectionRequest",
+    "DescribeEndpoint": "DescribeEndpointRequest",
+    "DescribeEventBus": "DescribeEventBusRequest",
+    "DescribeEventSource": "DescribeEventSourceRequest",
+    "DescribePartnerEventSource": "DescribePartnerEventSourceRequest",
+    "DescribeReplay": "DescribeReplayRequest",
+    "DescribeRule": "DescribeRuleRequest",
+    "DisableRule": "DisableRuleRequest",
+    "EnableRule": "EnableRuleRequest",
+    "ListApiDestinations": "ListApiDestinationsRequest",
+    "ListArchives": "ListArchivesRequest",
+    "ListConnections": "ListConnectionsRequest",
+    "ListEndpoints": "ListEndpointsRequest",
+    "ListEventBuses": "ListEventBusesRequest",
+    "ListEventSources": "ListEventSourcesRequest",
+    "ListPartnerEventSourceAccounts": "ListPartnerEventSourceAccountsRequest",
+    "ListPartnerEventSources": "ListPartnerEventSourcesRequest",
+    "ListReplays": "ListReplaysRequest",
+    "ListRuleNamesByTarget": "ListRuleNamesByTargetRequest",
+    "ListRules": "ListRulesRequest",
+    "ListTagsForResource": "ListTagsForResourceRequest",
+    "ListTargetsByRule": "ListTargetsByRuleRequest",
+    "PutEvents": "PutEventsRequest",
+    "PutPartnerEvents": "PutPartnerEventsRequest",
+    "PutPermission": "PutPermissionRequest",
+    "PutRule": "PutRuleRequest",
+    "PutTargets": "PutTargetsRequest",
+    "RemovePermission": "RemovePermissionRequest",
+    "RemoveTargets": "RemoveTargetsRequest",
+    "StartReplay": "StartReplayRequest",
+    "TagResource": "TagResourceRequest",
+    "TestEventPattern": "TestEventPatternRequest",
+    "UntagResource": "UntagResourceRequest",
+    "UpdateApiDestination": "UpdateApiDestinationRequest",
+    "UpdateArchive": "UpdateArchiveRequest",
+    "UpdateConnection": "UpdateConnectionRequest",
+    "UpdateEndpoint": "UpdateEndpointRequest",
+    "UpdateEventBus": "UpdateEventBusRequest"
+  },
+  "results": {
+    "CancelReplay": {
+      "shape": "CancelReplayResponse",
+      "resultWrapper": null
+    },
+    "CreateApiDestination": {
+      "shape": "CreateApiDestinationResponse",
+      "resultWrapper": null
+    },
+    "CreateArchive": {
+      "shape": "CreateArchiveResponse",
+      "resultWrapper": null
+    },
+    "CreateConnection": {
+      "shape": "CreateConnectionResponse",
+      "resultWrapper": null
+    },
+    "CreateEndpoint": {
+      "shape": "CreateEndpointResponse",
+      "resultWrapper": null
+    },
+    "CreateEventBus": {
+      "shape": "CreateEventBusResponse",
+      "resultWrapper": null
+    },
+    "CreatePartnerEventSource": {
+      "shape": "CreatePartnerEventSourceResponse",
+      "resultWrapper": null
+    },
+    "DeauthorizeConnection": {
+      "shape": "DeauthorizeConnectionResponse",
+      "resultWrapper": null
+    },
+    "DeleteApiDestination": {
+      "shape": "DeleteApiDestinationResponse",
+      "resultWrapper": null
+    },
+    "DeleteArchive": {
+      "shape": "DeleteArchiveResponse",
+      "resultWrapper": null
+    },
+    "DeleteConnection": {
+      "shape": "DeleteConnectionResponse",
+      "resultWrapper": null
+    },
+    "DeleteEndpoint": {
+      "shape": "DeleteEndpointResponse",
+      "resultWrapper": null
+    },
+    "DescribeApiDestination": {
+      "shape": "DescribeApiDestinationResponse",
+      "resultWrapper": null
+    },
+    "DescribeArchive": {
+      "shape": "DescribeArchiveResponse",
+      "resultWrapper": null
+    },
+    "DescribeConnection": {
+      "shape": "DescribeConnectionResponse",
+      "resultWrapper": null
+    },
+    "DescribeEndpoint": {
+      "shape": "DescribeEndpointResponse",
+      "resultWrapper": null
+    },
+    "DescribeEventBus": {
+      "shape": "DescribeEventBusResponse",
+      "resultWrapper": null
+    },
+    "DescribeEventSource": {
+      "shape": "DescribeEventSourceResponse",
+      "resultWrapper": null
+    },
+    "DescribePartnerEventSource": {
+      "shape": "DescribePartnerEventSourceResponse",
+      "resultWrapper": null
+    },
+    "DescribeReplay": {
+      "shape": "DescribeReplayResponse",
+      "resultWrapper": null
+    },
+    "DescribeRule": {
+      "shape": "DescribeRuleResponse",
+      "resultWrapper": null
+    },
+    "ListApiDestinations": {
+      "shape": "ListApiDestinationsResponse",
+      "resultWrapper": null
+    },
+    "ListArchives": {
+      "shape": "ListArchivesResponse",
+      "resultWrapper": null
+    },
+    "ListConnections": {
+      "shape": "ListConnectionsResponse",
+      "resultWrapper": null
+    },
+    "ListEndpoints": {
+      "shape": "ListEndpointsResponse",
+      "resultWrapper": null
+    },
+    "ListEventBuses": {
+      "shape": "ListEventBusesResponse",
+      "resultWrapper": null
+    },
+    "ListEventSources": {
+      "shape": "ListEventSourcesResponse",
+      "resultWrapper": null
+    },
+    "ListPartnerEventSourceAccounts": {
+      "shape": "ListPartnerEventSourceAccountsResponse",
+      "resultWrapper": null
+    },
+    "ListPartnerEventSources": {
+      "shape": "ListPartnerEventSourcesResponse",
+      "resultWrapper": null
+    },
+    "ListReplays": {
+      "shape": "ListReplaysResponse",
+      "resultWrapper": null
+    },
+    "ListRuleNamesByTarget": {
+      "shape": "ListRuleNamesByTargetResponse",
+      "resultWrapper": null
+    },
+    "ListRules": {
+      "shape": "ListRulesResponse",
+      "resultWrapper": null
+    },
+    "ListTagsForResource": {
+      "shape": "ListTagsForResourceResponse",
+      "resultWrapper": null
+    },
+    "ListTargetsByRule": {
+      "shape": "ListTargetsByRuleResponse",
+      "resultWrapper": null
+    },
+    "PutEvents": {
+      "shape": "PutEventsResponse",
+      "resultWrapper": null
+    },
+    "PutPartnerEvents": {
+      "shape": "PutPartnerEventsResponse",
+      "resultWrapper": null
+    },
+    "PutRule": {
+      "shape": "PutRuleResponse",
+      "resultWrapper": null
+    },
+    "PutTargets": {
+      "shape": "PutTargetsResponse",
+      "resultWrapper": null
+    },
+    "RemoveTargets": {
+      "shape": "RemoveTargetsResponse",
+      "resultWrapper": null
+    },
+    "StartReplay": {
+      "shape": "StartReplayResponse",
+      "resultWrapper": null
+    },
+    "TagResource": {
+      "shape": "TagResourceResponse",
+      "resultWrapper": null
+    },
+    "TestEventPattern": {
+      "shape": "TestEventPatternResponse",
+      "resultWrapper": null
+    },
+    "UntagResource": {
+      "shape": "UntagResourceResponse",
+      "resultWrapper": null
+    },
+    "UpdateApiDestination": {
+      "shape": "UpdateApiDestinationResponse",
+      "resultWrapper": null
+    },
+    "UpdateArchive": {
+      "shape": "UpdateArchiveResponse",
+      "resultWrapper": null
+    },
+    "UpdateConnection": {
+      "shape": "UpdateConnectionResponse",
+      "resultWrapper": null
+    },
+    "UpdateEndpoint": {
+      "shape": "UpdateEndpointResponse",
+      "resultWrapper": null
+    },
+    "UpdateEventBus": {
+      "shape": "UpdateEventBusResponse",
+      "resultWrapper": null
+    }
+  },
+  "shapes": {
+    "AccountId": {
+      "type": "string"
+    },
+    "Action": {
+      "type": "string"
+    },
+    "ActivateEventSourceRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "EventSourceName"
+      }
+    },
+    "ApiDestination": {
+      "type": "structure",
+      "members": {
+        "ApiDestinationArn": "ApiDestinationArn",
+        "Name": "ApiDestinationName",
+        "ApiDestinationState": "ApiDestinationState",
+        "ConnectionArn": "ConnectionArn",
+        "InvocationEndpoint": "HttpsEndpoint",
+        "HttpMethod": "ApiDestinationHttpMethod",
+        "InvocationRateLimitPerSecond": "ApiDestinationInvocationRateLimitPerSecond",
+        "CreationTime": "Timestamp",
+        "LastModifiedTime": "Timestamp"
+      }
+    },
+    "ApiDestinationArn": {
+      "type": "string"
+    },
+    "ApiDestinationDescription": {
+      "type": "string"
+    },
+    "ApiDestinationHttpMethod": {
+      "type": "string"
+    },
+    "ApiDestinationInvocationRateLimitPerSecond": {
+      "type": "integer"
+    },
+    "ApiDestinationName": {
+      "type": "string"
+    },
+    "ApiDestinationResponseList": {
+      "type": "list",
+      "member": "ApiDestination"
+    },
+    "ApiDestinationState": {
+      "type": "string"
+    },
+    "AppSyncParameters": {
+      "type": "structure",
+      "members": {
+        "GraphQLOperation": "GraphQLOperation"
+      }
+    },
+    "Archive": {
+      "type": "structure",
+      "members": {
+        "ArchiveName": "ArchiveName",
+        "EventSourceArn": "EventBusArn",
+        "State": "ArchiveState",
+        "StateReason": "ArchiveStateReason",
+        "RetentionDays": "RetentionDays",
+        "SizeBytes": "Long",
+        "EventCount": "Long",
+        "CreationTime": "Timestamp"
+      }
+    },
+    "ArchiveArn": {
+      "type": "string"
+    },
+    "ArchiveDescription": {
+      "type": "string"
+    },
+    "ArchiveName": {
+      "type": "string"
+    },
+    "ArchiveResponseList": {
+      "type": "list",
+      "member": "Archive"
+    },
+    "ArchiveState": {
+      "type": "string"
+    },
+    "ArchiveStateReason": {
+      "type": "string"
+    },
+    "Arn": {
+      "type": "string"
+    },
+    "AssignPublicIp": {
+      "type": "string"
+    },
+    "AuthHeaderParameters": {
+      "type": "string"
+    },
+    "AuthHeaderParametersSensitive": {
+      "type": "string",
+      "sensitive": true
+    },
+    "AwsVpcConfiguration": {
+      "type": "structure",
+      "members": {
+        "Subnets": "StringList",
+        "SecurityGroups": "StringList",
+        "AssignPublicIp": "AssignPublicIp"
+      }
+    },
+    "BatchArrayProperties": {
+      "type": "structure",
+      "members": {
+        "Size": "Integer"
+      }
+    },
+    "BatchParameters": {
+      "type": "structure",
+      "members": {
+        "JobDefinition": "String",
+        "JobName": "String",
+        "ArrayProperties": "BatchArrayProperties",
+        "RetryStrategy": "BatchRetryStrategy"
+      }
+    },
+    "BatchRetryStrategy": {
+      "type": "structure",
+      "members": {
+        "Attempts": "Integer"
+      }
+    },
+    "Boolean": {
+      "type": "boolean"
+    },
+    "CancelReplayRequest": {
+      "type": "structure",
+      "members": {
+        "ReplayName": "ReplayName"
+      }
+    },
+    "CancelReplayResponse": {
+      "type": "structure",
+      "members": {
+        "ReplayArn": "ReplayArn",
+        "State": "ReplayState",
+        "StateReason": "ReplayStateReason"
+      }
+    },
+    "CapacityProvider": {
+      "type": "string"
+    },
+    "CapacityProviderStrategy": {
+      "type": "list",
+      "member": "CapacityProviderStrategyItem"
+    },
+    "CapacityProviderStrategyItem": {
+      "type": "structure",
+      "members": {
+        "capacityProvider": "CapacityProvider",
+        "weight": "CapacityProviderStrategyItemWeight",
+        "base": "CapacityProviderStrategyItemBase"
+      }
+    },
+    "CapacityProviderStrategyItemBase": {
+      "type": "integer"
+    },
+    "CapacityProviderStrategyItemWeight": {
+      "type": "integer"
+    },
+    "Condition": {
+      "type": "structure",
+      "members": {
+        "Type": "String",
+        "Key": "String",
+        "Value": "String"
+      }
+    },
+    "Connection": {
+      "type": "structure",
+      "members": {
+        "ConnectionArn": "ConnectionArn",
+        "Name": "ConnectionName",
+        "ConnectionState": "ConnectionState",
+        "StateReason": "ConnectionStateReason",
+        "AuthorizationType": "ConnectionAuthorizationType",
+        "CreationTime": "Timestamp",
+        "LastModifiedTime": "Timestamp",
+        "LastAuthorizedTime": "Timestamp"
+      }
+    },
+    "ConnectionApiKeyAuthResponseParameters": {
+      "type": "structure",
+      "members": {
+        "ApiKeyName": "AuthHeaderParameters"
+      }
+    },
+    "ConnectionArn": {
+      "type": "string"
+    },
+    "ConnectionAuthResponseParameters": {
+      "type": "structure",
+      "members": {
+        "BasicAuthParameters": "ConnectionBasicAuthResponseParameters",
+        "OAuthParameters": "ConnectionOAuthResponseParameters",
+        "ApiKeyAuthParameters": "ConnectionApiKeyAuthResponseParameters",
+        "InvocationHttpParameters": "ConnectionHttpParameters",
+        "ConnectivityParameters": "DescribeConnectionConnectivityParameters"
+      }
+    },
+    "ConnectionAuthorizationType": {
+      "type": "string"
+    },
+    "ConnectionBasicAuthResponseParameters": {
+      "type": "structure",
+      "members": {
+        "Username": "AuthHeaderParameters"
+      }
+    },
+    "ConnectionBodyParameter": {
+      "type": "structure",
+      "members": {
+        "Key": "String",
+        "Value": "SensitiveString",
+        "IsValueSecret": "Boolean"
+      }
+    },
+    "ConnectionBodyParametersList": {
+      "type": "list",
+      "member": "ConnectionBodyParameter"
+    },
+    "ConnectionDescription": {
+      "type": "string"
+    },
+    "ConnectionHeaderParameter": {
+      "type": "structure",
+      "members": {
+        "Key": "HeaderKey",
+        "Value": "HeaderValueSensitive",
+        "IsValueSecret": "Boolean"
+      }
+    },
+    "ConnectionHeaderParametersList": {
+      "type": "list",
+      "member": "ConnectionHeaderParameter"
+    },
+    "ConnectionHttpParameters": {
+      "type": "structure",
+      "members": {
+        "HeaderParameters": "ConnectionHeaderParametersList",
+        "QueryStringParameters": "ConnectionQueryStringParametersList",
+        "BodyParameters": "ConnectionBodyParametersList"
+      }
+    },
+    "ConnectionName": {
+      "type": "string"
+    },
+    "ConnectionOAuthClientResponseParameters": {
+      "type": "structure",
+      "members": {
+        "ClientID": "AuthHeaderParameters"
+      }
+    },
+    "ConnectionOAuthHttpMethod": {
+      "type": "string"
+    },
+    "ConnectionOAuthResponseParameters": {
+      "type": "structure",
+      "members": {
+        "ClientParameters": "ConnectionOAuthClientResponseParameters",
+        "AuthorizationEndpoint": "HttpsEndpoint",
+        "HttpMethod": "ConnectionOAuthHttpMethod",
+        "OAuthHttpParameters": "ConnectionHttpParameters"
+      }
+    },
+    "ConnectionQueryStringParameter": {
+      "type": "structure",
+      "members": {
+        "Key": "QueryStringKey",
+        "Value": "QueryStringValueSensitive",
+        "IsValueSecret": "Boolean"
+      }
+    },
+    "ConnectionQueryStringParametersList": {
+      "type": "list",
+      "member": "ConnectionQueryStringParameter"
+    },
+    "ConnectionResponseList": {
+      "type": "list",
+      "member": "Connection"
+    },
+    "ConnectionState": {
+      "type": "string"
+    },
+    "ConnectionStateReason": {
+      "type": "string"
+    },
+    "ConnectivityResourceConfigurationArn": {
+      "type": "structure",
+      "members": {
+        "ResourceConfigurationArn": "ResourceConfigurationArn"
+      }
+    },
+    "ConnectivityResourceParameters": {
+      "type": "structure",
+      "members": {
+        "ResourceParameters": "ConnectivityResourceConfigurationArn"
+      }
+    },
+    "CreateApiDestinationRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "ApiDestinationName",
+        "Description": "ApiDestinationDescription",
+        "ConnectionArn": "ConnectionArn",
+        "InvocationEndpoint": "HttpsEndpoint",
+        "HttpMethod": "ApiDestinationHttpMethod",
+        "InvocationRateLimitPerSecond": "ApiDestinationInvocationRateLimitPerSecond"
+      }
+    },
+    "CreateApiDestinationResponse": {
+      "type": "structure",
+      "members": {
+        "ApiDestinationArn": "ApiDestinationArn",
+        "ApiDestinationState": "ApiDestinationState",
+        "CreationTime": "Timestamp",
+        "LastModifiedTime": "Timestamp"
+      }
+    },
+    "CreateArchiveRequest": {
+      "type": "structure",
+      "members": {
+        "ArchiveName": "ArchiveName",
+        "EventSourceArn": "EventBusArn",
+        "Description": "ArchiveDescription",
+        "EventPattern": "EventPattern",
+        "RetentionDays": "RetentionDays",
+        "KmsKeyIdentifier": "KmsKeyIdentifier"
+      }
+    },
+    "CreateArchiveResponse": {
+      "type": "structure",
+      "members": {
+        "ArchiveArn": "ArchiveArn",
+        "State": "ArchiveState",
+        "StateReason": "ArchiveStateReason",
+        "CreationTime": "Timestamp"
+      }
+    },
+    "CreateConnectionApiKeyAuthRequestParameters": {
+      "type": "structure",
+      "members": {
+        "ApiKeyName": "AuthHeaderParameters",
+        "ApiKeyValue": "AuthHeaderParametersSensitive"
+      }
+    },
+    "CreateConnectionAuthRequestParameters": {
+      "type": "structure",
+      "members": {
+        "BasicAuthParameters": "CreateConnectionBasicAuthRequestParameters",
+        "OAuthParameters": "CreateConnectionOAuthRequestParameters",
+        "ApiKeyAuthParameters": "CreateConnectionApiKeyAuthRequestParameters",
+        "InvocationHttpParameters": "ConnectionHttpParameters",
+        "ConnectivityParameters": "ConnectivityResourceParameters"
+      }
+    },
+    "CreateConnectionBasicAuthRequestParameters": {
+      "type": "structure",
+      "members": {
+        "Username": "AuthHeaderParameters",
+        "Password": "AuthHeaderParametersSensitive"
+      }
+    },
+    "CreateConnectionOAuthClientRequestParameters": {
+      "type": "structure",
+      "members": {
+        "ClientID": "AuthHeaderParameters",
+        "ClientSecret": "AuthHeaderParametersSensitive"
+      }
+    },
+    "CreateConnectionOAuthRequestParameters": {
+      "type": "structure",
+      "members": {
+        "ClientParameters": "CreateConnectionOAuthClientRequestParameters",
+        "AuthorizationEndpoint": "HttpsEndpoint",
+        "HttpMethod": "ConnectionOAuthHttpMethod",
+        "OAuthHttpParameters": "ConnectionHttpParameters"
+      }
+    },
+    "CreateConnectionRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "ConnectionName",
+        "Description": "ConnectionDescription",
+        "AuthorizationType": "ConnectionAuthorizationType",
+        "AuthParameters": "CreateConnectionAuthRequestParameters",
+        "InvocationConnectivityParameters": "ConnectivityResourceParameters",
+        "KmsKeyIdentifier": "KmsKeyIdentifier"
+      }
+    },
+    "CreateConnectionResponse": {
+      "type": "structure",
+      "members": {
+        "ConnectionArn": "ConnectionArn",
+        "ConnectionState": "ConnectionState",
+        "CreationTime": "Timestamp",
+        "LastModifiedTime": "Timestamp"
+      }
+    },
+    "CreateEndpointRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "EndpointName",
+        "Description": "EndpointDescription",
+        "RoutingConfig": "RoutingConfig",
+        "ReplicationConfig": "ReplicationConfig",
+        "EventBuses": "EndpointEventBusList",
+        "RoleArn": "IamRoleArn"
+      }
+    },
+    "CreateEndpointResponse": {
+      "type": "structure",
+      "members": {
+        "Name": "EndpointName",
+        "Arn": "EndpointArn",
+        "RoutingConfig": "RoutingConfig",
+        "ReplicationConfig": "ReplicationConfig",
+        "EventBuses": "EndpointEventBusList",
+        "RoleArn": "IamRoleArn",
+        "State": "EndpointState"
+      }
+    },
+    "CreateEventBusRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "EventBusName",
+        "EventSourceName": "EventSourceName",
+        "Description": "EventBusDescription",
+        "KmsKeyIdentifier": "KmsKeyIdentifier",
+        "DeadLetterConfig": "DeadLetterConfig",
+        "LogConfig": "LogConfig",
+        "Tags": "TagList"
+      }
+    },
+    "CreateEventBusResponse": {
+      "type": "structure",
+      "members": {
+        "EventBusArn": "String",
+        "Description": "EventBusDescription",
+        "KmsKeyIdentifier": "KmsKeyIdentifier",
+        "DeadLetterConfig": "DeadLetterConfig",
+        "LogConfig": "LogConfig"
+      }
+    },
+    "CreatePartnerEventSourceRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "EventSourceName",
+        "Account": "AccountId"
+      }
+    },
+    "CreatePartnerEventSourceResponse": {
+      "type": "structure",
+      "members": {
+        "EventSourceArn": "String"
+      }
+    },
+    "CreatedBy": {
+      "type": "string"
+    },
+    "Database": {
+      "type": "string"
+    },
+    "DbUser": {
+      "type": "string"
+    },
+    "DeactivateEventSourceRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "EventSourceName"
+      }
+    },
+    "DeadLetterConfig": {
+      "type": "structure",
+      "members": {
+        "Arn": "ResourceArn"
+      }
+    },
+    "DeauthorizeConnectionRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "ConnectionName"
+      }
+    },
+    "DeauthorizeConnectionResponse": {
+      "type": "structure",
+      "members": {
+        "ConnectionArn": "ConnectionArn",
+        "ConnectionState": "ConnectionState",
+        "CreationTime": "Timestamp",
+        "LastModifiedTime": "Timestamp",
+        "LastAuthorizedTime": "Timestamp"
+      }
+    },
+    "DeleteApiDestinationRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "ApiDestinationName"
+      }
+    },
+    "DeleteApiDestinationResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "DeleteArchiveRequest": {
+      "type": "structure",
+      "members": {
+        "ArchiveName": "ArchiveName"
+      }
+    },
+    "DeleteArchiveResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "DeleteConnectionRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "ConnectionName"
+      }
+    },
+    "DeleteConnectionResponse": {
+      "type": "structure",
+      "members": {
+        "ConnectionArn": "ConnectionArn",
+        "ConnectionState": "ConnectionState",
+        "CreationTime": "Timestamp",
+        "LastModifiedTime": "Timestamp",
+        "LastAuthorizedTime": "Timestamp"
+      }
+    },
+    "DeleteEndpointRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "EndpointName"
+      }
+    },
+    "DeleteEndpointResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "DeleteEventBusRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "EventBusName"
+      }
+    },
+    "DeletePartnerEventSourceRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "EventSourceName",
+        "Account": "AccountId"
+      }
+    },
+    "DeleteRuleRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "RuleName",
+        "EventBusName": "EventBusNameOrArn",
+        "Force": "Boolean"
+      }
+    },
+    "DescribeApiDestinationRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "ApiDestinationName"
+      }
+    },
+    "DescribeApiDestinationResponse": {
+      "type": "structure",
+      "members": {
+        "ApiDestinationArn": "ApiDestinationArn",
+        "Name": "ApiDestinationName",
+        "Description": "ApiDestinationDescription",
+        "ApiDestinationState": "ApiDestinationState",
+        "ConnectionArn": "ConnectionArn",
+        "InvocationEndpoint": "HttpsEndpoint",
+        "HttpMethod": "ApiDestinationHttpMethod",
+        "InvocationRateLimitPerSecond": "ApiDestinationInvocationRateLimitPerSecond",
+        "CreationTime": "Timestamp",
+        "LastModifiedTime": "Timestamp"
+      }
+    },
+    "DescribeArchiveRequest": {
+      "type": "structure",
+      "members": {
+        "ArchiveName": "ArchiveName"
+      }
+    },
+    "DescribeArchiveResponse": {
+      "type": "structure",
+      "members": {
+        "ArchiveArn": "ArchiveArn",
+        "ArchiveName": "ArchiveName",
+        "EventSourceArn": "EventBusArn",
+        "Description": "ArchiveDescription",
+        "EventPattern": "EventPattern",
+        "State": "ArchiveState",
+        "StateReason": "ArchiveStateReason",
+        "KmsKeyIdentifier": "KmsKeyIdentifier",
+        "RetentionDays": "RetentionDays",
+        "SizeBytes": "Long",
+        "EventCount": "Long",
+        "CreationTime": "Timestamp"
+      }
+    },
+    "DescribeConnectionConnectivityParameters": {
+      "type": "structure",
+      "members": {
+        "ResourceParameters": "DescribeConnectionResourceParameters"
+      }
+    },
+    "DescribeConnectionRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "ConnectionName"
+      }
+    },
+    "DescribeConnectionResourceParameters": {
+      "type": "structure",
+      "members": {
+        "ResourceConfigurationArn": "ResourceConfigurationArn",
+        "ResourceAssociationArn": "ResourceAssociationArn"
+      }
+    },
+    "DescribeConnectionResponse": {
+      "type": "structure",
+      "members": {
+        "ConnectionArn": "ConnectionArn",
+        "Name": "ConnectionName",
+        "Description": "ConnectionDescription",
+        "InvocationConnectivityParameters": "DescribeConnectionConnectivityParameters",
+        "ConnectionState": "ConnectionState",
+        "StateReason": "ConnectionStateReason",
+        "AuthorizationType": "ConnectionAuthorizationType",
+        "SecretArn": "SecretsManagerSecretArn",
+        "KmsKeyIdentifier": "KmsKeyIdentifier",
+        "AuthParameters": "ConnectionAuthResponseParameters",
+        "CreationTime": "Timestamp",
+        "LastModifiedTime": "Timestamp",
+        "LastAuthorizedTime": "Timestamp"
+      }
+    },
+    "DescribeEndpointRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "EndpointName",
+        "HomeRegion": "HomeRegion"
+      }
+    },
+    "DescribeEndpointResponse": {
+      "type": "structure",
+      "members": {
+        "Name": "EndpointName",
+        "Description": "EndpointDescription",
+        "Arn": "EndpointArn",
+        "RoutingConfig": "RoutingConfig",
+        "ReplicationConfig": "ReplicationConfig",
+        "EventBuses": "EndpointEventBusList",
+        "RoleArn": "IamRoleArn",
+        "EndpointId": "EndpointId",
+        "EndpointUrl": "EndpointUrl",
+        "State": "EndpointState",
+        "StateReason": "EndpointStateReason",
+        "CreationTime": "Timestamp",
+        "LastModifiedTime": "Timestamp"
+      }
+    },
+    "DescribeEventBusRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "EventBusNameOrArn"
+      }
+    },
+    "DescribeEventBusResponse": {
+      "type": "structure",
+      "members": {
+        "Name": "String",
+        "Arn": "String",
+        "Description": "EventBusDescription",
+        "KmsKeyIdentifier": "KmsKeyIdentifier",
+        "DeadLetterConfig": "DeadLetterConfig",
+        "Policy": "String",
+        "LogConfig": "LogConfig",
+        "CreationTime": "Timestamp",
+        "LastModifiedTime": "Timestamp",
+        "ManagedBy": "ManagedBy"
+      }
+    },
+    "DescribeEventSourceRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "EventSourceName"
+      }
+    },
+    "DescribeEventSourceResponse": {
+      "type": "structure",
+      "members": {
+        "Arn": "String",
+        "CreatedBy": "String",
+        "CreationTime": "Timestamp",
+        "ExpirationTime": "Timestamp",
+        "Name": "String",
+        "State": "EventSourceState"
+      }
+    },
+    "DescribePartnerEventSourceRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "EventSourceName"
+      }
+    },
+    "DescribePartnerEventSourceResponse": {
+      "type": "structure",
+      "members": {
+        "Arn": "String",
+        "Name": "String"
+      }
+    },
+    "DescribeReplayRequest": {
+      "type": "structure",
+      "members": {
+        "ReplayName": "ReplayName"
+      }
+    },
+    "DescribeReplayResponse": {
+      "type": "structure",
+      "members": {
+        "ReplayName": "ReplayName",
+        "ReplayArn": "ReplayArn",
+        "Description": "ReplayDescription",
+        "State": "ReplayState",
+        "StateReason": "ReplayStateReason",
+        "EventSourceArn": "ArchiveArn",
+        "Destination": "ReplayDestination",
+        "EventStartTime": "Timestamp",
+        "EventEndTime": "Timestamp",
+        "EventLastReplayedTime": "Timestamp",
+        "ReplayStartTime": "Timestamp",
+        "ReplayEndTime": "Timestamp"
+      }
+    },
+    "DescribeRuleRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "RuleName",
+        "EventBusName": "EventBusNameOrArn"
+      }
+    },
+    "DescribeRuleResponse": {
+      "type": "structure",
+      "members": {
+        "Name": "RuleName",
+        "Arn": "RuleArn",
+        "EventPattern": "EventPattern",
+        "ScheduleExpression": "ScheduleExpression",
+        "State": "RuleState",
+        "Description": "RuleDescription",
+        "RoleArn": "RoleArn",
+        "ManagedBy": "ManagedBy",
+        "EventBusName": "EventBusName",
+        "CreatedBy": "CreatedBy"
+      }
+    },
+    "DisableRuleRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "RuleName",
+        "EventBusName": "EventBusNameOrArn"
+      }
+    },
+    "EcsParameters": {
+      "type": "structure",
+      "members": {
+        "TaskDefinitionArn": "Arn",
+        "TaskCount": "LimitMin1",
+        "LaunchType": "LaunchType",
+        "NetworkConfiguration": "NetworkConfiguration",
+        "PlatformVersion": "String",
+        "Group": "String",
+        "CapacityProviderStrategy": "CapacityProviderStrategy",
+        "EnableECSManagedTags": "Boolean",
+        "EnableExecuteCommand": "Boolean",
+        "PlacementConstraints": "PlacementConstraints",
+        "PlacementStrategy": "PlacementStrategies",
+        "PropagateTags": "PropagateTags",
+        "ReferenceId": "ReferenceId",
+        "Tags": "TagList"
+      }
+    },
+    "EnableRuleRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "RuleName",
+        "EventBusName": "EventBusNameOrArn"
+      }
+    },
+    "Endpoint": {
+      "type": "structure",
+      "members": {
+        "Name": "EndpointName",
+        "Description": "EndpointDescription",
+        "Arn": "EndpointArn",
+        "RoutingConfig": "RoutingConfig",
+        "ReplicationConfig": "ReplicationConfig",
+        "EventBuses": "EndpointEventBusList",
+        "RoleArn": "IamRoleArn",
+        "EndpointId": "EndpointId",
+        "EndpointUrl": "EndpointUrl",
+        "State": "EndpointState",
+        "StateReason": "EndpointStateReason",
+        "CreationTime": "Timestamp",
+        "LastModifiedTime": "Timestamp"
+      }
+    },
+    "EndpointArn": {
+      "type": "string"
+    },
+    "EndpointDescription": {
+      "type": "string"
+    },
+    "EndpointEventBus": {
+      "type": "structure",
+      "members": {
+        "EventBusArn": "NonPartnerEventBusArn"
+      }
+    },
+    "EndpointEventBusList": {
+      "type": "list",
+      "member": "EndpointEventBus"
+    },
+    "EndpointId": {
+      "type": "string"
+    },
+    "EndpointList": {
+      "type": "list",
+      "member": "Endpoint"
+    },
+    "EndpointName": {
+      "type": "string"
+    },
+    "EndpointState": {
+      "type": "string"
+    },
+    "EndpointStateReason": {
+      "type": "string"
+    },
+    "EndpointUrl": {
+      "type": "string"
+    },
+    "ErrorCode": {
+      "type": "string"
+    },
+    "ErrorMessage": {
+      "type": "string"
+    },
+    "EventBus": {
+      "type": "structure",
+      "members": {
+        "Name": "String",
+        "Arn": "String",
+        "Description": "EventBusDescription",
+        "Policy": "String",
+        "CreationTime": "Timestamp",
+        "LastModifiedTime": "Timestamp",
+        "ManagedBy": "ManagedBy"
+      }
+    },
+    "EventBusArn": {
+      "type": "string"
+    },
+    "EventBusDescription": {
+      "type": "string"
+    },
+    "EventBusList": {
+      "type": "list",
+      "member": "EventBus"
+    },
+    "EventBusName": {
+      "type": "string"
+    },
+    "EventBusNameOrArn": {
+      "type": "string"
+    },
+    "EventId": {
+      "type": "string"
+    },
+    "EventPattern": {
+      "type": "string"
+    },
+    "EventResource": {
+      "type": "string"
+    },
+    "EventResourceList": {
+      "type": "list",
+      "member": "EventResource"
+    },
+    "EventSource": {
+      "type": "structure",
+      "members": {
+        "Arn": "String",
+        "CreatedBy": "String",
+        "CreationTime": "Timestamp",
+        "ExpirationTime": "Timestamp",
+        "Name": "String",
+        "State": "EventSourceState"
+      }
+    },
+    "EventSourceList": {
+      "type": "list",
+      "member": "EventSource"
+    },
+    "EventSourceName": {
+      "type": "string"
+    },
+    "EventSourceNamePrefix": {
+      "type": "string"
+    },
+    "EventSourceState": {
+      "type": "string"
+    },
+    "EventTime": {
+      "type": "timestamp"
+    },
+    "FailoverConfig": {
+      "type": "structure",
+      "members": {
+        "Primary": "Primary",
+        "Secondary": "Secondary"
+      }
+    },
+    "GraphQLOperation": {
+      "type": "string",
+      "sensitive": true
+    },
+    "HeaderKey": {
+      "type": "string"
+    },
+    "HeaderParametersMap": {
+      "type": "map",
+      "value": "HeaderValue"
+    },
+    "HeaderValue": {
+      "type": "string"
+    },
+    "HeaderValueSensitive": {
+      "type": "string",
+      "sensitive": true
+    },
+    "HealthCheck": {
+      "type": "string"
+    },
+    "HomeRegion": {
+      "type": "string"
+    },
+    "HttpParameters": {
+      "type": "structure",
+      "members": {
+        "PathParameterValues": "PathParameterList",
+        "HeaderParameters": "HeaderParametersMap",
+        "QueryStringParameters": "QueryStringParametersMap"
+      }
+    },
+    "HttpsEndpoint": {
+      "type": "string"
+    },
+    "IamRoleArn": {
+      "type": "string"
+    },
+    "IncludeDetail": {
+      "type": "string"
+    },
+    "InputTransformer": {
+      "type": "structure",
+      "members": {
+        "InputPathsMap": "TransformerPaths",
+        "InputTemplate": "TransformerInput"
+      }
+    },
+    "Integer": {
+      "type": "integer"
+    },
+    "KinesisParameters": {
+      "type": "structure",
+      "members": {
+        "PartitionKeyPath": "TargetPartitionKeyPath"
+      }
+    },
+    "KmsKeyIdentifier": {
+      "type": "string"
+    },
+    "LaunchType": {
+      "type": "string"
+    },
+    "Level": {
+      "type": "string"
+    },
+    "LimitMax100": {
+      "type": "integer"
+    },
+    "LimitMin1": {
+      "type": "integer"
+    },
+    "ListApiDestinationsRequest": {
+      "type": "structure",
+      "members": {
+        "NamePrefix": "ApiDestinationName",
+        "ConnectionArn": "ConnectionArn",
+        "NextToken": "NextToken",
+        "Limit": "LimitMax100"
+      }
+    },
+    "ListApiDestinationsResponse": {
+      "type": "structure",
+      "members": {
+        "ApiDestinations": "ApiDestinationResponseList",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListArchivesRequest": {
+      "type": "structure",
+      "members": {
+        "NamePrefix": "ArchiveName",
+        "EventSourceArn": "EventBusArn",
+        "State": "ArchiveState",
+        "NextToken": "NextToken",
+        "Limit": "LimitMax100"
+      }
+    },
+    "ListArchivesResponse": {
+      "type": "structure",
+      "members": {
+        "Archives": "ArchiveResponseList",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListConnectionsRequest": {
+      "type": "structure",
+      "members": {
+        "NamePrefix": "ConnectionName",
+        "ConnectionState": "ConnectionState",
+        "NextToken": "NextToken",
+        "Limit": "LimitMax100"
+      }
+    },
+    "ListConnectionsResponse": {
+      "type": "structure",
+      "members": {
+        "Connections": "ConnectionResponseList",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListEndpointsRequest": {
+      "type": "structure",
+      "members": {
+        "NamePrefix": "EndpointName",
+        "HomeRegion": "HomeRegion",
+        "NextToken": "NextToken",
+        "MaxResults": "LimitMax100"
+      }
+    },
+    "ListEndpointsResponse": {
+      "type": "structure",
+      "members": {
+        "Endpoints": "EndpointList",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListEventBusesRequest": {
+      "type": "structure",
+      "members": {
+        "NamePrefix": "EventBusName",
+        "NextToken": "NextToken",
+        "Limit": "LimitMax100"
+      }
+    },
+    "ListEventBusesResponse": {
+      "type": "structure",
+      "members": {
+        "EventBuses": "EventBusList",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListEventSourcesRequest": {
+      "type": "structure",
+      "members": {
+        "NamePrefix": "EventSourceNamePrefix",
+        "NextToken": "NextToken",
+        "Limit": "LimitMax100"
+      }
+    },
+    "ListEventSourcesResponse": {
+      "type": "structure",
+      "members": {
+        "EventSources": "EventSourceList",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListPartnerEventSourceAccountsRequest": {
+      "type": "structure",
+      "members": {
+        "EventSourceName": "EventSourceName",
+        "NextToken": "NextToken",
+        "Limit": "LimitMax100"
+      }
+    },
+    "ListPartnerEventSourceAccountsResponse": {
+      "type": "structure",
+      "members": {
+        "PartnerEventSourceAccounts": "PartnerEventSourceAccountList",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListPartnerEventSourcesRequest": {
+      "type": "structure",
+      "members": {
+        "NamePrefix": "PartnerEventSourceNamePrefix",
+        "NextToken": "NextToken",
+        "Limit": "LimitMax100"
+      }
+    },
+    "ListPartnerEventSourcesResponse": {
+      "type": "structure",
+      "members": {
+        "PartnerEventSources": "PartnerEventSourceList",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListReplaysRequest": {
+      "type": "structure",
+      "members": {
+        "NamePrefix": "ReplayName",
+        "State": "ReplayState",
+        "EventSourceArn": "ArchiveArn",
+        "NextToken": "NextToken",
+        "Limit": "LimitMax100"
+      }
+    },
+    "ListReplaysResponse": {
+      "type": "structure",
+      "members": {
+        "Replays": "ReplayList",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListRuleNamesByTargetRequest": {
+      "type": "structure",
+      "members": {
+        "TargetArn": "TargetArn",
+        "EventBusName": "EventBusNameOrArn",
+        "NextToken": "NextToken",
+        "Limit": "LimitMax100"
+      }
+    },
+    "ListRuleNamesByTargetResponse": {
+      "type": "structure",
+      "members": {
+        "RuleNames": "RuleNameList",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListRulesRequest": {
+      "type": "structure",
+      "members": {
+        "NamePrefix": "RuleName",
+        "EventBusName": "EventBusNameOrArn",
+        "NextToken": "NextToken",
+        "Limit": "LimitMax100"
+      }
+    },
+    "ListRulesResponse": {
+      "type": "structure",
+      "members": {
+        "Rules": "RuleResponseList",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListTagsForResourceRequest": {
+      "type": "structure",
+      "members": {
+        "ResourceARN": "Arn"
+      }
+    },
+    "ListTagsForResourceResponse": {
+      "type": "structure",
+      "members": {
+        "Tags": "TagList"
+      }
+    },
+    "ListTargetsByRuleRequest": {
+      "type": "structure",
+      "members": {
+        "Rule": "RuleName",
+        "EventBusName": "EventBusNameOrArn",
+        "NextToken": "NextToken",
+        "Limit": "LimitMax100"
+      }
+    },
+    "ListTargetsByRuleResponse": {
+      "type": "structure",
+      "members": {
+        "Targets": "TargetList",
+        "NextToken": "NextToken"
+      }
+    },
+    "LogConfig": {
+      "type": "structure",
+      "members": {
+        "IncludeDetail": "IncludeDetail",
+        "Level": "Level"
+      }
+    },
+    "Long": {
+      "type": "long"
+    },
+    "ManagedBy": {
+      "type": "string"
+    },
+    "MaximumEventAgeInSeconds": {
+      "type": "integer"
+    },
+    "MaximumRetryAttempts": {
+      "type": "integer"
+    },
+    "MessageGroupId": {
+      "type": "string"
+    },
+    "NetworkConfiguration": {
+      "type": "structure",
+      "members": {
+        "awsvpcConfiguration": "AwsVpcConfiguration"
+      }
+    },
+    "NextToken": {
+      "type": "string"
+    },
+    "NonPartnerEventBusArn": {
+      "type": "string"
+    },
+    "NonPartnerEventBusName": {
+      "type": "string"
+    },
+    "NonPartnerEventBusNameOrArn": {
+      "type": "string"
+    },
+    "PartnerEventSource": {
+      "type": "structure",
+      "members": {
+        "Arn": "String",
+        "Name": "String"
+      }
+    },
+    "PartnerEventSourceAccount": {
+      "type": "structure",
+      "members": {
+        "Account": "AccountId",
+        "CreationTime": "Timestamp",
+        "ExpirationTime": "Timestamp",
+        "State": "EventSourceState"
+      }
+    },
+    "PartnerEventSourceAccountList": {
+      "type": "list",
+      "member": "PartnerEventSourceAccount"
+    },
+    "PartnerEventSourceList": {
+      "type": "list",
+      "member": "PartnerEventSource"
+    },
+    "PartnerEventSourceNamePrefix": {
+      "type": "string"
+    },
+    "PathParameter": {
+      "type": "string"
+    },
+    "PathParameterList": {
+      "type": "list",
+      "member": "PathParameter"
+    },
+    "PlacementConstraint": {
+      "type": "structure",
+      "members": {
+        "type": "PlacementConstraintType",
+        "expression": "PlacementConstraintExpression"
+      }
+    },
+    "PlacementConstraintExpression": {
+      "type": "string"
+    },
+    "PlacementConstraintType": {
+      "type": "string"
+    },
+    "PlacementConstraints": {
+      "type": "list",
+      "member": "PlacementConstraint"
+    },
+    "PlacementStrategies": {
+      "type": "list",
+      "member": "PlacementStrategy"
+    },
+    "PlacementStrategy": {
+      "type": "structure",
+      "members": {
+        "type": "PlacementStrategyType",
+        "field": "PlacementStrategyField"
+      }
+    },
+    "PlacementStrategyField": {
+      "type": "string"
+    },
+    "PlacementStrategyType": {
+      "type": "string"
+    },
+    "Primary": {
+      "type": "structure",
+      "members": {
+        "HealthCheck": "HealthCheck"
+      }
+    },
+    "Principal": {
+      "type": "string"
+    },
+    "PropagateTags": {
+      "type": "string"
+    },
+    "PutEventsRequest": {
+      "type": "structure",
+      "members": {
+        "Entries": "PutEventsRequestEntryList",
+        "EndpointId": "EndpointId"
+      }
+    },
+    "PutEventsRequestEntry": {
+      "type": "structure",
+      "members": {
+        "Time": "EventTime",
+        "Source": "String",
+        "Resources": "EventResourceList",
+        "DetailType": "String",
+        "Detail": "String",
+        "EventBusName": "NonPartnerEventBusNameOrArn",
+        "TraceHeader": "TraceHeader"
+      }
+    },
+    "PutEventsRequestEntryList": {
+      "type": "list",
+      "member": "PutEventsRequestEntry"
+    },
+    "PutEventsResponse": {
+      "type": "structure",
+      "members": {
+        "FailedEntryCount": "Integer",
+        "Entries": "PutEventsResultEntryList"
+      }
+    },
+    "PutEventsResultEntry": {
+      "type": "structure",
+      "members": {
+        "EventId": "EventId",
+        "ErrorCode": "ErrorCode",
+        "ErrorMessage": "ErrorMessage"
+      }
+    },
+    "PutEventsResultEntryList": {
+      "type": "list",
+      "member": "PutEventsResultEntry"
+    },
+    "PutPartnerEventsRequest": {
+      "type": "structure",
+      "members": {
+        "Entries": "PutPartnerEventsRequestEntryList"
+      }
+    },
+    "PutPartnerEventsRequestEntry": {
+      "type": "structure",
+      "members": {
+        "Time": "EventTime",
+        "Source": "EventSourceName",
+        "Resources": "EventResourceList",
+        "DetailType": "String",
+        "Detail": "String"
+      }
+    },
+    "PutPartnerEventsRequestEntryList": {
+      "type": "list",
+      "member": "PutPartnerEventsRequestEntry"
+    },
+    "PutPartnerEventsResponse": {
+      "type": "structure",
+      "members": {
+        "FailedEntryCount": "Integer",
+        "Entries": "PutPartnerEventsResultEntryList"
+      }
+    },
+    "PutPartnerEventsResultEntry": {
+      "type": "structure",
+      "members": {
+        "EventId": "EventId",
+        "ErrorCode": "ErrorCode",
+        "ErrorMessage": "ErrorMessage"
+      }
+    },
+    "PutPartnerEventsResultEntryList": {
+      "type": "list",
+      "member": "PutPartnerEventsResultEntry"
+    },
+    "PutPermissionRequest": {
+      "type": "structure",
+      "members": {
+        "EventBusName": "NonPartnerEventBusName",
+        "Action": "Action",
+        "Principal": "Principal",
+        "StatementId": "StatementId",
+        "Condition": "Condition",
+        "Policy": "String"
+      }
+    },
+    "PutRuleRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "RuleName",
+        "ScheduleExpression": "ScheduleExpression",
+        "EventPattern": "EventPattern",
+        "State": "RuleState",
+        "Description": "RuleDescription",
+        "RoleArn": "RoleArn",
+        "Tags": "TagList",
+        "EventBusName": "EventBusNameOrArn"
+      }
+    },
+    "PutRuleResponse": {
+      "type": "structure",
+      "members": {
+        "RuleArn": "RuleArn"
+      }
+    },
+    "PutTargetsRequest": {
+      "type": "structure",
+      "members": {
+        "Rule": "RuleName",
+        "EventBusName": "EventBusNameOrArn",
+        "Targets": "TargetList"
+      }
+    },
+    "PutTargetsResponse": {
+      "type": "structure",
+      "members": {
+        "FailedEntryCount": "Integer",
+        "FailedEntries": "PutTargetsResultEntryList"
+      }
+    },
+    "PutTargetsResultEntry": {
+      "type": "structure",
+      "members": {
+        "TargetId": "TargetId",
+        "ErrorCode": "ErrorCode",
+        "ErrorMessage": "ErrorMessage"
+      }
+    },
+    "PutTargetsResultEntryList": {
+      "type": "list",
+      "member": "PutTargetsResultEntry"
+    },
+    "QueryStringKey": {
+      "type": "string"
+    },
+    "QueryStringParametersMap": {
+      "type": "map",
+      "value": "QueryStringValue"
+    },
+    "QueryStringValue": {
+      "type": "string"
+    },
+    "QueryStringValueSensitive": {
+      "type": "string",
+      "sensitive": true
+    },
+    "RedshiftDataParameters": {
+      "type": "structure",
+      "members": {
+        "SecretManagerArn": "RedshiftSecretManagerArn",
+        "Database": "Database",
+        "DbUser": "DbUser",
+        "Sql": "Sql",
+        "StatementName": "StatementName",
+        "WithEvent": "Boolean",
+        "Sqls": "Sqls"
+      }
+    },
+    "RedshiftSecretManagerArn": {
+      "type": "string"
+    },
+    "ReferenceId": {
+      "type": "string"
+    },
+    "RemovePermissionRequest": {
+      "type": "structure",
+      "members": {
+        "StatementId": "StatementId",
+        "RemoveAllPermissions": "Boolean",
+        "EventBusName": "NonPartnerEventBusName"
+      }
+    },
+    "RemoveTargetsRequest": {
+      "type": "structure",
+      "members": {
+        "Rule": "RuleName",
+        "EventBusName": "EventBusNameOrArn",
+        "Ids": "TargetIdList",
+        "Force": "Boolean"
+      }
+    },
+    "RemoveTargetsResponse": {
+      "type": "structure",
+      "members": {
+        "FailedEntryCount": "Integer",
+        "FailedEntries": "RemoveTargetsResultEntryList"
+      }
+    },
+    "RemoveTargetsResultEntry": {
+      "type": "structure",
+      "members": {
+        "TargetId": "TargetId",
+        "ErrorCode": "ErrorCode",
+        "ErrorMessage": "ErrorMessage"
+      }
+    },
+    "RemoveTargetsResultEntryList": {
+      "type": "list",
+      "member": "RemoveTargetsResultEntry"
+    },
+    "Replay": {
+      "type": "structure",
+      "members": {
+        "ReplayName": "ReplayName",
+        "EventSourceArn": "ArchiveArn",
+        "State": "ReplayState",
+        "StateReason": "ReplayStateReason",
+        "EventStartTime": "Timestamp",
+        "EventEndTime": "Timestamp",
+        "EventLastReplayedTime": "Timestamp",
+        "ReplayStartTime": "Timestamp",
+        "ReplayEndTime": "Timestamp"
+      }
+    },
+    "ReplayArn": {
+      "type": "string"
+    },
+    "ReplayDescription": {
+      "type": "string"
+    },
+    "ReplayDestination": {
+      "type": "structure",
+      "members": {
+        "Arn": "Arn",
+        "FilterArns": "ReplayDestinationFilters"
+      }
+    },
+    "ReplayDestinationFilters": {
+      "type": "list",
+      "member": "Arn"
+    },
+    "ReplayList": {
+      "type": "list",
+      "member": "Replay"
+    },
+    "ReplayName": {
+      "type": "string"
+    },
+    "ReplayState": {
+      "type": "string"
+    },
+    "ReplayStateReason": {
+      "type": "string"
+    },
+    "ReplicationConfig": {
+      "type": "structure",
+      "members": {
+        "State": "ReplicationState"
+      }
+    },
+    "ReplicationState": {
+      "type": "string"
+    },
+    "ResourceArn": {
+      "type": "string"
+    },
+    "ResourceAssociationArn": {
+      "type": "string"
+    },
+    "ResourceConfigurationArn": {
+      "type": "string"
+    },
+    "RetentionDays": {
+      "type": "integer"
+    },
+    "RetryPolicy": {
+      "type": "structure",
+      "members": {
+        "MaximumRetryAttempts": "MaximumRetryAttempts",
+        "MaximumEventAgeInSeconds": "MaximumEventAgeInSeconds"
+      }
+    },
+    "RoleArn": {
+      "type": "string"
+    },
+    "Route": {
+      "type": "string"
+    },
+    "RoutingConfig": {
+      "type": "structure",
+      "members": {
+        "FailoverConfig": "FailoverConfig"
+      }
+    },
+    "Rule": {
+      "type": "structure",
+      "members": {
+        "Name": "RuleName",
+        "Arn": "RuleArn",
+        "EventPattern": "EventPattern",
+        "State": "RuleState",
+        "Description": "RuleDescription",
+        "ScheduleExpression": "ScheduleExpression",
+        "RoleArn": "RoleArn",
+        "ManagedBy": "ManagedBy",
+        "EventBusName": "EventBusName"
+      }
+    },
+    "RuleArn": {
+      "type": "string"
+    },
+    "RuleDescription": {
+      "type": "string"
+    },
+    "RuleName": {
+      "type": "string"
+    },
+    "RuleNameList": {
+      "type": "list",
+      "member": "RuleName"
+    },
+    "RuleResponseList": {
+      "type": "list",
+      "member": "Rule"
+    },
+    "RuleState": {
+      "type": "string"
+    },
+    "RunCommandParameters": {
+      "type": "structure",
+      "members": {
+        "RunCommandTargets": "RunCommandTargets"
+      }
+    },
+    "RunCommandTarget": {
+      "type": "structure",
+      "members": {
+        "Key": "RunCommandTargetKey",
+        "Values": "RunCommandTargetValues"
+      }
+    },
+    "RunCommandTargetKey": {
+      "type": "string"
+    },
+    "RunCommandTargetValue": {
+      "type": "string"
+    },
+    "RunCommandTargetValues": {
+      "type": "list",
+      "member": "RunCommandTargetValue"
+    },
+    "RunCommandTargets": {
+      "type": "list",
+      "member": "RunCommandTarget"
+    },
+    "SageMakerPipelineParameter": {
+      "type": "structure",
+      "members": {
+        "Name": "SageMakerPipelineParameterName",
+        "Value": "SageMakerPipelineParameterValue"
+      }
+    },
+    "SageMakerPipelineParameterList": {
+      "type": "list",
+      "member": "SageMakerPipelineParameter"
+    },
+    "SageMakerPipelineParameterName": {
+      "type": "string"
+    },
+    "SageMakerPipelineParameterValue": {
+      "type": "string"
+    },
+    "SageMakerPipelineParameters": {
+      "type": "structure",
+      "members": {
+        "PipelineParameterList": "SageMakerPipelineParameterList"
+      }
+    },
+    "ScheduleExpression": {
+      "type": "string"
+    },
+    "Secondary": {
+      "type": "structure",
+      "members": {
+        "Route": "Route"
+      }
+    },
+    "SecretsManagerSecretArn": {
+      "type": "string"
+    },
+    "SensitiveString": {
+      "type": "string",
+      "sensitive": true
+    },
+    "Sql": {
+      "type": "string",
+      "sensitive": true
+    },
+    "Sqls": {
+      "type": "list",
+      "sensitive": true,
+      "member": "Sql"
+    },
+    "SqsParameters": {
+      "type": "structure",
+      "members": {
+        "MessageGroupId": "MessageGroupId"
+      }
+    },
+    "StartReplayRequest": {
+      "type": "structure",
+      "members": {
+        "ReplayName": "ReplayName",
+        "Description": "ReplayDescription",
+        "EventSourceArn": "ArchiveArn",
+        "EventStartTime": "Timestamp",
+        "EventEndTime": "Timestamp",
+        "Destination": "ReplayDestination"
+      }
+    },
+    "StartReplayResponse": {
+      "type": "structure",
+      "members": {
+        "ReplayArn": "ReplayArn",
+        "State": "ReplayState",
+        "StateReason": "ReplayStateReason",
+        "ReplayStartTime": "Timestamp"
+      }
+    },
+    "StatementId": {
+      "type": "string"
+    },
+    "StatementName": {
+      "type": "string"
+    },
+    "String": {
+      "type": "string"
+    },
+    "StringList": {
+      "type": "list",
+      "member": "String"
+    },
+    "Tag": {
+      "type": "structure",
+      "members": {
+        "Key": "TagKey",
+        "Value": "TagValue"
+      }
+    },
+    "TagKey": {
+      "type": "string"
+    },
+    "TagKeyList": {
+      "type": "list",
+      "member": "TagKey"
+    },
+    "TagList": {
+      "type": "list",
+      "member": "Tag"
+    },
+    "TagResourceRequest": {
+      "type": "structure",
+      "members": {
+        "ResourceARN": "Arn",
+        "Tags": "TagList"
+      }
+    },
+    "TagResourceResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "TagValue": {
+      "type": "string"
+    },
+    "Target": {
+      "type": "structure",
+      "members": {
+        "Id": "TargetId",
+        "Arn": "TargetArn",
+        "RoleArn": "RoleArn",
+        "Input": "TargetInput",
+        "InputPath": "TargetInputPath",
+        "InputTransformer": "InputTransformer",
+        "KinesisParameters": "KinesisParameters",
+        "RunCommandParameters": "RunCommandParameters",
+        "EcsParameters": "EcsParameters",
+        "BatchParameters": "BatchParameters",
+        "SqsParameters": "SqsParameters",
+        "HttpParameters": "HttpParameters",
+        "RedshiftDataParameters": "RedshiftDataParameters",
+        "SageMakerPipelineParameters": "SageMakerPipelineParameters",
+        "DeadLetterConfig": "DeadLetterConfig",
+        "RetryPolicy": "RetryPolicy",
+        "AppSyncParameters": "AppSyncParameters"
+      }
+    },
+    "TargetArn": {
+      "type": "string"
+    },
+    "TargetId": {
+      "type": "string"
+    },
+    "TargetIdList": {
+      "type": "list",
+      "member": "TargetId"
+    },
+    "TargetInput": {
+      "type": "string"
+    },
+    "TargetInputPath": {
+      "type": "string"
+    },
+    "TargetList": {
+      "type": "list",
+      "member": "Target"
+    },
+    "TargetPartitionKeyPath": {
+      "type": "string"
+    },
+    "TestEventPatternRequest": {
+      "type": "structure",
+      "members": {
+        "EventPattern": "EventPattern",
+        "Event": "String"
+      }
+    },
+    "TestEventPatternResponse": {
+      "type": "structure",
+      "members": {
+        "Result": "Boolean"
+      }
+    },
+    "Timestamp": {
+      "type": "timestamp"
+    },
+    "TraceHeader": {
+      "type": "string"
+    },
+    "TransformerInput": {
+      "type": "string"
+    },
+    "TransformerPaths": {
+      "type": "map",
+      "value": "TargetInputPath"
+    },
+    "UntagResourceRequest": {
+      "type": "structure",
+      "members": {
+        "ResourceARN": "Arn",
+        "TagKeys": "TagKeyList"
+      }
+    },
+    "UntagResourceResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "UpdateApiDestinationRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "ApiDestinationName",
+        "Description": "ApiDestinationDescription",
+        "ConnectionArn": "ConnectionArn",
+        "InvocationEndpoint": "HttpsEndpoint",
+        "HttpMethod": "ApiDestinationHttpMethod",
+        "InvocationRateLimitPerSecond": "ApiDestinationInvocationRateLimitPerSecond"
+      }
+    },
+    "UpdateApiDestinationResponse": {
+      "type": "structure",
+      "members": {
+        "ApiDestinationArn": "ApiDestinationArn",
+        "ApiDestinationState": "ApiDestinationState",
+        "CreationTime": "Timestamp",
+        "LastModifiedTime": "Timestamp"
+      }
+    },
+    "UpdateArchiveRequest": {
+      "type": "structure",
+      "members": {
+        "ArchiveName": "ArchiveName",
+        "Description": "ArchiveDescription",
+        "EventPattern": "EventPattern",
+        "RetentionDays": "RetentionDays",
+        "KmsKeyIdentifier": "KmsKeyIdentifier"
+      }
+    },
+    "UpdateArchiveResponse": {
+      "type": "structure",
+      "members": {
+        "ArchiveArn": "ArchiveArn",
+        "State": "ArchiveState",
+        "StateReason": "ArchiveStateReason",
+        "CreationTime": "Timestamp"
+      }
+    },
+    "UpdateConnectionApiKeyAuthRequestParameters": {
+      "type": "structure",
+      "members": {
+        "ApiKeyName": "AuthHeaderParameters",
+        "ApiKeyValue": "AuthHeaderParametersSensitive"
+      }
+    },
+    "UpdateConnectionAuthRequestParameters": {
+      "type": "structure",
+      "members": {
+        "BasicAuthParameters": "UpdateConnectionBasicAuthRequestParameters",
+        "OAuthParameters": "UpdateConnectionOAuthRequestParameters",
+        "ApiKeyAuthParameters": "UpdateConnectionApiKeyAuthRequestParameters",
+        "InvocationHttpParameters": "ConnectionHttpParameters",
+        "ConnectivityParameters": "ConnectivityResourceParameters"
+      }
+    },
+    "UpdateConnectionBasicAuthRequestParameters": {
+      "type": "structure",
+      "members": {
+        "Username": "AuthHeaderParameters",
+        "Password": "AuthHeaderParametersSensitive"
+      }
+    },
+    "UpdateConnectionOAuthClientRequestParameters": {
+      "type": "structure",
+      "members": {
+        "ClientID": "AuthHeaderParameters",
+        "ClientSecret": "AuthHeaderParametersSensitive"
+      }
+    },
+    "UpdateConnectionOAuthRequestParameters": {
+      "type": "structure",
+      "members": {
+        "ClientParameters": "UpdateConnectionOAuthClientRequestParameters",
+        "AuthorizationEndpoint": "HttpsEndpoint",
+        "HttpMethod": "ConnectionOAuthHttpMethod",
+        "OAuthHttpParameters": "ConnectionHttpParameters"
+      }
+    },
+    "UpdateConnectionRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "ConnectionName",
+        "Description": "ConnectionDescription",
+        "AuthorizationType": "ConnectionAuthorizationType",
+        "AuthParameters": "UpdateConnectionAuthRequestParameters",
+        "InvocationConnectivityParameters": "ConnectivityResourceParameters",
+        "KmsKeyIdentifier": "KmsKeyIdentifier"
+      }
+    },
+    "UpdateConnectionResponse": {
+      "type": "structure",
+      "members": {
+        "ConnectionArn": "ConnectionArn",
+        "ConnectionState": "ConnectionState",
+        "CreationTime": "Timestamp",
+        "LastModifiedTime": "Timestamp",
+        "LastAuthorizedTime": "Timestamp"
+      }
+    },
+    "UpdateEndpointRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "EndpointName",
+        "Description": "EndpointDescription",
+        "RoutingConfig": "RoutingConfig",
+        "ReplicationConfig": "ReplicationConfig",
+        "EventBuses": "EndpointEventBusList",
+        "RoleArn": "IamRoleArn"
+      }
+    },
+    "UpdateEndpointResponse": {
+      "type": "structure",
+      "members": {
+        "Name": "EndpointName",
+        "Arn": "EndpointArn",
+        "RoutingConfig": "RoutingConfig",
+        "ReplicationConfig": "ReplicationConfig",
+        "EventBuses": "EndpointEventBusList",
+        "RoleArn": "IamRoleArn",
+        "EndpointId": "EndpointId",
+        "EndpointUrl": "EndpointUrl",
+        "State": "EndpointState"
+      }
+    },
+    "UpdateEventBusRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "EventBusName",
+        "KmsKeyIdentifier": "KmsKeyIdentifier",
+        "Description": "EventBusDescription",
+        "DeadLetterConfig": "DeadLetterConfig",
+        "LogConfig": "LogConfig"
+      }
+    },
+    "UpdateEventBusResponse": {
+      "type": "structure",
+      "members": {
+        "Arn": "String",
+        "Name": "EventBusName",
+        "KmsKeyIdentifier": "KmsKeyIdentifier",
+        "Description": "EventBusDescription",
+        "DeadLetterConfig": "DeadLetterConfig",
+        "LogConfig": "LogConfig"
+      }
+    }
+  },
+  "errors": {
+    "AccessDeniedException": "AccessDeniedException",
+    "ConcurrentModificationException": "ConcurrentModificationException",
+    "IllegalStatusException": "IllegalStatusException",
+    "InternalException": "InternalException",
+    "InvalidEventPatternException": "InvalidEventPatternException",
+    "InvalidStateException": "InvalidStateException",
+    "LimitExceededException": "LimitExceededException",
+    "ManagedRuleException": "ManagedRuleException",
+    "OperationDisabledException": "OperationDisabledException",
+    "PolicyLengthExceededException": "PolicyLengthExceededException",
+    "ResourceAlreadyExistsException": "ResourceAlreadyExistsException",
+    "ResourceNotFoundException": "ResourceNotFoundException",
+    "ThrottlingException": "ThrottlingException"
+  }
+}
