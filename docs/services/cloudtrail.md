@@ -318,6 +318,51 @@ guide gives without a version where records of its neighbors carry one.
   is recorded as `AccessDenied` with `"requestParameters": null`.
 - `Invoke` is a data event, not recorded here.
 
+## Organizations Coverage
+
+"All AWS Organizations actions are logged by CloudTrail"
+([Organizations User Guide](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_cloudtrail-integration.html)).
+Floci records every Organizations call it serves (`organizations-cloudtrail-events.json`) under the call's own name:
+the organization, organizational units, accounts (`CreateAccount`, `LeaveOrganization`,
+`RemoveAccountFromOrganization`, `CloseAccount`), policies (`CreatePolicy`, `AttachPolicy`, `DetachPolicy`,
+`DeletePolicy`, `EnablePolicyType`), trusted access, delegated administrators, the resource policy, handshakes and tags.
+
+- `eventSource` is `organizations.amazonaws.com` and `awsRegion` the Region Organizations signs for in the request's
+  partition (`us-east-1` in `aws`), whatever Region the caller named: "You can view all CloudTrail information for
+  AWS Organizations only in the US East (N. Virginia) Region". As a global service's calls, only a trail with
+  `IncludeGlobalServiceEvents` records them, and only a multi-Region trail or one whose home Region is that Region.
+  A call is recorded in the account that made it: a member's `LeaveOrganization` in the member's account.
+- `readOnly` is the access level AWS's service reference gives the action (`Describe*` and `List*` calls).
+- `requestParameters` are the request's members with a lower first letter (`"accountId"`, `"parentId"`,
+  `"target": {"type": ..., "id": ...}`), and `responseElements` the answer in the same form
+  (`"organizationalUnit"`, `"createAccountStatus"`), `null` for a read-only call and for a call that answers nothing
+  (`CloseAccount`, `DeleteOrganization`). A member botocore's model marks sensitive (`email`, `accountName`, a
+  handshake's notes, party ID and resource value) is written `"****"`; a timestamp is written
+  `"Jul 17, 2025, 2:53:40 PM"`.
+- A failed call keeps its members and is recorded under its error's type (`OrganizationalUnitNotFoundException`) with its
+  message; a call IAM enforcement refuses is recorded as `AccessDenied` with `"requestParameters": null`.
+- The service events Organizations logs on its own (`CreateAccountResult`, `CloseAccountResult`,
+  `EffectivePolicyValidation`) are not recorded.
+
+## Account Management Coverage
+
+"AWS CloudTrail logs all Account Management API operations"
+([Account Management Reference Guide](https://docs.aws.amazon.com/accounts/latest/reference/monitoring-cloudtrail.html)).
+Floci records every Account call it serves (`account-cloudtrail-events.json`): `PutAlternateContact`,
+`GetAlternateContact`, `DeleteAlternateContact`, `PutContactInformation`, `GetContactInformation`, `PutAccountName`
+and `GetAccountInformation`.
+
+- `eventSource` is `account.amazonaws.com` and `awsRegion` the Region Account signs for in the request's partition
+  (`us-east-1` in `aws`), whatever Region the caller named, as a global service's call.
+- `readOnly` is the access level AWS's service reference gives the action (the three `Get*` calls).
+- `requestParameters` are the request's members with a lower first letter (`"alternateContactType"`), without the
+  members botocore's model marks sensitive (a contact's address and phone number, the account name), but for
+  `PutAlternateContact`, whose record keeps `name`, `emailAddress` and `title` and leaves out `phoneNumber`.
+- `responseElements` is always `null`: "The values returned by the operation aren't included in the logged
+  information".
+- A failed call keeps its members and is recorded under its error's type (`ResourceNotFoundException`) with its
+  message; a call IAM enforcement refuses is recorded as `AccessDenied` with `"requestParameters": null`.
+
 ## EventBridge delivery
 
 "CloudTrail sends the following types of events to the default EventBridge event bus", the first of them

@@ -414,7 +414,7 @@ public class AwsJson11Controller {
             // Organizations is global and account-scoped rather than region-scoped: every
             // action is authorized against the calling account, so pass that instead of region.
             case "organizations" ->
-                    organizationsJsonHandler.handle(action, request, regionResolver.getAccountId());
+                    organizationsJsonHandler.handleApiCall(action, request, region, regionResolver.getAccountId());
             case "sso" -> ssoAdminJsonHandler.handle(action, request, regionResolver.getAccountId(), region);
             case "identitystore" -> identityStoreJsonHandler.handle(action, request);
             case "budgets" -> budgetsJsonHandler.handle(action, request, regionResolver.getAccountId());

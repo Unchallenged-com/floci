@@ -1,0 +1,215 @@
+{
+  "_source": {
+    "generator": "tools/aws/regen_account_cloudtrail_shapes.py",
+    "botocore": "botocore 1.44.9 (installed package)"
+  },
+  "operations": {
+    "DeleteAlternateContact": "DeleteAlternateContactRequest",
+    "GetAccountInformation": "GetAccountInformationRequest",
+    "GetAlternateContact": "GetAlternateContactRequest",
+    "GetContactInformation": "GetContactInformationRequest",
+    "PutAccountName": "PutAccountNameRequest",
+    "PutAlternateContact": "PutAlternateContactRequest",
+    "PutContactInformation": "PutContactInformationRequest"
+  },
+  "results": {
+    "GetAccountInformation": {
+      "shape": "GetAccountInformationResponse",
+      "resultWrapper": null
+    },
+    "GetAlternateContact": {
+      "shape": "GetAlternateContactResponse",
+      "resultWrapper": null
+    },
+    "GetContactInformation": {
+      "shape": "GetContactInformationResponse",
+      "resultWrapper": null
+    }
+  },
+  "shapes": {
+    "AccountCreatedDate": {
+      "type": "timestamp"
+    },
+    "AccountId": {
+      "type": "string"
+    },
+    "AccountName": {
+      "type": "string",
+      "sensitive": true
+    },
+    "AccountState": {
+      "type": "string"
+    },
+    "AddressLine": {
+      "type": "string",
+      "sensitive": true
+    },
+    "AlternateContact": {
+      "type": "structure",
+      "members": {
+        "Name": "Name",
+        "Title": "Title",
+        "EmailAddress": "EmailAddress",
+        "PhoneNumber": "PhoneNumber",
+        "AlternateContactType": "AlternateContactType"
+      }
+    },
+    "AlternateContactType": {
+      "type": "string"
+    },
+    "City": {
+      "type": "string",
+      "sensitive": true
+    },
+    "CompanyName": {
+      "type": "string",
+      "sensitive": true
+    },
+    "ContactInformation": {
+      "type": "structure",
+      "members": {
+        "FullName": "FullName",
+        "AddressLine1": "AddressLine",
+        "AddressLine2": "AddressLine",
+        "AddressLine3": "AddressLine",
+        "City": "City",
+        "StateOrRegion": "StateOrRegion",
+        "DistrictOrCounty": "DistrictOrCounty",
+        "PostalCode": "PostalCode",
+        "CountryCode": "CountryCode",
+        "PhoneNumber": "ContactInformationPhoneNumber",
+        "CompanyName": "CompanyName",
+        "WebsiteUrl": "WebsiteUrl"
+      }
+    },
+    "ContactInformationPhoneNumber": {
+      "type": "string",
+      "sensitive": true
+    },
+    "CountryCode": {
+      "type": "string",
+      "sensitive": true
+    },
+    "DeleteAlternateContactRequest": {
+      "type": "structure",
+      "members": {
+        "AlternateContactType": "AlternateContactType",
+        "AccountId": "AccountId"
+      }
+    },
+    "DistrictOrCounty": {
+      "type": "string",
+      "sensitive": true
+    },
+    "EmailAddress": {
+      "type": "string",
+      "sensitive": true
+    },
+    "FullName": {
+      "type": "string",
+      "sensitive": true
+    },
+    "GetAccountInformationRequest": {
+      "type": "structure",
+      "members": {
+        "AccountId": "AccountId"
+      }
+    },
+    "GetAccountInformationResponse": {
+      "type": "structure",
+      "members": {
+        "AccountId": "AccountId",
+        "AccountName": "AccountName",
+        "AccountCreatedDate": "AccountCreatedDate",
+        "AccountState": "AccountState"
+      }
+    },
+    "GetAlternateContactRequest": {
+      "type": "structure",
+      "members": {
+        "AlternateContactType": "AlternateContactType",
+        "AccountId": "AccountId"
+      }
+    },
+    "GetAlternateContactResponse": {
+      "type": "structure",
+      "members": {
+        "AlternateContact": "AlternateContact"
+      }
+    },
+    "GetContactInformationRequest": {
+      "type": "structure",
+      "members": {
+        "AccountId": "AccountId"
+      }
+    },
+    "GetContactInformationResponse": {
+      "type": "structure",
+      "members": {
+        "ContactInformation": "ContactInformation",
+        "VerificationStatus": "PhoneNumberVerificationStatus"
+      }
+    },
+    "Name": {
+      "type": "string",
+      "sensitive": true
+    },
+    "PhoneNumber": {
+      "type": "string",
+      "sensitive": true
+    },
+    "PhoneNumberVerificationStatus": {
+      "type": "string"
+    },
+    "PostalCode": {
+      "type": "string",
+      "sensitive": true
+    },
+    "PutAccountNameRequest": {
+      "type": "structure",
+      "members": {
+        "AccountName": "AccountName",
+        "AccountId": "AccountId"
+      }
+    },
+    "PutAlternateContactRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "Name",
+        "Title": "Title",
+        "EmailAddress": "EmailAddress",
+        "PhoneNumber": "PhoneNumber",
+        "AlternateContactType": "AlternateContactType",
+        "AccountId": "AccountId"
+      }
+    },
+    "PutContactInformationRequest": {
+      "type": "structure",
+      "members": {
+        "ContactInformation": "ContactInformation",
+        "AccountId": "AccountId"
+      }
+    },
+    "StateOrRegion": {
+      "type": "string",
+      "sensitive": true
+    },
+    "Title": {
+      "type": "string",
+      "sensitive": true
+    },
+    "WebsiteUrl": {
+      "type": "string",
+      "sensitive": true
+    }
+  },
+  "errors": {
+    "AccessDeniedException": "AccessDeniedException",
+    "ConflictException": "ConflictException",
+    "InternalServerException": "InternalServerException",
+    "ResourceNotFoundException": "ResourceNotFoundException",
+    "ResourceUnavailableException": "ResourceUnavailableException",
+    "TooManyRequestsException": "TooManyRequestsException",
+    "ValidationException": "ValidationException"
+  }
+}

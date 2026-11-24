@@ -183,4 +183,18 @@ class CloudTrailShapesTest {
         assertThat(SQS.result("DeleteQueue", MAPPER.readTree("{}")), nullValue());
         assertThat(SQS.requestParameters("ListMessageMoveTasks", MAPPER.readTree("{}")), nullValue());
     }
+
+    @Test
+    void aSensitiveMemberIsLeftOutUnlessTheStyleWritesItAsText() throws Exception {
+        CloudTrailShapes organizations = CloudTrailShapes.of("organizations");
+        JsonNode request = MAPPER.readTree("{\"Email\": \"a@example.com\", \"AccountName\": \"a\", \"RoleName\": \"r\"}");
+        ObjectNode left = organizations.requestParameters("CreateAccount", request);
+        assertThat(left.has("email"), equalTo(false));
+        assertThat(left.path("roleName").asText(), equalTo("r"));
+        ObjectNode masked = organizations.requestParameters("CreateAccount", request,
+                new CloudTrailShapes.JsonStyle(false, null, "****"));
+        assertThat(masked.path("email").asText(), equalTo("****"));
+        assertThat(masked.path("accountName").asText(), equalTo("****"));
+        assertThat(masked.path("roleName").asText(), equalTo("r"));
+    }
 }

@@ -46,7 +46,7 @@ class OrganizationsPathRenderingTest {
         service = spy(new OrganizationsService(mapper, new RegionResolver("us-east-1", OWNER),
                 organizations, accounts, units, AccountAwareStorageBackend.inMemory(OWNER),
                 AccountAwareStorageBackend.inMemory(OWNER), AccountAwareStorageBackend.inMemory(OWNER)));
-        handler = new OrganizationsJsonHandler(service, mapper);
+        handler = new OrganizationsJsonHandler(service, mapper, null);
         organization = service.createOrganization(OWNER, "ALL");
         root = organization.getRoot().getId();
     }

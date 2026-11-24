@@ -1,0 +1,22 @@
+{
+  "_source": {
+    "generator": "tools/aws/regen_cloudtrail_events.py",
+    "managementEvents": "https://docs.aws.amazon.com/accounts/latest/reference/monitoring-cloudtrail.html",
+    "reference": "https://servicereference.us-east-1.amazonaws.com/v1/account/account.json",
+    "retrieved": "2026-11-24"
+  },
+  "managementEvents": [
+    "DeleteAlternateContact",
+    "GetAccountInformation",
+    "GetAlternateContact",
+    "GetContactInformation",
+    "PutAccountName",
+    "PutAlternateContact",
+    "PutContactInformation"
+  ],
+  "readOnlyActions": [
+    "GetAccountInformation",
+    "GetAlternateContact",
+    "GetContactInformation"
+  ]
+}

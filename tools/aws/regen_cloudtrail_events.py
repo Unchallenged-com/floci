@@ -26,6 +26,12 @@ carries, so it stays in SERVICES below, as the guide lists them:
   A record names most of them with the API version they are served under (`CreateFunction20150331`),
   which the file carries as `eventNames`: "the `eventName` might include date and version information,
   but it is still referring to the same public API action".
+- Organizations (https://docs.aws.amazon.com/organizations/latest/userguide/orgs_cloudtrail-integration.html):
+  "All AWS Organizations actions are logged by CloudTrail", so every call; the file lists the ones Floci
+  serves, which regen_organizations_cloudtrail_shapes.py vendors the shapes of.
+- Account Management (https://docs.aws.amazon.com/accounts/latest/reference/monitoring-cloudtrail.html):
+  "AWS CloudTrail logs all Account Management API operations", so every call; the file lists the ones
+  Floci serves, which regen_account_cloudtrail_shapes.py vendors the shapes of.
 
 Which of them are read-only is the access level AWS's Service Reference gives each action, read as
 `regen_iam_action_resources.py` reads IAM's: an action with none of the Write, Permissions
@@ -209,6 +215,40 @@ SERVICES: dict[str, Service] = {
             "UpdateFunctionCode": "UpdateFunctionCode20150331v2",
             "UpdateFunctionConfiguration": "UpdateFunctionConfiguration20150331v2",
         },
+    ),
+    "organizations": Service(
+        guide="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_cloudtrail-integration.html",
+        # Every Organizations call is a management event; these are the ones Floci serves. Records of 2024
+        # name each by its own name (DescribeOrganization, LeaveOrganization, ListAccounts), read-only as the
+        # reference says.
+        management_events=(
+            "AcceptHandshake", "AttachPolicy", "CancelHandshake", "CloseAccount", "CreateAccount",
+            "CreateGovCloudAccount", "CreateOrganization", "CreateOrganizationalUnit", "CreatePolicy",
+            "DeclineHandshake", "DeleteOrganization", "DeleteOrganizationalUnit", "DeletePolicy",
+            "DeleteResourcePolicy", "DeregisterDelegatedAdministrator", "DescribeAccount",
+            "DescribeCreateAccountStatus", "DescribeEffectivePolicy", "DescribeHandshake", "DescribeOrganization",
+            "DescribeOrganizationalUnit", "DescribePolicy", "DescribeResourcePolicy", "DetachPolicy",
+            "DisableAWSServiceAccess", "DisablePolicyType", "EnableAWSServiceAccess", "EnableAllFeatures",
+            "EnablePolicyType", "InviteAccountToOrganization", "LeaveOrganization",
+            "ListAWSServiceAccessForOrganization", "ListAccounts", "ListAccountsForParent",
+            "ListAccountsWithInvalidEffectivePolicy", "ListChildren", "ListCreateAccountStatus",
+            "ListDelegatedAdministrators", "ListDelegatedServicesForAccount", "ListHandshakesForAccount",
+            "ListHandshakesForOrganization", "ListOrganizationalUnitsForParent", "ListParents", "ListPolicies",
+            "ListPoliciesForTarget", "ListRoots", "ListTagsForResource", "ListTargetsForPolicy", "MoveAccount",
+            "PutResourcePolicy", "RegisterDelegatedAdministrator", "RemoveAccountFromOrganization", "TagResource",
+            "UntagResource", "UpdateOrganizationalUnit", "UpdatePolicy",
+        ),
+        read_only_anchors={"DescribeOrganization": True, "ListAccounts": True, "LeaveOrganization": False},
+    ),
+    "account": Service(
+        guide="https://docs.aws.amazon.com/accounts/latest/reference/monitoring-cloudtrail.html",
+        # Every Account Management call is a management event; these are the ones Floci serves. The guide's
+        # examples record GetAlternateContact read-only and PutAlternateContact and DeleteAlternateContact not.
+        management_events=(
+            "DeleteAlternateContact", "GetAccountInformation", "GetAlternateContact", "GetContactInformation",
+            "PutAccountName", "PutAlternateContact", "PutContactInformation",
+        ),
+        read_only_anchors={"GetAlternateContact": True, "PutAlternateContact": False},
     ),
     "logs": Service(
         guide="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/logging_cw_api_calls_cwl.html",

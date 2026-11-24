@@ -54,11 +54,24 @@ public class OrganizationsJsonHandler {
 
     private final OrganizationsService service;
     private final ObjectMapper objectMapper;
+    private final OrganizationsCloudTrailEvents cloudTrailEvents;
 
     @Inject
-    public OrganizationsJsonHandler(OrganizationsService service, ObjectMapper objectMapper) {
+    public OrganizationsJsonHandler(OrganizationsService service, ObjectMapper objectMapper,
+                                    OrganizationsCloudTrailEvents cloudTrailEvents) {
         this.service = service;
         this.objectMapper = objectMapper;
+        this.cloudTrailEvents = cloudTrailEvents;
+    }
+
+    /**
+     * Answers a call a client made to Organizations' endpoint, signed for {@code region}, and records it in
+     * CloudTrail ({@link OrganizationsCloudTrailEvents}).
+     */
+    public Response handleApiCall(String action, JsonNode request, String region, String callerAccountId) {
+        Response response = handle(action, request, callerAccountId);
+        cloudTrailEvents.record(action, request, region, response);
+        return response;
     }
 
     public Response handle(String action, JsonNode request, String callerAccountId) {

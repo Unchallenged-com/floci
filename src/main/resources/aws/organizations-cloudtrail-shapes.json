@@ -1,0 +1,1358 @@
+{
+  "_source": {
+    "generator": "tools/aws/regen_organizations_cloudtrail_shapes.py",
+    "botocore": "botocore 1.44.9 (installed package)"
+  },
+  "operations": {
+    "AcceptHandshake": "AcceptHandshakeRequest",
+    "AttachPolicy": "AttachPolicyRequest",
+    "CancelHandshake": "CancelHandshakeRequest",
+    "CloseAccount": "CloseAccountRequest",
+    "CreateAccount": "CreateAccountRequest",
+    "CreateGovCloudAccount": "CreateGovCloudAccountRequest",
+    "CreateOrganization": "CreateOrganizationRequest",
+    "CreateOrganizationalUnit": "CreateOrganizationalUnitRequest",
+    "CreatePolicy": "CreatePolicyRequest",
+    "DeclineHandshake": "DeclineHandshakeRequest",
+    "DeleteOrganizationalUnit": "DeleteOrganizationalUnitRequest",
+    "DeletePolicy": "DeletePolicyRequest",
+    "DeregisterDelegatedAdministrator": "DeregisterDelegatedAdministratorRequest",
+    "DescribeAccount": "DescribeAccountRequest",
+    "DescribeCreateAccountStatus": "DescribeCreateAccountStatusRequest",
+    "DescribeEffectivePolicy": "DescribeEffectivePolicyRequest",
+    "DescribeHandshake": "DescribeHandshakeRequest",
+    "DescribeOrganizationalUnit": "DescribeOrganizationalUnitRequest",
+    "DescribePolicy": "DescribePolicyRequest",
+    "DetachPolicy": "DetachPolicyRequest",
+    "DisableAWSServiceAccess": "DisableAWSServiceAccessRequest",
+    "DisablePolicyType": "DisablePolicyTypeRequest",
+    "EnableAWSServiceAccess": "EnableAWSServiceAccessRequest",
+    "EnableAllFeatures": "EnableAllFeaturesRequest",
+    "EnablePolicyType": "EnablePolicyTypeRequest",
+    "InviteAccountToOrganization": "InviteAccountToOrganizationRequest",
+    "ListAWSServiceAccessForOrganization": "ListAWSServiceAccessForOrganizationRequest",
+    "ListAccounts": "ListAccountsRequest",
+    "ListAccountsForParent": "ListAccountsForParentRequest",
+    "ListAccountsWithInvalidEffectivePolicy": "ListAccountsWithInvalidEffectivePolicyRequest",
+    "ListChildren": "ListChildrenRequest",
+    "ListCreateAccountStatus": "ListCreateAccountStatusRequest",
+    "ListDelegatedAdministrators": "ListDelegatedAdministratorsRequest",
+    "ListDelegatedServicesForAccount": "ListDelegatedServicesForAccountRequest",
+    "ListHandshakesForAccount": "ListHandshakesForAccountRequest",
+    "ListHandshakesForOrganization": "ListHandshakesForOrganizationRequest",
+    "ListOrganizationalUnitsForParent": "ListOrganizationalUnitsForParentRequest",
+    "ListParents": "ListParentsRequest",
+    "ListPolicies": "ListPoliciesRequest",
+    "ListPoliciesForTarget": "ListPoliciesForTargetRequest",
+    "ListRoots": "ListRootsRequest",
+    "ListTagsForResource": "ListTagsForResourceRequest",
+    "ListTargetsForPolicy": "ListTargetsForPolicyRequest",
+    "MoveAccount": "MoveAccountRequest",
+    "PutResourcePolicy": "PutResourcePolicyRequest",
+    "RegisterDelegatedAdministrator": "RegisterDelegatedAdministratorRequest",
+    "RemoveAccountFromOrganization": "RemoveAccountFromOrganizationRequest",
+    "TagResource": "TagResourceRequest",
+    "UntagResource": "UntagResourceRequest",
+    "UpdateOrganizationalUnit": "UpdateOrganizationalUnitRequest",
+    "UpdatePolicy": "UpdatePolicyRequest"
+  },
+  "results": {
+    "AcceptHandshake": {
+      "shape": "AcceptHandshakeResponse",
+      "resultWrapper": null
+    },
+    "CancelHandshake": {
+      "shape": "CancelHandshakeResponse",
+      "resultWrapper": null
+    },
+    "CreateAccount": {
+      "shape": "CreateAccountResponse",
+      "resultWrapper": null
+    },
+    "CreateGovCloudAccount": {
+      "shape": "CreateGovCloudAccountResponse",
+      "resultWrapper": null
+    },
+    "CreateOrganization": {
+      "shape": "CreateOrganizationResponse",
+      "resultWrapper": null
+    },
+    "CreateOrganizationalUnit": {
+      "shape": "CreateOrganizationalUnitResponse",
+      "resultWrapper": null
+    },
+    "CreatePolicy": {
+      "shape": "CreatePolicyResponse",
+      "resultWrapper": null
+    },
+    "DeclineHandshake": {
+      "shape": "DeclineHandshakeResponse",
+      "resultWrapper": null
+    },
+    "DescribeAccount": {
+      "shape": "DescribeAccountResponse",
+      "resultWrapper": null
+    },
+    "DescribeCreateAccountStatus": {
+      "shape": "DescribeCreateAccountStatusResponse",
+      "resultWrapper": null
+    },
+    "DescribeEffectivePolicy": {
+      "shape": "DescribeEffectivePolicyResponse",
+      "resultWrapper": null
+    },
+    "DescribeHandshake": {
+      "shape": "DescribeHandshakeResponse",
+      "resultWrapper": null
+    },
+    "DescribeOrganization": {
+      "shape": "DescribeOrganizationResponse",
+      "resultWrapper": null
+    },
+    "DescribeOrganizationalUnit": {
+      "shape": "DescribeOrganizationalUnitResponse",
+      "resultWrapper": null
+    },
+    "DescribePolicy": {
+      "shape": "DescribePolicyResponse",
+      "resultWrapper": null
+    },
+    "DescribeResourcePolicy": {
+      "shape": "DescribeResourcePolicyResponse",
+      "resultWrapper": null
+    },
+    "DisablePolicyType": {
+      "shape": "DisablePolicyTypeResponse",
+      "resultWrapper": null
+    },
+    "EnableAllFeatures": {
+      "shape": "EnableAllFeaturesResponse",
+      "resultWrapper": null
+    },
+    "EnablePolicyType": {
+      "shape": "EnablePolicyTypeResponse",
+      "resultWrapper": null
+    },
+    "InviteAccountToOrganization": {
+      "shape": "InviteAccountToOrganizationResponse",
+      "resultWrapper": null
+    },
+    "ListAWSServiceAccessForOrganization": {
+      "shape": "ListAWSServiceAccessForOrganizationResponse",
+      "resultWrapper": null
+    },
+    "ListAccounts": {
+      "shape": "ListAccountsResponse",
+      "resultWrapper": null
+    },
+    "ListAccountsForParent": {
+      "shape": "ListAccountsForParentResponse",
+      "resultWrapper": null
+    },
+    "ListAccountsWithInvalidEffectivePolicy": {
+      "shape": "ListAccountsWithInvalidEffectivePolicyResponse",
+      "resultWrapper": null
+    },
+    "ListChildren": {
+      "shape": "ListChildrenResponse",
+      "resultWrapper": null
+    },
+    "ListCreateAccountStatus": {
+      "shape": "ListCreateAccountStatusResponse",
+      "resultWrapper": null
+    },
+    "ListDelegatedAdministrators": {
+      "shape": "ListDelegatedAdministratorsResponse",
+      "resultWrapper": null
+    },
+    "ListDelegatedServicesForAccount": {
+      "shape": "ListDelegatedServicesForAccountResponse",
+      "resultWrapper": null
+    },
+    "ListHandshakesForAccount": {
+      "shape": "ListHandshakesForAccountResponse",
+      "resultWrapper": null
+    },
+    "ListHandshakesForOrganization": {
+      "shape": "ListHandshakesForOrganizationResponse",
+      "resultWrapper": null
+    },
+    "ListOrganizationalUnitsForParent": {
+      "shape": "ListOrganizationalUnitsForParentResponse",
+      "resultWrapper": null
+    },
+    "ListParents": {
+      "shape": "ListParentsResponse",
+      "resultWrapper": null
+    },
+    "ListPolicies": {
+      "shape": "ListPoliciesResponse",
+      "resultWrapper": null
+    },
+    "ListPoliciesForTarget": {
+      "shape": "ListPoliciesForTargetResponse",
+      "resultWrapper": null
+    },
+    "ListRoots": {
+      "shape": "ListRootsResponse",
+      "resultWrapper": null
+    },
+    "ListTagsForResource": {
+      "shape": "ListTagsForResourceResponse",
+      "resultWrapper": null
+    },
+    "ListTargetsForPolicy": {
+      "shape": "ListTargetsForPolicyResponse",
+      "resultWrapper": null
+    },
+    "PutResourcePolicy": {
+      "shape": "PutResourcePolicyResponse",
+      "resultWrapper": null
+    },
+    "UpdateOrganizationalUnit": {
+      "shape": "UpdateOrganizationalUnitResponse",
+      "resultWrapper": null
+    },
+    "UpdatePolicy": {
+      "shape": "UpdatePolicyResponse",
+      "resultWrapper": null
+    }
+  },
+  "shapes": {
+    "AcceptHandshakeRequest": {
+      "type": "structure",
+      "members": {
+        "HandshakeId": "HandshakeId"
+      }
+    },
+    "AcceptHandshakeResponse": {
+      "type": "structure",
+      "members": {
+        "Handshake": "Handshake"
+      }
+    },
+    "Account": {
+      "type": "structure",
+      "members": {
+        "Id": "AccountId",
+        "Arn": "AccountArn",
+        "Email": "Email",
+        "Name": "AccountName",
+        "Status": "AccountStatus",
+        "State": "AccountState",
+        "Paths": "Paths",
+        "JoinedMethod": "AccountJoinedMethod",
+        "JoinedTimestamp": "Timestamp"
+      }
+    },
+    "AccountArn": {
+      "type": "string"
+    },
+    "AccountId": {
+      "type": "string"
+    },
+    "AccountJoinedMethod": {
+      "type": "string"
+    },
+    "AccountName": {
+      "type": "string",
+      "sensitive": true
+    },
+    "AccountState": {
+      "type": "string"
+    },
+    "AccountStatus": {
+      "type": "string"
+    },
+    "Accounts": {
+      "type": "list",
+      "member": "Account"
+    },
+    "ActionType": {
+      "type": "string"
+    },
+    "AttachPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "PolicyId": "PolicyId",
+        "TargetId": "PolicyTargetId"
+      }
+    },
+    "AwsManagedPolicy": {
+      "type": "boolean"
+    },
+    "CancelHandshakeRequest": {
+      "type": "structure",
+      "members": {
+        "HandshakeId": "HandshakeId"
+      }
+    },
+    "CancelHandshakeResponse": {
+      "type": "structure",
+      "members": {
+        "Handshake": "Handshake"
+      }
+    },
+    "Child": {
+      "type": "structure",
+      "members": {
+        "Id": "ChildId",
+        "Type": "ChildType"
+      }
+    },
+    "ChildId": {
+      "type": "string"
+    },
+    "ChildType": {
+      "type": "string"
+    },
+    "Children": {
+      "type": "list",
+      "member": "Child"
+    },
+    "CloseAccountRequest": {
+      "type": "structure",
+      "members": {
+        "AccountId": "AccountId"
+      }
+    },
+    "CreateAccountFailureReason": {
+      "type": "string"
+    },
+    "CreateAccountName": {
+      "type": "string",
+      "sensitive": true
+    },
+    "CreateAccountRequest": {
+      "type": "structure",
+      "members": {
+        "Email": "Email",
+        "AccountName": "CreateAccountName",
+        "RoleName": "RoleName",
+        "IamUserAccessToBilling": "IAMUserAccessToBilling",
+        "Tags": "Tags"
+      }
+    },
+    "CreateAccountRequestId": {
+      "type": "string"
+    },
+    "CreateAccountResponse": {
+      "type": "structure",
+      "members": {
+        "CreateAccountStatus": "CreateAccountStatus"
+      }
+    },
+    "CreateAccountState": {
+      "type": "string"
+    },
+    "CreateAccountStates": {
+      "type": "list",
+      "member": "CreateAccountState"
+    },
+    "CreateAccountStatus": {
+      "type": "structure",
+      "members": {
+        "Id": "CreateAccountRequestId",
+        "AccountName": "CreateAccountName",
+        "State": "CreateAccountState",
+        "RequestedTimestamp": "Timestamp",
+        "CompletedTimestamp": "Timestamp",
+        "AccountId": "AccountId",
+        "GovCloudAccountId": "AccountId",
+        "FailureReason": "CreateAccountFailureReason"
+      }
+    },
+    "CreateAccountStatuses": {
+      "type": "list",
+      "member": "CreateAccountStatus"
+    },
+    "CreateGovCloudAccountRequest": {
+      "type": "structure",
+      "members": {
+        "Email": "Email",
+        "AccountName": "CreateAccountName",
+        "RoleName": "RoleName",
+        "IamUserAccessToBilling": "IAMUserAccessToBilling",
+        "Tags": "Tags"
+      }
+    },
+    "CreateGovCloudAccountResponse": {
+      "type": "structure",
+      "members": {
+        "CreateAccountStatus": "CreateAccountStatus"
+      }
+    },
+    "CreateOrganizationRequest": {
+      "type": "structure",
+      "members": {
+        "FeatureSet": "OrganizationFeatureSet"
+      }
+    },
+    "CreateOrganizationResponse": {
+      "type": "structure",
+      "members": {
+        "Organization": "Organization"
+      }
+    },
+    "CreateOrganizationalUnitRequest": {
+      "type": "structure",
+      "members": {
+        "ParentId": "ParentId",
+        "Name": "OrganizationalUnitName",
+        "Tags": "Tags"
+      }
+    },
+    "CreateOrganizationalUnitResponse": {
+      "type": "structure",
+      "members": {
+        "OrganizationalUnit": "OrganizationalUnit"
+      }
+    },
+    "CreatePolicyRequest": {
+      "type": "structure",
+      "members": {
+        "Content": "PolicyContent",
+        "Description": "PolicyDescription",
+        "Name": "PolicyName",
+        "Type": "PolicyType",
+        "Tags": "Tags"
+      }
+    },
+    "CreatePolicyResponse": {
+      "type": "structure",
+      "members": {
+        "Policy": "Policy"
+      }
+    },
+    "DeclineHandshakeRequest": {
+      "type": "structure",
+      "members": {
+        "HandshakeId": "HandshakeId"
+      }
+    },
+    "DeclineHandshakeResponse": {
+      "type": "structure",
+      "members": {
+        "Handshake": "Handshake"
+      }
+    },
+    "DelegatedAdministrator": {
+      "type": "structure",
+      "members": {
+        "Id": "AccountId",
+        "Arn": "AccountArn",
+        "Email": "Email",
+        "Name": "AccountName",
+        "Status": "AccountStatus",
+        "State": "AccountState",
+        "JoinedMethod": "AccountJoinedMethod",
+        "JoinedTimestamp": "Timestamp",
+        "DelegationEnabledDate": "Timestamp"
+      }
+    },
+    "DelegatedAdministrators": {
+      "type": "list",
+      "member": "DelegatedAdministrator"
+    },
+    "DelegatedService": {
+      "type": "structure",
+      "members": {
+        "ServicePrincipal": "ServicePrincipal",
+        "DelegationEnabledDate": "Timestamp"
+      }
+    },
+    "DelegatedServices": {
+      "type": "list",
+      "member": "DelegatedService"
+    },
+    "DeleteOrganizationalUnitRequest": {
+      "type": "structure",
+      "members": {
+        "OrganizationalUnitId": "OrganizationalUnitId"
+      }
+    },
+    "DeletePolicyRequest": {
+      "type": "structure",
+      "members": {
+        "PolicyId": "PolicyId"
+      }
+    },
+    "DeregisterDelegatedAdministratorRequest": {
+      "type": "structure",
+      "members": {
+        "AccountId": "AccountId",
+        "ServicePrincipal": "ServicePrincipal"
+      }
+    },
+    "DescribeAccountRequest": {
+      "type": "structure",
+      "members": {
+        "AccountId": "AccountId"
+      }
+    },
+    "DescribeAccountResponse": {
+      "type": "structure",
+      "members": {
+        "Account": "Account"
+      }
+    },
+    "DescribeCreateAccountStatusRequest": {
+      "type": "structure",
+      "members": {
+        "CreateAccountRequestId": "CreateAccountRequestId"
+      }
+    },
+    "DescribeCreateAccountStatusResponse": {
+      "type": "structure",
+      "members": {
+        "CreateAccountStatus": "CreateAccountStatus"
+      }
+    },
+    "DescribeEffectivePolicyRequest": {
+      "type": "structure",
+      "members": {
+        "PolicyType": "EffectivePolicyType",
+        "TargetId": "PolicyTargetId"
+      }
+    },
+    "DescribeEffectivePolicyResponse": {
+      "type": "structure",
+      "members": {
+        "EffectivePolicy": "EffectivePolicy"
+      }
+    },
+    "DescribeHandshakeRequest": {
+      "type": "structure",
+      "members": {
+        "HandshakeId": "HandshakeId"
+      }
+    },
+    "DescribeHandshakeResponse": {
+      "type": "structure",
+      "members": {
+        "Handshake": "Handshake"
+      }
+    },
+    "DescribeOrganizationResponse": {
+      "type": "structure",
+      "members": {
+        "Organization": "Organization"
+      }
+    },
+    "DescribeOrganizationalUnitRequest": {
+      "type": "structure",
+      "members": {
+        "OrganizationalUnitId": "OrganizationalUnitId"
+      }
+    },
+    "DescribeOrganizationalUnitResponse": {
+      "type": "structure",
+      "members": {
+        "OrganizationalUnit": "OrganizationalUnit"
+      }
+    },
+    "DescribePolicyRequest": {
+      "type": "structure",
+      "members": {
+        "PolicyId": "PolicyId"
+      }
+    },
+    "DescribePolicyResponse": {
+      "type": "structure",
+      "members": {
+        "Policy": "Policy"
+      }
+    },
+    "DescribeResourcePolicyResponse": {
+      "type": "structure",
+      "members": {
+        "ResourcePolicy": "ResourcePolicy"
+      }
+    },
+    "DetachPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "PolicyId": "PolicyId",
+        "TargetId": "PolicyTargetId"
+      }
+    },
+    "DisableAWSServiceAccessRequest": {
+      "type": "structure",
+      "members": {
+        "ServicePrincipal": "ServicePrincipal"
+      }
+    },
+    "DisablePolicyTypeRequest": {
+      "type": "structure",
+      "members": {
+        "RootId": "RootId",
+        "PolicyType": "PolicyType"
+      }
+    },
+    "DisablePolicyTypeResponse": {
+      "type": "structure",
+      "members": {
+        "Root": "Root"
+      }
+    },
+    "EffectivePolicy": {
+      "type": "structure",
+      "members": {
+        "PolicyContent": "PolicyContent",
+        "LastUpdatedTimestamp": "Timestamp",
+        "TargetId": "PolicyTargetId",
+        "PolicyType": "EffectivePolicyType"
+      }
+    },
+    "EffectivePolicyType": {
+      "type": "string"
+    },
+    "Email": {
+      "type": "string",
+      "sensitive": true
+    },
+    "EnableAWSServiceAccessRequest": {
+      "type": "structure",
+      "members": {
+        "ServicePrincipal": "ServicePrincipal"
+      }
+    },
+    "EnableAllFeaturesRequest": {
+      "type": "structure",
+      "members": {}
+    },
+    "EnableAllFeaturesResponse": {
+      "type": "structure",
+      "members": {
+        "Handshake": "Handshake"
+      }
+    },
+    "EnablePolicyTypeRequest": {
+      "type": "structure",
+      "members": {
+        "RootId": "RootId",
+        "PolicyType": "PolicyType"
+      }
+    },
+    "EnablePolicyTypeResponse": {
+      "type": "structure",
+      "members": {
+        "Root": "Root"
+      }
+    },
+    "EnabledServicePrincipal": {
+      "type": "structure",
+      "members": {
+        "ServicePrincipal": "ServicePrincipal",
+        "DateEnabled": "Timestamp"
+      }
+    },
+    "EnabledServicePrincipals": {
+      "type": "list",
+      "member": "EnabledServicePrincipal"
+    },
+    "GenericArn": {
+      "type": "string"
+    },
+    "Handshake": {
+      "type": "structure",
+      "members": {
+        "Id": "HandshakeId",
+        "Arn": "HandshakeArn",
+        "Parties": "HandshakeParties",
+        "State": "HandshakeState",
+        "RequestedTimestamp": "Timestamp",
+        "ExpirationTimestamp": "Timestamp",
+        "Action": "ActionType",
+        "Resources": "HandshakeResources"
+      }
+    },
+    "HandshakeArn": {
+      "type": "string"
+    },
+    "HandshakeFilter": {
+      "type": "structure",
+      "members": {
+        "ActionType": "ActionType",
+        "ParentHandshakeId": "HandshakeId"
+      }
+    },
+    "HandshakeId": {
+      "type": "string"
+    },
+    "HandshakeNotes": {
+      "type": "string",
+      "sensitive": true
+    },
+    "HandshakeParties": {
+      "type": "list",
+      "member": "HandshakeParty"
+    },
+    "HandshakeParty": {
+      "type": "structure",
+      "members": {
+        "Id": "HandshakePartyId",
+        "Type": "HandshakePartyType"
+      }
+    },
+    "HandshakePartyId": {
+      "type": "string",
+      "sensitive": true
+    },
+    "HandshakePartyType": {
+      "type": "string"
+    },
+    "HandshakeResource": {
+      "type": "structure",
+      "members": {
+        "Value": "HandshakeResourceValue",
+        "Type": "HandshakeResourceType",
+        "Resources": "HandshakeResources"
+      }
+    },
+    "HandshakeResourceType": {
+      "type": "string"
+    },
+    "HandshakeResourceValue": {
+      "type": "string",
+      "sensitive": true
+    },
+    "HandshakeResources": {
+      "type": "list",
+      "member": "HandshakeResource"
+    },
+    "HandshakeState": {
+      "type": "string"
+    },
+    "Handshakes": {
+      "type": "list",
+      "member": "Handshake"
+    },
+    "IAMUserAccessToBilling": {
+      "type": "string"
+    },
+    "InviteAccountToOrganizationRequest": {
+      "type": "structure",
+      "members": {
+        "Target": "HandshakeParty",
+        "Notes": "HandshakeNotes",
+        "Tags": "Tags"
+      }
+    },
+    "InviteAccountToOrganizationResponse": {
+      "type": "structure",
+      "members": {
+        "Handshake": "Handshake"
+      }
+    },
+    "ListAWSServiceAccessForOrganizationRequest": {
+      "type": "structure",
+      "members": {
+        "NextToken": "NextToken",
+        "MaxResults": "MaxResults"
+      }
+    },
+    "ListAWSServiceAccessForOrganizationResponse": {
+      "type": "structure",
+      "members": {
+        "EnabledServicePrincipals": "EnabledServicePrincipals",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListAccountsForParentRequest": {
+      "type": "structure",
+      "members": {
+        "ParentId": "ParentId",
+        "NextToken": "NextToken",
+        "MaxResults": "MaxResults"
+      }
+    },
+    "ListAccountsForParentResponse": {
+      "type": "structure",
+      "members": {
+        "Accounts": "Accounts",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListAccountsRequest": {
+      "type": "structure",
+      "members": {
+        "NextToken": "NextToken",
+        "MaxResults": "MaxResults"
+      }
+    },
+    "ListAccountsResponse": {
+      "type": "structure",
+      "members": {
+        "Accounts": "Accounts",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListAccountsWithInvalidEffectivePolicyRequest": {
+      "type": "structure",
+      "members": {
+        "PolicyType": "EffectivePolicyType",
+        "NextToken": "NextToken",
+        "MaxResults": "MaxResults"
+      }
+    },
+    "ListAccountsWithInvalidEffectivePolicyResponse": {
+      "type": "structure",
+      "members": {
+        "Accounts": "Accounts",
+        "PolicyType": "EffectivePolicyType",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListChildrenRequest": {
+      "type": "structure",
+      "members": {
+        "ParentId": "ParentId",
+        "ChildType": "ChildType",
+        "NextToken": "NextToken",
+        "MaxResults": "MaxResults"
+      }
+    },
+    "ListChildrenResponse": {
+      "type": "structure",
+      "members": {
+        "Children": "Children",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListCreateAccountStatusRequest": {
+      "type": "structure",
+      "members": {
+        "States": "CreateAccountStates",
+        "NextToken": "NextToken",
+        "MaxResults": "MaxResults"
+      }
+    },
+    "ListCreateAccountStatusResponse": {
+      "type": "structure",
+      "members": {
+        "CreateAccountStatuses": "CreateAccountStatuses",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListDelegatedAdministratorsRequest": {
+      "type": "structure",
+      "members": {
+        "ServicePrincipal": "ServicePrincipal",
+        "NextToken": "NextToken",
+        "MaxResults": "MaxResults"
+      }
+    },
+    "ListDelegatedAdministratorsResponse": {
+      "type": "structure",
+      "members": {
+        "DelegatedAdministrators": "DelegatedAdministrators",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListDelegatedServicesForAccountRequest": {
+      "type": "structure",
+      "members": {
+        "AccountId": "AccountId",
+        "NextToken": "NextToken",
+        "MaxResults": "MaxResults"
+      }
+    },
+    "ListDelegatedServicesForAccountResponse": {
+      "type": "structure",
+      "members": {
+        "DelegatedServices": "DelegatedServices",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListHandshakesForAccountRequest": {
+      "type": "structure",
+      "members": {
+        "Filter": "HandshakeFilter",
+        "NextToken": "NextToken",
+        "MaxResults": "MaxResults"
+      }
+    },
+    "ListHandshakesForAccountResponse": {
+      "type": "structure",
+      "members": {
+        "Handshakes": "Handshakes",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListHandshakesForOrganizationRequest": {
+      "type": "structure",
+      "members": {
+        "Filter": "HandshakeFilter",
+        "NextToken": "NextToken",
+        "MaxResults": "MaxResults"
+      }
+    },
+    "ListHandshakesForOrganizationResponse": {
+      "type": "structure",
+      "members": {
+        "Handshakes": "Handshakes",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListOrganizationalUnitsForParentRequest": {
+      "type": "structure",
+      "members": {
+        "ParentId": "ParentId",
+        "NextToken": "NextToken",
+        "MaxResults": "MaxResults"
+      }
+    },
+    "ListOrganizationalUnitsForParentResponse": {
+      "type": "structure",
+      "members": {
+        "OrganizationalUnits": "OrganizationalUnits",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListParentsRequest": {
+      "type": "structure",
+      "members": {
+        "ChildId": "ChildId",
+        "NextToken": "NextToken",
+        "MaxResults": "MaxResults"
+      }
+    },
+    "ListParentsResponse": {
+      "type": "structure",
+      "members": {
+        "Parents": "Parents",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListPoliciesForTargetRequest": {
+      "type": "structure",
+      "members": {
+        "TargetId": "PolicyTargetId",
+        "Filter": "PolicyType",
+        "NextToken": "NextToken",
+        "MaxResults": "MaxResults"
+      }
+    },
+    "ListPoliciesForTargetResponse": {
+      "type": "structure",
+      "members": {
+        "Policies": "Policies",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListPoliciesRequest": {
+      "type": "structure",
+      "members": {
+        "Filter": "PolicyType",
+        "NextToken": "NextToken",
+        "MaxResults": "MaxResults"
+      }
+    },
+    "ListPoliciesResponse": {
+      "type": "structure",
+      "members": {
+        "Policies": "Policies",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListRootsRequest": {
+      "type": "structure",
+      "members": {
+        "NextToken": "NextToken",
+        "MaxResults": "MaxResults"
+      }
+    },
+    "ListRootsResponse": {
+      "type": "structure",
+      "members": {
+        "Roots": "Roots",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListTagsForResourceRequest": {
+      "type": "structure",
+      "members": {
+        "ResourceId": "TaggableResourceId",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListTagsForResourceResponse": {
+      "type": "structure",
+      "members": {
+        "Tags": "Tags",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListTargetsForPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "PolicyId": "PolicyId",
+        "NextToken": "NextToken",
+        "MaxResults": "MaxResults"
+      }
+    },
+    "ListTargetsForPolicyResponse": {
+      "type": "structure",
+      "members": {
+        "Targets": "PolicyTargets",
+        "NextToken": "NextToken"
+      }
+    },
+    "MaxResults": {
+      "type": "integer"
+    },
+    "MoveAccountRequest": {
+      "type": "structure",
+      "members": {
+        "AccountId": "AccountId",
+        "SourceParentId": "ParentId",
+        "DestinationParentId": "ParentId"
+      }
+    },
+    "NextToken": {
+      "type": "string"
+    },
+    "Organization": {
+      "type": "structure",
+      "members": {
+        "Id": "OrganizationId",
+        "Arn": "OrganizationArn",
+        "FeatureSet": "OrganizationFeatureSet",
+        "MasterAccountArn": "AccountArn",
+        "MasterAccountId": "AccountId",
+        "MasterAccountEmail": "Email",
+        "AvailablePolicyTypes": "PolicyTypes"
+      }
+    },
+    "OrganizationArn": {
+      "type": "string"
+    },
+    "OrganizationFeatureSet": {
+      "type": "string"
+    },
+    "OrganizationId": {
+      "type": "string"
+    },
+    "OrganizationalUnit": {
+      "type": "structure",
+      "members": {
+        "Id": "OrganizationalUnitId",
+        "Arn": "OrganizationalUnitArn",
+        "Name": "OrganizationalUnitName",
+        "Path": "Path"
+      }
+    },
+    "OrganizationalUnitArn": {
+      "type": "string"
+    },
+    "OrganizationalUnitId": {
+      "type": "string"
+    },
+    "OrganizationalUnitName": {
+      "type": "string"
+    },
+    "OrganizationalUnits": {
+      "type": "list",
+      "member": "OrganizationalUnit"
+    },
+    "Parent": {
+      "type": "structure",
+      "members": {
+        "Id": "ParentId",
+        "Type": "ParentType"
+      }
+    },
+    "ParentId": {
+      "type": "string"
+    },
+    "ParentType": {
+      "type": "string"
+    },
+    "Parents": {
+      "type": "list",
+      "member": "Parent"
+    },
+    "Path": {
+      "type": "string"
+    },
+    "Paths": {
+      "type": "list",
+      "member": "Path"
+    },
+    "Policies": {
+      "type": "list",
+      "member": "PolicySummary"
+    },
+    "Policy": {
+      "type": "structure",
+      "members": {
+        "PolicySummary": "PolicySummary",
+        "Content": "PolicyContent"
+      }
+    },
+    "PolicyArn": {
+      "type": "string"
+    },
+    "PolicyContent": {
+      "type": "string"
+    },
+    "PolicyDescription": {
+      "type": "string"
+    },
+    "PolicyId": {
+      "type": "string"
+    },
+    "PolicyName": {
+      "type": "string"
+    },
+    "PolicySummary": {
+      "type": "structure",
+      "members": {
+        "Id": "PolicyId",
+        "Arn": "PolicyArn",
+        "Name": "PolicyName",
+        "Description": "PolicyDescription",
+        "Type": "PolicyType",
+        "AwsManaged": "AwsManagedPolicy"
+      }
+    },
+    "PolicyTargetId": {
+      "type": "string"
+    },
+    "PolicyTargetSummary": {
+      "type": "structure",
+      "members": {
+        "TargetId": "PolicyTargetId",
+        "Arn": "GenericArn",
+        "Name": "TargetName",
+        "Type": "TargetType"
+      }
+    },
+    "PolicyTargets": {
+      "type": "list",
+      "member": "PolicyTargetSummary"
+    },
+    "PolicyType": {
+      "type": "string"
+    },
+    "PolicyTypeStatus": {
+      "type": "string"
+    },
+    "PolicyTypeSummary": {
+      "type": "structure",
+      "members": {
+        "Type": "PolicyType",
+        "Status": "PolicyTypeStatus"
+      }
+    },
+    "PolicyTypes": {
+      "type": "list",
+      "member": "PolicyTypeSummary"
+    },
+    "PutResourcePolicyRequest": {
+      "type": "structure",
+      "members": {
+        "Content": "ResourcePolicyContent",
+        "Tags": "Tags"
+      }
+    },
+    "PutResourcePolicyResponse": {
+      "type": "structure",
+      "members": {
+        "ResourcePolicy": "ResourcePolicy"
+      }
+    },
+    "RegisterDelegatedAdministratorRequest": {
+      "type": "structure",
+      "members": {
+        "AccountId": "AccountId",
+        "ServicePrincipal": "ServicePrincipal"
+      }
+    },
+    "RemoveAccountFromOrganizationRequest": {
+      "type": "structure",
+      "members": {
+        "AccountId": "AccountId"
+      }
+    },
+    "ResourcePolicy": {
+      "type": "structure",
+      "members": {
+        "ResourcePolicySummary": "ResourcePolicySummary",
+        "Content": "ResourcePolicyContent"
+      }
+    },
+    "ResourcePolicyArn": {
+      "type": "string"
+    },
+    "ResourcePolicyContent": {
+      "type": "string"
+    },
+    "ResourcePolicyId": {
+      "type": "string"
+    },
+    "ResourcePolicySummary": {
+      "type": "structure",
+      "members": {
+        "Id": "ResourcePolicyId",
+        "Arn": "ResourcePolicyArn"
+      }
+    },
+    "RoleName": {
+      "type": "string"
+    },
+    "Root": {
+      "type": "structure",
+      "members": {
+        "Id": "RootId",
+        "Arn": "RootArn",
+        "Name": "RootName",
+        "PolicyTypes": "PolicyTypes"
+      }
+    },
+    "RootArn": {
+      "type": "string"
+    },
+    "RootId": {
+      "type": "string"
+    },
+    "RootName": {
+      "type": "string"
+    },
+    "Roots": {
+      "type": "list",
+      "member": "Root"
+    },
+    "ServicePrincipal": {
+      "type": "string"
+    },
+    "Tag": {
+      "type": "structure",
+      "members": {
+        "Key": "TagKey",
+        "Value": "TagValue"
+      }
+    },
+    "TagKey": {
+      "type": "string"
+    },
+    "TagKeys": {
+      "type": "list",
+      "member": "TagKey"
+    },
+    "TagResourceRequest": {
+      "type": "structure",
+      "members": {
+        "ResourceId": "TaggableResourceId",
+        "Tags": "Tags"
+      }
+    },
+    "TagValue": {
+      "type": "string"
+    },
+    "TaggableResourceId": {
+      "type": "string"
+    },
+    "Tags": {
+      "type": "list",
+      "member": "Tag"
+    },
+    "TargetName": {
+      "type": "string"
+    },
+    "TargetType": {
+      "type": "string"
+    },
+    "Timestamp": {
+      "type": "timestamp"
+    },
+    "UntagResourceRequest": {
+      "type": "structure",
+      "members": {
+        "ResourceId": "TaggableResourceId",
+        "TagKeys": "TagKeys"
+      }
+    },
+    "UpdateOrganizationalUnitRequest": {
+      "type": "structure",
+      "members": {
+        "OrganizationalUnitId": "OrganizationalUnitId",
+        "Name": "OrganizationalUnitName"
+      }
+    },
+    "UpdateOrganizationalUnitResponse": {
+      "type": "structure",
+      "members": {
+        "OrganizationalUnit": "OrganizationalUnit"
+      }
+    },
+    "UpdatePolicyRequest": {
+      "type": "structure",
+      "members": {
+        "PolicyId": "PolicyId",
+        "Name": "PolicyName",
+        "Description": "PolicyDescription",
+        "Content": "PolicyContent"
+      }
+    },
+    "UpdatePolicyResponse": {
+      "type": "structure",
+      "members": {
+        "Policy": "Policy"
+      }
+    }
+  },
+  "errors": {
+    "AWSOrganizationsNotInUseException": "AWSOrganizationsNotInUseException",
+    "AccessDeniedException": "AccessDeniedException",
+    "AccessDeniedForDependencyException": "AccessDeniedForDependencyException",
+    "AccountAlreadyClosedException": "AccountAlreadyClosedException",
+    "AccountAlreadyRegisteredException": "AccountAlreadyRegisteredException",
+    "AccountNotFoundException": "AccountNotFoundException",
+    "AccountNotRegisteredException": "AccountNotRegisteredException",
+    "AccountOwnerNotVerifiedException": "AccountOwnerNotVerifiedException",
+    "AlreadyInOrganizationException": "AlreadyInOrganizationException",
+    "ChildNotFoundException": "ChildNotFoundException",
+    "ConcurrentModificationException": "ConcurrentModificationException",
+    "ConflictException": "ConflictException",
+    "ConstraintViolationException": "ConstraintViolationException",
+    "CreateAccountStatusNotFoundException": "CreateAccountStatusNotFoundException",
+    "DestinationParentNotFoundException": "DestinationParentNotFoundException",
+    "DuplicateAccountException": "DuplicateAccountException",
+    "DuplicateHandshakeException": "DuplicateHandshakeException",
+    "DuplicateOrganizationalUnitException": "DuplicateOrganizationalUnitException",
+    "DuplicatePolicyAttachmentException": "DuplicatePolicyAttachmentException",
+    "DuplicatePolicyException": "DuplicatePolicyException",
+    "EffectivePolicyNotFoundException": "EffectivePolicyNotFoundException",
+    "FinalizingOrganizationException": "FinalizingOrganizationException",
+    "HandshakeAlreadyInStateException": "HandshakeAlreadyInStateException",
+    "HandshakeConstraintViolationException": "HandshakeConstraintViolationException",
+    "HandshakeNotFoundException": "HandshakeNotFoundException",
+    "InvalidHandshakeTransitionException": "InvalidHandshakeTransitionException",
+    "InvalidInputException": "InvalidInputException",
+    "InvalidResponsibilityTransferTransitionException": "InvalidResponsibilityTransferTransitionException",
+    "MalformedPolicyDocumentException": "MalformedPolicyDocumentException",
+    "MasterCannotLeaveOrganizationException": "MasterCannotLeaveOrganizationException",
+    "OrganizationNotEmptyException": "OrganizationNotEmptyException",
+    "OrganizationalUnitNotEmptyException": "OrganizationalUnitNotEmptyException",
+    "OrganizationalUnitNotFoundException": "OrganizationalUnitNotFoundException",
+    "ParentNotFoundException": "ParentNotFoundException",
+    "PolicyChangesInProgressException": "PolicyChangesInProgressException",
+    "PolicyInUseException": "PolicyInUseException",
+    "PolicyNotAttachedException": "PolicyNotAttachedException",
+    "PolicyNotFoundException": "PolicyNotFoundException",
+    "PolicyTypeAlreadyEnabledException": "PolicyTypeAlreadyEnabledException",
+    "PolicyTypeNotAvailableForOrganizationException": "PolicyTypeNotAvailableForOrganizationException",
+    "PolicyTypeNotEnabledException": "PolicyTypeNotEnabledException",
+    "ResourcePolicyNotFoundException": "ResourcePolicyNotFoundException",
+    "ResponsibilityTransferAlreadyInStatusException": "ResponsibilityTransferAlreadyInStatusException",
+    "ResponsibilityTransferNotFoundException": "ResponsibilityTransferNotFoundException",
+    "RootNotFoundException": "RootNotFoundException",
+    "ServiceException": "ServiceException",
+    "SourceParentNotFoundException": "SourceParentNotFoundException",
+    "TargetNotFoundException": "TargetNotFoundException",
+    "TooManyRequestsException": "TooManyRequestsException",
+    "UnsupportedAPIEndpointException": "UnsupportedAPIEndpointException"
+  }
+}

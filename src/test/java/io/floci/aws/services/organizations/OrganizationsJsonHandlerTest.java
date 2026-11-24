@@ -37,7 +37,7 @@ class OrganizationsJsonHandlerTest {
                 AccountAwareStorageBackend.inMemory(OWNER), AccountAwareStorageBackend.inMemory(OWNER),
                 AccountAwareStorageBackend.inMemory(OWNER), AccountAwareStorageBackend.inMemory(OWNER),
                 AccountAwareStorageBackend.inMemory(OWNER), AccountAwareStorageBackend.inMemory(OWNER));
-        handler = new OrganizationsJsonHandler(service, mapper);
+        handler = new OrganizationsJsonHandler(service, mapper, null);
         root = service.createOrganization(OWNER, "ALL").getRoot().getId();
     }
 
