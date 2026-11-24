@@ -1,10 +1,12 @@
 package io.floci.aws.services.cloudtrail;
 
+import io.floci.aws.testing.PartitionCleanup;
 import io.floci.aws.testing.RestAssuredJsonUtils;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 
 import java.io.ByteArrayInputStream;
 import java.util.UUID;
@@ -34,6 +36,9 @@ class CloudTrailAdvancedSelectorsIntegrationTest {
     @Inject
     CloudTrailLogWriter writer;
 
+    @RegisterExtension
+    final PartitionCleanup cleanup = new PartitionCleanup();
+
     @BeforeAll
     static void configureRestAssured() {
         RestAssuredJsonUtils.configureAwsContentTypes();
@@ -51,10 +56,7 @@ class CloudTrailAdvancedSelectorsIntegrationTest {
         createBucket(otherBucket);
         createBucket(destBucket);
 
-        invokeCloudTrail("CreateTrail", String.format("""
-                {"Name":"%s","S3BucketName":"%s"}
-                """, trailName, destBucket))
-                .then().statusCode(200);
+        createTrail(trailName, destBucket);
 
         String putAdvanced = String.format("""
                 {"TrailName":"%s","AdvancedEventSelectors":[
@@ -104,10 +106,7 @@ class CloudTrailAdvancedSelectorsIntegrationTest {
         createBucket(sourceBucket);
         createBucket(destBucket);
 
-        invokeCloudTrail("CreateTrail", String.format("""
-                {"Name":"%s","S3BucketName":"%s"}
-                """, trailName, destBucket))
-                .then().statusCode(200);
+        createTrail(trailName, destBucket);
 
         String putBasic = String.format("""
                 {"TrailName":"%s","EventSelectors":[
@@ -140,10 +139,7 @@ class CloudTrailAdvancedSelectorsIntegrationTest {
         String trailName = "both-" + suffix;
 
         createBucket(destBucket);
-        invokeCloudTrail("CreateTrail", String.format("""
-                {"Name":"%s","S3BucketName":"%s"}
-                """, trailName, destBucket))
-                .then().statusCode(200);
+        createTrail(trailName, destBucket);
 
         String putBoth = String.format("""
                 {"TrailName":"%s",
@@ -157,6 +153,17 @@ class CloudTrailAdvancedSelectorsIntegrationTest {
     }
 
     // --- Helpers ---
+
+    private void createTrail(String trailName, String destBucket) {
+        invokeCloudTrail("CreateTrail", String.format("""
+                {"Name":"%s","S3BucketName":"%s"}
+                """, trailName, destBucket))
+                .then().statusCode(200);
+        // A logging trail outlives the class on the shared emulator: one selecting every bucket's
+        // objects would deliver every later class's S3 data events to EventBridge.
+        cleanup.register(() -> invokeCloudTrail("DeleteTrail", String.format("{\"Name\":\"%s\"}", trailName))
+                .then().statusCode(200));
+    }
 
     private static void createBucket(String name) {
         given().when().put("/" + name).then().statusCode(200);
