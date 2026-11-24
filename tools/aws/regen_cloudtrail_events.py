@@ -26,6 +26,10 @@ carries, so it stays in SERVICES below, as the guide lists them:
   A record names most of them with the API version they are served under (`CreateFunction20150331`),
   which the file carries as `eventNames`: "the `eventName` might include date and version information,
   but it is still referring to the same public API action".
+- AWS Backup (https://docs.aws.amazon.com/aws-backup/latest/devguide/logging-using-cloudtrail.html):
+  "CloudTrail captures all API calls for AWS Backup as events", so every call Floci serves, under its
+  own name, as the guide's examples record StartBackupJob and DeleteRecoveryPoint. The events the
+  guide lists by name are the ones AWS Backup logs on its own (`AwsServiceEvent`), not API calls.
 
 Which of them are read-only is the access level AWS's Service Reference gives each action, read as
 `regen_iam_action_resources.py` reads IAM's: an action with none of the Write, Permissions
@@ -114,6 +118,22 @@ SERVICES: dict[str, Service] = {
             "TerminateInstances",
         ),
         read_only_anchors={"GetPasswordData": True, "TerminateInstances": False},
+    ),
+    "backup": Service(
+        guide="https://docs.aws.amazon.com/aws-backup/latest/devguide/logging-using-cloudtrail.html",
+        # Every API call is recorded; these are the ones Floci serves (docs/services/backup.md).
+        management_events=(
+            "CreateBackupPlan", "CreateBackupSelection", "CreateBackupVault", "CreateLogicallyAirGappedBackupVault",
+            "DeleteBackupPlan", "DeleteBackupSelection", "DeleteBackupVault", "DeleteBackupVaultAccessPolicy",
+            "DeleteBackupVaultLockConfiguration", "DeleteBackupVaultNotifications", "DeleteRecoveryPoint",
+            "DescribeBackupJob", "DescribeBackupVault", "DescribeRecoveryPoint", "GetBackupPlan",
+            "GetBackupSelection", "GetBackupVaultAccessPolicy", "GetBackupVaultNotifications",
+            "GetSupportedResourceTypes", "ListBackupJobs", "ListBackupPlans", "ListBackupSelections",
+            "ListBackupVaults", "ListRecoveryPointsByBackupVault", "ListTags", "PutBackupVaultAccessPolicy",
+            "PutBackupVaultLockConfiguration", "PutBackupVaultNotifications", "StartBackupJob", "StopBackupJob",
+            "TagResource", "UntagResource", "UpdateBackupPlan",
+        ),
+        read_only_anchors={"DescribeBackupVault": True, "ListBackupVaults": True, "DeleteRecoveryPoint": False},
     ),
     "kms": Service(
         guide="https://docs.aws.amazon.com/kms/latest/developerguide/logging-using-cloudtrail.html",

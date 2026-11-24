@@ -1,0 +1,1501 @@
+{
+  "_source": {
+    "generator": "tools/aws/regen_backup_cloudtrail_shapes.py",
+    "botocore": "botocore 1.44.9 (installed package)"
+  },
+  "operations": {
+    "CreateBackupPlan": "CreateBackupPlanInput",
+    "CreateBackupSelection": "CreateBackupSelectionInput",
+    "CreateBackupVault": "CreateBackupVaultInput",
+    "CreateLogicallyAirGappedBackupVault": "CreateLogicallyAirGappedBackupVaultInput",
+    "DeleteBackupPlan": "DeleteBackupPlanInput",
+    "DeleteBackupSelection": "DeleteBackupSelectionInput",
+    "DeleteBackupVault": "DeleteBackupVaultInput",
+    "DeleteBackupVaultAccessPolicy": "DeleteBackupVaultAccessPolicyInput",
+    "DeleteBackupVaultLockConfiguration": "DeleteBackupVaultLockConfigurationInput",
+    "DeleteBackupVaultNotifications": "DeleteBackupVaultNotificationsInput",
+    "DeleteRecoveryPoint": "DeleteRecoveryPointInput",
+    "DescribeBackupJob": "DescribeBackupJobInput",
+    "DescribeBackupVault": "DescribeBackupVaultInput",
+    "DescribeRecoveryPoint": "DescribeRecoveryPointInput",
+    "GetBackupPlan": "GetBackupPlanInput",
+    "GetBackupSelection": "GetBackupSelectionInput",
+    "GetBackupVaultAccessPolicy": "GetBackupVaultAccessPolicyInput",
+    "GetBackupVaultNotifications": "GetBackupVaultNotificationsInput",
+    "ListBackupJobs": "ListBackupJobsInput",
+    "ListBackupPlans": "ListBackupPlansInput",
+    "ListBackupSelections": "ListBackupSelectionsInput",
+    "ListBackupVaults": "ListBackupVaultsInput",
+    "ListRecoveryPointsByBackupVault": "ListRecoveryPointsByBackupVaultInput",
+    "ListTags": "ListTagsInput",
+    "PutBackupVaultAccessPolicy": "PutBackupVaultAccessPolicyInput",
+    "PutBackupVaultLockConfiguration": "PutBackupVaultLockConfigurationInput",
+    "PutBackupVaultNotifications": "PutBackupVaultNotificationsInput",
+    "StartBackupJob": "StartBackupJobInput",
+    "StopBackupJob": "StopBackupJobInput",
+    "TagResource": "TagResourceInput",
+    "UntagResource": "UntagResourceInput",
+    "UpdateBackupPlan": "UpdateBackupPlanInput"
+  },
+  "results": {
+    "CreateBackupPlan": {
+      "shape": "CreateBackupPlanOutput",
+      "resultWrapper": null
+    },
+    "CreateBackupSelection": {
+      "shape": "CreateBackupSelectionOutput",
+      "resultWrapper": null
+    },
+    "CreateBackupVault": {
+      "shape": "CreateBackupVaultOutput",
+      "resultWrapper": null
+    },
+    "CreateLogicallyAirGappedBackupVault": {
+      "shape": "CreateLogicallyAirGappedBackupVaultOutput",
+      "resultWrapper": null
+    },
+    "DeleteBackupPlan": {
+      "shape": "DeleteBackupPlanOutput",
+      "resultWrapper": null
+    },
+    "DescribeBackupJob": {
+      "shape": "DescribeBackupJobOutput",
+      "resultWrapper": null
+    },
+    "DescribeBackupVault": {
+      "shape": "DescribeBackupVaultOutput",
+      "resultWrapper": null
+    },
+    "DescribeRecoveryPoint": {
+      "shape": "DescribeRecoveryPointOutput",
+      "resultWrapper": null
+    },
+    "GetBackupPlan": {
+      "shape": "GetBackupPlanOutput",
+      "resultWrapper": null
+    },
+    "GetBackupSelection": {
+      "shape": "GetBackupSelectionOutput",
+      "resultWrapper": null
+    },
+    "GetBackupVaultAccessPolicy": {
+      "shape": "GetBackupVaultAccessPolicyOutput",
+      "resultWrapper": null
+    },
+    "GetBackupVaultNotifications": {
+      "shape": "GetBackupVaultNotificationsOutput",
+      "resultWrapper": null
+    },
+    "GetSupportedResourceTypes": {
+      "shape": "GetSupportedResourceTypesOutput",
+      "resultWrapper": null
+    },
+    "ListBackupJobs": {
+      "shape": "ListBackupJobsOutput",
+      "resultWrapper": null
+    },
+    "ListBackupPlans": {
+      "shape": "ListBackupPlansOutput",
+      "resultWrapper": null
+    },
+    "ListBackupSelections": {
+      "shape": "ListBackupSelectionsOutput",
+      "resultWrapper": null
+    },
+    "ListBackupVaults": {
+      "shape": "ListBackupVaultsOutput",
+      "resultWrapper": null
+    },
+    "ListRecoveryPointsByBackupVault": {
+      "shape": "ListRecoveryPointsByBackupVaultOutput",
+      "resultWrapper": null
+    },
+    "ListTags": {
+      "shape": "ListTagsOutput",
+      "resultWrapper": null
+    },
+    "StartBackupJob": {
+      "shape": "StartBackupJobOutput",
+      "resultWrapper": null
+    },
+    "UpdateBackupPlan": {
+      "shape": "UpdateBackupPlanOutput",
+      "resultWrapper": null
+    }
+  },
+  "shapes": {
+    "ARN": {
+      "type": "string"
+    },
+    "AccountId": {
+      "type": "string"
+    },
+    "AdvancedBackupSetting": {
+      "type": "structure",
+      "members": {
+        "ResourceType": "ResourceType",
+        "BackupOptions": "BackupOptions"
+      }
+    },
+    "AdvancedBackupSettings": {
+      "type": "list",
+      "member": "AdvancedBackupSetting"
+    },
+    "AggregatedScanResult": {
+      "type": "structure",
+      "members": {
+        "FailedScan": "Boolean",
+        "Findings": "ScanFindings",
+        "LastComputed": "timestamp"
+      }
+    },
+    "BackupJob": {
+      "type": "structure",
+      "members": {
+        "AccountId": "AccountId",
+        "BackupJobId": "string",
+        "BackupVaultName": "BackupVaultName",
+        "BackupVaultArn": "ARN",
+        "VaultType": "string",
+        "VaultLockState": "string",
+        "RecoveryPointArn": "ARN",
+        "RecoveryPointLifecycle": "Lifecycle",
+        "EncryptionKeyArn": "ARN",
+        "IsEncrypted": "boolean",
+        "ResourceArn": "ARN",
+        "CreationDate": "timestamp",
+        "CompletionDate": "timestamp",
+        "State": "BackupJobState",
+        "StatusMessage": "string",
+        "PercentDone": "string",
+        "BackupSizeInBytes": "Long",
+        "IamRoleArn": "IAMRoleArn",
+        "CreatedBy": "RecoveryPointCreator",
+        "ExpectedCompletionDate": "timestamp",
+        "StartBy": "timestamp",
+        "ResourceType": "ResourceType",
+        "BytesTransferred": "Long",
+        "BackupOptions": "BackupOptions",
+        "BackupType": "string",
+        "ParentJobId": "string",
+        "IsParent": "boolean",
+        "ResourceName": "string",
+        "InitiationDate": "timestamp",
+        "MessageCategory": "string"
+      }
+    },
+    "BackupJobChildJobsInState": {
+      "type": "map",
+      "value": "Long"
+    },
+    "BackupJobState": {
+      "type": "string"
+    },
+    "BackupJobsList": {
+      "type": "list",
+      "member": "BackupJob"
+    },
+    "BackupOptionValue": {
+      "type": "string"
+    },
+    "BackupOptions": {
+      "type": "map",
+      "value": "BackupOptionValue"
+    },
+    "BackupPlan": {
+      "type": "structure",
+      "members": {
+        "BackupPlanName": "BackupPlanName",
+        "Rules": "BackupRules",
+        "AdvancedBackupSettings": "AdvancedBackupSettings",
+        "ScanSettings": "ScanSettings"
+      }
+    },
+    "BackupPlanInput": {
+      "type": "structure",
+      "members": {
+        "BackupPlanName": "BackupPlanName",
+        "Rules": "BackupRulesInput",
+        "AdvancedBackupSettings": "AdvancedBackupSettings",
+        "ScanSettings": "ScanSettings"
+      }
+    },
+    "BackupPlanName": {
+      "type": "string"
+    },
+    "BackupPlansList": {
+      "type": "list",
+      "member": "BackupPlansListMember"
+    },
+    "BackupPlansListMember": {
+      "type": "structure",
+      "members": {
+        "BackupPlanArn": "ARN",
+        "BackupPlanId": "string",
+        "CreationDate": "timestamp",
+        "DeletionDate": "timestamp",
+        "VersionId": "string",
+        "BackupPlanName": "BackupPlanName",
+        "CreatorRequestId": "string",
+        "LastExecutionDate": "timestamp",
+        "AdvancedBackupSettings": "AdvancedBackupSettings"
+      }
+    },
+    "BackupRule": {
+      "type": "structure",
+      "members": {
+        "RuleName": "BackupRuleName",
+        "TargetBackupVaultName": "BackupVaultName",
+        "TargetLogicallyAirGappedBackupVaultArn": "ARN",
+        "ScheduleExpression": "CronExpression",
+        "StartWindowMinutes": "WindowMinutes",
+        "CompletionWindowMinutes": "WindowMinutes",
+        "Lifecycle": "Lifecycle",
+        "RecoveryPointTags": "Tags",
+        "RuleId": "string",
+        "CopyActions": "CopyActions",
+        "EnableContinuousBackup": "Boolean",
+        "ScheduleExpressionTimezone": "Timezone",
+        "IndexActions": "IndexActions",
+        "ScanActions": "ScanActions"
+      }
+    },
+    "BackupRuleInput": {
+      "type": "structure",
+      "members": {
+        "RuleName": "BackupRuleName",
+        "TargetBackupVaultName": "BackupVaultName",
+        "TargetLogicallyAirGappedBackupVaultArn": "ARN",
+        "ScheduleExpression": "CronExpression",
+        "StartWindowMinutes": "WindowMinutes",
+        "CompletionWindowMinutes": "WindowMinutes",
+        "Lifecycle": "Lifecycle",
+        "RecoveryPointTags": "Tags",
+        "CopyActions": "CopyActions",
+        "EnableContinuousBackup": "Boolean",
+        "ScheduleExpressionTimezone": "Timezone",
+        "IndexActions": "IndexActions",
+        "ScanActions": "ScanActions"
+      }
+    },
+    "BackupRuleName": {
+      "type": "string"
+    },
+    "BackupRules": {
+      "type": "list",
+      "member": "BackupRule"
+    },
+    "BackupRulesInput": {
+      "type": "list",
+      "member": "BackupRuleInput"
+    },
+    "BackupSelection": {
+      "type": "structure",
+      "members": {
+        "SelectionName": "BackupSelectionName",
+        "IamRoleArn": "IAMRoleArn",
+        "Resources": "ResourceArns",
+        "ListOfTags": "ListOfTags",
+        "NotResources": "ResourceArns",
+        "Conditions": "Conditions"
+      }
+    },
+    "BackupSelectionName": {
+      "type": "string"
+    },
+    "BackupSelectionsList": {
+      "type": "list",
+      "member": "BackupSelectionsListMember"
+    },
+    "BackupSelectionsListMember": {
+      "type": "structure",
+      "members": {
+        "SelectionId": "string",
+        "SelectionName": "BackupSelectionName",
+        "BackupPlanId": "string",
+        "CreationDate": "timestamp",
+        "CreatorRequestId": "string",
+        "IamRoleArn": "IAMRoleArn"
+      }
+    },
+    "BackupVaultEvent": {
+      "type": "string"
+    },
+    "BackupVaultEvents": {
+      "type": "list",
+      "member": "BackupVaultEvent"
+    },
+    "BackupVaultList": {
+      "type": "list",
+      "member": "BackupVaultListMember"
+    },
+    "BackupVaultListMember": {
+      "type": "structure",
+      "members": {
+        "BackupVaultName": "BackupVaultName",
+        "BackupVaultArn": "ARN",
+        "VaultType": "VaultType",
+        "VaultState": "VaultState",
+        "CreationDate": "timestamp",
+        "EncryptionKeyArn": "ARN",
+        "CreatorRequestId": "string",
+        "NumberOfRecoveryPoints": "long",
+        "Locked": "Boolean",
+        "MinRetentionDays": "Long",
+        "MaxRetentionDays": "Long",
+        "LockDate": "timestamp",
+        "EncryptionKeyType": "EncryptionKeyType"
+      }
+    },
+    "BackupVaultName": {
+      "type": "string"
+    },
+    "Boolean": {
+      "type": "boolean"
+    },
+    "CalculatedLifecycle": {
+      "type": "structure",
+      "members": {
+        "MoveToColdStorageAt": "timestamp",
+        "DeleteAt": "timestamp"
+      }
+    },
+    "Condition": {
+      "type": "structure",
+      "members": {
+        "ConditionType": "ConditionType",
+        "ConditionKey": "ConditionKey",
+        "ConditionValue": "ConditionValue"
+      }
+    },
+    "ConditionKey": {
+      "type": "string"
+    },
+    "ConditionParameter": {
+      "type": "structure",
+      "members": {
+        "ConditionKey": "ConditionKey",
+        "ConditionValue": "ConditionValue"
+      }
+    },
+    "ConditionParameters": {
+      "type": "list",
+      "member": "ConditionParameter"
+    },
+    "ConditionType": {
+      "type": "string"
+    },
+    "ConditionValue": {
+      "type": "string"
+    },
+    "Conditions": {
+      "type": "structure",
+      "members": {
+        "StringEquals": "ConditionParameters",
+        "StringNotEquals": "ConditionParameters",
+        "StringLike": "ConditionParameters",
+        "StringNotLike": "ConditionParameters"
+      }
+    },
+    "CopyAction": {
+      "type": "structure",
+      "members": {
+        "Lifecycle": "Lifecycle",
+        "DestinationBackupVaultArn": "ARN"
+      }
+    },
+    "CopyActions": {
+      "type": "list",
+      "member": "CopyAction"
+    },
+    "CreateBackupPlanInput": {
+      "type": "structure",
+      "members": {
+        "BackupPlan": "BackupPlanInput",
+        "BackupPlanTags": "Tags",
+        "CreatorRequestId": "string"
+      }
+    },
+    "CreateBackupPlanOutput": {
+      "type": "structure",
+      "members": {
+        "BackupPlanId": "string",
+        "BackupPlanArn": "ARN",
+        "CreationDate": "timestamp",
+        "VersionId": "string",
+        "AdvancedBackupSettings": "AdvancedBackupSettings"
+      }
+    },
+    "CreateBackupSelectionInput": {
+      "type": "structure",
+      "members": {
+        "BackupPlanId": "string",
+        "BackupSelection": "BackupSelection",
+        "CreatorRequestId": "string"
+      },
+      "locations": {
+        "BackupPlanId": {
+          "location": "uri",
+          "name": "backupPlanId"
+        }
+      }
+    },
+    "CreateBackupSelectionOutput": {
+      "type": "structure",
+      "members": {
+        "SelectionId": "string",
+        "BackupPlanId": "string",
+        "CreationDate": "timestamp"
+      }
+    },
+    "CreateBackupVaultInput": {
+      "type": "structure",
+      "members": {
+        "BackupVaultName": "BackupVaultName",
+        "BackupVaultTags": "Tags",
+        "EncryptionKeyArn": "ARN",
+        "CreatorRequestId": "string"
+      },
+      "locations": {
+        "BackupVaultName": {
+          "location": "uri",
+          "name": "backupVaultName"
+        }
+      }
+    },
+    "CreateBackupVaultOutput": {
+      "type": "structure",
+      "members": {
+        "BackupVaultName": "BackupVaultName",
+        "BackupVaultArn": "ARN",
+        "CreationDate": "timestamp"
+      }
+    },
+    "CreateLogicallyAirGappedBackupVaultInput": {
+      "type": "structure",
+      "members": {
+        "BackupVaultName": "BackupVaultName",
+        "BackupVaultTags": "Tags",
+        "CreatorRequestId": "string",
+        "MinRetentionDays": "Long",
+        "MaxRetentionDays": "Long",
+        "EncryptionKeyArn": "ARN"
+      },
+      "locations": {
+        "BackupVaultName": {
+          "location": "uri",
+          "name": "backupVaultName"
+        }
+      }
+    },
+    "CreateLogicallyAirGappedBackupVaultOutput": {
+      "type": "structure",
+      "members": {
+        "BackupVaultName": "BackupVaultName",
+        "BackupVaultArn": "ARN",
+        "CreationDate": "timestamp",
+        "VaultState": "VaultState"
+      }
+    },
+    "CronExpression": {
+      "type": "string"
+    },
+    "DeleteBackupPlanInput": {
+      "type": "structure",
+      "members": {
+        "BackupPlanId": "string"
+      },
+      "locations": {
+        "BackupPlanId": {
+          "location": "uri",
+          "name": "backupPlanId"
+        }
+      }
+    },
+    "DeleteBackupPlanOutput": {
+      "type": "structure",
+      "members": {
+        "BackupPlanId": "string",
+        "BackupPlanArn": "ARN",
+        "DeletionDate": "timestamp",
+        "VersionId": "string"
+      }
+    },
+    "DeleteBackupSelectionInput": {
+      "type": "structure",
+      "members": {
+        "BackupPlanId": "string",
+        "SelectionId": "string"
+      },
+      "locations": {
+        "BackupPlanId": {
+          "location": "uri",
+          "name": "backupPlanId"
+        },
+        "SelectionId": {
+          "location": "uri",
+          "name": "selectionId"
+        }
+      }
+    },
+    "DeleteBackupVaultAccessPolicyInput": {
+      "type": "structure",
+      "members": {
+        "BackupVaultName": "BackupVaultName"
+      },
+      "locations": {
+        "BackupVaultName": {
+          "location": "uri",
+          "name": "backupVaultName"
+        }
+      }
+    },
+    "DeleteBackupVaultInput": {
+      "type": "structure",
+      "members": {
+        "BackupVaultName": "string"
+      },
+      "locations": {
+        "BackupVaultName": {
+          "location": "uri",
+          "name": "backupVaultName"
+        }
+      }
+    },
+    "DeleteBackupVaultLockConfigurationInput": {
+      "type": "structure",
+      "members": {
+        "BackupVaultName": "BackupVaultName"
+      },
+      "locations": {
+        "BackupVaultName": {
+          "location": "uri",
+          "name": "backupVaultName"
+        }
+      }
+    },
+    "DeleteBackupVaultNotificationsInput": {
+      "type": "structure",
+      "members": {
+        "BackupVaultName": "BackupVaultName"
+      },
+      "locations": {
+        "BackupVaultName": {
+          "location": "uri",
+          "name": "backupVaultName"
+        }
+      }
+    },
+    "DeleteRecoveryPointInput": {
+      "type": "structure",
+      "members": {
+        "BackupVaultName": "BackupVaultName",
+        "RecoveryPointArn": "ARN"
+      },
+      "locations": {
+        "BackupVaultName": {
+          "location": "uri",
+          "name": "backupVaultName"
+        },
+        "RecoveryPointArn": {
+          "location": "uri",
+          "name": "recoveryPointArn"
+        }
+      }
+    },
+    "DescribeBackupJobInput": {
+      "type": "structure",
+      "members": {
+        "BackupJobId": "string"
+      },
+      "locations": {
+        "BackupJobId": {
+          "location": "uri",
+          "name": "backupJobId"
+        }
+      }
+    },
+    "DescribeBackupJobOutput": {
+      "type": "structure",
+      "members": {
+        "AccountId": "AccountId",
+        "BackupJobId": "string",
+        "BackupVaultName": "BackupVaultName",
+        "RecoveryPointLifecycle": "Lifecycle",
+        "BackupVaultArn": "ARN",
+        "VaultType": "string",
+        "VaultLockState": "string",
+        "RecoveryPointArn": "ARN",
+        "EncryptionKeyArn": "ARN",
+        "IsEncrypted": "boolean",
+        "ResourceArn": "ARN",
+        "CreationDate": "timestamp",
+        "CompletionDate": "timestamp",
+        "State": "BackupJobState",
+        "StatusMessage": "string",
+        "PercentDone": "string",
+        "BackupSizeInBytes": "Long",
+        "IamRoleArn": "IAMRoleArn",
+        "CreatedBy": "RecoveryPointCreator",
+        "ResourceType": "ResourceType",
+        "BytesTransferred": "Long",
+        "ExpectedCompletionDate": "timestamp",
+        "StartBy": "timestamp",
+        "BackupOptions": "BackupOptions",
+        "BackupType": "string",
+        "ParentJobId": "string",
+        "IsParent": "boolean",
+        "NumberOfChildJobs": "Long",
+        "ChildJobsInState": "BackupJobChildJobsInState",
+        "ResourceName": "string",
+        "InitiationDate": "timestamp",
+        "MessageCategory": "string"
+      }
+    },
+    "DescribeBackupVaultInput": {
+      "type": "structure",
+      "members": {
+        "BackupVaultName": "string",
+        "BackupVaultAccountId": "string"
+      },
+      "locations": {
+        "BackupVaultName": {
+          "location": "uri",
+          "name": "backupVaultName"
+        },
+        "BackupVaultAccountId": {
+          "location": "querystring",
+          "name": "backupVaultAccountId"
+        }
+      }
+    },
+    "DescribeBackupVaultOutput": {
+      "type": "structure",
+      "members": {
+        "BackupVaultName": "string",
+        "BackupVaultArn": "ARN",
+        "VaultType": "VaultType",
+        "VaultState": "VaultState",
+        "EncryptionKeyArn": "ARN",
+        "CreationDate": "timestamp",
+        "CreatorRequestId": "string",
+        "NumberOfRecoveryPoints": "long",
+        "Locked": "Boolean",
+        "MinRetentionDays": "Long",
+        "MaxRetentionDays": "Long",
+        "LockDate": "timestamp",
+        "SourceBackupVaultArn": "ARN",
+        "MpaApprovalTeamArn": "ARN",
+        "MpaSessionArn": "ARN",
+        "LatestMpaApprovalTeamUpdate": "LatestMpaApprovalTeamUpdate",
+        "EncryptionKeyType": "EncryptionKeyType"
+      }
+    },
+    "DescribeRecoveryPointInput": {
+      "type": "structure",
+      "members": {
+        "BackupVaultName": "BackupVaultName",
+        "RecoveryPointArn": "ARN",
+        "BackupVaultAccountId": "AccountId"
+      },
+      "locations": {
+        "BackupVaultName": {
+          "location": "uri",
+          "name": "backupVaultName"
+        },
+        "RecoveryPointArn": {
+          "location": "uri",
+          "name": "recoveryPointArn"
+        },
+        "BackupVaultAccountId": {
+          "location": "querystring",
+          "name": "backupVaultAccountId"
+        }
+      }
+    },
+    "DescribeRecoveryPointOutput": {
+      "type": "structure",
+      "members": {
+        "RecoveryPointArn": "ARN",
+        "BackupVaultName": "BackupVaultName",
+        "BackupVaultArn": "ARN",
+        "SourceBackupVaultArn": "ARN",
+        "ResourceArn": "ARN",
+        "ResourceType": "ResourceType",
+        "CreatedBy": "RecoveryPointCreator",
+        "IamRoleArn": "IAMRoleArn",
+        "Status": "RecoveryPointStatus",
+        "StatusMessage": "string",
+        "CreationDate": "timestamp",
+        "InitiationDate": "timestamp",
+        "CompletionDate": "timestamp",
+        "BackupSizeInBytes": "Long",
+        "CalculatedLifecycle": "CalculatedLifecycle",
+        "Lifecycle": "Lifecycle",
+        "EncryptionKeyArn": "ARN",
+        "IsEncrypted": "boolean",
+        "StorageClass": "StorageClass",
+        "LastRestoreTime": "timestamp",
+        "ParentRecoveryPointArn": "ARN",
+        "CompositeMemberIdentifier": "string",
+        "IsParent": "boolean",
+        "ResourceName": "string",
+        "VaultType": "VaultType",
+        "IndexStatus": "IndexStatus",
+        "IndexStatusMessage": "string",
+        "EncryptionKeyType": "EncryptionKeyType",
+        "ScanResults": "ScanResults"
+      }
+    },
+    "EncryptionKeyType": {
+      "type": "string"
+    },
+    "GetBackupPlanInput": {
+      "type": "structure",
+      "members": {
+        "BackupPlanId": "string",
+        "VersionId": "string",
+        "MaxScheduledRunsPreview": "MaxScheduledRunsPreview"
+      },
+      "locations": {
+        "BackupPlanId": {
+          "location": "uri",
+          "name": "backupPlanId"
+        },
+        "VersionId": {
+          "location": "querystring",
+          "name": "versionId"
+        },
+        "MaxScheduledRunsPreview": {
+          "location": "querystring",
+          "name": "MaxScheduledRunsPreview"
+        }
+      }
+    },
+    "GetBackupPlanOutput": {
+      "type": "structure",
+      "members": {
+        "BackupPlan": "BackupPlan",
+        "BackupPlanId": "string",
+        "BackupPlanArn": "ARN",
+        "VersionId": "string",
+        "CreatorRequestId": "string",
+        "CreationDate": "timestamp",
+        "DeletionDate": "timestamp",
+        "LastExecutionDate": "timestamp",
+        "AdvancedBackupSettings": "AdvancedBackupSettings",
+        "ScheduledRunsPreview": "ScheduledRunsPreview"
+      }
+    },
+    "GetBackupSelectionInput": {
+      "type": "structure",
+      "members": {
+        "BackupPlanId": "string",
+        "SelectionId": "string"
+      },
+      "locations": {
+        "BackupPlanId": {
+          "location": "uri",
+          "name": "backupPlanId"
+        },
+        "SelectionId": {
+          "location": "uri",
+          "name": "selectionId"
+        }
+      }
+    },
+    "GetBackupSelectionOutput": {
+      "type": "structure",
+      "members": {
+        "BackupSelection": "BackupSelection",
+        "SelectionId": "string",
+        "BackupPlanId": "string",
+        "CreationDate": "timestamp",
+        "CreatorRequestId": "string"
+      }
+    },
+    "GetBackupVaultAccessPolicyInput": {
+      "type": "structure",
+      "members": {
+        "BackupVaultName": "BackupVaultName"
+      },
+      "locations": {
+        "BackupVaultName": {
+          "location": "uri",
+          "name": "backupVaultName"
+        }
+      }
+    },
+    "GetBackupVaultAccessPolicyOutput": {
+      "type": "structure",
+      "members": {
+        "BackupVaultName": "BackupVaultName",
+        "BackupVaultArn": "ARN",
+        "Policy": "IAMPolicy"
+      }
+    },
+    "GetBackupVaultNotificationsInput": {
+      "type": "structure",
+      "members": {
+        "BackupVaultName": "BackupVaultName"
+      },
+      "locations": {
+        "BackupVaultName": {
+          "location": "uri",
+          "name": "backupVaultName"
+        }
+      }
+    },
+    "GetBackupVaultNotificationsOutput": {
+      "type": "structure",
+      "members": {
+        "BackupVaultName": "BackupVaultName",
+        "BackupVaultArn": "ARN",
+        "SNSTopicArn": "ARN",
+        "BackupVaultEvents": "BackupVaultEvents"
+      }
+    },
+    "GetSupportedResourceTypesOutput": {
+      "type": "structure",
+      "members": {
+        "ResourceTypes": "ResourceTypes"
+      }
+    },
+    "IAMPolicy": {
+      "type": "string"
+    },
+    "IAMRoleArn": {
+      "type": "string"
+    },
+    "Index": {
+      "type": "string"
+    },
+    "IndexAction": {
+      "type": "structure",
+      "members": {
+        "ResourceTypes": "ResourceTypes"
+      }
+    },
+    "IndexActions": {
+      "type": "list",
+      "member": "IndexAction"
+    },
+    "IndexStatus": {
+      "type": "string"
+    },
+    "LatestMpaApprovalTeamUpdate": {
+      "type": "structure",
+      "members": {
+        "MpaSessionArn": "ARN",
+        "Status": "MpaSessionStatus",
+        "StatusMessage": "string",
+        "InitiationDate": "timestamp",
+        "ExpiryDate": "timestamp"
+      }
+    },
+    "Lifecycle": {
+      "type": "structure",
+      "members": {
+        "MoveToColdStorageAfterDays": "Long",
+        "DeleteAfterDays": "Long",
+        "OptInToArchiveForSupportedResources": "Boolean",
+        "DeleteAfterEvent": "LifecycleDeleteAfterEvent"
+      }
+    },
+    "LifecycleDeleteAfterEvent": {
+      "type": "string"
+    },
+    "ListBackupJobsInput": {
+      "type": "structure",
+      "members": {
+        "NextToken": "string",
+        "MaxResults": "MaxResults",
+        "ByResourceArn": "ARN",
+        "ByState": "BackupJobState",
+        "ByBackupVaultName": "BackupVaultName",
+        "ByCreatedBefore": "timestamp",
+        "ByCreatedAfter": "timestamp",
+        "ByResourceType": "ResourceType",
+        "ByAccountId": "AccountId",
+        "ByCompleteAfter": "timestamp",
+        "ByCompleteBefore": "timestamp",
+        "ByParentJobId": "string",
+        "ByMessageCategory": "string"
+      },
+      "locations": {
+        "NextToken": {
+          "location": "querystring",
+          "name": "nextToken"
+        },
+        "MaxResults": {
+          "location": "querystring",
+          "name": "maxResults"
+        },
+        "ByResourceArn": {
+          "location": "querystring",
+          "name": "resourceArn"
+        },
+        "ByState": {
+          "location": "querystring",
+          "name": "state"
+        },
+        "ByBackupVaultName": {
+          "location": "querystring",
+          "name": "backupVaultName"
+        },
+        "ByCreatedBefore": {
+          "location": "querystring",
+          "name": "createdBefore"
+        },
+        "ByCreatedAfter": {
+          "location": "querystring",
+          "name": "createdAfter"
+        },
+        "ByResourceType": {
+          "location": "querystring",
+          "name": "resourceType"
+        },
+        "ByAccountId": {
+          "location": "querystring",
+          "name": "accountId"
+        },
+        "ByCompleteAfter": {
+          "location": "querystring",
+          "name": "completeAfter"
+        },
+        "ByCompleteBefore": {
+          "location": "querystring",
+          "name": "completeBefore"
+        },
+        "ByParentJobId": {
+          "location": "querystring",
+          "name": "parentJobId"
+        },
+        "ByMessageCategory": {
+          "location": "querystring",
+          "name": "messageCategory"
+        }
+      }
+    },
+    "ListBackupJobsOutput": {
+      "type": "structure",
+      "members": {
+        "BackupJobs": "BackupJobsList",
+        "NextToken": "string"
+      }
+    },
+    "ListBackupPlansInput": {
+      "type": "structure",
+      "members": {
+        "NextToken": "string",
+        "MaxResults": "MaxResults",
+        "IncludeDeleted": "Boolean"
+      },
+      "locations": {
+        "NextToken": {
+          "location": "querystring",
+          "name": "nextToken"
+        },
+        "MaxResults": {
+          "location": "querystring",
+          "name": "maxResults"
+        },
+        "IncludeDeleted": {
+          "location": "querystring",
+          "name": "includeDeleted"
+        }
+      }
+    },
+    "ListBackupPlansOutput": {
+      "type": "structure",
+      "members": {
+        "NextToken": "string",
+        "BackupPlansList": "BackupPlansList"
+      }
+    },
+    "ListBackupSelectionsInput": {
+      "type": "structure",
+      "members": {
+        "BackupPlanId": "string",
+        "NextToken": "string",
+        "MaxResults": "MaxResults"
+      },
+      "locations": {
+        "BackupPlanId": {
+          "location": "uri",
+          "name": "backupPlanId"
+        },
+        "NextToken": {
+          "location": "querystring",
+          "name": "nextToken"
+        },
+        "MaxResults": {
+          "location": "querystring",
+          "name": "maxResults"
+        }
+      }
+    },
+    "ListBackupSelectionsOutput": {
+      "type": "structure",
+      "members": {
+        "NextToken": "string",
+        "BackupSelectionsList": "BackupSelectionsList"
+      }
+    },
+    "ListBackupVaultsInput": {
+      "type": "structure",
+      "members": {
+        "ByVaultType": "VaultType",
+        "ByShared": "boolean",
+        "NextToken": "string",
+        "MaxResults": "MaxResults"
+      },
+      "locations": {
+        "ByVaultType": {
+          "location": "querystring",
+          "name": "vaultType"
+        },
+        "ByShared": {
+          "location": "querystring",
+          "name": "shared"
+        },
+        "NextToken": {
+          "location": "querystring",
+          "name": "nextToken"
+        },
+        "MaxResults": {
+          "location": "querystring",
+          "name": "maxResults"
+        }
+      }
+    },
+    "ListBackupVaultsOutput": {
+      "type": "structure",
+      "members": {
+        "BackupVaultList": "BackupVaultList",
+        "NextToken": "string"
+      }
+    },
+    "ListOfTags": {
+      "type": "list",
+      "member": "Condition"
+    },
+    "ListRecoveryPointsByBackupVaultInput": {
+      "type": "structure",
+      "members": {
+        "BackupVaultName": "BackupVaultName",
+        "BackupVaultAccountId": "AccountId",
+        "NextToken": "string",
+        "MaxResults": "MaxResults",
+        "ByResourceArn": "ARN",
+        "ByResourceType": "ResourceType",
+        "ByBackupPlanId": "string",
+        "ByCreatedBefore": "timestamp",
+        "ByCreatedAfter": "timestamp",
+        "ByParentRecoveryPointArn": "ARN"
+      },
+      "locations": {
+        "BackupVaultName": {
+          "location": "uri",
+          "name": "backupVaultName"
+        },
+        "BackupVaultAccountId": {
+          "location": "querystring",
+          "name": "backupVaultAccountId"
+        },
+        "NextToken": {
+          "location": "querystring",
+          "name": "nextToken"
+        },
+        "MaxResults": {
+          "location": "querystring",
+          "name": "maxResults"
+        },
+        "ByResourceArn": {
+          "location": "querystring",
+          "name": "resourceArn"
+        },
+        "ByResourceType": {
+          "location": "querystring",
+          "name": "resourceType"
+        },
+        "ByBackupPlanId": {
+          "location": "querystring",
+          "name": "backupPlanId"
+        },
+        "ByCreatedBefore": {
+          "location": "querystring",
+          "name": "createdBefore"
+        },
+        "ByCreatedAfter": {
+          "location": "querystring",
+          "name": "createdAfter"
+        },
+        "ByParentRecoveryPointArn": {
+          "location": "querystring",
+          "name": "parentRecoveryPointArn"
+        }
+      }
+    },
+    "ListRecoveryPointsByBackupVaultOutput": {
+      "type": "structure",
+      "members": {
+        "NextToken": "string",
+        "RecoveryPoints": "RecoveryPointByBackupVaultList"
+      }
+    },
+    "ListTagsInput": {
+      "type": "structure",
+      "members": {
+        "ResourceArn": "ARN",
+        "NextToken": "string",
+        "MaxResults": "MaxResults"
+      },
+      "locations": {
+        "ResourceArn": {
+          "location": "uri",
+          "name": "resourceArn"
+        },
+        "NextToken": {
+          "location": "querystring",
+          "name": "nextToken"
+        },
+        "MaxResults": {
+          "location": "querystring",
+          "name": "maxResults"
+        }
+      }
+    },
+    "ListTagsOutput": {
+      "type": "structure",
+      "members": {
+        "NextToken": "string",
+        "Tags": "Tags"
+      }
+    },
+    "Long": {
+      "type": "long"
+    },
+    "MalwareScanner": {
+      "type": "string"
+    },
+    "MaxResults": {
+      "type": "integer"
+    },
+    "MaxScheduledRunsPreview": {
+      "type": "integer"
+    },
+    "MpaSessionStatus": {
+      "type": "string"
+    },
+    "PutBackupVaultAccessPolicyInput": {
+      "type": "structure",
+      "members": {
+        "BackupVaultName": "BackupVaultName",
+        "Policy": "IAMPolicy"
+      },
+      "locations": {
+        "BackupVaultName": {
+          "location": "uri",
+          "name": "backupVaultName"
+        }
+      }
+    },
+    "PutBackupVaultLockConfigurationInput": {
+      "type": "structure",
+      "members": {
+        "BackupVaultName": "BackupVaultName",
+        "MinRetentionDays": "Long",
+        "MaxRetentionDays": "Long",
+        "ChangeableForDays": "Long"
+      },
+      "locations": {
+        "BackupVaultName": {
+          "location": "uri",
+          "name": "backupVaultName"
+        }
+      }
+    },
+    "PutBackupVaultNotificationsInput": {
+      "type": "structure",
+      "members": {
+        "BackupVaultName": "BackupVaultName",
+        "SNSTopicArn": "ARN",
+        "BackupVaultEvents": "BackupVaultEvents"
+      },
+      "locations": {
+        "BackupVaultName": {
+          "location": "uri",
+          "name": "backupVaultName"
+        }
+      }
+    },
+    "RecoveryPointByBackupVault": {
+      "type": "structure",
+      "members": {
+        "RecoveryPointArn": "ARN",
+        "BackupVaultName": "BackupVaultName",
+        "BackupVaultArn": "ARN",
+        "SourceBackupVaultArn": "ARN",
+        "ResourceArn": "ARN",
+        "ResourceType": "ResourceType",
+        "CreatedBy": "RecoveryPointCreator",
+        "IamRoleArn": "IAMRoleArn",
+        "Status": "RecoveryPointStatus",
+        "StatusMessage": "string",
+        "CreationDate": "timestamp",
+        "InitiationDate": "timestamp",
+        "CompletionDate": "timestamp",
+        "BackupSizeInBytes": "Long",
+        "CalculatedLifecycle": "CalculatedLifecycle",
+        "Lifecycle": "Lifecycle",
+        "EncryptionKeyArn": "ARN",
+        "IsEncrypted": "boolean",
+        "LastRestoreTime": "timestamp",
+        "ParentRecoveryPointArn": "ARN",
+        "CompositeMemberIdentifier": "string",
+        "IsParent": "boolean",
+        "ResourceName": "string",
+        "VaultType": "VaultType",
+        "IndexStatus": "IndexStatus",
+        "IndexStatusMessage": "string",
+        "EncryptionKeyType": "EncryptionKeyType",
+        "AggregatedScanResult": "AggregatedScanResult"
+      }
+    },
+    "RecoveryPointByBackupVaultList": {
+      "type": "list",
+      "member": "RecoveryPointByBackupVault"
+    },
+    "RecoveryPointCreator": {
+      "type": "structure",
+      "members": {
+        "BackupPlanId": "string",
+        "BackupPlanArn": "ARN",
+        "BackupPlanName": "string",
+        "BackupPlanVersion": "string",
+        "BackupRuleId": "string",
+        "BackupRuleName": "string",
+        "BackupRuleCron": "string",
+        "BackupRuleTimezone": "string"
+      }
+    },
+    "RecoveryPointStatus": {
+      "type": "string"
+    },
+    "ResourceArns": {
+      "type": "list",
+      "member": "ARN"
+    },
+    "ResourceType": {
+      "type": "string"
+    },
+    "ResourceTypes": {
+      "type": "list",
+      "member": "ResourceType"
+    },
+    "RuleExecutionType": {
+      "type": "string"
+    },
+    "ScanAction": {
+      "type": "structure",
+      "members": {
+        "MalwareScanner": "MalwareScanner",
+        "ScanMode": "ScanMode"
+      }
+    },
+    "ScanActions": {
+      "type": "list",
+      "member": "ScanAction"
+    },
+    "ScanFinding": {
+      "type": "string"
+    },
+    "ScanFindings": {
+      "type": "list",
+      "member": "ScanFinding"
+    },
+    "ScanJobState": {
+      "type": "string"
+    },
+    "ScanMode": {
+      "type": "string"
+    },
+    "ScanResult": {
+      "type": "structure",
+      "members": {
+        "MalwareScanner": "MalwareScanner",
+        "ScanJobState": "ScanJobState",
+        "LastScanTimestamp": "timestamp",
+        "Findings": "ScanFindings"
+      }
+    },
+    "ScanResults": {
+      "type": "list",
+      "member": "ScanResult"
+    },
+    "ScanSetting": {
+      "type": "structure",
+      "members": {
+        "MalwareScanner": "MalwareScanner",
+        "ResourceTypes": "ResourceTypes",
+        "ScannerRoleArn": "IAMRoleArn"
+      }
+    },
+    "ScanSettings": {
+      "type": "list",
+      "member": "ScanSetting"
+    },
+    "ScheduledPlanExecutionMember": {
+      "type": "structure",
+      "members": {
+        "ExecutionTime": "timestamp",
+        "RuleId": "string",
+        "RuleExecutionType": "RuleExecutionType"
+      }
+    },
+    "ScheduledRunsPreview": {
+      "type": "list",
+      "member": "ScheduledPlanExecutionMember"
+    },
+    "StartBackupJobInput": {
+      "type": "structure",
+      "members": {
+        "BackupVaultName": "BackupVaultName",
+        "LogicallyAirGappedBackupVaultArn": "ARN",
+        "ResourceArn": "ARN",
+        "IamRoleArn": "IAMRoleArn",
+        "IdempotencyToken": "string",
+        "StartWindowMinutes": "WindowMinutes",
+        "CompleteWindowMinutes": "WindowMinutes",
+        "Lifecycle": "Lifecycle",
+        "RecoveryPointTags": "Tags",
+        "BackupOptions": "BackupOptions",
+        "Index": "Index"
+      }
+    },
+    "StartBackupJobOutput": {
+      "type": "structure",
+      "members": {
+        "BackupJobId": "string",
+        "RecoveryPointArn": "ARN",
+        "CreationDate": "timestamp",
+        "IsParent": "boolean"
+      }
+    },
+    "StopBackupJobInput": {
+      "type": "structure",
+      "members": {
+        "BackupJobId": "string"
+      },
+      "locations": {
+        "BackupJobId": {
+          "location": "uri",
+          "name": "backupJobId"
+        }
+      }
+    },
+    "StorageClass": {
+      "type": "string"
+    },
+    "TagKeyList": {
+      "type": "list",
+      "sensitive": true,
+      "member": "string"
+    },
+    "TagResourceInput": {
+      "type": "structure",
+      "members": {
+        "ResourceArn": "ARN",
+        "Tags": "Tags"
+      },
+      "locations": {
+        "ResourceArn": {
+          "location": "uri",
+          "name": "resourceArn"
+        }
+      }
+    },
+    "TagValue": {
+      "type": "string"
+    },
+    "Tags": {
+      "type": "map",
+      "sensitive": true,
+      "value": "TagValue"
+    },
+    "Timezone": {
+      "type": "string"
+    },
+    "UntagResourceInput": {
+      "type": "structure",
+      "members": {
+        "ResourceArn": "ARN",
+        "TagKeyList": "TagKeyList"
+      },
+      "locations": {
+        "ResourceArn": {
+          "location": "uri",
+          "name": "resourceArn"
+        }
+      }
+    },
+    "UpdateBackupPlanInput": {
+      "type": "structure",
+      "members": {
+        "BackupPlanId": "string",
+        "BackupPlan": "BackupPlanInput"
+      },
+      "locations": {
+        "BackupPlanId": {
+          "location": "uri",
+          "name": "backupPlanId"
+        }
+      }
+    },
+    "UpdateBackupPlanOutput": {
+      "type": "structure",
+      "members": {
+        "BackupPlanId": "string",
+        "BackupPlanArn": "ARN",
+        "CreationDate": "timestamp",
+        "VersionId": "string",
+        "AdvancedBackupSettings": "AdvancedBackupSettings",
+        "ScanSettings": "ScanSettings"
+      }
+    },
+    "VaultState": {
+      "type": "string"
+    },
+    "VaultType": {
+      "type": "string"
+    },
+    "WindowMinutes": {
+      "type": "long"
+    },
+    "boolean": {
+      "type": "boolean"
+    },
+    "long": {
+      "type": "long"
+    },
+    "string": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "timestamp"
+    }
+  },
+  "errors": {
+    "AlreadyExistsException": "AlreadyExistsException",
+    "ConflictException": "ConflictException",
+    "DependencyFailureException": "DependencyFailureException",
+    "InvalidParameterValueException": "InvalidParameterValueException",
+    "InvalidRequestException": "InvalidRequestException",
+    "InvalidResourceStateException": "InvalidResourceStateException",
+    "LimitExceededException": "LimitExceededException",
+    "MissingParameterValueException": "MissingParameterValueException",
+    "ResourceNotFoundException": "ResourceNotFoundException",
+    "ServiceUnavailableException": "ServiceUnavailableException"
+  }
+}

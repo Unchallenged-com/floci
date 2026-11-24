@@ -318,6 +318,25 @@ guide gives without a version where records of its neighbors carry one.
   is recorded as `AccessDenied` with `"requestParameters": null`.
 - `Invoke` is a data event, not recorded here.
 
+## AWS Backup Coverage
+
+"CloudTrail captures all API calls for AWS Backup as events"
+([AWS Backup Developer Guide](https://docs.aws.amazon.com/aws-backup/latest/devguide/logging-using-cloudtrail.html)).
+Floci records every AWS Backup call it serves (`backup-cloudtrail-events.json`) under its own name, as the guide's
+examples record `StartBackupJob` and `DeleteRecoveryPoint`: vault, access policy, notification and lock changes,
+backup plans and selections, backup jobs, recovery points and tags.
+
+- `requestParameters` are the call's members from its path, its query and its body, with a lower first letter and
+  typed as botocore's AWS Backup model types them (`"backupVaultName"`, `"recoveryPointArn"`, `"maxResults": 10`).
+  The members the model marks sensitive, the tags (`backupVaultTags`, `backupPlanTags`, `tags`, `tagKeyList`), are
+  left out.
+- `responseElements` is the answer in the same form, its timestamps written as the guide's example writes them
+  (`"creationDate": "Jan 10, 2019 1:45:24 PM"`); `null` for a read-only call, a call that answers nothing
+  (`DeleteRecoveryPoint`, `DeleteBackupVault`) and a failed one.
+- A failed call keeps its members, under its error's type (`ResourceNotFoundException`).
+- The events AWS Backup logs on its own (`AwsServiceEvent`, such as `BackupJobCompleted` or `RecoveryPointCreated`)
+  are not recorded.
+
 ## EventBridge delivery
 
 "CloudTrail sends the following types of events to the default EventBridge event bus", the first of them
