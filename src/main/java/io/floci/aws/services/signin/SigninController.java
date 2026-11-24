@@ -34,11 +34,14 @@ import java.util.Map;
 public class SigninController {
 
     private final SigninService signinService;
+    private final SigninCloudTrailEvents cloudTrail;
     private final ObjectReader tokenRequestReader;
 
     @Inject
-    public SigninController(SigninService signinService, ObjectMapper objectMapper) {
+    public SigninController(SigninService signinService, SigninCloudTrailEvents cloudTrail,
+                            ObjectMapper objectMapper) {
         this.signinService = signinService;
+        this.cloudTrail = cloudTrail;
         this.tokenRequestReader = objectMapper.reader()
                 .with(DeserializationFeature.FAIL_ON_TRAILING_TOKENS);
     }
@@ -124,9 +127,12 @@ public class SigninController {
             if (!"continue".equals(action) && !"cancel".equals(action)) {
                 throw new SigninException("invalid_request", "action must be continue or cancel");
             }
-            String location = "cancel".equals(action)
-                    ? signinService.denyAuthorization(requestId)
-                    : signinService.completeAuthorization(requestId);
+            if ("cancel".equals(action)) {
+                return redirect(signinService.denyAuthorization(requestId));
+            }
+            AuthorizationRequest request = signinService.pendingAuthorization(requestId);
+            String location = signinService.completeAuthorization(requestId);
+            cloudTrail.authorized(request);
             return redirect(location);
         } catch (SigninException e) {
             return htmlError(e);
@@ -186,8 +192,9 @@ public class SigninController {
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_FORM_URLENCODED})
     public Response token(String body, @Context HttpHeaders headers) {
         Map<String, String> values = parseBody(body, headers.getHeaderString(HttpHeaders.CONTENT_TYPE));
+        String clientId = value(values, "clientId", "client_id");
         TokenResult result = signinService.exchange(
-                value(values, "clientId", "client_id"),
+                clientId,
                 value(values, "grantType", "grant_type"),
                 value(values, "code"),
                 value(values, "redirectUri", "redirect_uri"),
@@ -206,6 +213,7 @@ public class SigninController {
         if (result.idToken() != null) {
             response.put("idToken", result.idToken());
         }
+        cloudTrail.tokenCreated(clientId);
         return Response.ok(response).type(MediaType.APPLICATION_JSON).build();
     }
 

@@ -547,6 +547,19 @@ public class CloudTrailService implements StoredResourceArns, Resettable {
      * ({@link CloudTrailEventBridgeDelivery}).
      */
     public Optional<ObjectNode> emitManagementEvent(ManagementEventInput in) {
+        return emit(in, "AwsApiCall", null);
+    }
+
+    /**
+     * As {@link #emitManagementEvent}, for a call CloudTrail records as an {@code AwsServiceEvent} with the
+     * call's members in {@code serviceEventDetails} rather than in {@code requestParameters}, as 2026 records
+     * of the AWS access portal's ListAccounts, ListAccountRoles and GetRoleCredentials show.
+     */
+    public Optional<ObjectNode> emitServiceEvent(ManagementEventInput in, ObjectNode serviceEventDetails) {
+        return emit(in, "AwsServiceEvent", serviceEventDetails);
+    }
+
+    private Optional<ObjectNode> emit(ManagementEventInput in, String eventType, ObjectNode serviceEventDetails) {
         try {
             String region = in.region() != null ? in.region() : regionResolver.getDefaultRegion();
             Instant eventTime = Instant.now();
@@ -558,7 +571,7 @@ public class CloudTrailService implements StoredResourceArns, Resettable {
             record.put("eventName", in.eventName());
             record.put("awsRegion", region);
             record.put("recipientAccountId", regionResolver.getAccountId());
-            record.put("eventType", "AwsApiCall");
+            record.put("eventType", eventType);
             if (in.apiVersion() != null) {
                 record.put("apiVersion", in.apiVersion());
             }
@@ -590,6 +603,9 @@ public class CloudTrailService implements StoredResourceArns, Resettable {
             }
             if (in.resources() != null) {
                 record.set("resources", in.resources().deepCopy());
+            }
+            if (serviceEventDetails != null) {
+                record.set("serviceEventDetails", serviceEventDetails.deepCopy());
             }
             eventHistory.record(regionResolver.getAccountId(), region, eventTime, record);
             List<MatchedTrail> matched = trailsMatching(region, entry ->

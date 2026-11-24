@@ -318,6 +318,48 @@ guide gives without a version where records of its neighbors carry one.
   is recorded as `AccessDenied` with `"requestParameters": null`.
 - `Invoke` is a data event, not recorded here.
 
+## Sign-in and IAM Identity Center Coverage
+
+The calls that issue credentials to a person are recorded, each under the event source AWS records it with. None
+records a secret: a token, a client secret, an assertion or a credential is either left out or written
+`HIDDEN_DUE_TO_SECURITY_REASONS`, as AWS writes it.
+
+- **AWS Sign-In** (`aws login`), as the
+  [IAM User Guide's records](https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html#cloudtrail-integration_examples-signin)
+  show: `AuthorizeOAuth2Access` when the consent page grants the code, with `scope`, `redirect_uri`,
+  `code_challenge_method` and `client_id`, and `CreateOAuth2Token` when the CLI exchanges a code or a refresh token,
+  with `client_id` alone. Both are `signin.amazonaws.com`, read-only, with `"responseElements": null` and
+  `"additionalEventData": {"success": "true", "x-amzn-vpce-id": ""}`, and are the account root user's, whom Floci's
+  sign-in grants.
+- **OIDC**, as the
+  [IAM Identity Center guide lists it](https://docs.aws.amazon.com/singlesignon/latest/userguide/sso-info-in-cloudtrail.html#cloudtrail-events-oidc-operations):
+  `CreateToken` (`sso.amazonaws.com`) and `CreateTokenWithIAM` (`sso-oauth.amazonaws.com`); `RegisterClient` and
+  `StartDeviceAuthorization` are not in the list and are not recorded. `CreateToken` is the user's
+  (`"type": "IdentityCenterUser"`, below), keeps `clientId`, `grantType` and `deviceCode`, hides `clientSecret`, and
+  answers `tokenType` and `expiresIn` with the tokens hidden, the Identity Store in `resources`
+  ([example](https://docs.aws.amazon.com/singlesignon/latest/userguide/understanding-sso-entries.html)).
+  `CreateTokenWithIAM` is its signer's, keeps the request's members with `code`, `assertion`, `subjectToken`,
+  `refreshToken` and `codeVerifier` hidden
+  ([example](https://docs.aws.amazon.com/singlesignon/latest/userguide/sso-cloudtrail-use-cases.html#identifying-user-background-session-details)),
+  answers `tokenType`, `expiresIn` and `issuedTokenType` with the tokens hidden, names the application in `resources`,
+  and the token's user in `additionalEventData` (`identitystore:UserId`, `identitystore:IdentityStoreArn`,
+  `identitycenter:CredentialId`). A failed `CreateTokenWithIAM` is recorded under its exception name
+  (`InvalidRequestException`) with its request; both are write events.
+- **AWS access portal**, as the guide
+  [lists it](https://docs.aws.amazon.com/singlesignon/latest/userguide/sso-info-in-cloudtrail.html#cloudtrail-events-access-portal-operations):
+  `ListAccounts`, `ListAccountRoles` and `GetRoleCredentials`, `sso.amazonaws.com`, read-only, as
+  `"eventType": "AwsServiceEvent"` with `"requestParameters": null` and `"responseElements": null`: the role
+  credentials are never recorded. `ListAccountRoles` carries `"serviceEventDetails": {"account_id": ...}` and
+  `GetRoleCredentials` `{"role_name": ..., "account_id": ...}`.
+- The user behind an IAM Identity Center token is `"type": "IdentityCenterUser"` with the account, `onBehalfOf`
+  (`userId`, `identityStoreArn`) and `credentialId`, as AWS
+  [names it](https://docs.aws.amazon.com/singlesignon/latest/userguide/sso-cloudtrail-use-cases.html#user-session-iam-identity-center)
+  since July 2025. `credentialId` is "the ID of the access token": Floci derives it from the token, one way, so
+  the same token gives the same `credentialId` in `CreateToken` and in the portal calls made with it.
+
+Not recorded yet: a failed sign-in, `CreateToken` or portal call, the consent page's cancellation, `Logout`, and a
+`CreateTokenWithIAM` IAM enforcement refuses.
+
 ## EventBridge delivery
 
 "CloudTrail sends the following types of events to the default EventBridge event bus", the first of them
