@@ -1,0 +1,49 @@
+{
+  "_source": {
+    "generator": "tools/aws/regen_cloudtrail_events.py",
+    "managementEvents": "https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/logging-using-cloudtrail.html",
+    "reference": "https://servicereference.us-east-1.amazonaws.com/v1/route53resolver/route53resolver.json",
+    "retrieved": "2026-11-24"
+  },
+  "managementEvents": [
+    "AssociateResolverRule",
+    "CreateFirewallDomainList",
+    "CreateResolverEndpoint",
+    "CreateResolverRule",
+    "DeleteFirewallDomainList",
+    "DeleteResolverEndpoint",
+    "DeleteResolverRule",
+    "DisassociateResolverRule",
+    "GetFirewallDomainList",
+    "GetResolverDnssecConfig",
+    "GetResolverEndpoint",
+    "GetResolverRule",
+    "GetResolverRuleAssociation",
+    "ListFirewallDomainLists",
+    "ListResolverDnssecConfigs",
+    "ListResolverEndpointIpAddresses",
+    "ListResolverEndpoints",
+    "ListResolverRuleAssociations",
+    "ListResolverRules",
+    "ListTagsForResource",
+    "TagResource",
+    "UntagResource",
+    "UpdateResolverDnssecConfig",
+    "UpdateResolverEndpoint",
+    "UpdateResolverRule"
+  ],
+  "readOnlyActions": [
+    "GetFirewallDomainList",
+    "GetResolverDnssecConfig",
+    "GetResolverEndpoint",
+    "GetResolverRule",
+    "GetResolverRuleAssociation",
+    "ListFirewallDomainLists",
+    "ListResolverDnssecConfigs",
+    "ListResolverEndpointIpAddresses",
+    "ListResolverEndpoints",
+    "ListResolverRuleAssociations",
+    "ListResolverRules",
+    "ListTagsForResource"
+  ]
+}

@@ -26,6 +26,11 @@ carries, so it stays in SERVICES below, as the guide lists them:
   A record names most of them with the API version they are served under (`CreateFunction20150331`),
   which the file carries as `eventNames`: "the `eventName` might include date and version information,
   but it is still referring to the same public API action".
+- Route 53 (https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/logging-using-cloudtrail.html): "All
+  Route 53 actions are logged by CloudTrail", Route 53 Resolver's among them (the page's example records
+  CreateResolverEndpoint from `route53resolver.amazonaws.com`), so every call; each file lists the ones
+  Floci serves, which regen_route53_cloudtrail_shapes.py and regen_route53resolver_cloudtrail_shapes.py
+  vendor the shapes of.
 
 Which of them are read-only is the access level AWS's Service Reference gives each action, read as
 `regen_iam_action_resources.py` reads IAM's: an action with none of the Write, Permissions
@@ -236,6 +241,39 @@ SERVICES: dict[str, Service] = {
             "UpdateLogAnomalyDetector",
         ),
         read_only_anchors={"DescribeLogGroups": True, "DeleteLogGroup": False},
+    ),
+    "route53": Service(
+        guide="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/logging-using-cloudtrail.html",
+        # Every Route 53 call is a management event; these are the ones Floci serves. Records since 2024 name
+        # each by its own name (CreateHostedZone, ChangeResourceRecordSets, ListHostedZones).
+        management_events=(
+            "AssociateVPCWithHostedZone", "ChangeResourceRecordSets", "ChangeTagsForResource", "CreateHealthCheck",
+            "CreateHostedZone", "CreateReusableDelegationSet", "CreateVPCAssociationAuthorization",
+            "DeleteHealthCheck", "DeleteHostedZone", "DeleteReusableDelegationSet",
+            "DeleteVPCAssociationAuthorization", "DisassociateVPCFromHostedZone", "GetAccountLimit", "GetChange",
+            "GetDNSSEC", "GetHealthCheck", "GetHealthCheckStatus", "GetHostedZone", "GetHostedZoneCount",
+            "GetHostedZoneLimit", "GetReusableDelegationSet", "ListHealthChecks", "ListHostedZones",
+            "ListHostedZonesByName", "ListHostedZonesByVPC", "ListResourceRecordSets", "ListReusableDelegationSets",
+            "ListTagsForResource", "ListVPCAssociationAuthorizations", "UpdateHealthCheck",
+            "UpdateHostedZoneComment",
+        ),
+        read_only_anchors={"ListHostedZones": True, "GetChange": True, "ChangeResourceRecordSets": False},
+    ),
+    "route53resolver": Service(
+        guide="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/logging-using-cloudtrail.html",
+        # Every Route 53 Resolver call is a management event; these are the ones Floci serves. Records since
+        # 2024 name each by its own name (DeleteResolverQueryLogConfig).
+        management_events=(
+            "AssociateResolverRule", "CreateFirewallDomainList", "CreateResolverEndpoint", "CreateResolverRule",
+            "DeleteFirewallDomainList", "DeleteResolverEndpoint", "DeleteResolverRule", "DisassociateResolverRule",
+            "GetFirewallDomainList", "GetResolverDnssecConfig", "GetResolverEndpoint", "GetResolverRule",
+            "GetResolverRuleAssociation", "ListFirewallDomainLists", "ListResolverDnssecConfigs",
+            "ListResolverEndpointIpAddresses", "ListResolverEndpoints", "ListResolverRuleAssociations",
+            "ListResolverRules", "ListTagsForResource", "TagResource", "UntagResource",
+            "UpdateResolverDnssecConfig", "UpdateResolverEndpoint", "UpdateResolverRule",
+        ),
+        read_only_anchors={"GetFirewallDomainList": True, "ListResolverRules": True,
+                           "DeleteFirewallDomainList": False},
     ),
     "secretsmanager": Service(
         guide="https://docs.aws.amazon.com/secretsmanager/latest/userguide/cloudtrail_log_entries.html",

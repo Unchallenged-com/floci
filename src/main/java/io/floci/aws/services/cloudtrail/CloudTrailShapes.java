@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 import java.util.regex.Pattern;
 
 /**
@@ -33,7 +34,8 @@ import java.util.regex.Pattern;
  * member is named with a lower first letter ({@code userName}, {@code tags: [{"key", "value"}]}),
  * a number, a boolean or a timestamp is written as one because its shape says so, and a sensitive
  * member is left out. A Query request ({@code IAM}) is read from its form parameters and its XML
- * result, a JSON one ({@code SQS}) from its body and its result, a map keeping its keys as sent.
+ * result, a JSON one ({@code SQS}) from its body and its result, a map keeping its keys as sent, and a
+ * REST-XML one ({@code Route 53}) from its path, its query and its XML body, and its XML answer and headers.
  * {@code make aws-data-check} fails when a file is stale against the pinned botocore.
  *
  * <p>A missing or malformed resource is a build defect, not a runtime condition, so loading fails
@@ -220,7 +222,80 @@ public final class CloudTrailShapes {
     public ObjectNode requestParameters(String operation, Map<String, String> labels,
                                         MultivaluedMap<String, String> query, JsonNode body, JsonStyle style) {
         String input = operations.path(operation).asText("");
+        ObjectNode request = locatedMembers(shapes.path(input), labels, query);
+        if (body != null && body.isObject()) {
+            for (Map.Entry<String, JsonNode> member : body.properties()) {
+                if (!request.has(member.getKey())) {
+                    request.set(member.getKey(), member.getValue());
+                }
+            }
+        }
+        return readJsonStructure(input, request, style);
+    }
+
+    /**
+     * The members of a REST-XML request for {@code operation}, without the sensitive ones: those the model
+     * locates in the path, read from {@code labels} by the name the route gives them, and in the query, read
+     * from {@code query}, then the elements of the XML {@code body}, each read as the member it is named after
+     * and typed as its shape types it; null for an operation the model does not carry and for a request that
+     * carries none of its members. A member it locates in a header is not read.
+     */
+    public ObjectNode requestParameters(String operation, Map<String, String> labels,
+                                        MultivaluedMap<String, String> query, XmlParser.XmlElement body) {
+        String input = operations.path(operation).asText("");
         JsonNode shape = shapes.path(input);
+        if (!shape.has("members")) {
+            return null;
+        }
+        ObjectNode request = MAPPER.createObjectNode();
+        for (Map.Entry<String, JsonNode> member : locatedMembers(shape, labels, query).properties()) {
+            if (!shapes.path(shape.path("members").path(member.getKey()).asText()).path("sensitive").asBoolean()) {
+                request.set(lowerFirst(member.getKey()), member.getValue());
+            }
+        }
+        if (body != null && readElement(input, body) instanceof ObjectNode members) {
+            for (Map.Entry<String, JsonNode> member : members.properties()) {
+                if (!request.has(member.getKey())) {
+                    request.set(member.getKey(), member.getValue());
+                }
+            }
+        }
+        return request.isEmpty() ? null : request;
+    }
+
+    /**
+     * The REST-XML answer {@code xml} gave {@code operation}, without the sensitive members: the elements of
+     * its document, each read as the member it is named after, then the members the model locates in a
+     * header, read from {@code headers} by the header's name; null for an operation without a result and
+     * for an answer that carries nothing.
+     */
+    public ObjectNode restXmlResult(String operation, String xml, Function<String, String> headers) {
+        String output = results.path(operation).path("shape").asText("");
+        JsonNode shape = shapes.path(output);
+        if (!shape.has("members")) {
+            return null;
+        }
+        XmlParser.XmlElement root = xml == null ? null : XmlParser.parseDocumentElementTree(xml);
+        ObjectNode read = root != null && readElement(output, root) instanceof ObjectNode body
+                ? body : MAPPER.createObjectNode();
+        for (Map.Entry<String, JsonNode> located : shape.path("locations").properties()) {
+            JsonNode memberShape = shapes.path(shape.path("members").path(located.getKey()).asText());
+            String value = "header".equals(located.getValue().path("location").asText())
+                    ? headers.apply(located.getValue().path("name").asText()) : null;
+            if (value != null && !memberShape.path("sensitive").asBoolean()) {
+                read.set(lowerFirst(located.getKey()), scalar(memberShape.path("type").asText(), value, true));
+            }
+        }
+        return read.isEmpty() ? null : read;
+    }
+
+    /**
+     * The members {@code shape} locates in the path, read from {@code labels} by the name the route gives
+     * them, and in the query, read from {@code query}, keyed by their member names and typed as their shapes
+     * type them.
+     */
+    private ObjectNode locatedMembers(JsonNode shape, Map<String, String> labels,
+                                      MultivaluedMap<String, String> query) {
         ObjectNode request = MAPPER.createObjectNode();
         for (Map.Entry<String, JsonNode> located : shape.path("locations").properties()) {
             String name = located.getValue().path("name").asText();
@@ -235,14 +310,7 @@ public final class CloudTrailShapes {
                 request.set(located.getKey(), value);
             }
         }
-        if (body != null && body.isObject()) {
-            for (Map.Entry<String, JsonNode> member : body.properties()) {
-                if (!request.has(member.getKey())) {
-                    request.set(member.getKey(), member.getValue());
-                }
-            }
-        }
-        return readJsonStructure(input, request, style);
+        return request;
     }
 
     /** A query member's values, a list when its shape is one, else its first value as its shape types it. */

@@ -318,6 +318,52 @@ guide gives without a version where records of its neighbors carry one.
   is recorded as `AccessDenied` with `"requestParameters": null`.
 - `Invoke` is a data event, not recorded here.
 
+## Route 53 Coverage
+
+"All Route 53 actions are logged by CloudTrail"
+([Route 53 Developer Guide](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/logging-using-cloudtrail.html)),
+so the 31 Route 53 calls Floci serves are recorded (`route53-cloudtrail-events.json`), under their own names: one
+Route 53 ran, one it answered with an error, and, with `floci.services.iam.enforcement-enabled`, one IAM enforcement
+refused. Each reaches the account's event history whether or not a trail records it.
+
+- `eventSource` is `route53.amazonaws.com`. Route 53 is a global service: a call is recorded in the Region its
+  endpoint signs for in the caller's partition (`us-east-1` in `aws`), whatever Region the caller named, and only a
+  trail that includes global service events records it. A call Route 53 answered carries
+  `"apiVersion": "2013-04-01"`.
+- `readOnly` is AWS's service reference's access level
+  ([`route53.json`](https://servicereference.us-east-1.amazonaws.com/v1/route53/route53.json)): the `Get*` and
+  `List*` calls are read-only.
+- `requestParameters` are the call's members from its path, its query and its XML body, with a lower first letter
+  and typed as botocore's Route 53 model types them (`"hostedZoneId"`, `"tTL": 300`, `"iPAddress"`,
+  `route53-cloudtrail-shapes.json`); `null` for a call that carries none (`ListHostedZones`).
+- `responseElements` is the answer in the same form, the `Location` header of a created resource as `"location"`
+  and a timestamp written `May 1, 2025 11:46:14 AM` (`"changeInfo": {"submittedAt": ...}`); `null` for a read-only
+  call and a failed one. `ChangeResourceRecordSets` carries
+  `"additionalEventData": {"Note": "Do not use to reconstruct hosted zone"}`.
+- A failed call keeps its members, under its error's code (`NoSuchHostedZone`) and with its message. A call IAM
+  enforcement refuses is recorded as `AccessDenied` with `"requestParameters": null`, the message its refusal answers
+  with, and no `apiVersion`.
+
+## Route 53 Resolver Coverage
+
+Resolver's calls are among Route 53's
+([Route 53 Developer Guide](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/logging-using-cloudtrail.html)),
+so the 25 Resolver calls Floci serves are recorded (`route53resolver-cloudtrail-events.json`), under their own names,
+as Route 53's are: answered, failed and refused.
+
+- `eventSource` is `route53resolver.amazonaws.com` and `awsRegion` the Region the call was made in: Resolver is a
+  Regional service, so a trail that leaves global service events out records it. Its records carry no `apiVersion`.
+- `readOnly` is AWS's service reference's access level
+  ([`route53resolver.json`](https://servicereference.us-east-1.amazonaws.com/v1/route53resolver/route53resolver.json)).
+- `requestParameters` and `responseElements` hold the request's and the result's members with a lower first letter,
+  typed as botocore's Resolver model types them (`"creatorRequestId"`, `"ipAddresses": [{"subnetId": ...}]`,
+  `"resolverEndpoint": {...}`, `route53resolver-cloudtrail-shapes.json`). `responseElements` is `null` for a
+  read-only call and a failed one.
+- A failed call keeps its members, under its error's type (`ResourceNotFoundException`); a call IAM enforcement
+  refuses is recorded as `AccessDenied` with `"requestParameters": null`.
+- Query logging (`CreateResolverQueryLogConfig`, `DeleteResolverQueryLogConfig`, ...) and the DNS Firewall rule
+  groups are not served by Floci, so not recorded.
+
 ## EventBridge delivery
 
 "CloudTrail sends the following types of events to the default EventBridge event bus", the first of them

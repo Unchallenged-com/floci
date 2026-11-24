@@ -1,0 +1,842 @@
+{
+  "_source": {
+    "generator": "tools/aws/regen_route53resolver_cloudtrail_shapes.py",
+    "botocore": "botocore 1.44.9 (installed package)"
+  },
+  "operations": {
+    "AssociateResolverRule": "AssociateResolverRuleRequest",
+    "CreateFirewallDomainList": "CreateFirewallDomainListRequest",
+    "CreateResolverEndpoint": "CreateResolverEndpointRequest",
+    "CreateResolverRule": "CreateResolverRuleRequest",
+    "DeleteFirewallDomainList": "DeleteFirewallDomainListRequest",
+    "DeleteResolverEndpoint": "DeleteResolverEndpointRequest",
+    "DeleteResolverRule": "DeleteResolverRuleRequest",
+    "DisassociateResolverRule": "DisassociateResolverRuleRequest",
+    "GetFirewallDomainList": "GetFirewallDomainListRequest",
+    "GetResolverDnssecConfig": "GetResolverDnssecConfigRequest",
+    "GetResolverEndpoint": "GetResolverEndpointRequest",
+    "GetResolverRule": "GetResolverRuleRequest",
+    "GetResolverRuleAssociation": "GetResolverRuleAssociationRequest",
+    "ListFirewallDomainLists": "ListFirewallDomainListsRequest",
+    "ListResolverDnssecConfigs": "ListResolverDnssecConfigsRequest",
+    "ListResolverEndpointIpAddresses": "ListResolverEndpointIpAddressesRequest",
+    "ListResolverEndpoints": "ListResolverEndpointsRequest",
+    "ListResolverRuleAssociations": "ListResolverRuleAssociationsRequest",
+    "ListResolverRules": "ListResolverRulesRequest",
+    "ListTagsForResource": "ListTagsForResourceRequest",
+    "TagResource": "TagResourceRequest",
+    "UntagResource": "UntagResourceRequest",
+    "UpdateResolverDnssecConfig": "UpdateResolverDnssecConfigRequest",
+    "UpdateResolverEndpoint": "UpdateResolverEndpointRequest",
+    "UpdateResolverRule": "UpdateResolverRuleRequest"
+  },
+  "results": {
+    "AssociateResolverRule": {
+      "shape": "AssociateResolverRuleResponse",
+      "resultWrapper": null
+    },
+    "CreateFirewallDomainList": {
+      "shape": "CreateFirewallDomainListResponse",
+      "resultWrapper": null
+    },
+    "CreateResolverEndpoint": {
+      "shape": "CreateResolverEndpointResponse",
+      "resultWrapper": null
+    },
+    "CreateResolverRule": {
+      "shape": "CreateResolverRuleResponse",
+      "resultWrapper": null
+    },
+    "DeleteFirewallDomainList": {
+      "shape": "DeleteFirewallDomainListResponse",
+      "resultWrapper": null
+    },
+    "DeleteResolverEndpoint": {
+      "shape": "DeleteResolverEndpointResponse",
+      "resultWrapper": null
+    },
+    "DeleteResolverRule": {
+      "shape": "DeleteResolverRuleResponse",
+      "resultWrapper": null
+    },
+    "DisassociateResolverRule": {
+      "shape": "DisassociateResolverRuleResponse",
+      "resultWrapper": null
+    },
+    "GetFirewallDomainList": {
+      "shape": "GetFirewallDomainListResponse",
+      "resultWrapper": null
+    },
+    "GetResolverDnssecConfig": {
+      "shape": "GetResolverDnssecConfigResponse",
+      "resultWrapper": null
+    },
+    "GetResolverEndpoint": {
+      "shape": "GetResolverEndpointResponse",
+      "resultWrapper": null
+    },
+    "GetResolverRule": {
+      "shape": "GetResolverRuleResponse",
+      "resultWrapper": null
+    },
+    "GetResolverRuleAssociation": {
+      "shape": "GetResolverRuleAssociationResponse",
+      "resultWrapper": null
+    },
+    "ListFirewallDomainLists": {
+      "shape": "ListFirewallDomainListsResponse",
+      "resultWrapper": null
+    },
+    "ListResolverDnssecConfigs": {
+      "shape": "ListResolverDnssecConfigsResponse",
+      "resultWrapper": null
+    },
+    "ListResolverEndpointIpAddresses": {
+      "shape": "ListResolverEndpointIpAddressesResponse",
+      "resultWrapper": null
+    },
+    "ListResolverEndpoints": {
+      "shape": "ListResolverEndpointsResponse",
+      "resultWrapper": null
+    },
+    "ListResolverRuleAssociations": {
+      "shape": "ListResolverRuleAssociationsResponse",
+      "resultWrapper": null
+    },
+    "ListResolverRules": {
+      "shape": "ListResolverRulesResponse",
+      "resultWrapper": null
+    },
+    "ListTagsForResource": {
+      "shape": "ListTagsForResourceResponse",
+      "resultWrapper": null
+    },
+    "TagResource": {
+      "shape": "TagResourceResponse",
+      "resultWrapper": null
+    },
+    "UntagResource": {
+      "shape": "UntagResourceResponse",
+      "resultWrapper": null
+    },
+    "UpdateResolverDnssecConfig": {
+      "shape": "UpdateResolverDnssecConfigResponse",
+      "resultWrapper": null
+    },
+    "UpdateResolverEndpoint": {
+      "shape": "UpdateResolverEndpointResponse",
+      "resultWrapper": null
+    },
+    "UpdateResolverRule": {
+      "shape": "UpdateResolverRuleResponse",
+      "resultWrapper": null
+    }
+  },
+  "shapes": {
+    "AccountId": {
+      "type": "string"
+    },
+    "Arn": {
+      "type": "string"
+    },
+    "AssociateResolverRuleRequest": {
+      "type": "structure",
+      "members": {
+        "ResolverRuleId": "ResourceId",
+        "Name": "Name",
+        "VPCId": "ResourceId"
+      }
+    },
+    "AssociateResolverRuleResponse": {
+      "type": "structure",
+      "members": {
+        "ResolverRuleAssociation": "ResolverRuleAssociation"
+      }
+    },
+    "Category": {
+      "type": "string"
+    },
+    "CreateFirewallDomainListRequest": {
+      "type": "structure",
+      "members": {
+        "CreatorRequestId": "CreatorRequestId",
+        "Name": "Name",
+        "Tags": "TagList"
+      }
+    },
+    "CreateFirewallDomainListResponse": {
+      "type": "structure",
+      "members": {
+        "FirewallDomainList": "FirewallDomainList"
+      }
+    },
+    "CreateResolverEndpointRequest": {
+      "type": "structure",
+      "members": {
+        "CreatorRequestId": "CreatorRequestId",
+        "Name": "Name",
+        "SecurityGroupIds": "SecurityGroupIds",
+        "Direction": "ResolverEndpointDirection",
+        "IpAddresses": "IpAddressesRequest",
+        "OutpostArn": "OutpostArn",
+        "PreferredInstanceType": "OutpostInstanceType",
+        "Tags": "TagList",
+        "ResolverEndpointType": "ResolverEndpointType",
+        "Protocols": "ProtocolList",
+        "RniEnhancedMetricsEnabled": "RniEnhancedMetricsEnabled",
+        "TargetNameServerMetricsEnabled": "TargetNameServerMetricsEnabled",
+        "Dns64Enabled": "Dns64Enabled",
+        "Ipv6InternetAccessEnabled": "Ipv6InternetAccessEnabled"
+      }
+    },
+    "CreateResolverEndpointResponse": {
+      "type": "structure",
+      "members": {
+        "ResolverEndpoint": "ResolverEndpoint"
+      }
+    },
+    "CreateResolverRuleRequest": {
+      "type": "structure",
+      "members": {
+        "CreatorRequestId": "CreatorRequestId",
+        "Name": "Name",
+        "RuleType": "RuleTypeOption",
+        "DomainName": "DomainName",
+        "TargetIps": "TargetList",
+        "ResolverEndpointId": "ResourceId",
+        "Tags": "TagList",
+        "DelegationRecord": "DelegationRecord"
+      }
+    },
+    "CreateResolverRuleResponse": {
+      "type": "structure",
+      "members": {
+        "ResolverRule": "ResolverRule"
+      }
+    },
+    "CreatorRequestId": {
+      "type": "string"
+    },
+    "DelegationRecord": {
+      "type": "string"
+    },
+    "DeleteFirewallDomainListRequest": {
+      "type": "structure",
+      "members": {
+        "FirewallDomainListId": "ResourceId"
+      }
+    },
+    "DeleteFirewallDomainListResponse": {
+      "type": "structure",
+      "members": {
+        "FirewallDomainList": "FirewallDomainList"
+      }
+    },
+    "DeleteResolverEndpointRequest": {
+      "type": "structure",
+      "members": {
+        "ResolverEndpointId": "ResourceId"
+      }
+    },
+    "DeleteResolverEndpointResponse": {
+      "type": "structure",
+      "members": {
+        "ResolverEndpoint": "ResolverEndpoint"
+      }
+    },
+    "DeleteResolverRuleRequest": {
+      "type": "structure",
+      "members": {
+        "ResolverRuleId": "ResourceId"
+      }
+    },
+    "DeleteResolverRuleResponse": {
+      "type": "structure",
+      "members": {
+        "ResolverRule": "ResolverRule"
+      }
+    },
+    "DisassociateResolverRuleRequest": {
+      "type": "structure",
+      "members": {
+        "VPCId": "ResourceId",
+        "ResolverRuleId": "ResourceId"
+      }
+    },
+    "DisassociateResolverRuleResponse": {
+      "type": "structure",
+      "members": {
+        "ResolverRuleAssociation": "ResolverRuleAssociation"
+      }
+    },
+    "Dns64Enabled": {
+      "type": "boolean"
+    },
+    "DomainListType": {
+      "type": "string"
+    },
+    "DomainName": {
+      "type": "string"
+    },
+    "Filter": {
+      "type": "structure",
+      "members": {
+        "Name": "FilterName",
+        "Values": "FilterValues"
+      }
+    },
+    "FilterName": {
+      "type": "string"
+    },
+    "FilterValue": {
+      "type": "string"
+    },
+    "FilterValues": {
+      "type": "list",
+      "member": "FilterValue"
+    },
+    "Filters": {
+      "type": "list",
+      "member": "Filter"
+    },
+    "FirewallDomainList": {
+      "type": "structure",
+      "members": {
+        "Id": "ResourceId",
+        "Arn": "Arn",
+        "Name": "Name",
+        "DomainCount": "Unsigned",
+        "Status": "FirewallDomainListStatus",
+        "StatusMessage": "StatusMessage",
+        "ManagedOwnerName": "ServicePrinciple",
+        "CreatorRequestId": "CreatorRequestId",
+        "CreationTime": "Rfc3339TimeString",
+        "ModificationTime": "Rfc3339TimeString",
+        "Category": "Category",
+        "ManagedListType": "DomainListType"
+      }
+    },
+    "FirewallDomainListMetadata": {
+      "type": "structure",
+      "members": {
+        "Id": "ResourceId",
+        "Arn": "Arn",
+        "Name": "Name",
+        "CreatorRequestId": "CreatorRequestId",
+        "ManagedOwnerName": "ServicePrinciple",
+        "ManagedListType": "DomainListType",
+        "Category": "Category",
+        "FirewallRuleGroupId": "ResourceId",
+        "FirewallThreatProtectionId": "ResourceId",
+        "Status": "FirewallDomainListStatus"
+      }
+    },
+    "FirewallDomainListMetadataList": {
+      "type": "list",
+      "member": "FirewallDomainListMetadata"
+    },
+    "FirewallDomainListStatus": {
+      "type": "string"
+    },
+    "GetFirewallDomainListRequest": {
+      "type": "structure",
+      "members": {
+        "FirewallDomainListId": "ResourceId"
+      }
+    },
+    "GetFirewallDomainListResponse": {
+      "type": "structure",
+      "members": {
+        "FirewallDomainList": "FirewallDomainList",
+        "FirewallRuleGroupId": "ResourceId",
+        "FirewallThreatProtectionId": "ResourceId"
+      }
+    },
+    "GetResolverDnssecConfigRequest": {
+      "type": "structure",
+      "members": {
+        "ResourceId": "ResourceId"
+      }
+    },
+    "GetResolverDnssecConfigResponse": {
+      "type": "structure",
+      "members": {
+        "ResolverDNSSECConfig": "ResolverDnssecConfig"
+      }
+    },
+    "GetResolverEndpointRequest": {
+      "type": "structure",
+      "members": {
+        "ResolverEndpointId": "ResourceId"
+      }
+    },
+    "GetResolverEndpointResponse": {
+      "type": "structure",
+      "members": {
+        "ResolverEndpoint": "ResolverEndpoint"
+      }
+    },
+    "GetResolverRuleAssociationRequest": {
+      "type": "structure",
+      "members": {
+        "ResolverRuleAssociationId": "ResourceId"
+      }
+    },
+    "GetResolverRuleAssociationResponse": {
+      "type": "structure",
+      "members": {
+        "ResolverRuleAssociation": "ResolverRuleAssociation"
+      }
+    },
+    "GetResolverRuleRequest": {
+      "type": "structure",
+      "members": {
+        "ResolverRuleId": "ResourceId"
+      }
+    },
+    "GetResolverRuleResponse": {
+      "type": "structure",
+      "members": {
+        "ResolverRule": "ResolverRule"
+      }
+    },
+    "Ip": {
+      "type": "string"
+    },
+    "IpAddressCount": {
+      "type": "integer"
+    },
+    "IpAddressRequest": {
+      "type": "structure",
+      "members": {
+        "SubnetId": "SubnetId",
+        "Ip": "Ip",
+        "Ipv6": "Ipv6"
+      }
+    },
+    "IpAddressResponse": {
+      "type": "structure",
+      "members": {
+        "IpId": "ResourceId",
+        "SubnetId": "SubnetId",
+        "Ip": "Ip",
+        "Ipv6": "Ipv6",
+        "Status": "IpAddressStatus",
+        "StatusMessage": "StatusMessage",
+        "CreationTime": "Rfc3339TimeString",
+        "ModificationTime": "Rfc3339TimeString"
+      }
+    },
+    "IpAddressStatus": {
+      "type": "string"
+    },
+    "IpAddressesRequest": {
+      "type": "list",
+      "member": "IpAddressRequest"
+    },
+    "IpAddressesResponse": {
+      "type": "list",
+      "member": "IpAddressResponse"
+    },
+    "Ipv6": {
+      "type": "string"
+    },
+    "Ipv6InternetAccessEnabled": {
+      "type": "boolean"
+    },
+    "ListFirewallDomainListsRequest": {
+      "type": "structure",
+      "members": {
+        "MaxResults": "MaxResults",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListFirewallDomainListsResponse": {
+      "type": "structure",
+      "members": {
+        "NextToken": "NextToken",
+        "FirewallDomainLists": "FirewallDomainListMetadataList"
+      }
+    },
+    "ListResolverDnssecConfigsRequest": {
+      "type": "structure",
+      "members": {
+        "MaxResults": "MaxResults",
+        "NextToken": "NextToken",
+        "Filters": "Filters"
+      }
+    },
+    "ListResolverDnssecConfigsResponse": {
+      "type": "structure",
+      "members": {
+        "NextToken": "NextToken",
+        "ResolverDnssecConfigs": "ResolverDnssecConfigList"
+      }
+    },
+    "ListResolverEndpointIpAddressesRequest": {
+      "type": "structure",
+      "members": {
+        "ResolverEndpointId": "ResourceId",
+        "MaxResults": "MaxResults",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListResolverEndpointIpAddressesResponse": {
+      "type": "structure",
+      "members": {
+        "NextToken": "NextToken",
+        "MaxResults": "MaxResults",
+        "IpAddresses": "IpAddressesResponse"
+      }
+    },
+    "ListResolverEndpointsRequest": {
+      "type": "structure",
+      "members": {
+        "MaxResults": "MaxResults",
+        "NextToken": "NextToken",
+        "Filters": "Filters"
+      }
+    },
+    "ListResolverEndpointsResponse": {
+      "type": "structure",
+      "members": {
+        "NextToken": "NextToken",
+        "MaxResults": "MaxResults",
+        "ResolverEndpoints": "ResolverEndpoints"
+      }
+    },
+    "ListResolverRuleAssociationsRequest": {
+      "type": "structure",
+      "members": {
+        "MaxResults": "MaxResults",
+        "NextToken": "NextToken",
+        "Filters": "Filters"
+      }
+    },
+    "ListResolverRuleAssociationsResponse": {
+      "type": "structure",
+      "members": {
+        "NextToken": "NextToken",
+        "MaxResults": "MaxResults",
+        "ResolverRuleAssociations": "ResolverRuleAssociations"
+      }
+    },
+    "ListResolverRulesRequest": {
+      "type": "structure",
+      "members": {
+        "MaxResults": "MaxResults",
+        "NextToken": "NextToken",
+        "Filters": "Filters"
+      }
+    },
+    "ListResolverRulesResponse": {
+      "type": "structure",
+      "members": {
+        "NextToken": "NextToken",
+        "MaxResults": "MaxResults",
+        "ResolverRules": "ResolverRules"
+      }
+    },
+    "ListTagsForResourceRequest": {
+      "type": "structure",
+      "members": {
+        "ResourceArn": "Arn",
+        "MaxResults": "MaxResults",
+        "NextToken": "NextToken"
+      }
+    },
+    "ListTagsForResourceResponse": {
+      "type": "structure",
+      "members": {
+        "Tags": "TagList",
+        "NextToken": "NextToken"
+      }
+    },
+    "MaxResults": {
+      "type": "integer"
+    },
+    "Name": {
+      "type": "string"
+    },
+    "NextToken": {
+      "type": "string"
+    },
+    "OutpostArn": {
+      "type": "string"
+    },
+    "OutpostInstanceType": {
+      "type": "string"
+    },
+    "Port": {
+      "type": "integer"
+    },
+    "Protocol": {
+      "type": "string"
+    },
+    "ProtocolList": {
+      "type": "list",
+      "member": "Protocol"
+    },
+    "ResolverDNSSECValidationStatus": {
+      "type": "string"
+    },
+    "ResolverDnssecConfig": {
+      "type": "structure",
+      "members": {
+        "Id": "ResourceId",
+        "OwnerId": "AccountId",
+        "ResourceId": "ResourceId",
+        "ValidationStatus": "ResolverDNSSECValidationStatus"
+      }
+    },
+    "ResolverDnssecConfigList": {
+      "type": "list",
+      "member": "ResolverDnssecConfig"
+    },
+    "ResolverEndpoint": {
+      "type": "structure",
+      "members": {
+        "Id": "ResourceId",
+        "CreatorRequestId": "CreatorRequestId",
+        "Arn": "Arn",
+        "Name": "Name",
+        "SecurityGroupIds": "SecurityGroupIds",
+        "Direction": "ResolverEndpointDirection",
+        "IpAddressCount": "IpAddressCount",
+        "HostVPCId": "ResourceId",
+        "Status": "ResolverEndpointStatus",
+        "StatusMessage": "StatusMessage",
+        "CreationTime": "Rfc3339TimeString",
+        "ModificationTime": "Rfc3339TimeString",
+        "OutpostArn": "OutpostArn",
+        "PreferredInstanceType": "OutpostInstanceType",
+        "ResolverEndpointType": "ResolverEndpointType",
+        "Protocols": "ProtocolList",
+        "RniEnhancedMetricsEnabled": "RniEnhancedMetricsEnabled",
+        "TargetNameServerMetricsEnabled": "TargetNameServerMetricsEnabled",
+        "Dns64Enabled": "Dns64Enabled",
+        "Ipv6InternetAccessEnabled": "Ipv6InternetAccessEnabled"
+      }
+    },
+    "ResolverEndpointDirection": {
+      "type": "string"
+    },
+    "ResolverEndpointStatus": {
+      "type": "string"
+    },
+    "ResolverEndpointType": {
+      "type": "string"
+    },
+    "ResolverEndpoints": {
+      "type": "list",
+      "member": "ResolverEndpoint"
+    },
+    "ResolverRule": {
+      "type": "structure",
+      "members": {
+        "Id": "ResourceId",
+        "CreatorRequestId": "CreatorRequestId",
+        "Arn": "Arn",
+        "DomainName": "DomainName",
+        "Status": "ResolverRuleStatus",
+        "StatusMessage": "StatusMessage",
+        "RuleType": "RuleTypeOption",
+        "Name": "Name",
+        "TargetIps": "TargetList",
+        "ResolverEndpointId": "ResourceId",
+        "OwnerId": "AccountId",
+        "ShareStatus": "ShareStatus",
+        "CreationTime": "Rfc3339TimeString",
+        "ModificationTime": "Rfc3339TimeString",
+        "DelegationRecord": "DelegationRecord"
+      }
+    },
+    "ResolverRuleAssociation": {
+      "type": "structure",
+      "members": {
+        "Id": "ResourceId",
+        "ResolverRuleId": "ResourceId",
+        "Name": "Name",
+        "VPCId": "ResourceId",
+        "Status": "ResolverRuleAssociationStatus",
+        "StatusMessage": "StatusMessage"
+      }
+    },
+    "ResolverRuleAssociationStatus": {
+      "type": "string"
+    },
+    "ResolverRuleAssociations": {
+      "type": "list",
+      "member": "ResolverRuleAssociation"
+    },
+    "ResolverRuleConfig": {
+      "type": "structure",
+      "members": {
+        "Name": "Name",
+        "TargetIps": "TargetList",
+        "ResolverEndpointId": "ResourceId"
+      }
+    },
+    "ResolverRuleStatus": {
+      "type": "string"
+    },
+    "ResolverRules": {
+      "type": "list",
+      "member": "ResolverRule"
+    },
+    "ResourceId": {
+      "type": "string"
+    },
+    "Rfc3339TimeString": {
+      "type": "string"
+    },
+    "RniEnhancedMetricsEnabled": {
+      "type": "boolean"
+    },
+    "RuleTypeOption": {
+      "type": "string"
+    },
+    "SecurityGroupIds": {
+      "type": "list",
+      "member": "ResourceId"
+    },
+    "ServerNameIndication": {
+      "type": "string"
+    },
+    "ServicePrinciple": {
+      "type": "string"
+    },
+    "ShareStatus": {
+      "type": "string"
+    },
+    "StatusMessage": {
+      "type": "string"
+    },
+    "SubnetId": {
+      "type": "string"
+    },
+    "Tag": {
+      "type": "structure",
+      "members": {
+        "Key": "TagKey",
+        "Value": "TagValue"
+      }
+    },
+    "TagKey": {
+      "type": "string"
+    },
+    "TagKeyList": {
+      "type": "list",
+      "member": "TagKey"
+    },
+    "TagList": {
+      "type": "list",
+      "member": "Tag"
+    },
+    "TagResourceRequest": {
+      "type": "structure",
+      "members": {
+        "ResourceArn": "Arn",
+        "Tags": "TagList"
+      }
+    },
+    "TagResourceResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "TagValue": {
+      "type": "string"
+    },
+    "TargetAddress": {
+      "type": "structure",
+      "members": {
+        "Ip": "Ip",
+        "Port": "Port",
+        "Ipv6": "Ipv6",
+        "Protocol": "Protocol",
+        "ServerNameIndication": "ServerNameIndication"
+      }
+    },
+    "TargetList": {
+      "type": "list",
+      "member": "TargetAddress"
+    },
+    "TargetNameServerMetricsEnabled": {
+      "type": "boolean"
+    },
+    "Unsigned": {
+      "type": "integer"
+    },
+    "UntagResourceRequest": {
+      "type": "structure",
+      "members": {
+        "ResourceArn": "Arn",
+        "TagKeys": "TagKeyList"
+      }
+    },
+    "UntagResourceResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "UpdateIpAddress": {
+      "type": "structure",
+      "members": {
+        "IpId": "ResourceId",
+        "Ipv6": "Ipv6"
+      }
+    },
+    "UpdateIpAddresses": {
+      "type": "list",
+      "member": "UpdateIpAddress"
+    },
+    "UpdateResolverDnssecConfigRequest": {
+      "type": "structure",
+      "members": {
+        "ResourceId": "ResourceId",
+        "Validation": "Validation"
+      }
+    },
+    "UpdateResolverDnssecConfigResponse": {
+      "type": "structure",
+      "members": {
+        "ResolverDNSSECConfig": "ResolverDnssecConfig"
+      }
+    },
+    "UpdateResolverEndpointRequest": {
+      "type": "structure",
+      "members": {
+        "ResolverEndpointId": "ResourceId",
+        "Name": "Name",
+        "ResolverEndpointType": "ResolverEndpointType",
+        "UpdateIpAddresses": "UpdateIpAddresses",
+        "Protocols": "ProtocolList",
+        "RniEnhancedMetricsEnabled": "RniEnhancedMetricsEnabled",
+        "TargetNameServerMetricsEnabled": "TargetNameServerMetricsEnabled",
+        "Dns64Enabled": "Dns64Enabled",
+        "Ipv6InternetAccessEnabled": "Ipv6InternetAccessEnabled"
+      }
+    },
+    "UpdateResolverEndpointResponse": {
+      "type": "structure",
+      "members": {
+        "ResolverEndpoint": "ResolverEndpoint"
+      }
+    },
+    "UpdateResolverRuleRequest": {
+      "type": "structure",
+      "members": {
+        "ResolverRuleId": "ResourceId",
+        "Config": "ResolverRuleConfig"
+      }
+    },
+    "UpdateResolverRuleResponse": {
+      "type": "structure",
+      "members": {
+        "ResolverRule": "ResolverRule"
+      }
+    },
+    "Validation": {
+      "type": "string"
+    }
+  }
+}

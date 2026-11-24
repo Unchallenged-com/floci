@@ -26,14 +26,24 @@ public class Route53ResolverJsonHandler {
 
     private final Route53ResolverService service;
     private final ObjectMapper objectMapper;
+    private final Route53ResolverCloudTrailEvents cloudTrailEvents;
 
     @Inject
-    public Route53ResolverJsonHandler(Route53ResolverService service, ObjectMapper objectMapper) {
+    public Route53ResolverJsonHandler(Route53ResolverService service, ObjectMapper objectMapper,
+                                      Route53ResolverCloudTrailEvents cloudTrailEvents) {
         this.service = service;
         this.objectMapper = objectMapper;
+        this.cloudTrailEvents = cloudTrailEvents;
     }
 
+    /** Answers a call made to Resolver's endpoint and records it ({@link Route53ResolverCloudTrailEvents}). */
     public Response handle(String action, JsonNode request, String region, String accountId) {
+        Response response = answer(action, request, region, accountId);
+        cloudTrailEvents.record(action, request, region, response);
+        return response;
+    }
+
+    private Response answer(String action, JsonNode request, String region, String accountId) {
         LOG.debugv("Route53Resolver action: {0}", action);
         try {
             return switch (action) {

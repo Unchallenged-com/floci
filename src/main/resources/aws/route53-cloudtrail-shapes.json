@@ -1,0 +1,1577 @@
+{
+  "_source": {
+    "generator": "tools/aws/regen_route53_cloudtrail_shapes.py",
+    "botocore": "botocore 1.44.9 (installed package)"
+  },
+  "operations": {
+    "AssociateVPCWithHostedZone": "AssociateVPCWithHostedZoneRequest",
+    "ChangeResourceRecordSets": "ChangeResourceRecordSetsRequest",
+    "ChangeTagsForResource": "ChangeTagsForResourceRequest",
+    "CreateHealthCheck": "CreateHealthCheckRequest",
+    "CreateHostedZone": "CreateHostedZoneRequest",
+    "CreateReusableDelegationSet": "CreateReusableDelegationSetRequest",
+    "CreateVPCAssociationAuthorization": "CreateVPCAssociationAuthorizationRequest",
+    "DeleteHealthCheck": "DeleteHealthCheckRequest",
+    "DeleteHostedZone": "DeleteHostedZoneRequest",
+    "DeleteReusableDelegationSet": "DeleteReusableDelegationSetRequest",
+    "DeleteVPCAssociationAuthorization": "DeleteVPCAssociationAuthorizationRequest",
+    "DisassociateVPCFromHostedZone": "DisassociateVPCFromHostedZoneRequest",
+    "GetAccountLimit": "GetAccountLimitRequest",
+    "GetChange": "GetChangeRequest",
+    "GetDNSSEC": "GetDNSSECRequest",
+    "GetHealthCheck": "GetHealthCheckRequest",
+    "GetHealthCheckStatus": "GetHealthCheckStatusRequest",
+    "GetHostedZone": "GetHostedZoneRequest",
+    "GetHostedZoneCount": "GetHostedZoneCountRequest",
+    "GetHostedZoneLimit": "GetHostedZoneLimitRequest",
+    "GetReusableDelegationSet": "GetReusableDelegationSetRequest",
+    "ListHealthChecks": "ListHealthChecksRequest",
+    "ListHostedZones": "ListHostedZonesRequest",
+    "ListHostedZonesByName": "ListHostedZonesByNameRequest",
+    "ListHostedZonesByVPC": "ListHostedZonesByVPCRequest",
+    "ListResourceRecordSets": "ListResourceRecordSetsRequest",
+    "ListReusableDelegationSets": "ListReusableDelegationSetsRequest",
+    "ListTagsForResource": "ListTagsForResourceRequest",
+    "ListVPCAssociationAuthorizations": "ListVPCAssociationAuthorizationsRequest",
+    "UpdateHealthCheck": "UpdateHealthCheckRequest",
+    "UpdateHostedZoneComment": "UpdateHostedZoneCommentRequest"
+  },
+  "results": {
+    "AssociateVPCWithHostedZone": {
+      "shape": "AssociateVPCWithHostedZoneResponse",
+      "resultWrapper": null
+    },
+    "ChangeResourceRecordSets": {
+      "shape": "ChangeResourceRecordSetsResponse",
+      "resultWrapper": null
+    },
+    "ChangeTagsForResource": {
+      "shape": "ChangeTagsForResourceResponse",
+      "resultWrapper": null
+    },
+    "CreateHealthCheck": {
+      "shape": "CreateHealthCheckResponse",
+      "resultWrapper": null
+    },
+    "CreateHostedZone": {
+      "shape": "CreateHostedZoneResponse",
+      "resultWrapper": null
+    },
+    "CreateReusableDelegationSet": {
+      "shape": "CreateReusableDelegationSetResponse",
+      "resultWrapper": null
+    },
+    "CreateVPCAssociationAuthorization": {
+      "shape": "CreateVPCAssociationAuthorizationResponse",
+      "resultWrapper": null
+    },
+    "DeleteHealthCheck": {
+      "shape": "DeleteHealthCheckResponse",
+      "resultWrapper": null
+    },
+    "DeleteHostedZone": {
+      "shape": "DeleteHostedZoneResponse",
+      "resultWrapper": null
+    },
+    "DeleteReusableDelegationSet": {
+      "shape": "DeleteReusableDelegationSetResponse",
+      "resultWrapper": null
+    },
+    "DeleteVPCAssociationAuthorization": {
+      "shape": "DeleteVPCAssociationAuthorizationResponse",
+      "resultWrapper": null
+    },
+    "DisassociateVPCFromHostedZone": {
+      "shape": "DisassociateVPCFromHostedZoneResponse",
+      "resultWrapper": null
+    },
+    "GetAccountLimit": {
+      "shape": "GetAccountLimitResponse",
+      "resultWrapper": null
+    },
+    "GetChange": {
+      "shape": "GetChangeResponse",
+      "resultWrapper": null
+    },
+    "GetDNSSEC": {
+      "shape": "GetDNSSECResponse",
+      "resultWrapper": null
+    },
+    "GetHealthCheck": {
+      "shape": "GetHealthCheckResponse",
+      "resultWrapper": null
+    },
+    "GetHealthCheckStatus": {
+      "shape": "GetHealthCheckStatusResponse",
+      "resultWrapper": null
+    },
+    "GetHostedZone": {
+      "shape": "GetHostedZoneResponse",
+      "resultWrapper": null
+    },
+    "GetHostedZoneCount": {
+      "shape": "GetHostedZoneCountResponse",
+      "resultWrapper": null
+    },
+    "GetHostedZoneLimit": {
+      "shape": "GetHostedZoneLimitResponse",
+      "resultWrapper": null
+    },
+    "GetReusableDelegationSet": {
+      "shape": "GetReusableDelegationSetResponse",
+      "resultWrapper": null
+    },
+    "ListHealthChecks": {
+      "shape": "ListHealthChecksResponse",
+      "resultWrapper": null
+    },
+    "ListHostedZones": {
+      "shape": "ListHostedZonesResponse",
+      "resultWrapper": null
+    },
+    "ListHostedZonesByName": {
+      "shape": "ListHostedZonesByNameResponse",
+      "resultWrapper": null
+    },
+    "ListHostedZonesByVPC": {
+      "shape": "ListHostedZonesByVPCResponse",
+      "resultWrapper": null
+    },
+    "ListResourceRecordSets": {
+      "shape": "ListResourceRecordSetsResponse",
+      "resultWrapper": null
+    },
+    "ListReusableDelegationSets": {
+      "shape": "ListReusableDelegationSetsResponse",
+      "resultWrapper": null
+    },
+    "ListTagsForResource": {
+      "shape": "ListTagsForResourceResponse",
+      "resultWrapper": null
+    },
+    "ListVPCAssociationAuthorizations": {
+      "shape": "ListVPCAssociationAuthorizationsResponse",
+      "resultWrapper": null
+    },
+    "UpdateHealthCheck": {
+      "shape": "UpdateHealthCheckResponse",
+      "resultWrapper": null
+    },
+    "UpdateHostedZoneComment": {
+      "shape": "UpdateHostedZoneCommentResponse",
+      "resultWrapper": null
+    }
+  },
+  "shapes": {
+    "AWSAccountID": {
+      "type": "string"
+    },
+    "AWSRegion": {
+      "type": "string"
+    },
+    "AZAffinity": {
+      "type": "structure",
+      "members": {
+        "LocationType": "AZAffinityLocationType",
+        "LocationId": "AZAffinityLocationId"
+      }
+    },
+    "AZAffinityLocationId": {
+      "type": "string"
+    },
+    "AZAffinityLocationType": {
+      "type": "string"
+    },
+    "AcceleratedRecoveryStatus": {
+      "type": "string"
+    },
+    "AccountLimit": {
+      "type": "structure",
+      "members": {
+        "Type": "AccountLimitType",
+        "Value": "LimitValue"
+      }
+    },
+    "AccountLimitType": {
+      "type": "string"
+    },
+    "AlarmIdentifier": {
+      "type": "structure",
+      "members": {
+        "Region": "CloudWatchRegion",
+        "Name": "AlarmName"
+      }
+    },
+    "AlarmName": {
+      "type": "string"
+    },
+    "AliasHealthEnabled": {
+      "type": "boolean"
+    },
+    "AliasTarget": {
+      "type": "structure",
+      "members": {
+        "HostedZoneId": "ResourceId",
+        "DNSName": "DNSName",
+        "EvaluateTargetHealth": "AliasHealthEnabled"
+      }
+    },
+    "AssociateVPCComment": {
+      "type": "string"
+    },
+    "AssociateVPCWithHostedZoneRequest": {
+      "type": "structure",
+      "members": {
+        "HostedZoneId": "ResourceId",
+        "VPC": "VPC",
+        "Comment": "AssociateVPCComment"
+      },
+      "locations": {
+        "HostedZoneId": {
+          "location": "uri",
+          "name": "Id"
+        }
+      }
+    },
+    "AssociateVPCWithHostedZoneResponse": {
+      "type": "structure",
+      "members": {
+        "ChangeInfo": "ChangeInfo"
+      }
+    },
+    "Bias": {
+      "type": "integer"
+    },
+    "Change": {
+      "type": "structure",
+      "members": {
+        "Action": "ChangeAction",
+        "ResourceRecordSet": "ResourceRecordSet"
+      }
+    },
+    "ChangeAction": {
+      "type": "string"
+    },
+    "ChangeBatch": {
+      "type": "structure",
+      "members": {
+        "Comment": "ResourceDescription",
+        "Changes": "Changes"
+      }
+    },
+    "ChangeGuardrail": {
+      "type": "structure",
+      "members": {
+        "Name": "ChangeGuardrailName",
+        "Status": "ChangeGuardrailStatus"
+      }
+    },
+    "ChangeGuardrailName": {
+      "type": "string"
+    },
+    "ChangeGuardrailStatus": {
+      "type": "string"
+    },
+    "ChangeGuardrails": {
+      "type": "list",
+      "member": "ChangeGuardrail"
+    },
+    "ChangeHistoryFeature": {
+      "type": "structure",
+      "members": {
+        "Status": "FeatureEnablement",
+        "RetentionStartsAt": "TimeStamp"
+      }
+    },
+    "ChangeId": {
+      "type": "string"
+    },
+    "ChangeInfo": {
+      "type": "structure",
+      "members": {
+        "Id": "ResourceId",
+        "Status": "ChangeStatus",
+        "SubmittedAt": "TimeStamp",
+        "Comment": "ResourceDescription"
+      }
+    },
+    "ChangeResourceRecordSetsRequest": {
+      "type": "structure",
+      "members": {
+        "HostedZoneId": "ResourceId",
+        "ChangeBatch": "ChangeBatch"
+      },
+      "locations": {
+        "HostedZoneId": {
+          "location": "uri",
+          "name": "Id"
+        }
+      }
+    },
+    "ChangeResourceRecordSetsResponse": {
+      "type": "structure",
+      "members": {
+        "ChangeInfo": "ChangeInfo"
+      }
+    },
+    "ChangeStatus": {
+      "type": "string"
+    },
+    "ChangeTagsForResourceRequest": {
+      "type": "structure",
+      "members": {
+        "ResourceType": "TagResourceType",
+        "ResourceId": "TagResourceId",
+        "AddTags": "TagList",
+        "RemoveTagKeys": "TagKeyList"
+      },
+      "locations": {
+        "ResourceType": {
+          "location": "uri",
+          "name": "ResourceType"
+        },
+        "ResourceId": {
+          "location": "uri",
+          "name": "ResourceId"
+        }
+      }
+    },
+    "ChangeTagsForResourceResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "Changes": {
+      "type": "list",
+      "member": "Change"
+    },
+    "ChildHealthCheckList": {
+      "type": "list",
+      "member": "HealthCheckId"
+    },
+    "CidrLocationNameDefaultAllowed": {
+      "type": "string"
+    },
+    "CidrRoutingConfig": {
+      "type": "structure",
+      "members": {
+        "CollectionId": "UUID",
+        "LocationName": "CidrLocationNameDefaultAllowed"
+      }
+    },
+    "CloudWatchAlarmConfiguration": {
+      "type": "structure",
+      "members": {
+        "EvaluationPeriods": "EvaluationPeriods",
+        "Threshold": "Threshold",
+        "ComparisonOperator": "ComparisonOperator",
+        "Period": "Period",
+        "MetricName": "MetricName",
+        "Namespace": "Namespace",
+        "Statistic": "Statistic",
+        "Dimensions": "DimensionList"
+      }
+    },
+    "CloudWatchRegion": {
+      "type": "string"
+    },
+    "ComparisonOperator": {
+      "type": "string"
+    },
+    "Coordinates": {
+      "type": "structure",
+      "members": {
+        "Latitude": "Latitude",
+        "Longitude": "Longitude"
+      }
+    },
+    "CreateHealthCheckRequest": {
+      "type": "structure",
+      "members": {
+        "CallerReference": "HealthCheckNonce",
+        "HealthCheckConfig": "HealthCheckConfig"
+      }
+    },
+    "CreateHealthCheckResponse": {
+      "type": "structure",
+      "members": {
+        "HealthCheck": "HealthCheck",
+        "Location": "ResourceURI"
+      },
+      "locations": {
+        "Location": {
+          "location": "header",
+          "name": "Location"
+        }
+      }
+    },
+    "CreateHostedZoneRequest": {
+      "type": "structure",
+      "members": {
+        "Name": "DNSName",
+        "VPC": "VPC",
+        "CallerReference": "Nonce",
+        "HostedZoneConfig": "HostedZoneConfig",
+        "DelegationSetId": "ResourceId",
+        "EnablePublicDNSFallback": "PublicDNSFallbackEnabled",
+        "ChangeGuardrails": "ChangeGuardrails"
+      }
+    },
+    "CreateHostedZoneResponse": {
+      "type": "structure",
+      "members": {
+        "HostedZone": "HostedZone",
+        "ChangeInfo": "ChangeInfo",
+        "DelegationSet": "DelegationSet",
+        "VPC": "VPC",
+        "Location": "ResourceURI"
+      },
+      "locations": {
+        "Location": {
+          "location": "header",
+          "name": "Location"
+        }
+      }
+    },
+    "CreateReusableDelegationSetRequest": {
+      "type": "structure",
+      "members": {
+        "CallerReference": "Nonce",
+        "HostedZoneId": "ResourceId"
+      }
+    },
+    "CreateReusableDelegationSetResponse": {
+      "type": "structure",
+      "members": {
+        "DelegationSet": "DelegationSet",
+        "Location": "ResourceURI"
+      },
+      "locations": {
+        "Location": {
+          "location": "header",
+          "name": "Location"
+        }
+      }
+    },
+    "CreateVPCAssociationAuthorizationRequest": {
+      "type": "structure",
+      "members": {
+        "HostedZoneId": "ResourceId",
+        "VPC": "VPC"
+      },
+      "locations": {
+        "HostedZoneId": {
+          "location": "uri",
+          "name": "Id"
+        }
+      }
+    },
+    "CreateVPCAssociationAuthorizationResponse": {
+      "type": "structure",
+      "members": {
+        "HostedZoneId": "ResourceId",
+        "VPC": "VPC"
+      }
+    },
+    "DNSName": {
+      "type": "string"
+    },
+    "DNSSECStatus": {
+      "type": "structure",
+      "members": {
+        "ServeSignature": "ServeSignature",
+        "StatusMessage": "SigningKeyStatusMessage"
+      }
+    },
+    "DelegationSet": {
+      "type": "structure",
+      "members": {
+        "Id": "ResourceId",
+        "CallerReference": "Nonce",
+        "NameServers": "DelegationSetNameServers"
+      }
+    },
+    "DelegationSetNameServers": {
+      "type": "list",
+      "member": "DNSName"
+    },
+    "DelegationSets": {
+      "type": "list",
+      "member": "DelegationSet"
+    },
+    "DeleteHealthCheckRequest": {
+      "type": "structure",
+      "members": {
+        "HealthCheckId": "HealthCheckId"
+      },
+      "locations": {
+        "HealthCheckId": {
+          "location": "uri",
+          "name": "HealthCheckId"
+        }
+      }
+    },
+    "DeleteHealthCheckResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "DeleteHostedZoneRequest": {
+      "type": "structure",
+      "members": {
+        "Id": "ResourceId"
+      },
+      "locations": {
+        "Id": {
+          "location": "uri",
+          "name": "Id"
+        }
+      }
+    },
+    "DeleteHostedZoneResponse": {
+      "type": "structure",
+      "members": {
+        "ChangeInfo": "ChangeInfo"
+      }
+    },
+    "DeleteReusableDelegationSetRequest": {
+      "type": "structure",
+      "members": {
+        "Id": "ResourceId"
+      },
+      "locations": {
+        "Id": {
+          "location": "uri",
+          "name": "Id"
+        }
+      }
+    },
+    "DeleteReusableDelegationSetResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "DeleteVPCAssociationAuthorizationRequest": {
+      "type": "structure",
+      "members": {
+        "HostedZoneId": "ResourceId",
+        "VPC": "VPC"
+      },
+      "locations": {
+        "HostedZoneId": {
+          "location": "uri",
+          "name": "Id"
+        }
+      }
+    },
+    "DeleteVPCAssociationAuthorizationResponse": {
+      "type": "structure",
+      "members": {}
+    },
+    "Dimension": {
+      "type": "structure",
+      "members": {
+        "Name": "DimensionField",
+        "Value": "DimensionField"
+      }
+    },
+    "DimensionField": {
+      "type": "string"
+    },
+    "DimensionList": {
+      "type": "list",
+      "member": "Dimension"
+    },
+    "Disabled": {
+      "type": "boolean"
+    },
+    "DisassociateVPCComment": {
+      "type": "string"
+    },
+    "DisassociateVPCFromHostedZoneRequest": {
+      "type": "structure",
+      "members": {
+        "HostedZoneId": "ResourceId",
+        "VPC": "VPC",
+        "Comment": "DisassociateVPCComment"
+      },
+      "locations": {
+        "HostedZoneId": {
+          "location": "uri",
+          "name": "Id"
+        }
+      }
+    },
+    "DisassociateVPCFromHostedZoneResponse": {
+      "type": "structure",
+      "members": {
+        "ChangeInfo": "ChangeInfo"
+      }
+    },
+    "EnableSNI": {
+      "type": "boolean"
+    },
+    "EndpointType": {
+      "type": "string"
+    },
+    "EvaluationPeriods": {
+      "type": "integer"
+    },
+    "FailureReason": {
+      "type": "string"
+    },
+    "FailureThreshold": {
+      "type": "integer"
+    },
+    "FeatureEnablement": {
+      "type": "string"
+    },
+    "FeatureStatus": {
+      "type": "string"
+    },
+    "FullyQualifiedDomainName": {
+      "type": "string"
+    },
+    "GeoLocation": {
+      "type": "structure",
+      "members": {
+        "ContinentCode": "GeoLocationContinentCode",
+        "CountryCode": "GeoLocationCountryCode",
+        "SubdivisionCode": "GeoLocationSubdivisionCode"
+      }
+    },
+    "GeoLocationContinentCode": {
+      "type": "string"
+    },
+    "GeoLocationCountryCode": {
+      "type": "string"
+    },
+    "GeoLocationSubdivisionCode": {
+      "type": "string"
+    },
+    "GeoProximityLocation": {
+      "type": "structure",
+      "members": {
+        "AWSRegion": "AWSRegion",
+        "LocalZoneGroup": "LocalZoneGroup",
+        "Coordinates": "Coordinates",
+        "Bias": "Bias"
+      }
+    },
+    "GetAccountLimitRequest": {
+      "type": "structure",
+      "members": {
+        "Type": "AccountLimitType"
+      },
+      "locations": {
+        "Type": {
+          "location": "uri",
+          "name": "Type"
+        }
+      }
+    },
+    "GetAccountLimitResponse": {
+      "type": "structure",
+      "members": {
+        "Limit": "AccountLimit",
+        "Count": "UsageCount"
+      }
+    },
+    "GetChangeRequest": {
+      "type": "structure",
+      "members": {
+        "Id": "ChangeId"
+      },
+      "locations": {
+        "Id": {
+          "location": "uri",
+          "name": "Id"
+        }
+      }
+    },
+    "GetChangeResponse": {
+      "type": "structure",
+      "members": {
+        "ChangeInfo": "ChangeInfo"
+      }
+    },
+    "GetDNSSECRequest": {
+      "type": "structure",
+      "members": {
+        "HostedZoneId": "ResourceId"
+      },
+      "locations": {
+        "HostedZoneId": {
+          "location": "uri",
+          "name": "Id"
+        }
+      }
+    },
+    "GetDNSSECResponse": {
+      "type": "structure",
+      "members": {
+        "Status": "DNSSECStatus",
+        "KeySigningKeys": "KeySigningKeys"
+      }
+    },
+    "GetHealthCheckRequest": {
+      "type": "structure",
+      "members": {
+        "HealthCheckId": "HealthCheckId"
+      },
+      "locations": {
+        "HealthCheckId": {
+          "location": "uri",
+          "name": "HealthCheckId"
+        }
+      }
+    },
+    "GetHealthCheckResponse": {
+      "type": "structure",
+      "members": {
+        "HealthCheck": "HealthCheck"
+      }
+    },
+    "GetHealthCheckStatusRequest": {
+      "type": "structure",
+      "members": {
+        "HealthCheckId": "HealthCheckId"
+      },
+      "locations": {
+        "HealthCheckId": {
+          "location": "uri",
+          "name": "HealthCheckId"
+        }
+      }
+    },
+    "GetHealthCheckStatusResponse": {
+      "type": "structure",
+      "members": {
+        "HealthCheckObservations": "HealthCheckObservations"
+      }
+    },
+    "GetHostedZoneCountRequest": {
+      "type": "structure",
+      "members": {}
+    },
+    "GetHostedZoneCountResponse": {
+      "type": "structure",
+      "members": {
+        "HostedZoneCount": "HostedZoneCount"
+      }
+    },
+    "GetHostedZoneLimitRequest": {
+      "type": "structure",
+      "members": {
+        "Type": "HostedZoneLimitType",
+        "HostedZoneId": "ResourceId"
+      },
+      "locations": {
+        "Type": {
+          "location": "uri",
+          "name": "Type"
+        },
+        "HostedZoneId": {
+          "location": "uri",
+          "name": "Id"
+        }
+      }
+    },
+    "GetHostedZoneLimitResponse": {
+      "type": "structure",
+      "members": {
+        "Limit": "HostedZoneLimit",
+        "Count": "UsageCount"
+      }
+    },
+    "GetHostedZoneRequest": {
+      "type": "structure",
+      "members": {
+        "Id": "ResourceId"
+      },
+      "locations": {
+        "Id": {
+          "location": "uri",
+          "name": "Id"
+        }
+      }
+    },
+    "GetHostedZoneResponse": {
+      "type": "structure",
+      "members": {
+        "HostedZone": "HostedZone",
+        "DelegationSet": "DelegationSet",
+        "VPCs": "VPCs"
+      }
+    },
+    "GetReusableDelegationSetRequest": {
+      "type": "structure",
+      "members": {
+        "Id": "ResourceId"
+      },
+      "locations": {
+        "Id": {
+          "location": "uri",
+          "name": "Id"
+        }
+      }
+    },
+    "GetReusableDelegationSetResponse": {
+      "type": "structure",
+      "members": {
+        "DelegationSet": "DelegationSet"
+      }
+    },
+    "HealthCheck": {
+      "type": "structure",
+      "members": {
+        "Id": "HealthCheckId",
+        "CallerReference": "HealthCheckNonce",
+        "LinkedService": "LinkedService",
+        "HealthCheckConfig": "HealthCheckConfig",
+        "HealthCheckVersion": "HealthCheckVersion",
+        "CloudWatchAlarmConfiguration": "CloudWatchAlarmConfiguration"
+      }
+    },
+    "HealthCheckConfig": {
+      "type": "structure",
+      "members": {
+        "IPAddress": "IPAddress",
+        "Port": "Port",
+        "Type": "HealthCheckType",
+        "ResourcePath": "ResourcePath",
+        "FullyQualifiedDomainName": "FullyQualifiedDomainName",
+        "SearchString": "SearchString",
+        "RequestInterval": "RequestInterval",
+        "FailureThreshold": "FailureThreshold",
+        "MeasureLatency": "MeasureLatency",
+        "Inverted": "Inverted",
+        "Disabled": "Disabled",
+        "HealthThreshold": "HealthThreshold",
+        "ChildHealthChecks": "ChildHealthCheckList",
+        "EnableSNI": "EnableSNI",
+        "Regions": "HealthCheckRegionList",
+        "AlarmIdentifier": "AlarmIdentifier",
+        "InsufficientDataHealthStatus": "InsufficientDataHealthStatus",
+        "RoutingControlArn": "RoutingControlArn",
+        "EndpointType": "EndpointType",
+        "HealthCheckSourceId": "HealthCheckSourceId"
+      }
+    },
+    "HealthCheckId": {
+      "type": "string"
+    },
+    "HealthCheckNonce": {
+      "type": "string"
+    },
+    "HealthCheckObservation": {
+      "type": "structure",
+      "members": {
+        "Region": "HealthCheckRegion",
+        "IPAddress": "IPAddress",
+        "StatusReport": "StatusReport"
+      }
+    },
+    "HealthCheckObservations": {
+      "type": "list",
+      "member": "HealthCheckObservation"
+    },
+    "HealthCheckRegion": {
+      "type": "string"
+    },
+    "HealthCheckRegionList": {
+      "type": "list",
+      "member": "HealthCheckRegion"
+    },
+    "HealthCheckSourceId": {
+      "type": "string"
+    },
+    "HealthCheckType": {
+      "type": "string"
+    },
+    "HealthCheckVersion": {
+      "type": "long"
+    },
+    "HealthChecks": {
+      "type": "list",
+      "member": "HealthCheck"
+    },
+    "HealthThreshold": {
+      "type": "integer"
+    },
+    "HostedZone": {
+      "type": "structure",
+      "members": {
+        "Id": "ResourceId",
+        "Name": "DNSName",
+        "CallerReference": "Nonce",
+        "Config": "HostedZoneConfig",
+        "ResourceRecordSetCount": "HostedZoneRRSetCount",
+        "LinkedService": "LinkedService",
+        "Features": "HostedZoneFeatures"
+      }
+    },
+    "HostedZoneConfig": {
+      "type": "structure",
+      "members": {
+        "Comment": "ResourceDescription",
+        "PrivateZone": "IsPrivateZone",
+        "HostedZoneTier": "HostedZoneTier"
+      }
+    },
+    "HostedZoneCount": {
+      "type": "long"
+    },
+    "HostedZoneFailureReasons": {
+      "type": "structure",
+      "members": {
+        "AcceleratedRecovery": "FailureReason"
+      }
+    },
+    "HostedZoneFeatures": {
+      "type": "structure",
+      "members": {
+        "AcceleratedRecoveryStatus": "AcceleratedRecoveryStatus",
+        "PublicDNSFallbackStatus": "FeatureStatus",
+        "ChangeHistory": "ChangeHistoryFeature",
+        "FailureReasons": "HostedZoneFailureReasons",
+        "ChangeGuardrails": "ChangeGuardrails"
+      }
+    },
+    "HostedZoneLimit": {
+      "type": "structure",
+      "members": {
+        "Type": "HostedZoneLimitType",
+        "Value": "LimitValue"
+      }
+    },
+    "HostedZoneLimitType": {
+      "type": "string"
+    },
+    "HostedZoneOwner": {
+      "type": "structure",
+      "members": {
+        "OwningAccount": "AWSAccountID",
+        "OwningService": "HostedZoneOwningService"
+      }
+    },
+    "HostedZoneOwningService": {
+      "type": "string"
+    },
+    "HostedZoneRRSetCount": {
+      "type": "long"
+    },
+    "HostedZoneSummaries": {
+      "type": "list",
+      "member": "HostedZoneSummary"
+    },
+    "HostedZoneSummary": {
+      "type": "structure",
+      "members": {
+        "HostedZoneId": "ResourceId",
+        "Name": "DNSName",
+        "Owner": "HostedZoneOwner"
+      }
+    },
+    "HostedZoneTier": {
+      "type": "string"
+    },
+    "HostedZoneType": {
+      "type": "string"
+    },
+    "HostedZones": {
+      "type": "list",
+      "member": "HostedZone"
+    },
+    "IPAddress": {
+      "type": "string"
+    },
+    "InsufficientDataHealthStatus": {
+      "type": "string"
+    },
+    "Inverted": {
+      "type": "boolean"
+    },
+    "IsPrivateZone": {
+      "type": "boolean"
+    },
+    "KeySigningKey": {
+      "type": "structure",
+      "members": {
+        "Name": "SigningKeyName",
+        "KmsArn": "SigningKeyString",
+        "Flag": "SigningKeyInteger",
+        "SigningAlgorithmMnemonic": "SigningKeyString",
+        "SigningAlgorithmType": "SigningKeyInteger",
+        "DigestAlgorithmMnemonic": "SigningKeyString",
+        "DigestAlgorithmType": "SigningKeyInteger",
+        "KeyTag": "SigningKeyTag",
+        "DigestValue": "SigningKeyString",
+        "PublicKey": "SigningKeyString",
+        "DSRecord": "SigningKeyString",
+        "DNSKEYRecord": "SigningKeyString",
+        "Status": "SigningKeyStatus",
+        "StatusMessage": "SigningKeyStatusMessage",
+        "CreatedDate": "TimeStamp",
+        "LastModifiedDate": "TimeStamp"
+      }
+    },
+    "KeySigningKeys": {
+      "type": "list",
+      "member": "KeySigningKey"
+    },
+    "Latitude": {
+      "type": "string"
+    },
+    "LimitValue": {
+      "type": "long"
+    },
+    "LinkedService": {
+      "type": "structure",
+      "members": {
+        "ServicePrincipal": "ServicePrincipal",
+        "Description": "ResourceDescription"
+      }
+    },
+    "ListHealthChecksRequest": {
+      "type": "structure",
+      "members": {
+        "Marker": "PageMarker",
+        "MaxItems": "PageMaxItems"
+      },
+      "locations": {
+        "Marker": {
+          "location": "querystring",
+          "name": "marker"
+        },
+        "MaxItems": {
+          "location": "querystring",
+          "name": "maxitems"
+        }
+      }
+    },
+    "ListHealthChecksResponse": {
+      "type": "structure",
+      "members": {
+        "HealthChecks": "HealthChecks",
+        "Marker": "PageMarker",
+        "IsTruncated": "PageTruncated",
+        "NextMarker": "PageMarker",
+        "MaxItems": "PageMaxItems"
+      }
+    },
+    "ListHostedZonesByNameRequest": {
+      "type": "structure",
+      "members": {
+        "DNSName": "DNSName",
+        "HostedZoneId": "ResourceId",
+        "MaxItems": "PageMaxItems"
+      },
+      "locations": {
+        "DNSName": {
+          "location": "querystring",
+          "name": "dnsname"
+        },
+        "HostedZoneId": {
+          "location": "querystring",
+          "name": "hostedzoneid"
+        },
+        "MaxItems": {
+          "location": "querystring",
+          "name": "maxitems"
+        }
+      }
+    },
+    "ListHostedZonesByNameResponse": {
+      "type": "structure",
+      "members": {
+        "HostedZones": "HostedZones",
+        "DNSName": "DNSName",
+        "HostedZoneId": "ResourceId",
+        "IsTruncated": "PageTruncated",
+        "NextDNSName": "DNSName",
+        "NextHostedZoneId": "ResourceId",
+        "MaxItems": "PageMaxItems"
+      }
+    },
+    "ListHostedZonesByVPCRequest": {
+      "type": "structure",
+      "members": {
+        "VPCId": "VPCId",
+        "VPCRegion": "VPCRegion",
+        "MaxItems": "PageMaxItems",
+        "NextToken": "PaginationToken"
+      },
+      "locations": {
+        "VPCId": {
+          "location": "querystring",
+          "name": "vpcid"
+        },
+        "VPCRegion": {
+          "location": "querystring",
+          "name": "vpcregion"
+        },
+        "MaxItems": {
+          "location": "querystring",
+          "name": "maxitems"
+        },
+        "NextToken": {
+          "location": "querystring",
+          "name": "nexttoken"
+        }
+      }
+    },
+    "ListHostedZonesByVPCResponse": {
+      "type": "structure",
+      "members": {
+        "HostedZoneSummaries": "HostedZoneSummaries",
+        "MaxItems": "PageMaxItems",
+        "NextToken": "PaginationToken"
+      }
+    },
+    "ListHostedZonesRequest": {
+      "type": "structure",
+      "members": {
+        "Marker": "PageMarker",
+        "MaxItems": "PageMaxItems",
+        "DelegationSetId": "ResourceId",
+        "HostedZoneType": "HostedZoneType"
+      },
+      "locations": {
+        "Marker": {
+          "location": "querystring",
+          "name": "marker"
+        },
+        "MaxItems": {
+          "location": "querystring",
+          "name": "maxitems"
+        },
+        "DelegationSetId": {
+          "location": "querystring",
+          "name": "delegationsetid"
+        },
+        "HostedZoneType": {
+          "location": "querystring",
+          "name": "hostedzonetype"
+        }
+      }
+    },
+    "ListHostedZonesResponse": {
+      "type": "structure",
+      "members": {
+        "HostedZones": "HostedZones",
+        "Marker": "PageMarker",
+        "IsTruncated": "PageTruncated",
+        "NextMarker": "PageMarker",
+        "MaxItems": "PageMaxItems"
+      }
+    },
+    "ListResourceRecordSetsRequest": {
+      "type": "structure",
+      "members": {
+        "HostedZoneId": "ResourceId",
+        "StartRecordName": "DNSName",
+        "StartRecordType": "RRType",
+        "StartRecordIdentifier": "ResourceRecordSetIdentifier",
+        "MaxItems": "PageMaxItems"
+      },
+      "locations": {
+        "HostedZoneId": {
+          "location": "uri",
+          "name": "Id"
+        },
+        "StartRecordName": {
+          "location": "querystring",
+          "name": "name"
+        },
+        "StartRecordType": {
+          "location": "querystring",
+          "name": "type"
+        },
+        "StartRecordIdentifier": {
+          "location": "querystring",
+          "name": "identifier"
+        },
+        "MaxItems": {
+          "location": "querystring",
+          "name": "maxitems"
+        }
+      }
+    },
+    "ListResourceRecordSetsResponse": {
+      "type": "structure",
+      "members": {
+        "ResourceRecordSets": "ResourceRecordSets",
+        "IsTruncated": "PageTruncated",
+        "NextRecordName": "DNSName",
+        "NextRecordType": "RRType",
+        "NextRecordIdentifier": "ResourceRecordSetIdentifier",
+        "MaxItems": "PageMaxItems"
+      }
+    },
+    "ListReusableDelegationSetsRequest": {
+      "type": "structure",
+      "members": {
+        "Marker": "PageMarker",
+        "MaxItems": "PageMaxItems"
+      },
+      "locations": {
+        "Marker": {
+          "location": "querystring",
+          "name": "marker"
+        },
+        "MaxItems": {
+          "location": "querystring",
+          "name": "maxitems"
+        }
+      }
+    },
+    "ListReusableDelegationSetsResponse": {
+      "type": "structure",
+      "members": {
+        "DelegationSets": "DelegationSets",
+        "Marker": "PageMarker",
+        "IsTruncated": "PageTruncated",
+        "NextMarker": "PageMarker",
+        "MaxItems": "PageMaxItems"
+      }
+    },
+    "ListTagsForResourceRequest": {
+      "type": "structure",
+      "members": {
+        "ResourceType": "TagResourceType",
+        "ResourceId": "TagResourceId"
+      },
+      "locations": {
+        "ResourceType": {
+          "location": "uri",
+          "name": "ResourceType"
+        },
+        "ResourceId": {
+          "location": "uri",
+          "name": "ResourceId"
+        }
+      }
+    },
+    "ListTagsForResourceResponse": {
+      "type": "structure",
+      "members": {
+        "ResourceTagSet": "ResourceTagSet"
+      }
+    },
+    "ListVPCAssociationAuthorizationsRequest": {
+      "type": "structure",
+      "members": {
+        "HostedZoneId": "ResourceId",
+        "NextToken": "PaginationToken",
+        "MaxResults": "MaxResults"
+      },
+      "locations": {
+        "HostedZoneId": {
+          "location": "uri",
+          "name": "Id"
+        },
+        "NextToken": {
+          "location": "querystring",
+          "name": "nexttoken"
+        },
+        "MaxResults": {
+          "location": "querystring",
+          "name": "maxresults"
+        }
+      }
+    },
+    "ListVPCAssociationAuthorizationsResponse": {
+      "type": "structure",
+      "members": {
+        "HostedZoneId": "ResourceId",
+        "NextToken": "PaginationToken",
+        "VPCs": "VPCs"
+      }
+    },
+    "LocalZoneGroup": {
+      "type": "string"
+    },
+    "Longitude": {
+      "type": "string"
+    },
+    "MaxResults": {
+      "type": "string"
+    },
+    "MeasureLatency": {
+      "type": "boolean"
+    },
+    "MetricName": {
+      "type": "string"
+    },
+    "Namespace": {
+      "type": "string"
+    },
+    "Nonce": {
+      "type": "string"
+    },
+    "PageMarker": {
+      "type": "string"
+    },
+    "PageMaxItems": {
+      "type": "string"
+    },
+    "PageTruncated": {
+      "type": "boolean"
+    },
+    "PaginationToken": {
+      "type": "string"
+    },
+    "Period": {
+      "type": "integer"
+    },
+    "Port": {
+      "type": "integer"
+    },
+    "PublicDNSFallbackEnabled": {
+      "type": "boolean"
+    },
+    "RData": {
+      "type": "string"
+    },
+    "RRType": {
+      "type": "string"
+    },
+    "RequestInterval": {
+      "type": "integer"
+    },
+    "ResettableElementName": {
+      "type": "string"
+    },
+    "ResettableElementNameList": {
+      "type": "list",
+      "member": "ResettableElementName"
+    },
+    "ResourceDescription": {
+      "type": "string"
+    },
+    "ResourceId": {
+      "type": "string"
+    },
+    "ResourcePath": {
+      "type": "string"
+    },
+    "ResourceRecord": {
+      "type": "structure",
+      "members": {
+        "Value": "RData"
+      }
+    },
+    "ResourceRecordSet": {
+      "type": "structure",
+      "members": {
+        "Name": "DNSName",
+        "Type": "RRType",
+        "SetIdentifier": "ResourceRecordSetIdentifier",
+        "Weight": "ResourceRecordSetWeight",
+        "Region": "ResourceRecordSetRegion",
+        "GeoLocation": "GeoLocation",
+        "Failover": "ResourceRecordSetFailover",
+        "MultiValueAnswer": "ResourceRecordSetMultiValueAnswer",
+        "TTL": "TTL",
+        "ResourceRecords": "ResourceRecords",
+        "AliasTarget": "AliasTarget",
+        "HealthCheckId": "HealthCheckId",
+        "TrafficPolicyInstanceId": "TrafficPolicyInstanceId",
+        "CidrRoutingConfig": "CidrRoutingConfig",
+        "GeoProximityLocation": "GeoProximityLocation",
+        "AZAffinity": "AZAffinity"
+      }
+    },
+    "ResourceRecordSetFailover": {
+      "type": "string"
+    },
+    "ResourceRecordSetIdentifier": {
+      "type": "string"
+    },
+    "ResourceRecordSetMultiValueAnswer": {
+      "type": "boolean"
+    },
+    "ResourceRecordSetRegion": {
+      "type": "string"
+    },
+    "ResourceRecordSetWeight": {
+      "type": "long"
+    },
+    "ResourceRecordSets": {
+      "type": "list",
+      "member": "ResourceRecordSet"
+    },
+    "ResourceRecords": {
+      "type": "list",
+      "member": "ResourceRecord"
+    },
+    "ResourceTagSet": {
+      "type": "structure",
+      "members": {
+        "ResourceType": "TagResourceType",
+        "ResourceId": "TagResourceId",
+        "Tags": "TagList"
+      }
+    },
+    "ResourceURI": {
+      "type": "string"
+    },
+    "RoutingControlArn": {
+      "type": "string"
+    },
+    "SearchString": {
+      "type": "string"
+    },
+    "ServeSignature": {
+      "type": "string"
+    },
+    "ServicePrincipal": {
+      "type": "string"
+    },
+    "SigningKeyInteger": {
+      "type": "integer"
+    },
+    "SigningKeyName": {
+      "type": "string"
+    },
+    "SigningKeyStatus": {
+      "type": "string"
+    },
+    "SigningKeyStatusMessage": {
+      "type": "string"
+    },
+    "SigningKeyString": {
+      "type": "string"
+    },
+    "SigningKeyTag": {
+      "type": "integer"
+    },
+    "Statistic": {
+      "type": "string"
+    },
+    "Status": {
+      "type": "string"
+    },
+    "StatusReport": {
+      "type": "structure",
+      "members": {
+        "Status": "Status",
+        "CheckedTime": "TimeStamp"
+      }
+    },
+    "TTL": {
+      "type": "long"
+    },
+    "Tag": {
+      "type": "structure",
+      "members": {
+        "Key": "TagKey",
+        "Value": "TagValue"
+      }
+    },
+    "TagKey": {
+      "type": "string"
+    },
+    "TagKeyList": {
+      "type": "list",
+      "member": "TagKey"
+    },
+    "TagList": {
+      "type": "list",
+      "member": "Tag"
+    },
+    "TagResourceId": {
+      "type": "string"
+    },
+    "TagResourceType": {
+      "type": "string"
+    },
+    "TagValue": {
+      "type": "string"
+    },
+    "Threshold": {
+      "type": "double"
+    },
+    "TimeStamp": {
+      "type": "timestamp"
+    },
+    "TrafficPolicyInstanceId": {
+      "type": "string"
+    },
+    "UUID": {
+      "type": "string"
+    },
+    "UpdateHealthCheckRequest": {
+      "type": "structure",
+      "members": {
+        "HealthCheckId": "HealthCheckId",
+        "HealthCheckVersion": "HealthCheckVersion",
+        "IPAddress": "IPAddress",
+        "Port": "Port",
+        "ResourcePath": "ResourcePath",
+        "FullyQualifiedDomainName": "FullyQualifiedDomainName",
+        "SearchString": "SearchString",
+        "FailureThreshold": "FailureThreshold",
+        "Inverted": "Inverted",
+        "Disabled": "Disabled",
+        "HealthThreshold": "HealthThreshold",
+        "ChildHealthChecks": "ChildHealthCheckList",
+        "EnableSNI": "EnableSNI",
+        "Regions": "HealthCheckRegionList",
+        "AlarmIdentifier": "AlarmIdentifier",
+        "InsufficientDataHealthStatus": "InsufficientDataHealthStatus",
+        "ResetElements": "ResettableElementNameList",
+        "HealthCheckSourceId": "HealthCheckSourceId"
+      },
+      "locations": {
+        "HealthCheckId": {
+          "location": "uri",
+          "name": "HealthCheckId"
+        }
+      }
+    },
+    "UpdateHealthCheckResponse": {
+      "type": "structure",
+      "members": {
+        "HealthCheck": "HealthCheck"
+      }
+    },
+    "UpdateHostedZoneCommentRequest": {
+      "type": "structure",
+      "members": {
+        "Id": "ResourceId",
+        "Comment": "ResourceDescription"
+      },
+      "locations": {
+        "Id": {
+          "location": "uri",
+          "name": "Id"
+        }
+      }
+    },
+    "UpdateHostedZoneCommentResponse": {
+      "type": "structure",
+      "members": {
+        "HostedZone": "HostedZone"
+      }
+    },
+    "UsageCount": {
+      "type": "long"
+    },
+    "VPC": {
+      "type": "structure",
+      "members": {
+        "VPCRegion": "VPCRegion",
+        "VPCId": "VPCId"
+      }
+    },
+    "VPCId": {
+      "type": "string"
+    },
+    "VPCRegion": {
+      "type": "string"
+    },
+    "VPCs": {
+      "type": "list",
+      "member": "VPC"
+    }
+  }
+}
