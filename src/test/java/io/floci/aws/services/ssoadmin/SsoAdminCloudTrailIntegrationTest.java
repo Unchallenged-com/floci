@@ -126,6 +126,46 @@ class SsoAdminCloudTrailIntegrationTest {
     }
 
     @Test
+    void regionAndSessionConfigurationCallsTheGuideDoesNotListAreRecorded() throws IOException {
+        String suffix = UUID.randomUUID().toString().substring(0, 8);
+        String logs = "ct-sso-admin-logs-" + suffix;
+        startTrail("ct-sso-admin-" + suffix, logs);
+        String instanceArn = sso(ROOT, "ListInstances", "{}").statusCode(200).extract().path("Instances[0].InstanceArn");
+        String applicationArn = sso(ROOT, "CreateApplication", """
+                {"InstanceArn": "%s", "ApplicationProviderArn": "arn:aws:sso::aws:applicationProvider/custom",
+                 "Name": "ct-app-%s"}""".formatted(instanceArn, suffix))
+                .statusCode(200).extract().path("ApplicationArn");
+        String application = "{\"ApplicationArn\": \"" + applicationArn + "\"}";
+        cleanup.register(() -> sso(ROOT, "DeleteApplication", application));
+
+        sso(ROOT, "ListRegions", "{\"InstanceArn\": \"" + instanceArn + "\"}").statusCode(200);
+        sso(ROOT, "PutApplicationSessionConfiguration", """
+                {"ApplicationArn": "%s", "UserBackgroundSessionApplicationStatus": "ENABLED"}"""
+                .formatted(applicationArn)).statusCode(200);
+        sso(ROOT, "GetApplicationSessionConfiguration", application).statusCode(200);
+
+        List<JsonNode> records = ssoRecords(logs, instanceArn, applicationArn);
+
+        JsonNode regions = only(records, "ListRegions");
+        assertThat(regions.path("eventSource").asText(), equalTo("sso.amazonaws.com"));
+        assertThat(regions.path("readOnly").asBoolean(), equalTo(true));
+        assertThat(regions.path("requestParameters").path("instanceArn").asText(), equalTo(instanceArn));
+        assertThat(regions.path("responseElements").isNull(), equalTo(true));
+
+        JsonNode put = only(records, "PutApplicationSessionConfiguration");
+        assertThat(put.path("readOnly").asBoolean(), equalTo(false));
+        assertThat(put.path("requestParameters").path("applicationArn").asText(), equalTo(applicationArn));
+        assertThat(put.path("requestParameters").path("userBackgroundSessionApplicationStatus").asText(),
+                equalTo("ENABLED"));
+        assertThat(put.path("responseElements").isNull(), equalTo(true));
+
+        JsonNode get = only(records, "GetApplicationSessionConfiguration");
+        assertThat(get.path("readOnly").asBoolean(), equalTo(true));
+        assertThat(get.path("requestParameters").path("applicationArn").asText(), equalTo(applicationArn));
+        assertThat(get.path("responseElements").isNull(), equalTo(true));
+    }
+
+    @Test
     void aCallIamEnforcementRefusesIsRecordedWithoutItsParameters() throws IOException {
         String suffix = UUID.randomUUID().toString().substring(0, 8);
         String logs = "ct-sso-admin-logs-" + suffix;

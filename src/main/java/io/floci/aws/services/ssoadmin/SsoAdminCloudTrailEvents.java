@@ -29,8 +29,10 @@ import java.util.Locale;
  * sso.amazonaws.com event source"
  * (https://docs.aws.amazon.com/singlesignon/latest/userguide/sso-info-in-cloudtrail.html). Which calls, and
  * which are read-only, is the vendored {@code aws/sso-cloudtrail-events.json} ({@link CloudTrailEventCatalog}):
- * the guide's list, read-only as AWS's Service Reference gives their access level. The calls Floci serves that
- * the list does not name ({@code AddRegion}, {@code PutApplicationSessionConfiguration}, ...) are not recorded.
+ * the guide's list, and the calls Floci serves that it does not name ({@code AddRegion}, {@code ListRegions},
+ * {@code PutApplicationSessionConfiguration}, ...), since "CloudTrail captures API calls for IAM Identity Center as
+ * events" (https://docs.aws.amazon.com/singlesignon/latest/userguide/logging-using-cloudtrail.html), each
+ * read-only as AWS's Service Reference gives its access level.
  *
  * <p>The record follows a 2025 record of CreateAccountAssignment:
  * <ul>

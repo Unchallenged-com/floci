@@ -29,7 +29,8 @@ def test_a_document_keeps_its_flag_for_the_record_to_write_as_sent():
     assert document["shapes"]["PutRequest"]["members"]["ClientToken"] == "String"
 
 
-def test_only_the_operations_the_guide_lists_are_vendored():
+def test_only_the_operations_recorded_are_vendored():
     document = build({"PutApplicationAuthenticationMethod": {"input": {"shape": "PutRequest"}},
-                      "PutApplicationSessionConfiguration": {"input": {"shape": "PutRequest"}}})
-    assert list(document["operations"]) == ["PutApplicationAuthenticationMethod"]
+                      "PutApplicationSessionConfiguration": {"input": {"shape": "PutRequest"}},
+                      "ListRegionsForApplication": {"input": {"shape": "PutRequest"}}})
+    assert list(document["operations"]) == ["PutApplicationAuthenticationMethod", "PutApplicationSessionConfiguration"]

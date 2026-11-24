@@ -366,7 +366,11 @@ The public IAM Identity Center operations and the public Identity Store operatio
 [IAM Identity Center guide lists](https://docs.aws.amazon.com/singlesignon/latest/userguide/sso-info-in-cloudtrail.html)
 are recorded as management events: the 73 IAM Identity Center ones under `sso.amazonaws.com` (permission sets,
 account and application assignments, applications, trusted token issuers, instances, tags) and the 19 Identity
-Store ones under `identitystore.amazonaws.com` (users, groups, memberships). The lists are vendored in
+Store ones under `identitystore.amazonaws.com` (users, groups, memberships). The six IAM Identity Center operations
+Floci serves that the list does not name (`AddRegion`, `RemoveRegion`, `DescribeRegion`, `ListRegions`,
+`GetApplicationSessionConfiguration`, `PutApplicationSessionConfiguration`) are recorded too, under
+`sso.amazonaws.com`: "CloudTrail captures API calls for IAM Identity Center as events"
+([guide](https://docs.aws.amazon.com/singlesignon/latest/userguide/logging-using-cloudtrail.html)). The lists are vendored in
 `aws/sso-cloudtrail-events.json` and `aws/identitystore-cloudtrail-events.json`, read-only as AWS's Service
 Reference gives each action's access level, and the members are read through botocore's `sso-admin` and
 `identitystore` models (`aws/sso-admin-cloudtrail-shapes.json`, `aws/identitystore-cloudtrail-shapes.json`).
@@ -388,10 +392,8 @@ Reference gives each action's access level, and the members are read through bot
 - A failed call keeps its members under its error's type (`ResourceNotFoundException`), with its message and
   `"responseElements": null`; a call IAM enforcement refuses is `AccessDenied` with `"requestParameters": null`.
 
-Not recorded: the IAM Identity Center operations the guide's list does not name (`AddRegion`, `RemoveRegion`,
-`DescribeRegion`, `ListRegions`, `GetApplicationSessionConfiguration`, `PutApplicationSessionConfiguration`), the
-console's `sso-directory.amazonaws.com` events, which have no public API, and the SCIM endpoint's
-`identitystore-scim.amazonaws.com` events.
+Not recorded: the console's `sso-directory.amazonaws.com` events, which have no public API, and the SCIM
+endpoint's `identitystore-scim.amazonaws.com` events.
 
 ## EventBridge delivery
 

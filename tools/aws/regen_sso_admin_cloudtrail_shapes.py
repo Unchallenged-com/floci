@@ -9,8 +9,8 @@ each operation's input shape, its result shape, every shape they reach with its 
 and the `document` flag (an authentication method's `ActorPolicy`, any JSON, which a record writes as
 sent), and every error SSO Admin models, from the code it answers with to its shape's name.
 
-Only the operations the guide lists are recorded, so only those are vendored (`OPERATIONS`, the guide's list,
-which `regen_cloudtrail_events.py` carries too).
+Only the operations recorded are vendored (`OPERATIONS`, the list `regen_cloudtrail_events.py` carries: the
+guide's, and the operations Floci serves that it does not name).
 
 SSO Admin's model is a JSON one, so one member trait beside the shape a member names says nothing of how a
 record names or types it: `idempotencyToken`, which only lets an SDK fill the member in. Any other stops the

@@ -4,6 +4,7 @@
     "botocore": "botocore 1.44.9 (installed package)"
   },
   "operations": {
+    "AddRegion": "AddRegionRequest",
     "AttachCustomerManagedPolicyReferenceToPermissionSet": "AttachCustomerManagedPolicyReferenceToPermissionSetRequest",
     "AttachManagedPolicyToPermissionSet": "AttachManagedPolicyToPermissionSetRequest",
     "CreateAccountAssignment": "CreateAccountAssignmentRequest",
@@ -34,6 +35,7 @@
     "DescribeInstanceAccessControlAttributeConfiguration": "DescribeInstanceAccessControlAttributeConfigurationRequest",
     "DescribePermissionSet": "DescribePermissionSetRequest",
     "DescribePermissionSetProvisioningStatus": "DescribePermissionSetProvisioningStatusRequest",
+    "DescribeRegion": "DescribeRegionRequest",
     "DescribeTrustedTokenIssuer": "DescribeTrustedTokenIssuerRequest",
     "DetachCustomerManagedPolicyReferenceFromPermissionSet": "DetachCustomerManagedPolicyReferenceFromPermissionSetRequest",
     "DetachManagedPolicyFromPermissionSet": "DetachManagedPolicyFromPermissionSetRequest",
@@ -41,6 +43,7 @@
     "GetApplicationAssignmentConfiguration": "GetApplicationAssignmentConfigurationRequest",
     "GetApplicationAuthenticationMethod": "GetApplicationAuthenticationMethodRequest",
     "GetApplicationGrant": "GetApplicationGrantRequest",
+    "GetApplicationSessionConfiguration": "GetApplicationSessionConfigurationRequest",
     "GetInlinePolicyForPermissionSet": "GetInlinePolicyForPermissionSetRequest",
     "GetPermissionsBoundaryForPermissionSet": "GetPermissionsBoundaryForPermissionSetRequest",
     "ListAccountAssignmentCreationStatus": "ListAccountAssignmentCreationStatusRequest",
@@ -61,6 +64,7 @@
     "ListPermissionSetProvisioningStatus": "ListPermissionSetProvisioningStatusRequest",
     "ListPermissionSets": "ListPermissionSetsRequest",
     "ListPermissionSetsProvisionedToAccount": "ListPermissionSetsProvisionedToAccountRequest",
+    "ListRegions": "ListRegionsRequest",
     "ListTagsForResource": "ListTagsForResourceRequest",
     "ListTrustedTokenIssuers": "ListTrustedTokenIssuersRequest",
     "ProvisionPermissionSet": "ProvisionPermissionSetRequest",
@@ -68,8 +72,10 @@
     "PutApplicationAssignmentConfiguration": "PutApplicationAssignmentConfigurationRequest",
     "PutApplicationAuthenticationMethod": "PutApplicationAuthenticationMethodRequest",
     "PutApplicationGrant": "PutApplicationGrantRequest",
+    "PutApplicationSessionConfiguration": "PutApplicationSessionConfigurationRequest",
     "PutInlinePolicyToPermissionSet": "PutInlinePolicyToPermissionSetRequest",
     "PutPermissionsBoundaryToPermissionSet": "PutPermissionsBoundaryToPermissionSetRequest",
+    "RemoveRegion": "RemoveRegionRequest",
     "TagResource": "TagResourceRequest",
     "UntagResource": "UntagResourceRequest",
     "UpdateApplication": "UpdateApplicationRequest",
@@ -79,6 +85,10 @@
     "UpdateTrustedTokenIssuer": "UpdateTrustedTokenIssuerRequest"
   },
   "results": {
+    "AddRegion": {
+      "shape": "AddRegionResponse",
+      "resultWrapper": null
+    },
     "AttachCustomerManagedPolicyReferenceToPermissionSet": {
       "shape": "AttachCustomerManagedPolicyReferenceToPermissionSetResponse",
       "resultWrapper": null
@@ -187,6 +197,10 @@
       "shape": "DescribePermissionSetProvisioningStatusResponse",
       "resultWrapper": null
     },
+    "DescribeRegion": {
+      "shape": "DescribeRegionResponse",
+      "resultWrapper": null
+    },
     "DescribeTrustedTokenIssuer": {
       "shape": "DescribeTrustedTokenIssuerResponse",
       "resultWrapper": null
@@ -213,6 +227,10 @@
     },
     "GetApplicationGrant": {
       "shape": "GetApplicationGrantResponse",
+      "resultWrapper": null
+    },
+    "GetApplicationSessionConfiguration": {
+      "shape": "GetApplicationSessionConfigurationResponse",
       "resultWrapper": null
     },
     "GetInlinePolicyForPermissionSet": {
@@ -295,6 +313,10 @@
       "shape": "ListPermissionSetsProvisionedToAccountResponse",
       "resultWrapper": null
     },
+    "ListRegions": {
+      "shape": "ListRegionsResponse",
+      "resultWrapper": null
+    },
     "ListTagsForResource": {
       "shape": "ListTagsForResourceResponse",
       "resultWrapper": null
@@ -311,12 +333,20 @@
       "shape": "PutApplicationAssignmentConfigurationResponse",
       "resultWrapper": null
     },
+    "PutApplicationSessionConfiguration": {
+      "shape": "PutApplicationSessionConfigurationResponse",
+      "resultWrapper": null
+    },
     "PutInlinePolicyToPermissionSet": {
       "shape": "PutInlinePolicyToPermissionSetResponse",
       "resultWrapper": null
     },
     "PutPermissionsBoundaryToPermissionSet": {
       "shape": "PutPermissionsBoundaryToPermissionSetResponse",
+      "resultWrapper": null
+    },
+    "RemoveRegion": {
+      "shape": "RemoveRegionResponse",
       "resultWrapper": null
     },
     "TagResource": {
@@ -439,6 +469,19 @@
       "type": "structure",
       "document": true,
       "members": {}
+    },
+    "AddRegionRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "RegionName": "RegionName"
+      }
+    },
+    "AddRegionResponse": {
+      "type": "structure",
+      "members": {
+        "Status": "RegionStatus"
+      }
     },
     "Application": {
       "type": "structure",
@@ -992,6 +1035,22 @@
         "PermissionSet": "PermissionSet"
       }
     },
+    "DescribeRegionRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "RegionName": "RegionName"
+      }
+    },
+    "DescribeRegionResponse": {
+      "type": "structure",
+      "members": {
+        "RegionName": "RegionName",
+        "Status": "RegionStatus",
+        "AddedDate": "Date",
+        "IsPrimaryRegion": "IsPrimaryRegion"
+      }
+    },
     "DescribeTrustedTokenIssuerRequest": {
       "type": "structure",
       "members": {
@@ -1117,6 +1176,18 @@
       "type": "structure",
       "members": {
         "Grant": "Grant"
+      }
+    },
+    "GetApplicationSessionConfigurationRequest": {
+      "type": "structure",
+      "members": {
+        "ApplicationArn": "ApplicationArn"
+      }
+    },
+    "GetApplicationSessionConfigurationResponse": {
+      "type": "structure",
+      "members": {
+        "UserBackgroundSessionApplicationStatus": "UserBackgroundSessionApplicationStatus"
       }
     },
     "GetInlinePolicyForPermissionSetRequest": {
@@ -1561,6 +1632,21 @@
         "NextToken": "Token"
       }
     },
+    "ListRegionsRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "MaxResults": "MaxResults",
+        "NextToken": "Token"
+      }
+    },
+    "ListRegionsResponse": {
+      "type": "structure",
+      "members": {
+        "Regions": "RegionMetadataList",
+        "NextToken": "Token"
+      }
+    },
     "ListTagsForResourceRequest": {
       "type": "structure",
       "members": {
@@ -1767,6 +1853,17 @@
         "Grant": "Grant"
       }
     },
+    "PutApplicationSessionConfigurationRequest": {
+      "type": "structure",
+      "members": {
+        "ApplicationArn": "ApplicationArn",
+        "UserBackgroundSessionApplicationStatus": "UserBackgroundSessionApplicationStatus"
+      }
+    },
+    "PutApplicationSessionConfigurationResponse": {
+      "type": "structure",
+      "members": {}
+    },
     "PutInlinePolicyToPermissionSetRequest": {
       "type": "structure",
       "members": {
@@ -1826,6 +1923,19 @@
     },
     "RelayState": {
       "type": "string"
+    },
+    "RemoveRegionRequest": {
+      "type": "structure",
+      "members": {
+        "InstanceArn": "InstanceArn",
+        "RegionName": "RegionName"
+      }
+    },
+    "RemoveRegionResponse": {
+      "type": "structure",
+      "members": {
+        "Status": "RegionStatus"
+      }
     },
     "ResourceServerConfig": {
       "type": "structure",
@@ -2058,6 +2168,9 @@
     "UpdateTrustedTokenIssuerResponse": {
       "type": "structure",
       "members": {}
+    },
+    "UserBackgroundSessionApplicationStatus": {
+      "type": "string"
     },
     "VpcArn": {
       "type": "string"

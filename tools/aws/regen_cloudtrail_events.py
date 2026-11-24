@@ -30,7 +30,9 @@ carries, so it stays in SERVICES below, as the guide lists them:
   (https://docs.aws.amazon.com/singlesignon/latest/userguide/sso-info-in-cloudtrail.html): "The following
   list contains the CloudTrail events that the public IAM Identity Center operations emit with the
   sso.amazonaws.com event source", and the same for the public Identity Store operations and
-  identitystore.amazonaws.com, followed by each list.
+  identitystore.amazonaws.com, followed by each list. IAM Identity Center's operations the list does not
+  name are recorded too: "CloudTrail captures API calls for IAM Identity Center as events"
+  (https://docs.aws.amazon.com/singlesignon/latest/userguide/logging-using-cloudtrail.html).
 
 Which of them are read-only is the access level AWS's Service Reference gives each action, read as
 `regen_iam_action_resources.py` reads IAM's: an action with none of the Write, Permissions
@@ -244,9 +246,14 @@ SERVICES: dict[str, Service] = {
     ),
     "sso": Service(
         guide="https://docs.aws.amazon.com/singlesignon/latest/userguide/sso-info-in-cloudtrail.html",
-        # The guide's list for the public IAM Identity Center operations. A 2025 record of
-        # CreateAccountAssignment shows it as "readOnly": false.
+        # The guide's list for the public IAM Identity Center operations, and the operations Floci serves that
+        # it does not name (AddRegion, DescribeRegion, ListRegions, RemoveRegion and the application session
+        # configuration pair): "CloudTrail captures API calls for IAM Identity Center as events"
+        # (https://docs.aws.amazon.com/singlesignon/latest/userguide/logging-using-cloudtrail.html). A 2025
+        # record of CreateAccountAssignment shows it as "readOnly": false.
         management_events=(
+            "AddRegion", "DescribeRegion", "GetApplicationSessionConfiguration", "ListRegions",
+            "PutApplicationSessionConfiguration", "RemoveRegion",
             "AttachCustomerManagedPolicyReferenceToPermissionSet", "AttachManagedPolicyToPermissionSet",
             "CreateAccountAssignment", "CreateApplication", "CreateApplicationAssignment", "CreateInstance",
             "CreateInstanceAccessControlAttributeConfiguration", "CreatePermissionSet", "CreateTrustedTokenIssuer",
